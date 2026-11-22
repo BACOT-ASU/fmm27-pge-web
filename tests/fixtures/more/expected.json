@@ -1,0 +1,102 @@
+{
+ "stadiums": [
+  {
+   "index": 0,
+   "uid": 1001,
+   "city": 5,
+   "capacity": 38000,
+   "maxCapacity": 42000,
+   "name": "Gelora Bandung Lautan Api",
+   "altName": "",
+   "tail": "00000000ff000000"
+  },
+  {
+   "index": 1,
+   "uid": 1002,
+   "city": 7,
+   "capacity": 77000,
+   "maxCapacity": 82000,
+   "name": "Jakarta International Stadium",
+   "altName": "JIS",
+   "tail": "00000000ff000000"
+  },
+  {
+   "index": 2,
+   "uid": 2000700201,
+   "city": 5,
+   "capacity": 20000,
+   "maxCapacity": 30000,
+   "name": "Gelora Bumi Kartini",
+   "altName": "",
+   "tail": "00000000ff000000"
+  },
+  {
+   "index": 3,
+   "uid": 1004,
+   "city": 9,
+   "capacity": 25000,
+   "maxCapacity": 25000,
+   "name": "Gelora Joko Samudro",
+   "altName": "GJS — é",
+   "tail": "00000000ff000000"
+  }
+ ],
+ "rivalries": [
+  {
+   "index": 0,
+   "uid": 501,
+   "name": "Persija vs Persib",
+   "gap": 0,
+   "clubA": 1,
+   "clubB": 0,
+   "intensity": 200,
+   "tail": "000102030405060708090a0b0c0d"
+  },
+  {
+   "index": 1,
+   "uid": 502,
+   "name": "Arema vs Persebaya",
+   "gap": 0,
+   "clubA": 5,
+   "clubB": 6,
+   "intensity": 190,
+   "tail": "000102030405060708090a0b0c0d"
+  },
+  {
+   "index": 2,
+   "uid": 503,
+   "name": "Derby Uji",
+   "gap": 1,
+   "clubA": 2,
+   "clubB": 3,
+   "intensity": 50,
+   "tail": "000102030405060708090a0b0c0d"
+  }
+ ],
+ "dbc": {
+  "ftye": 1,
+  "vers": 241,
+  "ntms": 10,
+  "nrds": 3,
+  "inac": false,
+  "name": "Pegadaian Championship",
+  "dyow": 7,
+  "date": "date:01020304",
+  "qurl": [
+   {
+    "nmsn": 1,
+    "comp": 41042740
+   },
+   {
+    "nmsn": 2,
+    "stag": 117
+   }
+  ],
+  "fltf": 1.5,
+  "dblf": 2.25,
+  "kode": "'AZYX'"
+ },
+ "dbcKey": [
+  41042741
+ ]
+}

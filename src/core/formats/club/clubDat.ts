@@ -18,6 +18,8 @@ export interface ClubLayout {
   div: number;
   /** Awal blok 23 byte (u8, u16 reputasi, ...). */
   repBlock: number;
+  /** Awal u16 jumlah pemain skuad. */
+  squad: number;
 }
 
 export interface ClubRecord {
@@ -132,6 +134,7 @@ function parseRecord(c: Cursor): ClubRecord {
   const xCount = c.u16();
   if (xCount > 60) throw new FormatError(`Daftar 21 byte x=${xCount} terlalu panjang`, xAt);
   c.skip(21 * xCount);
+  const squadOff = c.p - s;
   const mAt = c.p;
   const m = c.u16();
   if (m > 400) throw new FormatError(`Skuad ${m} pemain terlalu banyak`, mAt);
@@ -178,7 +181,7 @@ function parseRecord(c: Cursor): ClubRecord {
     staff,
     t0,
     tailN,
-    layout: { afterNames, misc, div, repBlock },
+    layout: { afterNames, misc, div, repBlock, squad: squadOff },
   };
 }
 
@@ -305,3 +308,18 @@ export const clubDatAdapter: FormatAdapter<ClubDat> = {
   serialize: serializeClubDat,
   validate: (m) => validateClubDat(m),
 };
+
+/** Klon record klub dengan UID baru, skuad dikosongkan dan slot staf dikosongkan (nilai 0). */
+export function cloneClubRecord(tpl: ClubRecord, uid: number): ClubRecord {
+  const sq = tpl.layout.squad;
+  const afterSquad = sq + 2 + 4 * tpl.squad.length;
+  const staffBytes = new Uint8Array(48); // 12 × i32 = 0 (kosong, seperti Gresik/PSIS di db asli)
+  const raw = new Writer()
+    .push(tpl.raw.subarray(0, sq))
+    .push(new Uint8Array([0, 0]))
+    .push(staffBytes)
+    .push(tpl.raw.subarray(afterSquad + 48))
+    .finish();
+  new DataView(raw.buffer).setUint32(4, uid >>> 0, true);
+  return parseRecord(new Cursor(raw));
+}
