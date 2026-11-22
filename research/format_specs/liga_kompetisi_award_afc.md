@@ -114,4 +114,37 @@ Tiga hal ini ditambahkan sebagai item baru di masalah terbuka (`00-PANDUAN-INDUK
 - Award (Player/Manager/Team of the Month/Week/Season): kompetisi Indonesia nihil, perlu bongkar `awards.dat` dulu sebelum bisa ditambah.
 - Jatah AFC: akar masalah dipastikan (Indonesia tidak ada di `nation_list` benua), langkah perbaikan sudah ada tapi belum dieksekusi.
 
+## 6. Jadwal liga Indonesia, fase grup Liga Nusantara tanpa tabel, dan kepastian slot ACL2 untuk GUFC (22 Nov malam)
+
+Dicek langsung di `comps.dbc` (hasil build B6, `scripts/dbc.py`) untuk BRI Super League, Pegadaian Championship, dan Liga Nusantara.
+
+**6a. Jadwal (`date_range`/`nrtd`) per kompetisi — VERIFIED:**
+
+| Kompetisi | Mulai | Selesai |
+|---|---|---|
+| BRI Super League | **Juni** | Mei (+1 tahun) |
+| Pegadaian Championship (grup & induk) | **Juli** | Mei (+1 tahun) |
+| Liga Nusantara (grup A/BC & induk) | **Juli** | Mei (+1 tahun) |
+| Piala Presiden | Juni | Juli (musim sama) |
+| Piala Super Indonesia | Maret | September (musim sama) |
+
+Championship dan Liga Nusantara mulai **bulan yang sama** (Juli) — jadi **tidak ada jeda kalender** antara klub promosi dari Liga Nusantara dan mulainya musim Championship, dan tanggal "round" (checkpoint musim) persis sama persis di keempat kompetisi (19 Agu, 21 Okt, 11 Nov, 16 Des, 13 Jan, 10 Feb, 10 Mar, 7 Apr) — tanggal ini kemungkinan checkpoint kalender bersama satu negara (bukan jadwal pertandingan per pekan), jadi tidak ada bukti biner liganya "lompat setahun" dari field tanggal ini sendiri.
+
+**Dugaan paling masuk akal (HYPOTHESIS, belum dikonfirmasi Bacad) untuk keluhan papan (board) sudah kecewa padahal liga belum mulai:** Piala Presiden jalan Juni–Juli, **persis bertabrakan dengan awal musim Super League/Championship**. Kemungkinan papan klub menilai performa dari Piala Presiden (klub kalah/tersingkir di piala pra-musim) dan pesan yang muncul di layar tertukar terlihat seperti menilai liga musim itu, padahal liganya sendiri belum resmi mulai. **Belum bisa dipastikan tanpa tangkapan layar pesan papan yang persis** — kalau Bacad bisa kirim screenshot pesan papannya, bisa langsung dicek field pemicu mana yang salah.
+
+Pembanding liga luar **tidak bisa dicek langsung** di `comps.dbc` versi ini karena arsip `sicomps.fmf` Indonesia hanya berisi entri `idn_*` (override), tidak menyertakan entri liga Inggris/negara lain untuk dibandingkan byte-demi-byte. Secara umum (pengetahuan FM, bukan dari file): liga-liga di piramida Inggris (Premier League, Championship, League One, Two) semuanya **mulai di bulan yang sama (Agustus)** — jadi pola Indonesia yang punya selisih 1 bulan antara Super League (Juni) dan Championship/Liga Nusantara (Juli) sedikit tidak lazim, tapi ini **bukan bug** (disengaja di `idn_league_one.xml`/`idn_league_two.xml`), hanya beda konvensi — tidak terbukti jadi penyebab masalah "lompat tahun".
+
+**6b. Fase grup 8-besar Liga Nusantara — VERIFIED bahwa mekanismenya dinamis, bukan daftar statis:**
+
+Entri induk `comp_idn_league_three_1439` menarik tim 8-besarnya lewat `tems` id 2 ("tim lolos") yang merujuk ke UID grup A/B/C (2000700101/102/103) plus kode tahap sumber (`stag`/`nmsn`) — **bukan daftar tim yang di-hardcode per tahun**, berbeda dari dugaan lama (`crgt`/`gptm` terkunci ke tahun 2026) yang tercatat di bagian 2 panduan ini. Dicek langsung: **tag `crgt`/`gptm` sama sekali tidak ditemukan** di entri `comp_idn_league_two_groups_1442`, `comp_idn_league_three_group_a_1439`, maupun `comp_idn_league_three_groups_bc_1439` pada build `sicomps.fmf` B6 saat ini. Jadi secara struktur data, mekanisme penarikan tim untuk 8-besar **seharusnya otomatis setiap musim**, tidak terkunci ke musim pertama.
+
+**Kesimpulan:** tidak ditemukan bukti biner yang menjelaskan "fase grup tidak ada tabelnya" dari sisi `comps.dbc` — strukturnya terlihat benar untuk menarik tim secara dinamis. Ini mengarah ke dua kemungkinan: (1) bug ada di tempat lain (runtime/`libgame.so`, bukan di data aturan), atau (2) yang dialami Bacad adalah UI yang belum menampilkan tabel karena 8-besarnya memang belum "live" (misal baru musim pertama, grup musim lalu belum selesai, dsb). **Perlu info tambahan dari Bacad**: di musim ke berapa ini terjadi, dan apakah "jadwal ada tapi tabel klasemen kosong" atau "menu fase grupnya sendiri tidak muncul". Status: **UNKNOWN (akar masalah persis)**, **VERIFIED (mekanisme penarikan tim tidak terkunci tahun seperti dugaan lama)**.
+
+**6c. Slot ACL2 untuk GUFC musim depan — jawaban tegas: TIDAK ADA, dan untuk dua alasan berlapis.**
+
+1. **Indonesia sama sekali belum terdaftar di `nation_list` benua Asia** (dipastikan di bagian 4 — 95 negara terdaftar, Indonesia bukan salah satunya). Ini bukan soal GUFC bagus atau tidak — **tidak ada satu pun klub Indonesia yang punya jalur ke ACLE/ACL Two/ACGL** sampai Indonesia didaftarkan dan diberi koefisien.
+2. **Bahkan kalau Indonesia sudah terdaftar, slot `tems` continental selalu diambil dari liga papan atas (BRI Super League)**, bukan dari Liga Nusantara. Jadi GUFC harus naik **dua kali** (Liga Nusantara → Pegadaian Championship → BRI Super League, lalu finis di posisi atas klasemen Super League) sebelum bisa ikut dihitung untuk slot AFC — bukan cukup juara Liga Nusantara musim depan.
+
+Status: **VERIFIED** (keduanya sudah dicek langsung di data; tidak ada jalan pintas dari Liga Nusantara ke kompetisi AFC).
+
 Tidak ada perubahan file game di temuan ini — murni analisa (sesuai aturan "jangan eksekusi sebelum bilang eksekusi").
