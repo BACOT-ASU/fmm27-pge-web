@@ -1,6 +1,6 @@
 # FMM27 Mobile: Mod Liga Indonesia, panduan induk
 
-Pemilik: Bacad. Diperbarui 22 Nov 2026 (uji B7b: akar masalah freeze Adjust Budgets ditemukan; skema reputasi pita baru; analisa liga/kompetisi, koneksi data, jatah AFC; struktur record `awards.dat` dibongkar; rencana aplikasi editor PWA v6 — lihat bagian 12; repo `fmm27-pge-web` terhubung dan dipakai).
+Pemilik: Bacad. Diperbarui 22 Nov 2026 (uji B7b: akar masalah freeze Adjust Budgets ditemukan; skema reputasi pita baru; analisa liga/kompetisi, koneksi data, jatah AFC, jadwal, dan slot ACL2; struktur record `awards.dat` dibongkar; rencana aplikasi editor PWA v6 — lihat bagian 12; repo `fmm27-pge-web` terhubung, sudah terbit sebagai Cloudflare Worker dan diuji dengan file asli Bacad).
 Dokumen ini berdiri sendiri: AI atau sesi lain bisa melanjutkan pekerjaan hanya dari sini dan dari skrip di folder `scripts/`.
 
 ---
@@ -388,10 +388,12 @@ Alamat di bawah sama dengan offset file (`.rodata`):
    - `award_id` ternyata adalah ID katalog award bawaan SEGA per liga resmi berlisensi (urutan 40 record pertama membuktikan ini: generik "Player of the Month" diikuti versi Premier League → Championship → League One → League Two secara berurutan, lalu lanjut ke liga Skotlandia, Denmark, Prancis, Belanda, dst) — **bukan tabel yang dirujuk lewat UID kompetisi**.
    - Sudah dicek juga `competition.dat` (`scripts/comp.py`) — parsernya mengonsumsi persis sampai byte terakhir tiap record, tidak ada field cadangan yang bisa jadi "kode grup award".
    - **Kesimpulan: penautan award↔kompetisi (kalau ada) kemungkinan besar hardcoded di `libgame.so`**, mengikuti tema yang sama seperti tabel negara-playable dan tabel-liga-terdalam yang sudah kita bongkar duluan — Indonesia hilang bukan karena data salah, tapi karena tidak terdaftar di tabel kecil yang di-hardcode SEGA. Menambah award lewat `awards.dat` saja (menambah record di ujung) **kemungkinan tidak akan cukup** tanpa riset lanjutan ke `libgame.so`. Status: **UNKNOWN (mekanisme penautan)**, **VERIFIED (struktur record, lokasi, dan ketiadaan rujukan Indonesia)**. Detail lengkap: `research/format_specs/liga_kompetisi_award_afc.md` bagian 3a di repo `fmm27-pge-web`.
+4d. **Jadwal liga & fase grup Liga Nusantara tanpa tabel (22 Nov malam, dicek langsung di `comps.dbc`).** BRI Super League mulai Juni, Pegadaian Championship & Liga Nusantara mulai Juli — **tidak ada jeda kalender** antar tier, dan tanggal checkpoint musim identik di keempat kompetisi, jadi tidak ada bukti biner liganya "lompat setahun". Dugaan paling masuk akal untuk keluhan papan kecewa sebelum liga mulai: Piala Presiden (Jun–Jul) bertabrakan tepat dengan awal musim liga — **perlu screenshot pesan papan dari Bacad untuk memastikan**. Soal fase grup 8-besar tanpa tabel: **tag `crgt`/`gptm` yang diduga lama terkunci ke tahun 2026 (lihat item 8 lama) TIDAK ditemukan sama sekali** di entri grup Championship maupun Liga Nusantara pada build saat ini — mekanisme penarikan tim 8-besar lewat `tems` id 2 terlihat dinamis per musim, bukan daftar statis. Jadi dugaan "pengunci tahun 2026" **gugur**; akar masalah tabel kosong masih **UNKNOWN**, perlu info musim ke berapa dari Bacad. Detail: `research/format_specs/liga_kompetisi_award_afc.md` bagian 6.
+4e. **Slot ACL2 untuk GUFC — dipastikan TIDAK ADA, dua alasan berlapis (22 Nov malam).** (1) Indonesia belum terdaftar di `nation_list` Asia (lihat item 4) — tidak ada klub Indonesia mana pun yang punya jalur AFC saat ini. (2) Slot `tems` continental selalu diambil dari liga papan atas (BRI Super League), bukan Liga Nusantara — GUFC harus naik dua tingkat dulu (Liga Nusantara → Championship → Super League) sebelum bisa dihitung untuk slot AFC.
 5. **Anggaran transfer serta gaji pelatih dan staf** semua klub.
 6. **Liga cadangan dengan promosi/degradasi sendiri**: contoh dari negara lain (Inggris).
 7. B3: pemain asli, pemain Indonesia di luar negeri (lihat 5.6: 9 orang baru, 13 UID ke daftar muat `fmm_people` IDN, opsi kebangsaan Noah Adnan/Marukawa), impor pemain dari Excel di aplikasi editor.
-8. Belum diuji: 8 besar, final, playoff, dan pembagian grup musim kedua (pengunci grup hanya berlaku 2026).
+8. Belum diuji: 8 besar, final, playoff, dan pembagian grup musim kedua. ~~(pengunci grup hanya berlaku 2026)~~ — dugaan ini gugur, lihat 4d.
 
 ## 11. Skrip (folder `scripts/`, Python 3 + `zstandard`)
 
