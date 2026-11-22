@@ -98,14 +98,26 @@ Alurnya:
 2. Negara punya **koefisien 8 tahun berjalan** (`number_of_years_for_coefficients: 8`, bobot tahun terbaru 1.0 turun bertahap ke 0.3 di tahun ke-8) yang menentukan negaranya masuk kelompok mana (dan dapat jatah 6, 4, atau 2 slot).
 3. Slot itu diisi lewat `tems` (sumber tim) yang mengambil dari kompetisi domestik negara itu (liga papan atas + kadang juara piala).
 
-**Hasil cek untuk Indonesia (dihitung manual, UID negara 113): tidak ditemukan di `nation_list` benua Asia** (95 negara terdaftar, Indonesia tidak di antaranya). Artinya **"Jatah AFC" memang benar-benar kosong, bukan karena kurang parameter tapi karena Indonesia belum pernah didaftarkan sebagai anggota benua untuk tujuan kualifikasi.** Ini mirip persis dengan kasus `libgame.so` dulu (liga sudah ada datanya tapi tidak terdaftar di tabel yang menentukan apakah dia "ikut main").
+### ⚠️ KOREKSI (22 Nov malam) — temuan di atas SALAH, dibuktikan langsung di game oleh Bacad
 
-**Yang dibutuhkan untuk mengaktifkan** (pekerjaan baru, belum dikerjakan — tunggu giliran setelah hal yang lebih mendesak):
-1. Tambahkan Indonesia ke `nation_list` benua Asia (atau cari tahu apakah ada cara "override" per-negara seperti pola `branch` yang sudah dipakai untuk kompetisi Indonesia, supaya tidak perlu mengubah file developer utama).
-2. Beri Indonesia entri koefisien (bisa mulai dari slot terkecil, 2, karena liga baru).
-3. Hubungkan sumber tim (`tems`) dari BRI Super League (peringkat 1–2 atau 1–3) ke ACL Two/ACGL (kompetisi tier bawah AFC) — realistisnya Indonesia tidak akan masuk tier ACL Elite (tim top Asia) dalam waktu dekat.
+**Bukti nyata membantah kesimpulan di atas:** Bacad kirim screenshot — **Gresik United (GUFC) benar-benar tampil di layar "Competitions" sedang ikut "Asian Champions League Two"**, dengan papan (board) **PLEASED** ("on course to win the Champions League Two"). Jadi klaim lama "Indonesia tidak terdaftar sama sekali, jatah AFC nol" **TERBUKTI KELIRU**.
 
-Status: **HYPOTHESIS pada langkah 1–3** (belum diuji di game); **VERIFIED pada diagnosis akar masalahnya** (Indonesia memang tidak terdaftar).
+Dicek ulang `asi.xml` (file yang sama dengan temuan lama) lebih teliti: ternyata file ini punya **4 daftar `nation_list` berbeda**, bukan satu:
+- List paling atas file (47 negara) — kemungkinan daftar induk anggota konfederasi untuk kualifikasi tingkat bawah. **Indonesia (113) ADA di sini.**
+- Dua list di dalam blok `grouped_nations_list` (tipe `west` 25 negara, tipe `east` 22 negara) — ini **bukan** gerbang kualifikasi, tapi **pengelompokan wilayah untuk undian** (drawing) babak grup ACL Two. **Indonesia ADA di grup "east"**, tidak ada di "west" (karena memang secara geografis masuk Asia Timur/Tenggara dalam pengelompokan ini, bukan karena "tidak terdaftar").
+- 1 list kecil berisi 1 negara (kemungkinan override khusus Jepang).
+
+**Analisa sebelumnya cuma mengecek satu dari empat list ini** (kemungkinan list `west`, yang kebetulan tidak memuat Indonesia) dan salah menyimpulkan itu sebagai satu-satunya daftar keanggotaan. Permintaan maaf atas kekeliruan ini — seharusnya dicek semua list sebelum menyimpulkan.
+
+**Mekanisme ACL Two yang benar (dicek di `continental/asi/men/asi_champions_league_2.xml`):**
+- Tipe kompetisinya **`cup_winners_cup`** (Piala Juara Piala) — BUKAN liga elite berbasis koefisien 8 tahun seperti ACL Elite.
+- Tim diambil lewat `get_main_cup_winner` / `get_qualified_teams_for_comp`, yaitu **juara piala domestik tiap negara anggota** (bukan peringkat liga papan atas).
+- Ini pas betul dengan dugaan Bacad: **kemungkinan besar GUFC masuk ACL Two karena juara Piala Liga Indonesia** (kompetisi `jenis 3`, "piala liga" di `competition.dat`) musim sebelumnya — cocok dengan tampilan papan GUFC yang menandai Piala Liga Indonesia sebagai "Not important" (artinya kompetisi itu sudah selesai/dimenangkan musim lalu, bukan musim ini).
+- Belum ditemukan rujukan UID eksplisit dari file aturan Indonesia (`comp_idn_cup`/`comp_idn_league_cup`) ke UID ACL Two (2000347776) — jadi penautannya kemungkinan besar **generik/dinamis per negara** (engine otomatis ambil juara piala domestik negara yang terdaftar), bukan ditautkan manual per kompetisi.
+
+**Kesimpulan baru:** Indonesia **SUDAH** punya jalur ke ACL Two lewat juara piala domestik, dan ini **sudah aktif berjalan di game Bacad saat ini** — bukan "pekerjaan baru yang belum dieksekusi" seperti ditulis sebelumnya. Yang **masih belum dicek**: apakah Indonesia juga terdaftar untuk ACL Elite (tier teratas) dan ACGL (kalau ada tier ketiga terpisah), dan apakah jalur via Piala Liga Indonesia ini disengaja desain SEGA atau kebetulan ikutan dari daftar negara konfederasi yang luas.
+
+Status: **VERIFIED (Indonesia terdaftar untuk ACL Two lewat skema cup_winners_cup, dibuktikan langsung di game)**; **HYPOTHESIS (bahwa pemicunya persis juara Piala Liga Indonesia — masuk akal dan konsisten dengan tampilan papan, tapi belum ada rujukan UID eksplisit yang ditemukan)**.
 
 ## 5. Ringkasan untuk panduan induk
 
