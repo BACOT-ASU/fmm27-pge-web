@@ -5,6 +5,8 @@ export interface PickedFile {
   name: string;
   size: number;
   source: ByteSource;
+  /** Objek file asli platform (web: File), untuk Worker. */
+  blob?: Blob;
   /** Ada di platform yang bisa menyimpan ulang ke lokasi asal (desktop). */
   handle?: unknown;
 }

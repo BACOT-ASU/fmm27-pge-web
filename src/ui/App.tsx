@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { formatBytes, formatInt } from '../core/binary/formatBytes';
 import type { PickedFile } from '../platform/types';
 import { webFileIO } from '../platform/web/webFileIO';
+import { ArchiveInfo } from './ArchiveInfo';
+import { HashPanel } from './HashPanel';
 
 export default function App() {
   const [file, setFile] = useState<PickedFile | null>(null);
@@ -37,8 +39,10 @@ export default function App() {
           </div>
         </section>
       )}
+      {file && <HashPanel key={`h-${file.name}-${file.size}`} file={file} />}
+      {file && /\.fmf$/i.test(file.name) && <ArchiveInfo key={`a-${file.name}-${file.size}`} file={file} />}
 
-      <footer className="mt-auto text-xs text-slate-600">Fase 0 · kerangka aplikasi</footer>
+      <footer className="mt-auto text-xs text-slate-600">Fase 2 · pembaca arsip .fmf</footer>
     </main>
   );
 }

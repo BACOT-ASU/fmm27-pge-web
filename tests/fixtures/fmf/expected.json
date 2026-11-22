@@ -1,0 +1,124 @@
+{
+  "synthetic_flag0.fmf.bin": {
+    "flag": 0,
+    "size": 145316,
+    "sha256": "3a0ee4382735fb5679d84697dd0f70f8e0a17a870068dfcbba22fe870103cf25",
+    "entries": [
+      {
+        "path": "synthetic/readme.txt",
+        "offset": 0,
+        "storedSize": 43,
+        "rawSize": 43,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "6ef1d0c50682ca5827c676e31c49a33b6e30dec57134652522e831ddba5dc2c5"
+      },
+      {
+        "path": "synthetic/kosong.bin",
+        "offset": 43,
+        "storedSize": 0,
+        "rawSize": 0,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "synthetic/data/club.dat",
+        "offset": 43,
+        "storedSize": 5000,
+        "rawSize": 5000,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "afd902d963da2fc121109f5267dec9a9d02bf9a53310f1bd5a49523f9bef21a5"
+      },
+      {
+        "path": "synthetic/data/besar.dat",
+        "offset": 5043,
+        "storedSize": 140000,
+        "rawSize": 140000,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "6c4db4fb7ae9c892e113105a9ed4f3f0b49e252f4a8df40673541b291583f10b"
+      },
+      {
+        "path": "synthetic/data/nama_unicode_é.lng",
+        "offset": 145043,
+        "storedSize": 25,
+        "rawSize": 25,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "289402b6e2f5dfc8a61988cbb7e83a42a6a3a5de476e003a8b87e8767adba669"
+      },
+      {
+        "path": "synthetic/data/sub/a.xml",
+        "offset": 145068,
+        "storedSize": 9,
+        "rawSize": 9,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "fb6e446573a77ddb6308258d304bc62c504a28b13f25d6d61d7a6fa16c38c912"
+      }
+    ]
+  },
+  "synthetic_flag3.fmf.bin": {
+    "flag": 3,
+    "size": 117615,
+    "sha256": "e7a5c8e6629a8b4075bacb716564c1fed2b53be4f610392a85f86f1d4a2a7ed0",
+    "entries": [
+      {
+        "path": "synthetic/readme.txt",
+        "offset": 0,
+        "storedSize": 56,
+        "rawSize": 43,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "6ef1d0c50682ca5827c676e31c49a33b6e30dec57134652522e831ddba5dc2c5"
+      },
+      {
+        "path": "synthetic/kosong.bin",
+        "offset": 56,
+        "storedSize": 13,
+        "rawSize": 0,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "synthetic/data/club.dat",
+        "offset": 69,
+        "storedSize": 4071,
+        "rawSize": 5000,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "afd902d963da2fc121109f5267dec9a9d02bf9a53310f1bd5a49523f9bef21a5"
+      },
+      {
+        "path": "synthetic/data/besar.dat",
+        "offset": 4140,
+        "storedSize": 113171,
+        "rawSize": 140000,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "6c4db4fb7ae9c892e113105a9ed4f3f0b49e252f4a8df40673541b291583f10b"
+      },
+      {
+        "path": "synthetic/data/nama_unicode_é.lng",
+        "offset": 117311,
+        "storedSize": 38,
+        "rawSize": 25,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "289402b6e2f5dfc8a61988cbb7e83a42a6a3a5de476e003a8b87e8767adba669"
+      },
+      {
+        "path": "synthetic/data/sub/a.xml",
+        "offset": 117349,
+        "storedSize": 22,
+        "rawSize": 9,
+        "time1": 1763800000,
+        "time2": 1763800001,
+        "sha256": "fb6e446573a77ddb6308258d304bc62c504a28b13f25d6d61d7a6fa16c38c912"
+      }
+    ]
+  }
+}

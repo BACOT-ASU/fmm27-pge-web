@@ -13,7 +13,7 @@ export function byteSourceFromBlob(blob: Blob): ByteSource {
 }
 
 export function pickedFileFromFile(file: File): PickedFile {
-  return { name: file.name, size: file.size, source: byteSourceFromBlob(file) };
+  return { name: file.name, size: file.size, source: byteSourceFromBlob(file), blob: file };
 }
 
 /** Implementasi web: <input type="file"> untuk impor, Blob + unduhan untuk ekspor. */

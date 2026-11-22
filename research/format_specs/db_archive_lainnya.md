@@ -1,0 +1,28 @@
+# Spesifikasi: file lain di `db_archive_2706.fmf`
+
+Sumber: panduan induk §4.3–§4.9. Isi arsip: 76 file.
+
+## `rivalries.dat` — VERIFIED (`scripts/riv.py`)
+8 byte header + u16 jumlah. Record: u32 index, u32 UID, nama (u32+teks+1 byte), i32 index klub A, i32 index klub B (urutan di `club.dat`), u8 intensitas (0–200), 14 byte (opaque). Contoh: Persija–Persib 200.
+
+## File `.lng` (16 bahasa) — VERIFIED (struktur jumlah)
+Nama klub per bahasa. u32 jumlah di offset 8 harus = jumlah klub. Klub baru: nama ditambah di ujung. Struktur record lengkap: lihat skrip build B1/B4 (LIKELY).
+
+## `stage_names.dat` — VERIFIED
+Record: u16 idx, u32 id, 3 teks (+1 byte). ID dipakai: 20 Final, 76–79 Group A–D, 111 Relegation Playoff, 117 Promotion Playoff, 142 Champions Playoff, 176/177 First/Second Phase Group Stage.
+
+## `stadium.dat` — VERIFIED (`scripts/stadium.py`)
+8 byte header + **u16** jumlah (12.509). Record: u32 index, u32 UID, u16 index kota, u32 kapasitas, u32 kapasitas maks, nama (u32+teks), nama alternatif (u32+teks, boleh kosong), 8 byte (biasanya `00000000ff000000`).
+Aturan: stadion baru di ujung + daftar di `fmm_stadiums` IDN-0/1/2; kota dipinjam dari stadion terdekat (`city.dat` tanpa nama kota). Klub tanpa stadion → penonton 0.
+
+## `nation.dat` — sebagian
+Record diawali u32 UID, u16 index, nama (+ff), kebangsaan (+ff), kode 3 huruf; panjang bervariasi (parser mencari berurutan). Setelah penanda `ff 7f d4 00 00 00 ff 7f`: u8, u16 index negara tetangga, **u8 kandidat youth rating** (HYPOTHESIS; IDN diubah ke 19 di B7b, belum terbukti), u8 1, u16 peringkat FIFA, u16 poin FIFA. Indonesia: index 58, UID 113.
+
+## File nama — VERIFIED (`scripts/names.py`)
+`first_names.dat`, `second_names.dat`, `common_names.dat`: 8 byte header + u32 jumlah. Record: u32 0, u32 index, u8, u32 UID negara, u16, u8 flag, u32 panjang + teks.
+
+## `people.dat` — UNKNOWN (pola awal LIKELY)
+150.430 orang, panjang record bervariasi. Pola dalam record: `i32 −1, u32 UID, u32 idx nama depan, u32 idx nama belakang, i32 idx nama umum (−1), u16 hari dalam tahun, u16 tahun lahir, u16 index negara`. `scripts/people_scan.py`.
+
+## Belum dibongkar — UNKNOWN
+`players.dat`, `non_players.dat`, `starting_contracts.dat`, `coaches.dat`. Dibutuhkan untuk B3 (Player/Staff Editor).
