@@ -2,6 +2,7 @@
 
 ## 2026-11-22 — Hasil uji youth intake
 - Laporan Bacad: db B7b (youth rating IDN 19) → youth intake musim pertama tetap 1 (klub Gresik, semi-pro). Aplikasi modder lain dengan status klub profesional → 5 pemain.
+- Uji lanjutan: Persib (pro) juga hanya 1 pemain → status pro tidak terbukti, jadi UNKNOWN. Youth intake ditunda; prioritas APK 27.1.0 (panduan induk 10.13).
 - Youth rating `nation.dat` turun jadi HYPOTHESIS melemah; status klub → youth intake jadi LIKELY. Rencana uji satu variabel (status Gresik 2 → 1 lewat Club Editor, jalur B) dicatat di panduan induk 10.2-uji.
 
 ## 2026-11-22 — Perbaikan pembaruan PWA

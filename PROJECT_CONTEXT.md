@@ -59,7 +59,7 @@ Analoginya begini: v5 itu rencana membangun rumah sambil menunggu hasil survei t
 
 **LIKELY / HYPOTHESIS**
 - `nation.dat` youth rating (B7b: IDN 19): **HYPOTHESIS melemah** — uji 22 Nov youth intake tetap 1 (klub semi-pro).
-- Status klub profesional menaikkan jumlah youth intake (LIKELY: aplikasi modder, klub pro → 5 pemain; belum uji satu variabel).
+- Penyebab jumlah youth intake: UNKNOWN (status pro tidak konsisten: 5 pemain di satu uji, Persib pro tetap 1). Ditunda.
 - Blok keuangan klub 68 byte: arti A/B/C/D/E masih dugaan.
 - Pita reputasi (Worldwide/Continental/Top Division/National/Obscure) ↔ angka 0–10.000: belum dikalibrasi.
 - Anggaran awal klub dihitung game dari reputasi + status + penonton (LIKELY, dari uji 1d).
