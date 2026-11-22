@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-22 — Analisa liga/kompetisi, koneksi data, award, dan jatah AFC
+- Dokumen riset baru `research/format_specs/liga_kompetisi_award_afc.md`: status semua kompetisi Indonesia (aktif/dorman, termasuk liga U21/U18 yang dirancang developer tapi tidak pernah dibangun ke database), peta koneksi data antar file, temuan `awards.dat` (file baru yang belum pernah dibongkar, nihil entri untuk kompetisi Indonesia), dan analisis akar masalah jatah AFC (Indonesia tidak terdaftar di `nation_list` benua Asia untuk sistem koefisien 8 tahun / seeding 6-4-2).
+- `research/format_specs/fmm27_panduan_induk.md` disinkronkan dengan panduan induk terbaru (section 10 item 4/4b/4c + section 12).
+- Analisa murni, tidak ada perubahan ke file game.
+
 ## 2026-11-22 — Hosting Cloudflare Pages
 - `base` Vite default jadi `/` (Cloudflare Pages/Netlify); `.node-version` = 22.
 - Workflow GitHub tetap menjalankan lint/tes/build; terbit ke GitHub Pages hanya kalau variabel `DEPLOY_GH_PAGES=true` (berhenti gagal merah tiap push).
