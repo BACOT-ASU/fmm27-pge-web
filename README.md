@@ -20,3 +20,10 @@ Editor database FMM27 Mobile yang berjalan di browser HP, offline. Rencana lengk
 - `legacy/app/` — editor logo lama (acuan, tidak diubah).
 
 Tidak ada file game di repo ini.
+
+## Hosting (Cloudflare Pages)
+Repo private disambungkan ke Cloudflare Pages; setiap push ke `main` terbit otomatis.
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Versi Node: dari file `.node-version` (22)
+- `base` Vite = `/` (default). Untuk GitHub Pages, set variabel repo `DEPLOY_GH_PAGES=true` (workflow memakai `/fmm27-pge-web/`).

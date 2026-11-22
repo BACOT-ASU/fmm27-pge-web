@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-22 — Hosting Cloudflare Pages
+- `base` Vite default jadi `/` (Cloudflare Pages/Netlify); `.node-version` = 22.
+- Workflow GitHub tetap menjalankan lint/tes/build; terbit ke GitHub Pages hanya kalau variabel `DEPLOY_GH_PAGES=true` (berhenti gagal merah tiap push).
+
 ## 2026-11-22 — Sesi 02 (Fase 1–2)
 - Spesifikasi dipecah per file di `research/format_specs/`: `fmf_container.md`, `competition_dat.md`, `club_dat.md`, `db_archive_lainnya.md`, `comps_dbc.md`, `fmm_lists.md`, `logos.md`, `libgame_tables.md`, `status_verifikasi.md` (dengan label VERIFIED/LIKELY/HYPOTHESIS/UNKNOWN).
 - `src/core/fmf/`: port kontainer `.fmf` dari `legacy/app/fmmcore.js` ke TypeScript dengan `ByteSource`:

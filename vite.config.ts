@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// GitHub Pages menyajikan situs di /<nama-repo>/
-const base = process.env.BASE_PATH ?? '/fmm27-pge-web/';
+// Cloudflare Pages/Netlify menyajikan situs di akar domain ('/').
+// GitHub Pages butuh '/<nama-repo>/' → set BASE_PATH saat build (lihat workflow).
+const base = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base,

@@ -1,4 +1,4 @@
-name: Uji dan terbitkan ke GitHub Pages
+name: Uji (lint, tes, build)
 
 on:
   push:
@@ -32,13 +32,17 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+        env:
+          BASE_PATH: ${{ vars.DEPLOY_GH_PAGES == 'true' && '/fmm27-pge-web/' || '/' }}
       - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && vars.DEPLOY_GH_PAGES == 'true'
         with:
           path: dist
 
+  # Terbit ke GitHub Pages hanya kalau variabel repo DEPLOY_GH_PAGES = true (butuh Pages aktif).
+  # Situs utama diterbitkan oleh Cloudflare Pages langsung dari repo.
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_GH_PAGES == 'true'
     needs: build
     runs-on: ubuntu-latest
     environment:
