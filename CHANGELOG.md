@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-22 — db_archive di HP terkonfirmasi B7b
+- Kartu Gresik United FC di aplikasi cocok dengan build B7b (reputasi 1.500, semi-pro, fasilitas 5/4, stadion 7212). `versions.ts` dan `input_manifest.md`: label "diduga" dihapus. Nama klub di db asli "Gresik United FC" (tes sampel disesuaikan).
+
 ## 2026-11-22 — Uji penjelajah database dengan db asli
 - HP Bacad: 1.683 kompetisi · 38.772 klub · 251 negara terbaca dalam 1.098 ms, tanpa galat. Dicatat di `status_verifikasi.md`.
 

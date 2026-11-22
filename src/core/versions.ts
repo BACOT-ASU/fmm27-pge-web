@@ -13,7 +13,7 @@ export const KNOWN_FILES: readonly KnownFile[] = [
   { name: 'db_archive_2706.fmf', version: 'B6b', size: 149_841_844 },
   {
     name: 'db_archive_2706.fmf',
-    version: 'B7b (diduga)',
+    version: 'B7b',
     size: 149_842_446,
     sha256: 'eb1d71647dd8de17ceaaf1b133a444717cda5268831c3ddbf4c1009f63bcf5cc',
   },

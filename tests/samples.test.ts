@@ -72,7 +72,7 @@ describe('sampel asli: competition.dat + club.dat di db_archive_2706.fmf', () =>
     expect(bytesEqual(serializeClubDat(db.clubs), clubRaw)).toBe(true);
     const idn = db.clubs.records.filter((c) => c.nation === INDONESIA_NATION_INDEX);
     console.log(`kompetisi ${db.competitions.records.length}, klub ${db.clubs.records.length}, klub IDN ${idn.length}, negara ${db.nations.length}`);
-    expect(db.clubs.records.find((c) => c.uid === 2000700017)?.longName).toBe('Gresik United');
+    expect(db.clubs.records.find((c) => c.uid === 2000700017)?.longName).toMatch(/^Gresik United/);
   }, 300_000);
 
   it.skipIf(!path || !pythonAvailable)('sama dengan comp.py dan club.py', async () => {
