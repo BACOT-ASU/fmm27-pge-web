@@ -150,13 +150,41 @@ Pembanding liga luar **tidak bisa dicek langsung** di `comps.dbc` versi ini kare
 
 Entri induk `comp_idn_league_three_1439` menarik tim 8-besarnya lewat `tems` id 2 ("tim lolos") yang merujuk ke UID grup A/B/C (2000700101/102/103) plus kode tahap sumber (`stag`/`nmsn`) — **bukan daftar tim yang di-hardcode per tahun**, berbeda dari dugaan lama (`crgt`/`gptm` terkunci ke tahun 2026) yang tercatat di bagian 2 panduan ini. Dicek langsung: **tag `crgt`/`gptm` sama sekali tidak ditemukan** di entri `comp_idn_league_two_groups_1442`, `comp_idn_league_three_group_a_1439`, maupun `comp_idn_league_three_groups_bc_1439` pada build `sicomps.fmf` B6 saat ini. Jadi secara struktur data, mekanisme penarikan tim untuk 8-besar **seharusnya otomatis setiap musim**, tidak terkunci ke musim pertama.
 
-**Kesimpulan:** tidak ditemukan bukti biner yang menjelaskan "fase grup tidak ada tabelnya" dari sisi `comps.dbc` — strukturnya terlihat benar untuk menarik tim secara dinamis. Ini mengarah ke dua kemungkinan: (1) bug ada di tempat lain (runtime/`libgame.so`, bukan di data aturan), atau (2) yang dialami Bacad adalah UI yang belum menampilkan tabel karena 8-besarnya memang belum "live" (misal baru musim pertama, grup musim lalu belum selesai, dsb). **Perlu info tambahan dari Bacad**: di musim ke berapa ini terjadi, dan apakah "jadwal ada tapi tabel klasemen kosong" atau "menu fase grupnya sendiri tidak muncul". Status: **UNKNOWN (akar masalah persis)**, **VERIFIED (mekanisme penarikan tim tidak terkunci tahun seperti dugaan lama)**.
+**Kesimpulan (lama, 22 Nov sore):** tidak ditemukan bukti biner yang menjelaskan "fase grup tidak ada tabelnya" dari sisi `comps.dbc` — strukturnya terlihat benar untuk menarik tim secara dinamis. Status saat itu: **UNKNOWN (akar masalah persis)**, **VERIFIED (mekanisme penarikan tim tidak terkunci tahun seperti dugaan lama)**.
 
-**6c. Slot ACL2 untuk GUFC musim depan — jawaban tegas: TIDAK ADA, dan untuk dua alasan berlapis.**
+### ✅ JAWABAN (22 Nov malam) — bukan bug, 8-besar memang GUGUR bukan tabel liga
 
-1. **Indonesia sama sekali belum terdaftar di `nation_list` benua Asia** (dipastikan di bagian 4 — 95 negara terdaftar, Indonesia bukan salah satunya). Ini bukan soal GUFC bagus atau tidak — **tidak ada satu pun klub Indonesia yang punya jalur ke ACLE/ACL Two/ACGL** sampai Indonesia didaftarkan dan diberi koefisien.
-2. **Bahkan kalau Indonesia sudah terdaftar, slot `tems` continental selalu diambil dari liga papan atas (BRI Super League)**, bukan dari Liga Nusantara. Jadi GUFC harus naik **dua kali** (Liga Nusantara → Pegadaian Championship → BRI Super League, lalu finis di posisi atas klasemen Super League) sebelum bisa ikut dihitung untuk slot AFC — bukan cukup juara Liga Nusantara musim depan.
+Dibongkar langsung struktur stage `comp_idn_league_three_1439.dbc` (field `sgts`/"stages", dibaca via `scripts/dbc.py`). Kompetisi ini punya **2 stage**:
 
-Status: **VERIFIED** (keduanya sudah dicek langsung di data; tidak ada jalan pintas dari Liga Nusantara ke kompetisi AFC).
+- **Stage 0** (id mentah `dnr1`, `epyt`=2): stage grup — 3 grup (A/B/C, dirujuk lewat 2 file anak `group_a` + `groups_bc`), punya `knar`("rank" — kriteria tie-break tabel klasemen: poin, selisih gol, dst). **Ini yang punya tabel klasemen.**
+- **Stage 1** (id mentah `anif` = "fina"/FINAL terbalik, `epyt`=0): stage final/8-besar — **bukan tabel, tapi daftar `sdnr`("rounds") berisi babak-babak diskrit**. Tiap babak punya tanggal main sendiri (`etad`/`emit`), **hadiah uang untuk pemenang DAN kalah** (`zpnw`="winner prize"/`zpsl`="loser prize", masing-masing field `hsac`="cash"), aturan adu penalti (`sapd`=1, boolean "decided by penalty"), dan kriteria peringkat pemenang/kalah babak gugur (`knrw`/`knrl`). Ini **ciri khas sistem GUGUR (knockout)**, bukan liga/grup.
+
+**Kesimpulan: fase 8-besar Liga Nusantara memang tidak punya tabel klasemen KARENA DESAINNYA sistem gugur — bukan bug.** Sistem gugur secara alami tidak punya tabel akumulasi poin, hanya hasil per babak. Yang Bacad lihat ("jadwal ada tapi tabelnya tidak ada") kemungkinan besar sudah **sesuai desain game** — tinggal dicek lagi apakah tampilan di HP memang menunjukkan bracket/hasil babak (bukan tabel), bukan menu yang kosong.
+
+Bonus temuan: field `catf` (daftar slot kualifikasi) di stage FINAL ini menunjuk langsung ke `pmoc` (UID kompetisi) milik **Pegadaian Championship** — mengonfirmasi ulang bahwa **pemenang final Liga Nusantara promosi langsung ke Championship**, bukan ke BRI Super League.
+
+Status: **VERIFIED** (struktur stage dibongkar langsung dari `comps.dbc` build B6).
+
+**6c. Slot ACL2 untuk GUFC musim depan.**
+
+~~Jawaban tegas: TIDAK ADA, dua alasan berlapis (Indonesia tidak di `nation_list`; slot AFC hanya dari liga papan atas).~~ **DIBANTAH, lihat koreksi di bagian 4.** Bacad membuktikan langsung di game: GUFC bermain ACL Two, papan PLEASED. Setelah dicek ulang, `asi.xml` punya 4 daftar `nation_list` (bukan 1) dan Indonesia ADA di 2 dari 4 (master 47-negara + wilayah "east" 22-negara). ACL Two bertipe `cup_winners_cup` — sumber timnya `get_main_cup_winner` (juara piala domestik tiap negara terdaftar), **bukan posisi liga papan atas** — jadi poin kedua di atas (soal "harus dari Super League") juga tidak berlaku untuk ACL Two spesifik (beda dengan ACL Elite, lihat bagian 7).
 
 Tidak ada perubahan file game di temuan ini — murni analisa (sesuai aturan "jangan eksekusi sebelum bilang eksekusi").
+
+## 7. Slot ACL Elite (koefisien liga) — dicek 22 Nov malam, atas permintaan Bacad
+
+Bacad ingin tahu apakah bisa dapat slot **ACL Elite** (bukan cuma ACL Two) dengan menaikkan koefisien liga. Dicek `asi_champions_league.xml` (Comp ID 127286, "Asian Champions League Elite").
+
+**VERIFIED — mekanismenya memang berbasis koefisien, bukan posisi liga langsung:**
+- File ini memakai `number_of_years_for_coefficients: 8` dan `type: multi_year_coefficient` — koefisien dihitung dari **akumulasi hasil 8 musim terakhir**, dengan bobot musim terbaru 100% turun ke 30% di musim ke-8 (`coefficient_weighting_list`: 1.0, 0.9, 0.8, ... 0.3).
+- Babak kualifikasi ACL Elite dibagi jadi beberapa **bracket bertingkat** berdasar region (`West`/`East`) dan jumlah tim: `wc4t` (4 tim), `wc6t` (6 tim), `wc8t` (8 tim) — masing-masing sumber timnya `get_qualified_teams_for_comp` dengan `qualified_teams_seeding` berbeda (6 untuk wc6t/wc8t). Semakin rendah koefisien sebuah negara dibanding negara lain di region yang sama, kemungkinan besar wakilnya masuk dari bracket kualifikasi paling awal (lebih banyak babak yang harus dilewati), bukan langsung ke grup utama.
+- Urutan rumah/tandang di undian bahkan dipatok ke koefisien: `draw_rules: highest_cont_cup_nation_coefficient_plays_at_home` — negara dengan koefisien lebih tinggi main di kandang.
+
+**Soal Indonesia:** karena `nation_list` yang dipakai `asi_champions_league.xml` berasal dari mesin yang sama di `asi.xml` (yang sudah dibuktikan memuat Indonesia di 2 dari 4 daftarnya), **kemungkinan besar Indonesia juga sudah masuk kolam kualifikasi ACL Elite** — hanya saja karena koefisiennya masih rendah/nol (belum ada riwayat hasil continental), wakil Indonesia (kalau ada) akan start dari bracket kualifikasi paling bawah, bukan dapat slot langsung.
+
+**Status:**
+- **VERIFIED**: mekanisme ACL Elite = koefisien 8-musim berbobot, bukan jatah tetap per negara.
+- **HYPOTHESIS (belum dikonfirmasi langsung di game)**: Indonesia sudah ada di kolam kualifikasi ACL Elite juga (sama seperti ACL Two), tapi start dari bracket paling bawah karena koefisien masih kosong.
+- **UNKNOWN**: angka ambang (threshold) koefisien yang memindahkan sebuah negara dari satu bracket ke bracket lain — tidak ditemukan di XML, kemungkinan dihitung dan dibandingkan lintas-negara di `libgame.so` saat runtime, bukan nilai tetap per negara.
+
+**Jawaban untuk rencana Bacad ("menaikkan koefisien liga"):** ya, itu memang jalurnya yang benar — koefisien naik dengan **hasil klub Indonesia di kompetisi AFC** (menang/jauh di ACL Two atau Challenge League menyumbang poin musiman, diakumulasi 8 musim). Tidak ada cara pintas lain yang ditemukan di data (tidak ada field "paksa slot ACLE" per negara). Belum dicek: apakah Indonesia sudah benar-benar start dari bracket kualifikasi di game Bacad sekarang (perlu dicek langsung di menu AFC Indonesia musim ini) atau belum muncul sama sekali — ini perlu konfirmasi dari Bacad untuk memastikan HYPOTHESIS di atas.
