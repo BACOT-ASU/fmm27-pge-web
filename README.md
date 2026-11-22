@@ -21,9 +21,9 @@ Editor database FMM27 Mobile yang berjalan di browser HP, offline. Rencana lengk
 
 Tidak ada file game di repo ini.
 
-## Hosting (Cloudflare Pages)
-Repo private disambungkan ke Cloudflare Pages; setiap push ke `main` terbit otomatis.
+## Hosting (Cloudflare Workers, static assets)
+Repo private disambungkan ke Cloudflare (Workers & Pages); setiap push ke `main` terbit otomatis.
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Deploy command: `npx wrangler deploy` (konfigurasi di `wrangler.jsonc`: aset dari `dist/`, mode SPA)
 - Versi Node: dari file `.node-version` (22)
 - `base` Vite = `/` (default). Untuk GitHub Pages, set variabel repo `DEPLOY_GH_PAGES=true` (workflow memakai `/fmm27-pge-web/`).

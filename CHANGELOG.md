@@ -6,6 +6,7 @@
 - Analisa murni, tidak ada perubahan ke file game.
 
 ## 2026-11-22 — Hosting Cloudflare Pages
+- `wrangler.jsonc` + devDependency `wrangler`: dashboard Cloudflare membuat proyek Worker (static assets), bukan Pages; `npx wrangler deploy` menyajikan `dist/`.
 - `base` Vite default jadi `/` (Cloudflare Pages/Netlify); `.node-version` = 22.
 - Workflow GitHub tetap menjalankan lint/tes/build; terbit ke GitHub Pages hanya kalau variabel `DEPLOY_GH_PAGES=true` (berhenti gagal merah tiap push).
 
