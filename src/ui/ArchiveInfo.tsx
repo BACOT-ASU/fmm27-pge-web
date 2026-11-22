@@ -14,6 +14,28 @@ export function ArchiveInfo({ file }: { file: PickedFile }) {
   const [error, setError] = useState<string | null>(null);
   const [inner, setInner] = useState<Inner | null>(null);
   const [q, setQ] = useState('');
+  const [busy, setBusy] = useState<string | null>(null);
+
+  async function downloadEntry(path: string, entry: Parameters<typeof readEntry>[1]) {
+    if (!arc) return;
+    setBusy(path);
+    try {
+      const bytes = await readEntry(arc, entry);
+      const blob = new Blob([new Uint8Array(bytes)]);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${entry.name}${entry.ext}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
+  }
 
   useEffect(() => {
     let alive = true;
@@ -68,9 +90,19 @@ export function ArchiveInfo({ file }: { file: PickedFile }) {
       />
       <ul className="mt-2 max-h-80 divide-y divide-slate-800 overflow-auto text-xs">
         {shown.map(({ path, entry }) => (
-          <li key={path} className="flex justify-between gap-2 py-1.5">
+          <li key={path} className="flex items-center justify-between gap-2 py-1.5">
             <span className="break-all font-mono">{path}</span>
-            <span className="shrink-0 text-slate-500">{formatBytes(entry.rawSize)}</span>
+            <span className="flex shrink-0 items-center gap-2">
+              <span className="text-slate-500">{formatBytes(entry.rawSize)}</span>
+              <button
+                type="button"
+                onClick={() => downloadEntry(path, entry)}
+                disabled={busy === path}
+                className="min-h-7 rounded border border-slate-700 px-2 py-0.5 text-xs text-slate-300 hover:bg-slate-800 disabled:opacity-50"
+              >
+                {busy === path ? '…' : 'Unduh'}
+              </button>
+            </span>
           </li>
         ))}
       </ul>
