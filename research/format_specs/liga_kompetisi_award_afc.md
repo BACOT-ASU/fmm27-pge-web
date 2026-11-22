@@ -36,7 +36,7 @@ competition.dat (idx kompetisi)
    ↑ dirujuk oleh club.dat.div (field 6) dan club.dat.div_musim_lalu (field 8)
    ↑ dirujuk oleh comps.dbc (tag `comp`, `cmps`, `chdc`, `qurl`, `tems`)
    ↑ dirujuk oleh sicomps/2700/fmm_comps.dat (daftar yang dimuat per negara)
-   ↑ dirujuk oleh awards.dat (lihat bag. 3 — tiap award terikat ke satu kompetisi)
+   ↑ TIDAK dirujuk oleh awards.dat secara langsung (lihat bag. 3 — koreksi temuan 22 Nov malam: awards.dat tidak menyimpan UID kompetisi sama sekali)
 
 club.dat (idx klub, URUTAN dipakai sebagai index, bukan UID)
    → stadium.dat lewat field 7 (index stadion; 65535 = kosong → penonton dipotong 0)
@@ -69,7 +69,25 @@ libgame.so (kode, bukan data)
 
 **Hasil pencarian khusus Indonesia: NIHIL.** Tidak ada satu pun entri "Indonesia", "BRI", "Liga Nusantara", dsb. di antara >2.200 string yang terbaca. Liga-liga lain yang namanya kebetulan mirip ("Super League") semuanya liga negara lain (Yunani, Turki, China). **Kesimpulan: BRI Super League, Pegadaian Championship, dan Liga Nusantara tidak punya satu pun award — tidak Player of the Month, tidak Team of the Week/Season, tidak Manager of the Year.** Ini kemungkinan besar alasan kalau Bacad tidak pernah melihat notifikasi award untuk klub/liganya.
 
-Status format: **struktur record per award belum dipecahkan penuh** (field link ke UID kompetisi mana persis, offset per entri) — baru sebatas tahu lokasi string dan pola generik+bermerek. Perlu sesi bongkar tersendiri (mirip B3 untuk `people.dat`) sebelum bisa menambahkan award Indonesia. Ditandai **UNKNOWN (struktur record)**, **VERIFIED (lokasi file dan isi string)**.
+### 3a. Struktur record `awards.dat` — dibongkar 22 Nov malam
+
+Header 8 byte standar (`03 01 "tad." 01 00`), lalu **u32 jumlah record = 1.123**. Tiap record (ukuran berbeda-beda, tidak fixed, karena mengandung 2 string panjang-variabel):
+
+| Field | Tipe | Contoh | Keterangan |
+|---|---|---|---|
+| `idx` | u32 | 0, 1, 2… | index urut record, naik 1 per record — **bukan UID**, cuma posisi dalam daftar |
+| `award_id` | u32 | 102407, 102410, 102411, 102412… lalu lompat ke 106909, 106918… | **VERIFIED**: ID katalog award bawaan SEGA (naik tidak selalu +1 — ada lompatan). Dicoba dicocokkan ke UID 6 kompetisi Indonesia (BRI Super League 41004312, Pegadaian Championship 41042740, Piala Indonesia 7746536, Piala Liga Indonesia 2000560926, Liga Nusantara 41042746, Liga 4 41045091) sebagai raw bytes little-endian di seluruh file — **nihil, tidak satu pun cocok**. Jadi field ini bukan UID kompetisi.
+| `name1` | u32 panjang + teks | `"Player of the Month"` | nama generik award (dipakai lintas liga) |
+| (pemisah) | 1 byte | `0xFF` | selalu `0xFF` di semua record yang dicek |
+| `name2` | u32 panjang + teks | `"Sky Bet Championship Player of the Month"` | nama bermerek/berlisensi untuk liga tertentu |
+| (pemisah) | 1 byte | `0xFF` | selalu `0xFF` |
+| blok ekor | 102 byte tetap | — | **UNKNOWN sebagian**: tampak berisi hingga 3 "slot riwayat" (masing-masing dipatok oleh field u16 bertahun — contoh `e9 07` = 0x07E9 = 2025 LE), mayoritas terisi `0xFFFFFFFF` (placeholder "belum ada pemenang") karena ini database awal musim/template, bukan save game yang sudah dimainkan. Field persis untuk UID pemenang/kompetisi di dalam blok ini belum dipetakan satu-satu. |
+
+**Urutan 40 record pertama membuktikan pola per-liga** (`Player of the Month` generik lalu diikuti versi bermerek Premier League, Championship, League One, League Two secara berurutan; lalu `Young Player of the Month`, `Team of the Week`, dst, lalu lanjut ke liga lain seperti Skotlandia, Denmark, Prancis, Belanda). Artinya tabel ini memang daftar statis per-kompetisi bawaan SEGA, satu blok per liga resmi yang mereka lisensi — bukan tabel yang bisa "ditambah entri baru" lewat UID kompetisi.
+
+**Pencarian langsung ke seluruh 199.619 byte file untuk UID keenam kompetisi Indonesia DAN untuk string "Indonesia"/"BRI"/"Pegadaian"/"Nusantara"/"Liga 4" — semuanya nihil, tidak ada satupun kemunculan.** Ini membuktikan dua hal sekaligus: (1) koreksi atas temuan pagi — `awards.dat` sendiri **tidak menyimpan rujukan UID kompetisi apa pun** di dalam record-nya, jadi tidak ada "field kosong untuk Indonesia" yang tinggal diisi; (2) perkakas penaut award↔kompetisi, kalau memang ada, **bukan di file ini**. Sudah dicek juga `competition.dat` (lewat `scripts/comp.py`) — parser-nya mengonsumsi persis sampai byte terakhir tiap record, tidak ada field cadangan/belum terpakai yang bisa jadi "kode grup award". Jadi kemungkinan besar penautannya (kalau ada) **hardcoded di `libgame.so`**, sama persis dengan pola tabel negara-playable dan tabel-liga-terdalam yang sudah kita bongkar — bukan kebetulan, ini "tema" berulang di mod ini: Indonesia hilang bukan karena datanya salah, tapi karena tidak terdaftar di tabel kecil yang di-hardcode SEGA di kode biner.
+
+**Kesimpulan praktis:** menambahkan award untuk Indonesia kemungkinan besar **tidak bisa** lewat menambah record baru di `awards.dat` saja (berbeda dari kompetisi/klub yang bisa ditambah "di ujung"), karena belum ada bukti ada mekanisme apa pun yang menghubungkan kompetisi baru ke blok award mana pun. Ini butuh riset tambahan di `libgame.so` (cari tabel kecil serupa tabel negara-playable) sebelum bisa dipastikan bisa/tidaknya — ditandai **UNKNOWN (mekanisme penautan)**, **VERIFIED (struktur record, lokasi, dan ketiadaan rujukan Indonesia)**.
 
 ## 4. Jatah Liga Champions (AFC untuk Asia; Eropa dicek sebagai pembanding cara kerja)
 
