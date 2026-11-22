@@ -1,0 +1,39 @@
+21|Kiper|IDN|Havizd Muzaki|2002-01-12||1300
+29|Kiper|IDN|Samuel Reimas|1992-09-11||869
+33|Kiper|IDN|Abdul Rohim|1992-04-06||174
+81|Kiper|IDN|Rafi Ardiono|2006-03-06||
+13|Bek-Tengah|IDN|Muhammad Idris|1998-12-13||1740
+4|Bek-Tengah|IRN|Jahanbakhsh Taher|1990-01-31||
+31|Bek-Tengah|IDN|Christian Deo|2007-04-19||
+17|Bek-Kiri|IDN|Marsel Usemahu|1997-07-23||1300
+26|Bek-Kanan|IDN|Marckho Merauje|1994-12-04||2170
+45|Bek-Kanan|IDN|Dani Ibrohim|2006-07-13||1740
+3|Bek-Kanan|IDN|Bagus Nirwanto|1993-03-23||869
+23|Bek-Kanan|IDN|Hamdi Sula|1997-11-03||869
+5|Gel. Bertahan|IDN|Ichlasul Qadri|2000-03-29||1300
+6|Gel. Bertahan|IDN|Manda Cingi|1993-05-29||869
+87|Gel. Bertahan|IDN|Shulton Fajar|1994-02-04||869
+8|Gel. Bertahan|IDN|Ananta Krisna|2006-05-19||435
+14|Gel. Bertahan|IDN|Hariono|1985-10-02||174
+16|Gel. Bertahan|IDN|Raditya Rahardjo|2007-05-16||
+35|Gelandang|IDN|Reza Saputra|2000-03-10||
+19|Gel. Tengah|IDN|Rizky Pellu|1992-06-26||174
+25|Gelandang Kanan|IDN|Ketut Dedi|2006-10-28||
+22|Gel. Serang|IDN|Ichsan Pratama|1993-10-09||869
+27|Gel. Serang|IDN|Rafly Juniar|2007-06-23||174
+28|Gel. Serang|IDN|Gading Kritanto|2006-02-03||
+77|Sayap Kiri|BRA|Rian Lopes|2001-03-26||2170
+11|Sayap Kiri|IDN|Wigi Pratama|2004-07-29||869
+15|Sayap Kiri|IDN|Achmad Dwi|2003-01-31||
+-|Sayap Kanan|IDN/TLS|Flabio Soares|1999-02-02||1300
+30|Sayap Kanan|IDN|Nathan Ari|2006-08-03||174
+32|Sayap Kanan|IDN|Aqil Agustian|2008-11-08||
+10|Depan-Tengah|MAR/POR|Mohcine Hassan|1994-09-30||1740
+9|Depan-Tengah|IDN|Muhammad Irman|1999-05-21||1300
+18|Depan-Tengah|IDN|Martinus Novianto|1995-11-03||435
+20|Depan-Tengah|IDN|Aulia Rahman|2006-08-20||
+S|Pelatih Kepala|IDN|Leonard Tupamahu|43
+S|Assisten Pelatih|IDN|Nurul Huda|49
+S|Assisten Pelatih|IDN|Bayu Guntoro|33
+S|Pelatih Kiper|IDN|Ahmad Arif|
+S|Pelatih Fisik|IDN|Yusuf Rojali|

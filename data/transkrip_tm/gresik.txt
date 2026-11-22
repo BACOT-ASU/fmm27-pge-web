@@ -1,0 +1,35 @@
+23|Kiper|IDN|Lalu Rizki|2004-02-05|||1,73m|kanan
+77|Kiper|IDN|Syamil Bahij|2005-05-26|||1,80m|kanan
+30|Kiper|IDN|Dedi Tri Saputra|2005-01-03|2027-06-30||1,78m|
+17|Bek-Tengah|IDN|Maulana Kusuma|2005-01-08|2027-06-30||1,75m|
+21|Bek-Tengah|IDN|Abanda Rahman|1990-08-24|||1,81m|kanan
+33|Bek-Tengah|IDN|Joko Supriyanto|1996-01-10|||1,75m|kanan
+4|Bek-Tengah|IDN|Jatmiko Subagyo|2005-04-27|||1,87m|kanan
+20|Bek-Tengah|IDN|Afreza Davino|2008-07-31|||-|
+29|Bek-Tengah|IDN|Baihaqi Rifai|2006-07-29|2027-06-30||1,84m|keduanya
+16|Bek-Kiri|IDN|Ade Saihitua|2004-02-19|||1,69m|kanan
+88|Bek-Kiri|IDN|Bhirawa Anoraga|2004-09-25|2027-06-30||1,73m|kiri
+18|Bek-Kanan|IDN|Aldi Nugroho|2004-03-18|||-|
+47|Bek-Kanan|IDN|Ndawi Wandik|2004-04-07|||-|
+15|Gel. Bertahan|IDN|Fadilla Akbar|2001-09-08|||1,73m|kiri
+24|Gel. Bertahan|IDN|Jordan Zamorano|2001-02-07|||1,76m|kiri
+7|Gel. Serang|IDN|Alif Jaelani|2002-07-05|2027-06-30||1,72m|kanan
+8|Gel. Serang|IDN|Alwi Furqon|2005-04-06|||-|
+13|Gel. Serang|IDN|Syaifullah Salim|2007-03-23|||-|
+19|Gel. Serang|IDN|Cesa Ayaramatan|2007-09-27|||-|
+11|Sayap Kiri|IDN|Sayfullah Kader|2003-07-11|||-|kanan
+99|Sayap Kiri|IDN|Oscar Novangga|2004-11-15|||1,67m|kanan
+10|Sayap Kiri|IDN|Rafi Herlian|2004-06-07|2027-06-30||1,76m|kanan
+92|Sayap Kiri|IDN|Nassim Fauzi|2007-09-15|||-|
+6|Sayap Kanan|IDN|Rafli Bahasuan|2004-09-18|2027-06-30||-|kanan
+85|Sayap Kanan|IDN|Dian Ardiansyah|1999-01-21|2027-06-30||1,68m|kanan
+25|Sayap Kanan|IDN|Lukman Fajri|2008-06-25|||-|
+46|Depan-Tengah|IDN|Wahyu Agong|2004-04-29|||1,70m|kanan
+9|Depan-Tengah|IDN|Deco Novero|2007-01-15|||-|
+22|Depan-Tengah|IDN|Dzaki Alamsyah|2004-11-30|||1,77m|kanan
+28|Depan-Tengah|IDN|Shahih Rishandy|2001-03-10|||1,83m|kanan
+S|Pelatih Kepala|IDN|Joko Susilo|55
+S|Assisten Pelatih|IDN|Basuki|42
+S|Assisten Pelatih|IDN|Andik Ardiansyah|41
+S|Pelatih Kiper|IDN|Ibnu Abas|47
+S|Pelatih Fisik|IDN|Iqbal Andyasa|

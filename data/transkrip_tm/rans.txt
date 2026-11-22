@@ -1,0 +1,35 @@
+95|Kiper|IDN|Andrian Casvari|1999-06-30||174
+14|Kiper|IDN|Davin Prasetiyo|2004-06-14||
+20|Kiper|IDN|Ditea Cahya|2007-07-29||
+26|Kiper|IDN|Andrika Fathir|2006-02-17||
+3|Bek-Tengah|IDN|Bayu Aji|2000-01-31||869
+48|Bek-Tengah|IDN|Achmad Faris|1993-03-07||869
+24|Bek-Tengah|SSD/AUS|Amanhom Khamis|2002-07-19||
+17|Bek-Kiri|IDN|Dandy Aryanto|2005-12-12||
+87|Bek-Kiri|IDN|Almaghfiru Inzaghi|2004-06-08||
+72|Bek-Kanan|IDN|Bayu Setiawan|1998-12-27||1300
+22|Bek-Kanan|IDN|Dias Angga|1989-05-06||174
+28|Bek-Kanan|IDN|Alfharidz Sobirin|2003-06-29||
+77|Bek-Kanan|IDN|Iqbal Nugraha|2006-07-13||
+31|Gel. Bertahan|IDN|Rosad Setiawan|1996-08-09||2610
+89|Gel. Bertahan|IDN|Yu-jun Lee|1989-09-26||174
+88|Gel. Bertahan|IDN|Vikrian Akbar|2000-03-31||
+13|Gel. Bertahan|IDN|Sultan Akbar|2006-01-18||
+18|Gel. Bertahan|IDN|Aswin|2003-05-10||
+16|Gel. Tengah|IDN|Refan Nadief|2005-06-01||
+10|Gel. Serang|IDN|Muhammad Rafli|1998-11-24||1300
+21|Gel. Serang|IDN|Dirk Lukas|2006-01-26||174
+12|Gel. Serang|IDN|Aqsa Aqyuba|2004-07-20||
+29|Sayap Kiri|MLI/MTN|Ladji Malle|2001-11-12||1300
+11|Sayap Kiri|IDN|Daniel Alfrido|2008-03-12||
+9|Depan-Tengah|NOR|Martin Hoel Andersen|1995-12-04||2170
+27|Depan-Tengah|IDN|Dedik Setiawan|1994-06-27||1740
+19|Depan-Tengah|IDN|Yanari Kurniawan|2004-01-04||
+23|Depan-Tengah|IDN|Rendi Irawan|2006-05-21||
+79|Depan-Tengah|IDN|Raya Sheva|2007-05-08||
+99|Depan-Tengah|IDN|Racksa Wijaya|2006-12-15||
+S|Pelatih Kepala|IDN|Kas Hartadi|55
+S|Assisten Pelatih|IDN|Juan Revi|40
+S|Assisten Pelatih|IDN|Weliansyah|60
+S|Pelatih Kiper|IDN|Yanuar Hermansyah|61
+S|Pelatih Fisik|IDN|Ruly Hidayansyah|40

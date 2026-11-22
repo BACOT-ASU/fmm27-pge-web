@@ -1,0 +1,36 @@
+20|Kiper|IDN|Diaz Priambodo|1999-05-11||
+-|Kiper|IDN|Fiqy Febrian|||
+1|Kiper|IDN|Alfathkhan Choirenan|||
+14|Kiper|IDN|Aldo Fernandi|2004-01-03||
+59|Kiper|IDN|Fahad Azwi|2005-09-10||
+23|Bek|IDN|Dios Dosi|||
+66|Bek|IDN|Odhi Syah|2007-07-14||
+4|Bek-Tengah|IDN|Didik Setyawan|1999-12-29||
+6|Bek-Tengah|IDN|Tegar Shevanton|2004-03-20||
+26|Bek-Tengah|IDN|Rio Valentino|1995-04-29||
+19|Bek-Tengah|IDN|Revaldo Agusto|2006-08-24||
+34|Bek-Tengah|IDN|Kafka Azwa|2007-03-09||
+3|Bek-Kiri|IDN|Crah Angger|1993-01-09||
+12|Bek-Kiri|IDN|Nurul Fuadi|2005-01-05||
+13|Bek-Kanan|IDN|Aditya Rangga|2004-02-13||
+27|Bek-Kanan|IDN|Romeo Abisha|2007-07-13||
+76|Bek-Kanan|IDN|Jovan Syahwa|2006-11-07||
+18|Gel. Serang|IDN|Syahril Afrizal|2005-06-30||
+33|Gel. Serang|IDN|Ocvian Chanigio|1999-10-16||
+8|Gel. Serang|IDN|Marvin Nugraha|2004-07-31||
+38|Gel. Serang|IDN|Azril Deco|2007-03-28||
+58|Gel. Serang|IDN|Adi Purnama|2005-07-06||
+11|Sayap Kiri|IDN|Rivaldi Bawuo|1993-08-13||
+15|Sayap Kiri|IDN|Zulkifli Yahya|2005-01-01||
+77|Sayap Kanan|IDN|Putra Chaniago|1998-06-26||
+7|Depan-Tengah|IDN|Sehabudin Ahmad|1993-10-08||
+25|Depan-Tengah|IDN|Aaron Yekti|2005-06-17||
+29|Depan-Tengah|IDN|Basajum Latuconsina|2005-05-17||
+37|Depan-Tengah|IDN|Wiraja Aulia|2002-07-30||
+9|Penyerang|IDN|Kaka Putra|||
+10|Depan-Tengah|IDN|Iqbal Tri|2001-03-18||
+S|Pelatih Kepala|IDN|Putu Gede|52
+S|Assisten Pelatih|IDN|Arif Suyono|42
+S|Assisten Pelatih|IDN|Bijahil Chalwa|35
+S|Pelatih Kiper|IDN|Ferdiansyah|43
+S|Pelatih Fisik|IDN|Eggy Arfiansyah|

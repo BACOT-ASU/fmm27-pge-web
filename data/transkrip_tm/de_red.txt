@@ -1,0 +1,41 @@
+75|Kiper|IDN|Panggih Sambodo|1998-03-03||1300
+92|Kiper|IDN|Dimas Galih|1992-11-23||435
+69|Kiper|IDN|Fajar Ali Syahbana|2001-03-20||
+12|Kiper|IDN|Ruben Rafli|||
+17|Bek|IDN|Ryanata Permana|||
+93|Bek-Tengah|IDN|Rical Vieri|2002-03-15||435
+2|Bek-Tengah|IDN|Rizky Dwi Nugraha|2003-03-31||174
+18|Bek-Tengah|BRA|Keven|1995-11-27||
+66|Bek-Kiri|IDN|Irwanto Bajo|1999-01-25||869
+27|Bek-Kiri|IDN|Rayhan Putra|2005-04-04||
+37|Bek-Kanan|IDN|Achmad Riyadi|2005-01-18||1300
+8|Bek-Kanan|IDN|Fafa Sheva|2005-04-06||869
+13|Bek-Kanan|IDN|Irvan Febrianto|1996-10-09||
+26|Bek-Kanan|IDN|Hattam Pratama|2006-07-17||
+6|Gel. Bertahan|IDN|Ahmad Fahd|2003-12-16||869
+76|Gelandang|IDN|Arya Wahab|||
+78|Gelandang|IDN|Danial El Zeno|2008-05-07||
+23|Gel. Tengah|IDN|Wisal El-Burji|1998-04-23||1740
+97|Gel. Tengah|IDN|Adam Maulana|1997-03-26||1300
+88|Gel. Tengah|IDN|Abdul Aziz|1994-02-14||435
+53|Gel. Serang|BRA|Dimitri|2000-05-15||2170
+28|Gel. Serang|IDN|Braif Fatari|2002-04-09||869
+79|Gel. Serang|IDN|Genta Alparedo|2001-10-07||869
+14|Gel. Serang|IDN|Da-bin Ji|2006-03-03||
+24|Sayap Kiri|IDN|Atha Jabrani|2008-06-03||
+64|Sayap Kiri|IDN|Umar Thoriq|2008-01-04||
+54|Sayap Kanan|IDN|Supriadi|2002-05-23||1300
+11|Sayap Kanan|IDN|Giofani|1998-08-23||869
+77|Sayap Kanan|IDN|Raja Siregar|2004-07-07||869
+10|Depan-Tengah|BRA|Fellipe Veloso|1994-01-22||3480
+25|Depan-Tengah|IDN|Kahar Muzakkar|1999-05-05||1740
+19|Depan-Tengah|IDN|Muhammad Sadewa|2006-05-30||1300
+21|Depan-Tengah|IDN|Titan Agung|2001-06-05||1300
+22|Depan-Tengah|IDN|Hanis Saghara|1999-09-08||869
+S|Pelatih Kepala|IDN|Aji Santoso|56
+S|Assisten Pelatih|IDN|Hartono|56
+S|Assisten Pelatih|IDN|Redi Supriyanto|51
+S|Assisten Pelatih|IDN|Danur Dara|
+S|Assisten Pelatih|IDN|Anies Septyawan|
+S|Pelatih Kiper|IDN|Benny van Breukelen|63
+S|Pelatih Fisik|IDN|Devid Prisma|

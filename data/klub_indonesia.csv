@@ -1,0 +1,78 @@
+kompetisi,klub_data,nama_game,nama_pendek,uid,status,fasilitas_latihan,fasilitas_akademi,penonton_rata,penonton_min,penonton_maks,stadion,kapasitas,punya_blok_keuangan,staf_di_game,skuad_di_game,logo,pemain_data,staf_data_di_klub
+BRI Super League,Arema FC,Arema FC,Arema,5622736,profesional,6,5,14180,3020,44910,Kanjuruhan,21603,tidak,0,14,sudah di game,29,7
+BRI Super League,Bali United FC,Bali United FC,Bali United,7742801,profesional,6,4,16940,12030,21180,Kapten I Wayan Dipta,15860,tidak,2,16,sudah di game,30,8
+BRI Super League,Bhayangkara Presisi Lampung FC,Bhayangkara Presisi Lampung FC,Bhayangkara,41053239,profesional,6,4,1050,100,39420,Sumpah Pemuda,20000,tidak,0,7,sudah di game,34,7
+BRI Super League,Borneo FC Samarinda,Borneo FC Samarinda,Borneo,41021352,profesional,2,8,3170,2130,10320,Segiri,18000,ya,1,16,sudah di game,39,7
+BRI Super League,Dewa United Banten FC,Dewa United Banten FC,Dewa United,2000090667,profesional,3,2,250,100,9370,Banten International Stadium,30038,tidak,1,20,sudah di game,32,7
+BRI Super League,Garudayaksa FC,Garudayaksa FC,Garudayaksa,2000465597,profesional,7,13,250,100,5250,Pakansari,30000,tidak,0,10,sudah di game,30,6
+BRI Super League,Isenmulang Kalteng FC,Isenmulang Kalteng FC,Isenmulang Kalteng,2000561624,profesional,2,3,250,100,5620,Tuah Pahoe,15000,tidak,0,3,sudah di game,29,6
+BRI Super League,Java United FC,Java United FC,Java United,2000561620,profesional,2,1,250,100,7250,Jatidiri,18000,tidak,0,4,sudah di game,26,7
+BRI Super League,Madura United FC,Madura United FC,Madura United,41051597,profesional,6,5,3350,3280,13410,Gelora Ratu Pamelingan,15000,tidak,0,5,sudah di game,32,6
+BRI Super League,PSIM Yogyakarta,PSIM Yogyakarta,PSIM,135500,profesional,3,1,4420,2000,10000,Sultan Agung,30000,tidak,0,5,sudah di game,26,7
+BRI Super League,PSM Makassar,PSM Makassar,PSM,135494,profesional,4,4,10330,510,14740,Gelora B. J. Habibie,8500,tidak,1,13,sudah di game,27,6
+BRI Super League,PSS Sleman,PSS Sleman,PSS,5622747,profesional,2,2,18900,10000,23630,Maguwoharjo,20594,tidak,0,4,sudah di game,31,7
+BRI Super League,Persebaya Surabaya,Persebaya Surabaya,Persebaya,116145,profesional,6,7,16470,10420,50000,Gelora Bung Tomo,55000,tidak,1,18,sudah di game,34,10
+BRI Super League,Persib Bandung,Persib Bandung,Persib,116140,profesional,6,6,15070,9720,34980,Gelora Bandung Lautan Api,38000,ya,2,24,sudah di game,27,10
+BRI Super League,Persija Jakarta,Persija Jakarta,Persija,116144,profesional,6,4,24300,670,62270,Jakarta International Stadium,82000,tidak,3,25,sudah di game,22,10
+BRI Super League,Persijap Jepara,Persijap Jepara,Persijap,5622745,profesional,3,1,5090,5000,13880,Gelora Bumi Kartini,20000,tidak,0,5,sudah di game,34,5
+BRI Super League,Persik Kediri,Persik Kediri,Persik,5622879,profesional,5,4,10000,5500,15000,Brawijaya,20000,tidak,1,11,sudah di game,27,7
+BRI Super League,Persita Tangerang,Persita Tangerang,Persita,5622746,profesional,4,3,5640,370,7500,Benteng Taruna,15000,tidak,0,6,sudah di game,27,5
+Pegadaian Champ Barat,Adhyaksa FC Bekasi,Adhyaksa FC Bekasi,Adhyaksa Bekasi,2000185211,profesional,5,5,250,100,6870,Patriot Candrabhaga,30000,tidak,0,1,sudah di game,33,4
+Pegadaian Champ Barat,PSGC Ciamis,PSGC Ciamis,PSGC,41042730,profesional,1,1,250,100,3750,Galuh,25000,tidak,0,1,sudah di game,33,4
+Pegadaian Champ Barat,PSIS Semarang,PSIS Semarang,PSIS,135497,profesional,3,6,9010,5700,18600,Jatidiri,18000,tidak,0,3,sudah di game,33,4
+Pegadaian Champ Barat,PSMS Medan,PSMS Medan,PSMS,135491,profesional,2,1,13260,8060,20000,Teladan,20000,tidak,1,3,sudah di game,30,4
+Pegadaian Champ Barat,PSPS Pekanbaru,PSPS Pekanbaru,PSPS,5622732,profesional,4,1,5580,3000,8000,Kaharuddin Nasution,20000,tidak,0,0,sudah di game,17,4
+Pegadaian Champ Barat,Persikad Depok,Persikad Depok,Persikad,2000700019,semi-pro,1,1,250,100,7000,Merpati,13000,tidak,0,0,PNG siap (dari Bacad),33,3
+Pegadaian Champ Barat,Persiku Kudus,Persiku Kudus,Persiku,5385015,semi-pro,1,2,6030,3830,8500,Wergu Wetan,15000,tidak,0,2,sudah di game,30,4
+Pegadaian Champ Barat,Persiraja Banda Aceh,Persiraja Banda Aceh,Persiraja,135512,profesional,3,2,11660,11000,14580,Harapan Bangsa,40000,tidak,0,1,sudah di game,32,4
+Pegadaian Champ Barat,Semen Padang FC,Semen Padang FC,Semen Padang,135534,profesional,5,5,5260,1270,12000,Gelora Haji Agus Salim,11000,tidak,0,8,sudah di game,36,4
+Pegadaian Champ Barat,Sumsel United FC,Sumsel United FC,Sumsel United,2000465590,semi-pro,1,1,250,100,3620,Gelora Sriwijaya Jakabaring,23000,tidak,0,1,sudah di game,24,4
+Pegadaian Champ Timur,De Red FC,De Red FC,De Red,2000561617,profesional,2,3,250,100,4000,Gelora 10 November,25000,tidak,0,4,sudah di game,34,4
+Pegadaian Champ Timur,Deltras FC,Deltras FC,Deltras,135528,profesional,3,1,7000,2500,35000,Gelora Delta,19400,tidak,0,2,sudah di game,34,4
+Pegadaian Champ Timur,Kendal Tornado FC,Kendal Tornado FC,Kendal Tornado,2000004193,semi-pro,2,1,250,100,3750,Kebondalem,20000,tidak,0,2,sudah di game,30,4
+Pegadaian Champ Timur,PS Barito Putera,PS Barito Putera,Barito Putera,135531,profesional,5,4,4780,4110,9010,17 Mei,17500,tidak,0,4,sudah di game,31,4
+Pegadaian Champ Timur,PSBS Biak,PSBS Biak,PSBS,41001022,profesional,1,3,250,100,8250,Cendrawasih,15000,tidak,0,0,sudah di game,23,4
+Pegadaian Champ Timur,Persela Lamongan,Persela Lamongan,Persela,7741454,profesional,5,4,7900,3960,14000,Surajaya,12097,tidak,0,1,sudah di game,24,3
+Pegadaian Champ Timur,Persiba Balikpapan,Persiba Balikpapan,Persiba,5623382,semi-pro,5,3,8000,1000,20000,Batakan,40000,tidak,0,1,sudah di game,29,4
+Pegadaian Champ Timur,Persipura Jayapura,Persipura Jayapura,Persipura,135515,profesional,6,5,11350,7360,20660,Lukas Enembe Stadium,40263,tidak,0,4,sudah di game,34,4
+Pegadaian Champ Timur,Persis Solo,Persis Solo,Persis,5622862,profesional,2,2,3410,1000,8000,Manahan,20000,tidak,0,5,sudah di game,34,4
+Pegadaian Champ Timur,RANS Nusantara FC,RANS Nusantara FC,RANS Nusantara,2000185227,profesional,2,1,250,100,7870,Gelora Brantas,11000,tidak,0,2,sudah di game,30,4
+Liga Nusantara Grup A,Batavia FC,Batavia FC,Batavia,2000700004,semi-pro,1,1,250,100,3500,Soemantri Brodjonegoro,5000,tidak,0,0,PNG siap (dari Bacad),28,3
+Liga Nusantara Grup A,Pekanbaru FC,Pekanbaru FC,Pekanbaru,2000700007,semi-pro,1,1,250,100,3500,Kaharuddin Nasution,20000,tidak,0,0,PNG siap (dari Bacad),28,3
+Liga Nusantara Grup A,Persekat Tegal,Persekat Tegal,Persekat,2000700006,semi-pro,1,1,250,100,4500,Yos Sudarso,15000,tidak,0,0,PNG siap (dari Bacad),29,3
+Liga Nusantara Grup A,Persikota Tangerang,Persikota Tangerang,Persikota,2000700008,semi-pro,1,1,250,100,5000,Benteng Reborn,20000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup A,Persikotas Nusantara,Persikotas Nusantara,Persikotas,2000700002,semi-pro,1,1,250,100,4500,Wiradadaha,30000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup A,Persitara Jakarta Utara,Persitara Jakarta Utara,Persitara,2000700011,semi-pro,1,1,250,100,4500,Wibawa Mukti,28778,tidak,0,0,PNG siap (dari Bacad),31,3
+Liga Nusantara Grup A,Pesik Kuningan,Pesik Kuningan,Pesik,2000700003,semi-pro,1,1,250,100,6000,Mashud Wisnusaputra,13000,tidak,0,0,PNG siap (dari Bacad),28,3
+Liga Nusantara Grup B,Gresik United FC,Gresik United FC,Gresik United,2000700017,semi-pro,1,1,250,100,7000,Gelora Joko Samudro,23000,tidak,0,0,sudah di game,30,3
+Liga Nusantara Grup B,Persiba Bantul,Persiba Bantul,Persiba Bantul,2000700015,semi-pro,1,1,250,100,4500,Sultan Agung,30000,tidak,0,0,PNG siap (dari Bacad),32,3
+Liga Nusantara Grup B,Persibangga Purbalingga,Persibangga Purbalingga,Persibangga,2000700012,semi-pro,1,1,250,100,5000,Goentoer Darjono,15000,tidak,0,0,PNG siap (dari Bacad),25,3
+Liga Nusantara Grup B,Persibo Bojonegoro,Persibo Bojonegoro,Persibo,7742876,profesional,2,1,3250,100,10200,Letjen H. Soedirman,20000,tidak,0,0,sudah di game,31,3
+Liga Nusantara Grup B,Persika Karanganyar,Persika Karanganyar,Persika KA,41001012,amatir,1,1,250,100,3000,Angkatan 45,5000,tidak,0,1,sudah di game,32,3
+Liga Nusantara Grup B,Persinga Ngawi,Persinga Ngawi,Persinga,2000700018,semi-pro,1,1,250,100,3500,Ketonggo,10000,tidak,0,0,PNG siap (dari Bacad),29,3
+Liga Nusantara Grup B,Persipa Pati,Persipa Pati,Persipa,2000700001,semi-pro,1,1,250,100,4500,Joyokusumo,15000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup B,Putra Sang Fajar FC,Putra Sang Fajar FC,Putra Sang Fajar,2000700010,semi-pro,1,1,250,100,3500,Gelora Supriyadi,15000,tidak,0,0,PNG siap (dari Bacad),28,3
+Liga Nusantara Grup C,Donggala United FC,Donggala United FC,Donggala United,2000700005,semi-pro,1,1,250,100,5000,Gawalise,20000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup C,PSN Ngada,PSN Ngada,PSN Ngada,2000700022,semi-pro,1,1,250,100,7000,Lebijaga,5000,tidak,0,0,PNG siap (dari Bacad),25,3
+Liga Nusantara Grup C,Pasuruan United,Pasuruan United,Pasuruan United,2000700020,semi-pro,1,1,250,100,7000,Untung Suropati,10000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup C,Perseden Denpasar,Perseden Denpasar,Perseden,2000700016,semi-pro,1,1,250,100,4000,Kompyang Sujana,8000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup C,Persekabpas Kab. Pasuruan,Persekabpas Kab. Pasuruan,Persekabpas,7742798,semi-pro,2,1,4500,3000,10000,Raden Soedarsono-Pogar,12000,tidak,0,1,sudah di game,31,3
+Liga Nusantara Grup C,Persikutim United,Persikutim United,Persikutim,2000700013,semi-pro,1,1,250,100,3500,Kudungga,15000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup C,Persinab Nabire,Persinab Nabire,Persinab,2000700014,semi-pro,1,1,250,100,3500,Kota Lama,10000,tidak,0,0,PNG siap (dari Bacad),30,3
+Liga Nusantara Grup C,Persipani Paniai,Persipani Paniai,Persipani,2000700021,semi-pro,1,1,250,100,7000,Kota Lama,10000,tidak,0,0,PNG siap (dari Bacad),28,3
+Liga 4,PS Mojokerto Putra,PS Mojokerto Putra,PS Mojokerto Putra,2000700024,semi-pro,1,1,250,100,7000,Gajah Mada Mojosari,15000,tidak,0,0,PNG siap (dari Bacad),3,0
+Liga 4,Persid Jember,Persid Jember,Persid,2000700023,semi-pro,1,1,250,100,7000,Notohadinegoro,15000,tidak,0,0,PNG siap (dari Bacad),2,0
+Liga 4,Persikoba Batu,Persikoba Batu,Persikoba,2000700025,semi-pro,1,1,250,100,7000,Gelora Brantas,11000,tidak,0,0,PNG siap (dari Bacad),3,0
+Dikeluarkan (divisi -1),Arema FC Putri,Arema FC Putri,Arema Putri,2000340113,semi-pro,1,1,250,100,2500,Gajayana,25000,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Bali United FC,Bali United FC,Bali United,2000340112,semi-pro,1,1,250,100,2500,Gelora Samudra Kuta,1000,tidak,0,0,belum ada,30,8
+Dikeluarkan (divisi -1),Bekasi City Women,Bekasi City Women,Bekasi City,2000559310,semi-pro,3,2,250,100,2500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Dewa United Women,Dewa United Women,Dewa Utd,2000559311,semi-pro,2,1,250,100,2500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Garudayaksa Putri,Garudayaksa Putri,Garudayaksa,2000559312,semi-pro,1,1,250,100,2500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Indonesia,Indonesia,Indonesia,113,0,255,255,-10,-10,-10,Gelora Bung Karno,77193,tidak,1,0,belum ada,0,0
+Dikeluarkan (divisi -1),Indonesia,Indonesia,Indonesia,2000169491,0,255,255,-10,-10,-10,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),PSS Sleman Putri,PSS Sleman Putri,PSS Putri,2000340115,semi-pro,3,2,250,100,2500,Maguwoharjo,20594,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Perserang Serang,Perserang Serang,Perserang,2000700009,semi-pro,1,1,250,100,4500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Persibas Banyumas,Persibas Banyumas,Persibas,41010806,profesional,1,1,250,100,2500,Satria,15000,tidak,0,1,sudah di game,0,0
+Dikeluarkan (divisi -1),Persikad Putri Depok,Persikad Putri Depok,Persikad,2000559313,semi-pro,1,1,250,100,2500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Persita Putri Tangerang,Persita Putri Tangerang,Persita,2000559314,semi-pro,3,2,250,100,2500,,,tidak,0,0,belum ada,0,0
+Dikeluarkan (divisi -1),Waanal Brothers FC,Waanal Brothers FC,Waanal Bros,2000466001,semi-pro,1,1,250,100,2500,,,tidak,0,0,sudah di game,0,0

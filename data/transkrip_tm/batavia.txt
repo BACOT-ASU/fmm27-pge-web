@@ -1,0 +1,32 @@
+1|Kiper|IDN|Reza Ardiansyah|2004-12-01||
+57|Kiper|IDN|Ahmad Muhazir|2005-01-02||
+71|Kiper|IDN|Rahmad Hidaya|2005-01-07||
+4|Bek-Tengah|IDN|Gevin Simopiaref|2003-01-24||
+24|Bek-Tengah|IDN|Noer Wahid|2005-03-18||
+67|Bek-Tengah|IDN|Syarif Rafa|2004-05-11||
+5|Bek-Kiri|IDN|Muhammad Khosiin|2007-06-27||
+15|Bek-Kanan|IDN|Fahad Abdullah|1998-05-15||
+44|Bek-Kanan|IDN|Syukron Al Hamdi|2004-12-13||
+99|Bek-Kanan|IDN|Romeo Milano|2006-02-04||
+6|Gel. Bertahan|IDN|Radittia Agustin|2005-08-16||
+21|Gel. Bertahan|IDN|Syahwal Ginting|2003-12-01||
+8|Gel. Bertahan|IDN|Reza Alfariz|2003-02-01||
+9|Gelandang|IDN|Misbakhul Choiri|2002-03-14||
+31|Gel. Bertahan|IDN|Ardian Syahputra|2007-03-31||
+49|Gelandang|IDN|Danilo Mote|2007-08-10||
+41|Gel. Tengah|IDN|Arkaan Putra|2008-11-26||
+87|Gel. Tengah|IDN|Alarice Nesta|2004-05-02||
+91|Gel. Tengah|IDN|Chandra Riyanto|2004-06-01||
+16|Gelandang Kiri|IDN|Rafly Aziz|2002-05-16||
+10|Sayap Kiri|IDN|Revan Joni|2002-06-14||
+54|Sayap Kiri|IDN|Marcell Rumkabu|2005-02-09||
+7|Sayap Kiri|IDN|Brian Bagaskara|2004-03-25||
+19|Sayap Kanan|IDN|Saiful Arifin|2005-05-13||
+25|Sayap Kanan|IDN|Faozan Tamami|2000-05-25||
+11|Depan-Tengah|IDN|Ferry Cahyo|2000-02-17||
+18|Penyerang|IDN|Farhan Aidyl|||
+97|Penyerang|IDN|Mikhail Siholnaune|||
+S|Pelatih Kepala|IDN|Charis Yulianto|48|2027-06-30
+S|Assisten Pelatih|IDN|Sasi Kirono|54
+S|Pelatih Kiper|IDN|Reza Pratama|30
+S|Pelatih Fisik|IDN|Satyo Husodo|43

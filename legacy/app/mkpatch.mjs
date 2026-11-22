@@ -1,0 +1,14 @@
+import fs from 'fs';
+import {createRequire} from 'module'; const require=createRequire(import.meta.url);
+const FMM=require('/home/claude/app/fmmcore.js');
+const lg=await FMM.openLogos(await fs.openAsBlob('/home/claude/logos/b6/sparse.fmf'));
+const r=n=>fs.readFileSync('/home/claude/logos/b6/img/'+n);
+const items=[];
+for (const id of [41042741,41042742]) items.push({kind:'comps',id,normal:r('ch_normal.png'),small:r('ch_small.png')});
+for (const id of [41042746,2000700101,2000700102,2000700103]) items.push({kind:'comps',id,normal:r('ln_normal.png'),small:r('ln_small.png')});
+items.push({kind:'clubs',id:2000700017,normal:r('gresik_normal.png'),small:r('gresik_small.png')});
+const out=FMM.buildLogoArchive(lg,items);
+fs.writeFileSync('b6_header.bin',Buffer.from(out.parts[0]));
+const rest=out.parts.slice(2).map(p=>Buffer.from(p));
+fs.writeFileSync('b6_patch.bin',Buffer.concat(rest));
+console.log('dataLen',lg.arc.dataLen,'final size',out.size,'patch',Buffer.concat(rest).length);

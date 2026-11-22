@@ -1,0 +1,36 @@
+31|Kiper|IDN|Nuri Agus|2001-08-06||
+1|Kiper|IDN|Faza Al Firdaus|2005-08-06||
+33|Kiper|IDN|Arya Sheka|2008-03-03||
+-|Bek|IDN|Davin Herdiansa|||
+5|Bek-Tengah|IDN|Ifan Izdihar|2003-11-21||
+17|Bek-Tengah|IDN|Rio Saputro|1995-12-07||
+19|Bek-Tengah|IDN|Ibnul Mubarak|2004-10-14||
+52|Bek-Tengah|IDN|Nur Aziz|2005-03-11||
+16|Bek-Tengah|IDN|Lionel Alfarizki|2007-11-05||
+21|Bek-Tengah|IDN|Fabian Aslam|2005-05-28||
+25|Bek-Tengah|IDN|Yulfikar Mansur|2006-02-25||
+-|Bek-Kiri|IDN|Restu Hamdani|2005-01-14||
+3|Bek-Kiri|IDN|Dhanu Syahputra|1998-11-13||
+38|Bek-Kiri|IDN|Musril|2005-08-14||
+79|Bek-Kiri|IDN|Hasan Khotim|2007-04-04||
+14|Gel. Bertahan|IDN|Arif Agung|1998-07-10||
+36|Gel. Bertahan|IDN|Relosa Rivan|2005-12-05||
+6|Gelandang|IDN|Ragil Yusuf|2005-01-31||
+28|Gel. Bertahan|IDN|Mohamad Iqbal|2003-06-14||
+32|Gelandang|IDN|Luqman Fadhil|||
+4|Gel. Tengah|IDN|Abi Defa|1999-10-05||
+8|Gel. Tengah|IDN|Yogiek Fernanda|2004-02-23||
+12|Gel. Serang|IDN|Roni Sugeng|1998-04-18||
+7|Gel. Serang|IDN|Rexo Dolby|2005-11-18||
+23|Sayap Kiri|IDN|Wawan Febrianto|1994-02-23||
+11|Sayap Kanan|IDN|Reyhan Firdaus|2004-06-15||869
+91|Sayap Kanan|IDN|Febrian Triyanto|2004-02-11||
+77|Sayap Kanan|IDN|Umar|2007-02-28||
+-|Depan-Tengah|IDN|Afdal Yusra|1998-05-04||
+99|Depan-Tengah|IDN|Yuda Editya|2004-05-31||
+10|Penyerang|IDN|Khaiz Rayyan|||
+18|Depan-Tengah|IDN|Syaiful Asri|2006-02-01||
+S|Pelatih Kepala|IDN|Taufiq Kasrun|41
+S|Assisten Pelatih|IDN|Dian Febriyanto|
+S|Pelatih Kiper|IDN|Yoni Edy Wiyanto|
+S|Pelatih Fisik|IDN|Afif Prasetiawan|31

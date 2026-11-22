@@ -1,0 +1,32 @@
+43|Kiper|IDN|Made Kaicen|2004-03-15||
+84|Kiper|IDN|Mukhti Alhaq|1994-03-04||
+1|Kiper|IDN|Dika Saputra|2004-07-08||
+99|Kiper|IDN|Husen Doli|2008-03-15||
+2|Bek|IDN|Bintang Delpadillah|||
+77|Bek|IDN|Wahyu Mulya|||
+4|Bek-Tengah|IDN|Muhammad Mukhlis|1994-11-04||
+5|Bek-Tengah|IDN|Surya Admaja|2004-03-11||
+12|Bek-Kiri|IDN|Zidane Wahyudi|2006-08-15||
+19|Bek-Kanan|IDN|Syendio Fernanda|2005-08-12||
+74|Gel. Bertahan|IDN|Muhammad Adam|2004-11-07||
+17|Gel. Bertahan|IDN|Bani Mustofa|2007-08-23||
+20|Gelandang|IDN|Syafrinaldi|2004-03-31||
+23|Gel. Bertahan|IDN|Aditya Febriansyah|||
+30|Gelandang|IDN|Adly Ronand|||
+47|Gelandang|IDN|Marcello|2008-03-01||
+9|Gel. Tengah|IDN|Yudhi Adytia|1995-07-09||
+10|Gel. Serang|IDN|Ali Ichsan|2000-11-24||
+16|Gel. Serang|IDN|Haidar Abdan|2007-12-10||
+25|Gel. Serang|IDN|Valin Twino|2005-04-28||
+28|Gel. Serang|IDN|Enrico Delfiendra|2003-12-14||
+22|Sayap Kiri|IDN|Hendra Saputra|1998-07-22||
+7|Sayap Kiri|IDN|Rafly Sanjaya|2007-11-05||
+97|Sayap Kanan|IDN|Adif Nor Haizat|2001-02-12||
+14|Depan-Tengah|IDN|Dama Indriyana|1996-12-14||
+18|Depan-Tengah|IDN|Januardi Ananda|2004-01-25||
+67|Penyerang|IDN|Fajira Aqhiyar|2005-09-23||
+80|Penyerang|IDN|Enriyan Fahri|2005-12-29||
+S|Pelatih Kepala|IDN|Supardi|43
+S|Assisten Pelatih|IDN|Syatrian Gunanta|
+S|Assisten Pelatih|IDN|Bambang Triawan|
+S|Pelatih Kiper|IDN|Mukhti Alhaq|32

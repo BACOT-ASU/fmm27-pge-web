@@ -1,0 +1,37 @@
+17|Kiper|IDN|Dimas Fani|26||869
+21|Kiper|IDN|Raka Okta|22||435
+24|Kiper|IDN|Chairil Zul Azhar|27||174
+81|Kiper|IDN|Rendy Razzaqu|18|2027-06-30|
+3|Bek-Tengah|BRA|Artur Vieira|36||869
+6|Bek-Tengah|IDN|Arif Budiyono|33||869
+13|Bek-Tengah|IDN|Didik Wahyu|32||869
+4|Bek-Tengah|IDN|Adhe Owen|28||435
+5|Bek-Kiri|IDN|Rangga Widiansyah|24||2170
+72|Bek-Kiri|IDN|Dedi Tri Maulana|27||1740
+96|Bek-Kiri|IDN|Faqih Maulana|22||1300
+12|Bek-Kanan|IDN|Nazar Nurzaidin|31||1300
+2|Bek-Kanan|IDN|Muhammad Fariz|22|2027-06-30|869
+14|Bek-Kanan|IDN|Fabio Azka|18|2027-06-30|
+16|Gel. Bertahan|IDN|Hafit Ibrahim|33||869
+15|Gel. Bertahan|IDN|Algazani Dwi|18|2027-06-30|174
+33|Gelandang|IDN|Fairuz Al Abid|19||
+68|Gel. Tengah|IDN|Amar Fadzillah|24||1300
+99|Gel. Tengah|IDN|Delvin Rumbino|31||869
+8|Gel. Tengah|IDN|Mirza Zakaria|22||435
+36|Gel. Tengah|IDN|Reiva Apriliansyah|20||174
+10|Gel. Serang|JPN|Tatsuhide Shimizu|30||3480
+28|Gel. Serang|IDN|Eduard Mandosir|22||1740
+64|Sayap Kiri|IDN|Rafly Selang|21|2027-06-30|2170
+77|Sayap Kiri|IDN|Jackson Tiwu|31||1300
+11|Sayap Kiri|IDN|Evan Tuhuteru|20|2027-06-30|
+26|Sayap Kanan|IDN|Irkham Mila|28||1300
+19|Sayap Kanan|IDN|Hamka Hamza|20||174
+7|Sayap Kanan|IDN|Zahaby Gholy|17|2027-06-30|
+27|Sayap Kanan|IDN|Zaid Imam|19||
+20|Depan-Tengah|IDN|Riki Dwi Saputro|31||1300
+29|Depan-Tengah|IDN|Rudiyana|34||435
+9|Depan-Tengah|TRI|Rundell Winchester|32||174
+S|Pelatih Interim|IDN|Amirul Mukminin|40
+S|Assisten Pelatih|IDN|Hariyadi Poetoel|
+S|Pelatih Kiper|IDN|Didik Wisnu|
+S|Pelatih Fisik|IDN|Robi Mareiyana|39

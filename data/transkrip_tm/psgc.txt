@@ -1,0 +1,38 @@
+60|Kiper|IDN|Yofandani Pranata|2001-04-09||435
+1|Kiper|IDN|Raufa Aghastya|2005-11-25||
+23|Kiper|IDN|Adinda Suryatama|2006-11-06||
+66|Bek|IDN|Surya Wardana|2004-09-27||
+78|Bek|IDN|Gianda Fateh|2007-04-26||
+92|Bek-Tengah|KOR|Min-hyeok Kim|1992-02-27||4350
+15|Bek-Tengah|IDN|Zikri Ferdiansyah|2003-12-20||869
+21|Bek-Tengah|IDN|Faris Abdul|2003-07-21||
+17|Bek-Tengah|IDN|Odilo Pinutusta|2005-01-08||
+82|Bek-Tengah|IDN|Alvin Kurniawan|2006-02-10||
+77|Bek-Kiri|IDN|Fardan Harahap|2000-03-05||1300
+71|Bek-Kanan|IDN|Muhammad Fikram|2004-08-01||
+29|Bek-Kanan|IDN|Kevin Pasha|2007-01-15||
+6|Gel. Bertahan|IDN|Ahmad Baasith|1996-06-15||1740
+5|Gel. Bertahan|IDN|Iman Fathurahman|1994-05-31||869
+24|Gel. Bertahan|IDN|Ichsan Kurniawan|1995-12-24||869
+64|Gelandang|IDN|Alsidqi Raffa|2008-07-28||
+91|Gelandang|IDN|Bagus Cahaya|2006-08-03||
+22|Gel. Tengah|IDN|Darel Valentino|2005-05-06||174
+8|Gel. Tengah|IDN|Darrell Ang|2004-01-02||
+20|Gel. Tengah|IDN|Izmir Yandrika|2006-03-03||
+12|Gelandang Kanan|IDN|Ghani Fathir|2008-06-09||
+57|Gel. Serang|CRC|Johan Bonilla|1996-05-30||4350
+14|Gel. Serang|IDN|Ganjar Kurniawan|1994-08-14||
+28|Gel. Serang|IDN|Muhammad Rokhmat|2007-01-17||
+46|Sayap Kiri|IDN|Kaka Depriadi|2005-01-23||869
+11|Sayap Kiri|IDN|Aldi Imron|1995-12-13||
+7|Sayap Kanan|IDN|Ferdiansyah|2003-07-15||869
+19|Sayap Kanan|IDN|Dennish Diaz|2001-01-28||
+30|Sayap Kanan|IDN|Akmal Juanda|2004-09-30||
+36|Sayap Kanan|IDN|Athaya Zahran|2006-01-22||
+9|Depan-Tengah|IDN|Yandi Sofyan|1992-05-25||869
+10|Depan-Tengah|BEL|Ezechiel Ndouasel|1988-04-22||869
+S|Pelatih Kepala|IDN|Hery Kiswanto|71
+S|Assisten Pelatih|IDN|Dicky Adithia|40
+S|Assisten Pelatih|IDN|Arip Budiman|36
+S|Pelatih Kiper|IDN|Eddy Harto|64
+S|Pelatih Fisik|IDN|Bagas Mahendra|

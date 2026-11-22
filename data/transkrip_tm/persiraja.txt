@@ -1,0 +1,37 @@
+1|Kiper|IDN|Andriyas Francisco|2000-07-08||869
+12|Kiper|IDN|Aditya Arya|2004-01-01||435
+22|Kiper|IDN|Gede Aditya|2004-07-04||174
+31|Kiper|IDN|Aulia Marsel|||
+3|Bek-Tengah|BRA|Daniel Alemão|1999-04-04||1300
+18|Bek-Tengah|IDN|Aditya Saputra|2001-07-06||435
+87|Bek-Tengah|IDN|Wahyu Jati|2000-12-13||435
+67|Bek-Tengah|IDN|Rangga Bolang|2007-05-21||
+4|Bek-Kiri|IDN|Said Kaysa|2006-06-22||
+23|Bek-Kiri|IDN|Raffa Fathary|2009-05-09||
+14|Gel. Bertahan|IDN|Jayus Hariono|1997-01-27||1300
+16|Gel. Bertahan|IDN|Faris Adit|2004-09-24||869
+88|Gel. Bertahan|IDN|Rafif Adri|1999-02-25||869
+15|Gelandang|IDN|Mujahidin|2002-04-02||435
+13|Gelandang|IDN|Nabil Muannisi|||
+21|Gelandang|IDN|Muhammad Fazri|2007-07-18||
+30|Gelandang|IDN|Faiz Wafi|||
+5|Gel. Tengah|IDN|Muharir|2001-12-12||1300
+25|Gel. Tengah|IDN|Azyah Madilesa|2005-11-25||1300
+19|Gel. Tengah|IDN|Ridha Umami|2000-03-12||
+10|Gel. Serang|URU|Martín Cháves|1998-05-12||4350
+57|Gel. Serang|IDN|Tegar Islami|2006-02-06||
+7|Sayap Kiri|IDN|Indra Arya|2003-07-01||1740
+20|Sayap Kiri|IDN|Ilham Armaiyn|1996-05-10||869
+70|Sayap Kiri|IDN|Tedja Kusuma|2006-09-16||869
+17|Sayap Kanan|IDN|Dwiki Mardiyanto|2000-03-21||1300
+9|Depan-Tengah|CIV|Djakaridja Junior Traoré|1998-08-02||1740
+8|Penyerang|IDN|Andhika Maulana|||
+11|Depan-Tengah|IDN|Pitian Husni|2002-06-08||
+27|Depan-Tengah|IDN|Khalidin|2002-04-12||
+29|Depan-Tengah|IDN|Ibrahim Faisal|2003-09-19||
+77|Depan-Tengah|IDN|Risky Safri|2007-05-05||
+S|Pelatih Kepala|IDN|Muhammad Ridwan|46
+S|Assisten Pelatih|IDN|Edi Murtado|43
+S|Pelatih Kiper|IDN|Zulkarnaen Zakaria|51
+S|Pelatih Fisik|IDN|Safrizani|
+S|Pelatih Fisik|IDN|Asep Suryadi|

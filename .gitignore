@@ -1,0 +1,24 @@
+# File game / hasil ekstraksi — JANGAN di-commit
+*.fmf
+*.dat
+*.dbc
+*.so
+*.apk
+*.aab
+*.xapk
+*.apks
+*.keystore
+*.jks
+samples/
+ORIGINAL/
+exports/
+out/
+# Node / build
+node_modules/
+dist/
+.vite/
+coverage/
+# Python
+__pycache__/
+*.pyc
+.env

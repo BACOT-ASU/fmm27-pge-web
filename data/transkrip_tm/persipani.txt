@@ -1,0 +1,32 @@
+1|Kiper|IDN|Isak Payage|2006-11-16||
+31|Kiper|IDN|Nur Husnan|1999-02-25||
+52|Kiper|IDN|Dava Pratama|2005-06-05||
+4|Bek|IDN|Petrus Dude|2004-07-10||
+45|Bek|IDN|Anton Ramandei|2003-02-19||
+14|Bek-Tengah|IDN|Yulyan Tjoe|1996-02-26||
+13|Bek-Tengah|IDN|Jonathan Ibo|2005-01-21||
+25|Bek-Tengah|IDN|Marthquin Yoku|2009-02-06||
+39|Bek-Tengah|IDN|Petrus Uti|||
+15|Bek-Kiri|IDN|Abraham Pangkali|2007-02-20||
+16|Bek-Kiri|IDN|Jhon Woru|2004-07-21||
+42|Bek-Kiri|IDN|Sewori Aisoki|2004-03-06||
+9|Bek-Kanan|IDN|Very Kenelak|2005-01-16||
+11|Gel. Bertahan|IDN|Alberto Yumame|1993-08-25||
+8|Gel. Bertahan|IDN|James Edowai|2004-01-26||
+10|Gelandang|IDN|Yampit Nawipa|1989-01-15||
+18|Gelandang|IDN|Karel Gobai|2001-08-05||
+22|Gelandang|IDN|Gerson Flassy|2004-05-25||
+27|Gel. Bertahan|IDN|Dominggus Demetouw|2007-07-11||
+28|Gelandang|IDN|Jhon Gobay|2005-06-10||
+46|Gel. Tengah|IDN|Mario Deal|2005-03-06||
+23|Gel. Serang|IDN|Kaka Youwei|2004-04-25||
+7|Sayap Kiri|IDN|Tonny Rumatrai|1997-03-19||
+20|Sayap Kiri|IDN|Joshua Isir|2001-06-13||
+17|Sayap Kiri|IDN|Julius Mambieuw|2003-07-01||
+96|Sayap Kanan|IDN|Yan Sama|1996-08-31||
+19|Penyerang|IDN|Daniel Wonda|2004-11-19||
+88|Penyerang|IDN|Kevin Rumbiak|2009-11-05||
+S|Pelatih Kepala|IDN|Muhammad Azhar|43
+S|Assisten Pelatih|IDN|Timo Gobay|
+S|Assisten Pelatih|IDN|Priagung Atmojo|
+S|Pelatih Kiper|IDN|Muslimin Rizaldi|

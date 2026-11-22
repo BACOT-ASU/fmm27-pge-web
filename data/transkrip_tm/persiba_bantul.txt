@@ -1,0 +1,37 @@
+81|Kiper|IDN|Yogi Hermawan|23||
+20|Kiper|IDN|Febryansyah Sanusi|21||
+21|Kiper|IDN|Tegar Aditya|21||
+27|Kiper|IDN|Albert Hartanto|||
+-|Bek|IDN|Fernanda Putra|||
+16|Bek|IDN|Fachrizal Ahnaf|25|2027-04-30|
+24|Bek|IDN|Tirto Wicaksono|21||
+13|Bek-Tengah|IDN|Marcell Januar|22||
+87|Bek-Tengah|IDN|Ahmad Rifal|26||
+6|Bek-Tengah|IDN|Mifthahul Ulya|20||
+18|Bek-Tengah|IDN|Aulia Wirawan|20||
+33|Bek-Tengah|IDN|Joseph Kurniawan|21|2027-06-30|
+54|Bek-Tengah|IDN|Victory Nanung|22||
+12|Bek-Kiri|IDN/BRA|Lorenzo Gomes|18||
+66|Bek-Kiri|IDN|Bima Natanegara|20||
+3|Bek-Kanan|IDN|Wiganda Pradika|34||
+29|Bek-Kanan|IDN|Rian Ramadan|27||
+-|Gel. Bertahan|IDN|Syarif Wijianto|32||
+8|Gel. Bertahan|IDN|Aidun Utami|36||
+11|Gel. Bertahan|IDN|Aldito Quarisma|22||
+17|Gel. Bertahan|IDN|Risky Dwiyan|27||
+22|Gelandang|IDN|Choirul Anwar|||
+35|Gel. Tengah|IDN|Tsabitah Anafi|||
+98|Gel. Serang|IDN|Rakha Zulhilmi|20||
+73|Sayap Kiri|IDN|Iqbal Dalimunthe|21||
+28|Sayap Kiri|IDN|Dharmajati Putra|17||
+7|Sayap Kanan|IDN|Antoni Nugroho|32||
+10|Sayap Kanan|IDN|Reyki Fariz|21||
+86|Sayap Kanan|IDN|Elvateeh Akhada|22||
+19|Depan-Tengah|IDN|Vengko Armedya|26||
+77|Depan-Tengah|IDN|Sandi Samosir|24||
+14|Penyerang|IDN|Arsil Anas|||
+S|Pelatih Kepala|IDN|Susanto|
+S|Assisten Pelatih|IDN|Edu Juanda|46
+S|Assisten Pelatih|IDN|Wahyu Wijiastanto|40
+S|Pelatih Kiper|IDN|Tito Maydhike|
+S|Pelatih Fisik|IDN|Farizi|

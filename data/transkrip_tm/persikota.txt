@@ -1,0 +1,36 @@
+25|Kiper|IDN|Ahmad Rifai|2005-10-08||
+26|Kiper|IDN|Bagus Radhytia|2004-06-26||
+52|Kiper|IDN|Alvyn Permana|2007-08-22||
+13|Bek-Tengah|IDN|Ikhsan Marzuki|2000-05-31||
+3|Bek-Tengah|IDN|Daffa Fahish|2004-07-03||
+5|Bek-Tengah|IDN|Tezar Briantama|2005-08-12||
+32|Bek-Tengah|IDN|Taoriq Arsis|2007-01-15||
+27|Bek-Kiri|IDN|Akmal Yudistira|2004-06-27||
+18|Bek-Kanan|IDN|Fiore Alifasyah|2004-02-12||
+58|Bek-Kanan|IDN|Satria Dinata|2006-02-03||
+88|Bek-Kanan|IDN|Reyhan Syahputra|2006-02-23||
+8|Gel. Bertahan|IDN|Reksa Maulana|1999-03-20||
+9|Gelandang|IDN|Ramadani Kusuma|2004-12-12||
+15|Gel. Bertahan|IDN|Yuwanda Saragih|2005-06-16||
+21|Gel. Bertahan|IDN|Adam Wardiansyah|2004-09-21||
+23|Gel. Bertahan|IDN|Femas Crespo|2006-01-15||
+22|Gel. Serang|IDN|Muhammad Ridwan|1998-08-10||
+6|Gel. Serang|IDN|Xavier Alexei|2007-02-09||
+10|Gel. Serang|IDN|Fernando Seboneno|2005-04-06||
+66|Gel. Serang|IDN|Dimas Prasetyo|2005-05-11||
+24|Sayap Kiri|IDN|David Laly|1991-11-07||
+16|Sayap Kiri|IDN|Sandi Prasetya|2004-12-25||
+11|Sayap Kanan|IDN|Samsudin|1997-03-27||
+17|Sayap Kanan|IDN|Henry Rivaldi|1996-04-08||
+62|Sayap Kanan|IDN|Beni Oktovianto|1998-10-23||
+14|Depan-Tengah|IDN|Riski Ramadhan|2001-12-13||
+19|Depan-Tengah|IDN|Rabbani Tasnim|2003-05-26||
+67|Depan-Tengah|IDN|Amir Hamzah|1999-07-06||
+12|Penyerang|IDN|Rifqi Zulianur|2008-07-06||
+37|Penyerang|IDN|Rafa Irsyad|||
+S|Pelatih Kepala|IDN|Firmansyah|46
+S|Assisten Pelatih|IDN|Masril|54
+S|Assisten Pelatih|IDN|Rendy Siregar|40
+S|Pelatih Kiper|IDN|Annas Fitranto|32
+S|Pelatih Fisik|IDN|Irfan Hadiansyah|
+S|Video Analis|IDN|Ganesh Santoso|22

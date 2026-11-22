@@ -1,0 +1,35 @@
+21|Kiper|IDN|Muhammad Ridwan|35||869
+51|Kiper|IDN|Rangga Pratama|30||435
+57|Kiper|IDN|Fidelis Davin|22||
+66|Bek|IDN|Fadil Agha|17||
+5|Bek-Tengah|IDN|Nurhidayat|27||1740
+45|Bek-Tengah|IDN|Syiha Buddin|25||869
+77|Bek-Tengah|IDN|Iqbal Hadi|25||869
+3|Bek-Tengah|BRA|Willian Correia|28||
+8|Bek-Kiri|IDN|Yulius Pamungkas|26||
+87|Bek-Kiri|IDN|Tegar Adit|20||
+73|Bek-Kanan|IDN|Bhima Wibnu|26|2027-06-30|869
+93|Bek-Kanan|IDN|Lucky Oktavianto|33||869
+18|Bek-Kanan|IDN|Rezal Pohan|20||
+88|Bek-Kanan|IDN|Doli Nasution|20||
+15|Gel. Bertahan|IDN|Arjuna Agung|23||1300
+23|Gel. Bertahan|IDN|Restu Akbar|23||869
+25|Gel. Bertahan|IDN|Mohammad Kanu|25||869
+37|Gel. Bertahan|IDN|Zahran Alamsah|23||435
+19|Gelandang|IDN|Dwi Aditia|19||
+14|Gel. Tengah|IDN|Dheo Budi|24|2027-06-30|869
+56|Gel. Tengah|IDN|Irfan Afghoni|29||
+22|Gel. Tengah|IDN|Krisna Suila|19||
+7|Gel. Serang|POR|Barata|30||2170
+26|Gel. Serang|IDN|Safna Delpi|24||869
+11|Sayap Kiri|IDN|Muhammad Isa|32||435
+71|Sayap Kanan|IDN|Khoirul Anam|24|2027-06-30|869
+67|Sayap Kanan|IDN|Mufid Zainun|17||
+9|Depan-Tengah|BLR|Ivan Veras|29||435
+17|Depan-Tengah|IDN|Bagus Pradana|19||
+79|Depan-Tengah|IDN|Federico Assis|19||
+S|Pelatih Kepala|IDN|Agus Yuwono|56
+S|Assisten Pelatih|IDN|Danang Panulad|31
+S|Assisten Pelatih|IDN|Sunardi C|
+S|Pelatih Kiper|IDN|Wawan Darmawan|46
+S|Fisioterapis|IDN|Dewan Widya Darma|35

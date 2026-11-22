@@ -1,0 +1,34 @@
+22|Kiper|IDN|Aditya Ramadhan|2005-10-20||
+90|Kiper|IDN|Moh Yudha|2003-11-30||
+-|Kiper|IDN|Asyurah Al Faqih|2005-02-19||
+20|Kiper|IDN|Rendi Andika|2004-07-10||
+5|Bek-Tengah|IDN|Reza Lubis|2003-06-27||
+24|Bek-Tengah|IDN|Vikra Fahlepi|1999-08-11||
+-|Bek-Tengah|IDN|Habil|2005-08-14||
+14|Bek-Tengah|IDN|Nur Kholis|2004-06-14||
+30|Bek-Tengah|IDN|M. Raihan|||
+15|Bek-Kiri|IDN|Kaka Irawan|2004-01-20||
+2|Bek-Kanan|IDN|Muhammad Izam|2005-08-02||
+12|Bek-Kanan|IDN|Luthfi Anshorri|2004-08-17||
+28|Bek-Kanan|IDN|Ismawan|2005-12-28||
+55|Bek-Kanan|IDN|Maulana Zidane|2007-07-15||
+16|Gel. Bertahan|IDN|Ghozali Aufathul|2005-03-14||
+32|Gel. Bertahan|IDN|Bagas Prasetyo|2002-12-10||
+-|Gel. Bertahan|IDN|Mohamad Risky|2005-07-28||
+21|Gel. Bertahan|IDN|Aan Dwi Saputra|2004-01-21||
+19|Gel. Tengah|IDN|Alif Rizky|2003-05-06||
+97|Gel. Tengah|IDN|Galang Kurniawan|2004-11-28||
+8|Gel. Serang|IDN|Nugroho Fatchur|1996-09-08||
+31|Gel. Serang|IDN|Syahril Aidil|2005-11-13||
+27|Gel. Serang|IDN|Zakarian Ibarzha|2008-04-17||
+7|Sayap Kiri|IDN|Meran Situmorang|2007-09-23||
+11|Sayap Kanan|IDN|Al Muzanni|2003-01-19||435
+10|Sayap Kanan|IDN|Wahyu Illahi|1999-06-03||
+18|Sayap Kanan|IDN|Raka Winata|2007-03-18||
+9|Depan-Tengah|IDN|Sutan Zico|2002-04-07||
+-|Penyerang|IDN|Ardiansyah|2007-05-08||
+77|Depan-Tengah|IDN|Iman|2007-03-12||
+S|Pelatih Kepala|IDN|Ridwan Saragih|
+S|Assisten Pelatih|IDN|Andil Andika|
+S|Pelatih Kiper|IDN|Dede Pranata|43
+S|Pelatih Fisik|IDN|Rifqi Hadianto|

@@ -1,0 +1,31 @@
+1|Kiper|IDN|Ilham Putra|2004-07-01||
+20|Kiper|IDN|Tranggono Beno|2004-04-14||
+22|Kiper|IDN|Tian Wedjo|||
+5|Bek-Tengah|IDN|Eusabius Dosi|1998-08-03||
+18|Bek-Tengah|IDN|Muhammad Syifa|2004-04-18||
+19|Bek-Tengah|IDN|Ashadillah Nauval|2007-06-27||
+53|Bek-Tengah|IDN|Gavio Monteiro|2004-08-01||
+55|Bek-Tengah|IDN|Sebastianus Due|2003-03-21||
+3|Bek-Kanan|IDN|Rifandi Loke|2006-10-23||
+66|Bek-Kanan|IDN|Arya Bayu|2005-04-17||
+4|Gel. Bertahan|IDN|Askon Bajo|1999-10-23||
+6|Gel. Bertahan|IDN|Yoshua Batista|2006-10-09||
+27|Gelandang|IDN|Gerry Michael|||
+61|Gelandang|IDN|Diego Lina|||
+9|Gel. Serang|IDN|Molo Dopo|2008-05-08||
+16|Gel. Serang|IDN|Arjun Wedo|2004-01-17||
+25|Gel. Serang|IDN|Crespo Hale|2003-05-08||
+37|Gel. Serang|IDN|Bagus Akbar|2007-04-05||
+2|Sayap Kiri|IDN|Bruno Halek|2007-10-02||
+15|Sayap Kiri|IDN|Aldonius Lalu|2006-07-05||
+17|Sayap Kanan|IDN|Richardus Bhara|1994-08-07||
+77|Sayap Kanan|IDN|Rizky Dzulkifly|2004-01-14||
+7|Depan-Tengah|IDN|Rizky Padilah|2006-03-26||
+10|Depan-Tengah|IDN|Yoko Jehaman|1995-05-28||
+21|Depan-Tengah|IDN|Adam Aby|2005-11-09||
+S|Pelatih Kepala|IDN|Patrick Domal|39
+S|Assisten Pelatih|IDN|Marselinus Gabhe|48
+S|Assisten Pelatih|IDN|Markus Hoeik|
+S|Assisten Pelatih|IDN|Evodius Wayto|
+S|Assisten Pelatih|IDN|Yohanes Lemba|
+S|Pelatih Kiper|IDN|Polce Djawa|

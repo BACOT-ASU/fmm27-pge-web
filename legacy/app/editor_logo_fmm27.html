@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor Logo FMM27</title>
+<style>
+:root{--bg:#0f1622;--card:#182233;--line:#2a3750;--txt:#e8edf5;--mut:#9aa8bd;--acc:#3d8bff;--ok:#2fbf71;--warn:#f0a020;--bad:#ef5350}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:16px 16px 4px}
+h1{font-size:20px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px}
+main{padding:8px 12px 80px;max-width:820px;margin:0 auto}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+h2{font-size:16px;margin:0 0 8px;display:flex;gap:8px;align-items:center}
+.num{background:var(--acc);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.note{color:var(--mut);font-size:13px;margin:6px 0}
+.status{font-size:13px;margin-top:8px}
+.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}.status.warn{color:var(--warn)}
+label.file{display:inline-block;background:#24324a;border:1px solid var(--line);padding:9px 14px;border-radius:9px;cursor:pointer}
+label.file input{display:none}
+button{background:var(--acc);color:#fff;border:0;padding:10px 14px;border-radius:9px;font-size:15px;cursor:pointer}
+button.sec{background:#24324a;border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select,input[type=search]{width:100%;background:#0f1622;color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:9px;font-size:15px;margin:4px 0}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.logos{display:flex;gap:6px;flex:none}
+.box{width:44px;height:44px;border-radius:8px;background:#0b111b;border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--mut);text-align:center;overflow:hidden}
+.box img{width:100%;height:100%;object-fit:contain}
+.box.new{border:1px solid var(--ok)}
+.info{flex:1;min-width:0}
+.nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.id{color:var(--mut);font-size:12px}
+.acts{display:flex;gap:6px;flex:none}
+.acts label.file,.acts button{padding:7px 10px;font-size:13px}
+.tag{font-size:11px;background:#24324a;border-radius:6px;padding:1px 6px;margin-left:4px;color:var(--mut)}
+.grid2{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+.bar{height:6px;background:#0b111b;border-radius:3px;overflow:hidden;margin-top:8px;display:none}
+.bar>div{height:100%;width:0;background:var(--acc)}
+ol{margin:6px 0 0 18px;padding:0}
+li{margin:3px 0}
+code{background:#0b111b;padding:1px 5px;border-radius:5px;font-size:12px;word-break:break-all}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>Editor Logo FMM27</h1>
+  <div class="sub">Semua proses berjalan di HP ini. File tidak dikirim ke mana pun.</div>
+</header>
+<main>
+
+<section>
+  <h2><span class="num">1</span>Buka database</h2>
+  <div class="note">Pilih <code>db_archive_2706.fmf</code> dari APK (assets/data/game/). Dipakai untuk daftar negara, liga, dan klub.</div>
+  <label class="file">Pilih db_archive_2706.fmf<input type="file" id="fDb"></label>
+  <div class="status" id="sDb">Belum dibuka.</div>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Buka arsip logo <span class="tag">opsional untuk mode Documents</span></h2>
+  <div class="note">Pilih <code>pictures_logos.fmf</code> dari APK (assets/data/). Perlu untuk melihat logo yang sudah ada dan untuk membuat file APK baru. Hanya daftar isinya yang dibaca, jadi cepat walau 1,7 GB.</div>
+  <label class="file">Pilih pictures_logos.fmf<input type="file" id="fLogo"></label>
+  <div class="status" id="sLogo">Belum dibuka.</div>
+</section>
+
+<section id="secPick" class="hidden">
+  <h2><span class="num">3</span>Pilih klub atau kompetisi, lalu unggah PNG</h2>
+  <div class="grid2">
+    <div><div class="note">Negara</div><select id="selNat"></select></div>
+    <div><div class="note">Liga / kompetisi</div><select id="selComp"></select></div>
+  </div>
+  <input type="search" id="q" placeholder="Atau cari nama/ID klub atau kompetisi di semua negara">
+  <div class="note">Kotak kiri = logo sekarang, kotak hijau = logo baru. PNG berlatar transparan paling bagus; ukuran bebas, otomatis dijadikan 180×180 dan 25×18.</div>
+  <div id="list"></div>
+  <div style="margin-top:10px">
+    <label class="file">Unggah banyak PNG sekaligus (nama file = ID)<input type="file" id="fBulk" accept="image/png,image/*" multiple></label>
+  </div>
+  <div class="status" id="sBulk"></div>
+</section>
+
+<section id="secOut" class="hidden">
+  <h2><span class="num">4</span>Buat hasil</h2>
+  <div id="queue" class="note">Belum ada logo di antrean.</div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+    <button id="bDocs" disabled>Unduh paket Documents (.zip)</button>
+    <button id="bApk" class="sec" disabled>Unduh pictures_logos.fmf baru (untuk APK)</button>
+    <button id="bClear" class="sec" disabled>Kosongkan antrean</button>
+  </div>
+  <div class="bar" id="bar"><div></div></div>
+  <div class="status" id="sOut"></div>
+  <details style="margin-top:10px"><summary>Cara pasang</summary>
+    <div class="note"><b>Paket Documents</b></div>
+    <ol class="note">
+      <li>Ekstrak zip. Isinya folder <code>logo_idn</code> (config.xml + PNG).</li>
+      <li>Salin folder itu ke <code>Android/data/com.netflix.NGP.FootballManagerMobile/files/Documents/</code>.</li>
+      <li>Buka game. Kalau logo belum berubah, mulai karier baru. Untuk membatalkan, hapus folder <code>logo_idn</code>.</li>
+    </ol>
+    <div class="note"><b>File APK</b></div>
+    <ol class="note">
+      <li>Simpan cadangan APK lebih dulu.</li>
+      <li>Di MT Manager, ganti <code>assets/data/pictures_logos.fmf</code> (atau lokasi tempat file itu berada) dengan file hasil.</li>
+      <li>Tanda tangani ulang, pasang, lalu buka game.</li>
+    </ol>
+  </details>
+</section>
+
+</main>
+<script>!function(f){typeof module!='undefined'&&typeof exports=='object'?module.exports=f():typeof define!='undefined'&&define.amd?define(['fzstd',f]):(typeof self!='undefined'?self:this).fzstd=f()}(function(){var _e={};"use strict";var r=ArrayBuffer,t=Uint8Array,e=Uint16Array,n=Int16Array,a=Uint32Array,s=Int32Array,i=function(r,e,n){if(t.prototype.slice)return t.prototype.slice.call(r,e,n);(null==e||e<0)&&(e=0),(null==n||n>r.length)&&(n=r.length);var a=new t(n-e);return a.set(r.subarray(e,n)),a},o=function(r,e,n,a){if(t.prototype.fill)return t.prototype.fill.call(r,e,n,a);for((null==n||n<0)&&(n=0),(null==a||a>r.length)&&(a=r.length);n<a;++n)r[n]=e;return r},u=function(r,e,n,a){if(t.prototype.copyWithin)return t.prototype.copyWithin.call(r,e,n,a);for((null==n||n<0)&&(n=0),(null==a||a>r.length)&&(a=r.length);n<a;)r[e++]=r[n++]};_e.ZstdErrorCode={InvalidData:0,WindowSizeTooLarge:1,InvalidBlockType:2,FSEAccuracyTooHigh:3,DistanceTooFarBack:4,UnexpectedEOF:5};var h=["invalid zstd data","window size too large (>2046MB)","invalid block type","FSE accuracy too high","match distance too far back","unexpected EOF"],f=function(r,t,e){var n=Error(t||h[r]);if(n.code=r,Error.captureStackTrace&&Error.captureStackTrace(n,f),!e)throw n;return n},l=function(r,t,e){for(var n=0,a=0;n<e;++n)a|=r[t++]<<(n<<3);return a},v=function(r,t){return(r[t]|r[t+1]<<8|r[t+2]<<16|r[t+3]<<24)>>>0},c=function(r,e){var n=r[0]|r[1]<<8|r[2]<<16;if(3126568==n&&253==r[3]){var a=r[4],i=a>>5&1,o=a>>2&1,u=3&a,h=a>>6;8&a&&f(0);var c=6-i,b=3==u?4:u,y=l(r,c,b),p=h?1<<h:i,w=l(r,c+=b,p)+(1==h&&256),g=w;if(!i){var d=1<<10+(r[5]>>3);g=d+(d>>3)*(7&r[5])}g>2145386496&&f(1);var m=new t((1==e?w||g:e?0:g)+12);return m[0]=1,m[4]=4,m[8]=8,{b:c+p,y:0,l:0,d:y,w:e&&1!=e?e:m.subarray(12),e:g,o:new s(m.buffer,0,3),u:w,c:o,m:Math.min(131072,g)}}if(25481893==(n>>4|r[3]<<20))return v(r,4)+8;f(0)},b=function(r){for(var t=0;1<<t<=r;++t);return t-1},y=function(a,s,i){var o=4+(s<<3),u=5+(15&a[s]);u>i&&f(3);for(var h=1<<u,l=h,v=-1,c=-1,y=-1,p=h,w=new r(512+(h<<2)),g=new n(w,0,256),d=new e(w,0,256),m=new e(w,512,h),z=512+(h<<1),E=new t(w,z,h),k=new t(w,z+h);v<255&&l>0;){var A=b(l+1),T=o>>3,x=(1<<A+1)-1,F=(a[T]|a[T+1]<<8|a[T+2]<<16)>>(7&o)&x,S=(1<<A)-1,B=x-l-1,I=F&S;if(I<B?(o+=A,F=I):(o+=A+1,F>S&&(F-=B)),g[++v]=--F,-1==F?(l+=F,E[--p]=v):l-=F,!F)do{var U=o>>3;c=(a[U]|a[U+1]<<8)>>(7&o)&3,o+=2,v+=c}while(3==c)}(v>255||l)&&f(0);for(var D=0,M=(h>>1)+(h>>3)+3,W=h-1,O=0;O<=v;++O){var j=g[O];if(j<1)d[O]=-j;else for(y=0;y<j;++y){E[D]=O;do{D=D+M&W}while(D>=p)}}for(D&&f(0),y=0;y<h;++y){var C=d[E[y]]++,H=k[y]=u-b(C);m[y]=(C<<H)-h}return[o+7>>3,{b:u,s:E,n:k,t:m}]},p=function(r,n){var a=0,s=-1,i=new t(292),u=r[n],h=i.subarray(0,256),l=i.subarray(256,268),v=new e(i.buffer,268);if(u<128){var c=y(r,n+1,6),p=c[1],w=c[0]<<3,g=r[n+=u];g||f(0);for(var d=0,m=0,z=p.b,E=z,k=(++n<<3)-8+b(g);!((k-=z)<w);){var A=k>>3;if(h[++s]=p.s[d+=(r[A]|r[A+1]<<8)>>(7&k)&(1<<z)-1],(k-=E)<w)break;h[++s]=p.s[m+=(r[A=k>>3]|r[A+1]<<8)>>(7&k)&(1<<E)-1],z=p.n[d],d=p.t[d],E=p.n[m],m=p.t[m]}++s>255&&f(0)}else{for(s=u-127;a<s;a+=2){var T=r[++n];h[a]=T>>4,h[a+1]=15&T}++n}var x=0;for(a=0;a<s;++a)(I=h[a])>11&&f(0),x+=I&&1<<I-1;var F=b(x)+1,S=1<<F,B=S-x;for(B&B-1&&f(0),h[s++]=b(B)+1,a=0;a<s;++a){var I;++l[h[a]=(I=h[a])&&F+1-I]}var U=new t(S<<1),D=U.subarray(0,S),M=U.subarray(S);for(v[F]=0,a=F;a>0;--a){var W=v[a];o(M,a,W,v[a-1]=W+l[a]*(1<<F-a))}for(v[0]!=S&&f(0),a=0;a<s;++a){var O=h[a];if(O){var j=v[O];o(D,a,j,v[O]=j+(1<<F-O))}}return[n,{n:M,b:F,s:D}]},w=y(new t([81,16,99,140,49,198,24,99,12,33,196,24,99,102,102,134,70,146,4]),0,6)[1],g=y(new t([33,20,196,24,99,140,33,132,16,66,8,33,132,16,66,8,33,68,68,68,68,68,68,68,68,36,9]),0,6)[1],d=y(new t([32,132,16,66,102,70,68,68,68,68,36,73,2]),0,5)[1],m=function(r,t){for(var e=r.length,n=new s(e),a=0;a<e;++a)n[a]=t,t+=1<<r[a];return n},z=new t(new s([0,0,0,0,16843009,50528770,134678020,202050057,269422093]).buffer,0,36),E=m(z,0),k=new t(new s([0,0,0,0,0,0,0,0,16843009,50528770,117769220,185207048,252579084,16]).buffer,0,53),A=m(k,3),T=function(r,t,e){var n=r.length,a=t.length,s=r[n-1],i=(1<<e.b)-1,o=-e.b;s||f(0);for(var u=0,h=e.b,l=(n<<3)-8+b(s)-h,v=-1;l>o&&v<a;){var c=l>>3;t[++v]=e.s[u=(u<<h|(r[c]|r[c+1]<<8|r[c+2]<<16)>>(7&l))&i],l-=h=e.n[u]}l==o&&v+1==a||f(0)},x=function(r,t,e){var n=6,a=t.length+3>>2,s=a<<1,i=a+s;T(r.subarray(n,n+=r[0]|r[1]<<8),t.subarray(0,a),e),T(r.subarray(n,n+=r[2]|r[3]<<8),t.subarray(a,s),e),T(r.subarray(n,n+=r[4]|r[5]<<8),t.subarray(s,i),e),T(r.subarray(n),t.subarray(i),e)},F=function(r,n,a){var s,u=n.b,h=r[u],l=h>>1&3;n.l=1&h;var v=h>>3|r[u+1]<<5|r[u+2]<<13,c=(u+=3)+v;if(1==l){if(u>=r.length)return;return n.b=u+1,a?(o(a,r[u],n.y,n.y+=v),a):o(new t(v),r[u])}if(!(c>r.length)){if(0==l)return n.b=c,a?(a.set(r.subarray(u,c),n.y),n.y+=v,a):i(r,u,c);if(2==l){var m=r[u],F=3&m,S=m>>2&3,B=m>>4,I=0,U=0;F<2?1&S?B|=r[++u]<<4|(2&S&&r[++u]<<12):B=m>>3:(U=S,S<2?(B|=(63&r[++u])<<4,I=r[u]>>6|r[++u]<<2):2==S?(B|=r[++u]<<4|(3&r[++u])<<12,I=r[u]>>2|r[++u]<<6):(B|=r[++u]<<4|(63&r[++u])<<12,I=r[u]>>6|r[++u]<<2|r[++u]<<10)),++u;var D=a?a.subarray(n.y,n.y+n.m):new t(n.m),M=D.length-B;if(0==F)D.set(r.subarray(u,u+=B),M);else if(1==F)o(D,r[u++],M);else{var W=n.h;if(2==F){var O=p(r,u);I+=u-(u=O[0]),n.h=W=O[1]}else W||f(0);(U?x:T)(r.subarray(u,u+=I),D.subarray(M),W)}var j=r[u++];if(j){255==j?j=32512+(r[u++]|r[u++]<<8):j>127&&(j=j-128<<8|r[u++]);var C=r[u++];3&C&&f(0);for(var H=[g,d,w],L=2;L>-1;--L){var Z=C>>2+(L<<1)&3;if(1==Z){var q=new t([0,0,r[u++]]);H[L]={s:q.subarray(2,3),n:q.subarray(0,1),t:new e(q.buffer,0,1),b:0}}else 2==Z?(u=(s=y(r,u,9-(1&L)))[0],H[L]=s[1]):3==Z&&(n.t||f(0),H[L]=n.t[L])}var G=n.t=H,J=G[0],K=G[1],N=G[2],P=r[c-1];P||f(0);var Q=(c<<3)-8+b(P)-N.b,R=Q>>3,V=0,X=(r[R]|r[R+1]<<8)>>(7&Q)&(1<<N.b)-1,Y=(r[R=(Q-=K.b)>>3]|r[R+1]<<8)>>(7&Q)&(1<<K.b)-1,$=(r[R=(Q-=J.b)>>3]|r[R+1]<<8)>>(7&Q)&(1<<J.b)-1;for(++j;--j;){var _=N.s[X],rr=N.n[X],tr=J.s[$],er=J.n[$],nr=K.s[Y],ar=K.n[Y],sr=1<<nr,ir=sr+((r[R=(Q-=nr)>>3]|r[R+1]<<8|r[R+2]<<16|r[R+3]<<24)>>>(7&Q)&sr-1);R=(Q-=k[tr])>>3;var or=A[tr]+((r[R]|r[R+1]<<8|r[R+2]<<16)>>(7&Q)&(1<<k[tr])-1);R=(Q-=z[_])>>3;var ur=E[_]+((r[R]|r[R+1]<<8|r[R+2]<<16)>>(7&Q)&(1<<z[_])-1);if(R=(Q-=rr)>>3,X=N.t[X]+((r[R]|r[R+1]<<8)>>(7&Q)&(1<<rr)-1),R=(Q-=er)>>3,$=J.t[$]+((r[R]|r[R+1]<<8)>>(7&Q)&(1<<er)-1),R=(Q-=ar)>>3,Y=K.t[Y]+((r[R]|r[R+1]<<8)>>(7&Q)&(1<<ar)-1),ir>3)n.o[2]=n.o[1],n.o[1]=n.o[0],n.o[0]=ir-=3;else{var hr=ir-(0!=ur);hr?(ir=3==hr?n.o[0]-1:n.o[hr],hr>1&&(n.o[2]=n.o[1]),n.o[1]=n.o[0],n.o[0]=ir):ir=n.o[0]}for(L=0;L<ur;++L)D[V+L]=D[M+L];M+=ur;var fr=(V+=ur)-ir;if(fr<0){var lr=-fr,vr=n.e+fr;for(lr>or&&(lr=or),L=0;L<lr;++L)D[V+L]=n.w[vr+L];V+=lr,or-=lr,fr=0}for(L=0;L<or;++L)D[V+L]=D[fr+L];V+=or}if(V!=M)for(;M<D.length;)D[V++]=D[M++];else V=D.length;a?n.y+=V:D=i(D,0,V)}else if(a){if(n.y+=B,M)for(L=0;L<B;++L)D[L]=D[M+L]}else M&&(D=i(D,M));return n.b=c,D}f(2)}},S=function(r,e){if(1==r.length)return r[0];for(var n=new t(e),a=0,s=0;a<r.length;++a){var i=r[a];n.set(i,s),s+=i.length}return n};function B(r,t){for(var e=[],n=+!t,a=0,s=0;r.length;){var i=c(r,n||t);if("object"==typeof i){for(n?(t=null,i.w.length==i.u&&(e.push(t=i.w),s+=i.u)):(e.push(t),i.e=0);!i.l;){var o=F(r,i,t);o||f(5),t?i.e=i.y:(e.push(o),s+=o.length,u(i.w,0,o.length),i.w.set(o,i.w.length-o.length))}a=i.b+4*i.c}else a=i;r=r.subarray(a)}return S(e,s)}_e.decompress=B;var I=function(){function r(r){this.ondata=r,this.c=[],this.l=0,this.z=0}return r.prototype.push=function(r,e){if("number"==typeof this.s){var n=Math.min(r.length,this.s);r=r.subarray(n),this.s-=n}var a=r.length+this.l;if(!this.s){if(e){if(!a)return void this.ondata(new t(0),!0);a<5&&f(5)}else if(a<18)return this.c.push(r),void(this.l=a);if(this.l&&(this.c.push(r),r=S(this.c,a),this.c=[],this.l=0),"number"==typeof(this.s=c(r)))return this.push(r,e)}if("number"!=typeof this.s){if(a<(this.z||3))return e&&f(5),this.c.push(r),void(this.l=a);if(this.l&&(this.c.push(r),r=S(this.c,a),this.c=[],this.l=0),!this.z&&a<(this.z=2&r[this.s.b]?4:3+(r[this.s.b]>>3|r[this.s.b+1]<<5|r[this.s.b+2]<<13)))return e&&f(5),this.c.push(r),void(this.l=a);for(this.z=0;;){var s=F(r,this.s);if(!s){e&&f(5);var i=r.subarray(this.s.b);return this.s.b=0,this.c.push(i),void(this.l+=i.length)}if(this.ondata(s,!1),u(this.s.w,0,s.length),this.s.w.set(s,this.s.w.length-s.length),this.s.l){var o=r.subarray(this.s.b);return this.s=4*this.s.c,void this.push(o,e)}}}else e&&f(5)},r}();_e.Decompress=I;return _e})</script>
+<script>// fmmcore.js — pembaca/penulis arsip .fmf FMM27 + parser data klub/kompetisi/negara
+// Dipakai di browser (window.FMM) dan di Node (module.exports) untuk pengujian.
+(function (root) {
+  'use strict';
+  var fz = (typeof fzstd !== 'undefined') ? fzstd : (typeof require !== 'undefined' ? require('fzstd') : null);
+  var MAGIC = [0x02, 0x01, 0x66, 0x6d, 0x66, 0x2e, 0x08, 0x00, 0x00];
+  var CHUNK = 131072;
+  var te = new TextEncoder(), td = new TextDecoder('utf-8');
+
+  function u64(dv, p) { return dv.getUint32(p, true) + dv.getUint32(p + 4, true) * 4294967296; }
+  function putU64(dv, p, v) { dv.setUint32(p, v % 4294967296, true); dv.setUint32(p + 4, Math.floor(v / 4294967296), true); }
+  function readBlob(blob, start, end) {
+    var s = blob.slice(start, end);
+    if (s.arrayBuffer) return s.arrayBuffer().then(function (b) { return new Uint8Array(b); });
+    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(new Uint8Array(r.result)); }; r.onerror = rej; r.readAsArrayBuffer(s); });
+  }
+  function checkMagic(b, p) { for (var i = 0; i < 9; i++) if (b[p + i] !== MAGIC[i]) return false; return true; }
+
+  // ---------- zstd: baca daftar isi (rangkaian [u32 panjang + frame zstd]) ----------
+  function decodeChunks(t, p) {
+    var parts = [], total = 0;
+    while (p + 4 <= t.length) {
+      var dv = new DataView(t.buffer, t.byteOffset + p, 4); var len = dv.getUint32(0, true); p += 4;
+      if (len === 0 || p + len > t.length) break;
+      var out = fz.decompress(t.subarray(p, p + len)); parts.push(out); total += out.length; p += len;
+    }
+    var all = new Uint8Array(total), q = 0; parts.forEach(function (x) { all.set(x, q); q += x.length; });
+    return all;
+  }
+  // ---------- zstd: tulis frame "raw block" (tanpa kompresi, sah menurut standar zstd) ----------
+  function rawFrame(data) {
+    var n = data.length; var f = new Uint8Array(4 + 1 + 4 + 3 + n);
+    f.set([0x28, 0xb5, 0x2f, 0xfd], 0); f[4] = 0xA0; // single segment + FCS 4 byte
+    new DataView(f.buffer).setUint32(5, n, true);
+    var h = 1 | (0 << 1) | (n << 3); f[9] = h & 255; f[10] = (h >> 8) & 255; f[11] = (h >> 16) & 255;
+    f.set(data, 12); return f;
+  }
+  function encodeChunks(raw) {
+    var frames = [], total = 0;
+    for (var p = 0; p < raw.length; p += CHUNK) {
+      var fr = rawFrame(raw.subarray(p, Math.min(raw.length, p + CHUNK)));
+      var hdr = new Uint8Array(4); new DataView(hdr.buffer).setUint32(0, fr.length, true);
+      frames.push(hdr, fr); total += 4 + fr.length;
+    }
+    var out = new Uint8Array(total), q = 0; frames.forEach(function (x) { out.set(x, q); q += x.length; });
+    return out;
+  }
+
+  // ---------- struktur daftar isi ----------
+  function parseToc(o) {
+    var p = 0, dv = new DataView(o.buffer, o.byteOffset, o.byteLength);
+    function s() { var l = dv.getUint32(p, true); p += 4; var v = td.decode(o.subarray(p, p + l)); p += l; return v; }
+    function folder() {
+      var f = { name: s(), files: [], subs: [] }; var n = dv.getUint32(p, true); p += 4;
+      for (var i = 0; i < n; i++) {
+        var nm = s(), ex = s();
+        f.files.push({ name: nm, ext: ex, off: u64(dv, p), size: u64(dv, p + 8), usize: u64(dv, p + 16), t1: u64(dv, p + 24), t2: u64(dv, p + 32) }); p += 40;
+      }
+      var k = dv.getUint32(p, true); p += 4;
+      for (var j = 0; j < k; j++) f.subs.push(folder());
+      return f;
+    }
+    var r = folder(); if (p !== o.length) throw new Error('Daftar isi tidak habis terbaca (' + p + '/' + o.length + ')');
+    return r;
+  }
+  function serializeToc(root) {
+    var parts = [], total = 0;
+    function push(b) { parts.push(b); total += b.length; }
+    function u32(v) { var b = new Uint8Array(4); new DataView(b.buffer).setUint32(0, v, true); push(b); }
+    function str(v) { var b = te.encode(v); u32(b.length); push(b); }
+    function folder(f) {
+      str(f.name); u32(f.files.length);
+      f.files.forEach(function (x) {
+        str(x.name); str(x.ext); var b = new Uint8Array(40), dv = new DataView(b.buffer);
+        putU64(dv, 0, x.off); putU64(dv, 8, x.size); putU64(dv, 16, x.usize); putU64(dv, 24, x.t1); putU64(dv, 32, x.t2); push(b);
+      });
+      u32(f.subs.length); f.subs.forEach(folder);
+    }
+    folder(root);
+    var out = new Uint8Array(total), q = 0; parts.forEach(function (x) { out.set(x, q); q += x.length; });
+    return out;
+  }
+  function walk(f, pre, cb) {
+    var path = pre ? pre + '/' + f.name : f.name;
+    f.files.forEach(function (x) { cb(path + '/' + x.name + x.ext, x, f); });
+    f.subs.forEach(function (s) { walk(s, path, cb); });
+  }
+  function findFolder(root, path) {
+    var parts = path.split('/'); if (parts[0] !== root.name) return null; var f = root;
+    for (var i = 1; i < parts.length; i++) { f = f.subs.filter(function (s) { return s.name === parts[i]; })[0]; if (!f) return null; }
+    return f;
+  }
+
+  // Buka arsip .fmf: hanya membaca header dan daftar isi (cocok untuk file 1,7 GB)
+  function openFmf(blob) {
+    return readBlob(blob, 0, 26).then(function (h) {
+      if (!checkMagic(h, 0)) throw new Error('Bukan file .fmf FMM');
+      var dv = new DataView(h.buffer); var X = u64(dv, 9); var flag = h[25];
+      if (flag !== 0) throw new Error('Arsip ini memakai isi terkompresi (flag ' + flag + '); belum didukung');
+      return readBlob(blob, 9 + X, blob.size).then(function (t) {
+        if (!checkMagic(t, 0)) throw new Error('Daftar isi tidak ditemukan');
+        var raw = decodeChunks(t, 9);
+        return { blob: blob, header: h, X: X, dataLen: X - 17, root: parseToc(raw) };
+      });
+    });
+  }
+  function getFile(arc, entry) { return readBlob(arc.blob, 26 + entry.off, 26 + entry.off + entry.size); }
+
+  // Susun arsip baru. changes: [{folder:'a/b', name, ext, data:Uint8Array}] — ganti jika ada, tambah jika belum.
+  // Kembalikan daftar bagian (Blob/Uint8Array) yang disambung = file baru. Data lama tidak disalin ke memori.
+  function buildFmf(arc, changes) {
+    var now = Math.floor(Date.now() / 1000); var extra = [], pos = arc.dataLen;
+    changes.forEach(function (c) {
+      var f = findFolder(arc.root, c.folder);
+      if (!f) throw new Error('Folder tidak ada di arsip: ' + c.folder);
+      var e = f.files.filter(function (x) { return x.name === c.name && x.ext === c.ext; })[0];
+      if (!e) { e = { name: c.name, ext: c.ext, t1: now, t2: now }; f.files.push(e); }
+      e.off = pos; e.size = c.data.length; e.usize = c.data.length; e.t1 = now; e.t2 = now;
+      extra.push(c.data); pos += c.data.length;
+    });
+    var toc = serializeToc(arc.root);
+    var tocBlock = encodeChunks(toc);
+    var head = new Uint8Array(arc.header); var dv = new DataView(head.buffer);
+    putU64(dv, 9, 17 + pos);
+    var magic = new Uint8Array(MAGIC);
+    var parts = [head, arc.blob.slice(26, 26 + arc.dataLen)].concat(extra, [magic, tocBlock]);
+    return { parts: parts, size: 26 + pos + 9 + tocBlock.length };
+  }
+
+  // ---------- data database ----------
+  function strAt(b, dv, p) { var l = dv.getUint32(p, true); return { v: td.decode(b.subarray(p + 4, p + 4 + l)), p: p + 4 + l }; }
+  function parseCompetitions(b) {
+    var dv = new DataView(b.buffer, b.byteOffset, b.byteLength); var n = dv.getUint16(8, true), p = 10, out = [];
+    for (var i = 0; i < n; i++) {
+      var idx = dv.getUint16(p, true), uid = dv.getUint32(p + 2, true); p += 6;
+      var a = strAt(b, dv, p); p = a.p + 1; var s2 = strAt(b, dv, p); p = s2.p + 1; var ab = strAt(b, dv, p); p = ab.p;
+      var type = b[p], nat = dv.getInt16(p + 3, true), rep = dv.getUint16(p + 9, true), level = b[p + 11], parent = dv.getInt16(p + 12, true);
+      var cnt = dv.getUint32(p + 14, true); p += 18 + 8 * cnt + 20;
+      out.push({ idx: idx, uid: uid, name: a.v, short: s2.v, abbr: ab.v, type: type, nat: nat, rep: rep, level: level, parent: parent });
+    }
+    if (p !== b.length) throw new Error('competition.dat tidak terbaca sampai akhir');
+    return out;
+  }
+  function parseClubs(b) {
+    var dv = new DataView(b.buffer, b.byteOffset, b.byteLength); var n = dv.getUint32(8, true), p = 12, out = [];
+    function s(ff) { var l = dv.getUint32(p, true); if (l > 120) throw new Error('club.dat: teks rusak di ' + p); p += 4; var v = td.decode(b.subarray(p, p + l)); p += l; if (ff) p += 1; return v; }
+    for (var i = 0; i < n; i++) {
+      var uid = dv.getUint32(p + 4, true); p += 8;
+      var lname = s(1), sname = s(1); s(0); s(0); s(0);
+      var nat = dv.getInt16(p, true), based = dv.getInt16(p + 2, true); p += 4 + 12 + 132 + 10;
+      var div = dv.getInt16(p, true); p += 4 + 1 + 2 + 2;
+      var flag = b[p]; p += 1; if (flag === 1) p += 68; else if (flag !== 0) throw new Error('club.dat: flag ' + flag);
+      var k = dv.getUint32(p, true); p += 4 + k + 3 + 8 + 12;
+      var x = dv.getUint16(p, true); p += 2 + 21 * x;
+      var m = dv.getUint16(p, true); p += 2 + 4 * m;
+      p += 48 + 4 + 27 + 44 + 2;
+      out.push({ uid: uid, name: lname, short: sname, nat: nat, based: based, div: div, squad: m });
+    }
+    return out;
+  }
+  function parseNations(b) {
+    // record: u32 uid, u16 idx, u32 len, nama, 0xff ... (panjang record bervariasi; cari berurutan)
+    var dv = new DataView(b.buffer, b.byteOffset, b.byteLength); var n = dv.getUint16(8, true), out = [], p = 10;
+    for (var i = 0; i < n; i++) {
+      var found = -1;
+      for (var q = p; q < b.length - 12; q++) {
+        if (dv.getUint16(q + 4, true) !== i) continue;
+        var l = dv.getUint32(q + 6, true); if (l < 2 || l > 60) continue;
+        if (b[q + 10 + l] !== 0xff) continue;
+        var ok = true; for (var z = 0; z < l; z++) { var c = b[q + 10 + z]; if (c < 0x20) { ok = false; break; } }
+        if (ok) { found = q; break; }
+      }
+      if (found < 0) break;
+      var l2 = dv.getUint32(found + 6, true);
+      out.push({ idx: i, uid: dv.getUint32(found, true), name: td.decode(b.subarray(found + 10, found + 10 + l2)) });
+      p = found + 11 + l2;
+    }
+    return out;
+  }
+  function openDb(blob) {
+    return openFmf(blob).then(function (arc) {
+      var want = { 'club.dat': null, 'competition.dat': null, 'nation.dat': null };
+      walk(arc.root, '', function (path, e) { var nm = e.name + e.ext; if (nm in want) want[nm] = e; });
+      for (var k in want) if (!want[k]) throw new Error(k + ' tidak ada di arsip database');
+      return Promise.all([getFile(arc, want['club.dat']), getFile(arc, want['competition.dat']), getFile(arc, want['nation.dat'])]).then(function (r) {
+        return { clubs: parseClubs(r[0]), comps: parseCompetitions(r[1]), nations: parseNations(r[2]) };
+      });
+    });
+  }
+
+  // ---------- logo ----------
+  var LOGO_BASE = 'pictures_logos/logos';
+  // logo besar (normal) dipanggil ".../logo", logo kecil (small) ".../icon"
+  function suffixOf(size) { return size === 'normal' ? 'logo' : 'icon'; }
+  function parseLogoConfig(text) {
+    var map = {}; var re = /<record from="([^"]*)" to="graphics\/pictures\/(club|comp)\/(\d+)\/(?:icon|logo)"\/>/g, m;
+    while ((m = re.exec(text))) map[m[3]] = m[1];
+    return map;
+  }
+  function openLogos(blob) {
+    return openFmf(blob).then(function (arc) {
+      var idx = {}; // 'normal/clubs/<from>' -> entry
+      var cfgEntries = {};
+      walk(arc.root, '', function (path, e) {
+        var rel = path.slice(LOGO_BASE.length + 1);
+        if (/\/config\.xml$/.test(rel)) cfgEntries[rel.replace(/\/config\.xml$/, '')] = e;
+        else if (/\.png$/.test(rel)) idx[rel.replace(/\.png$/, '')] = e;
+      });
+      var keys = ['normal/clubs', 'small/clubs', 'normal/comps', 'small/comps'];
+      return Promise.all(keys.map(function (k) { return cfgEntries[k] ? getFile(arc, cfgEntries[k]) : Promise.resolve(null); })).then(function (cfgs) {
+        var configs = {}, maps = {};
+        keys.forEach(function (k, i) { if (cfgs[i]) { configs[k] = td.decode(cfgs[i]); maps[k] = parseLogoConfig(configs[k]); } });
+        return { arc: arc, png: idx, configs: configs, maps: maps };
+      });
+    });
+  }
+  // kind: 'clubs' | 'comps'; size: 'normal' | 'small'
+  function findLogo(lg, kind, size, id) {
+    var key = size + '/' + kind; var from = lg.maps[key] && lg.maps[key][String(id)];
+    if (!from) return null; return lg.png[key + '/' + from] || null;
+  }
+  function editConfig(text, kind, ids, suffix) {
+    var t = kind === 'clubs' ? 'club' : 'comp'; suffix = suffix || 'icon';
+    ids.forEach(function (id) {
+      var to = 'graphics/pictures/' + t + '/' + id + '/' + suffix;
+      var reOld = new RegExp('[ \\t]*<record from="[^"]*" to="' + to.replace(/\//g, '\\/') + '"\\/>\\r?\\n', 'g');
+      text = text.replace(reOld, '');
+      var nl = text.indexOf('\r\n') >= 0 ? '\r\n' : '\n';
+      var line = '\t\t<record from="custom/' + id + '" to="' + to + '"/>' + nl;
+      var i = text.lastIndexOf('</list>'); if (i < 0) throw new Error('config.xml logo tidak dikenali');
+      var ls = text.lastIndexOf('\n', i) + 1;
+      text = text.slice(0, ls) + line + text.slice(ls);
+    });
+    return text;
+  }
+  // items: [{kind:'clubs'|'comps', id, normal:Uint8Array, small:Uint8Array}]
+  function buildLogoArchive(lg, items) {
+    var changes = [], byKey = {};
+    items.forEach(function (it) {
+      ['normal', 'small'].forEach(function (sz) {
+        var key = sz + '/' + it.kind; (byKey[key] = byKey[key] || []).push(String(it.id));
+        changes.push({ folder: LOGO_BASE + '/' + key + '/custom', name: String(it.id), ext: '.png', data: it[sz] });
+      });
+    });
+    Object.keys(byKey).forEach(function (key) {
+      if (!lg.configs[key]) throw new Error('config.xml untuk ' + key + ' tidak ada');
+      var txt = editConfig(lg.configs[key], key.split('/')[1], byKey[key], suffixOf(key.split('/')[0]));
+      changes.push({ folder: LOGO_BASE + '/' + key, name: 'config', ext: '.xml', data: te.encode(txt) });
+    });
+    return buildFmf(lg.arc, changes);
+  }
+  // Paket untuk folder Documents: config.xml + PNG 180x180
+  function documentsConfig(items) {
+    var lines = [];
+    items.forEach(function (it) {
+      var t = it.kind === 'clubs' ? 'club' : 'comp';
+      ['logo', 'icon'].forEach(function (sfx) {
+        lines.push('    <record from="' + t + '_' + it.id + '" to="graphics/pictures/' + t + '/' + it.id + '/' + sfx + '"/>');
+      });
+    });
+    return "<?xml version='1.0' encoding='utf-8'?>\n<record>\n  <boolean id=\"preload\" value=\"false\"/>\n  <!--logo mappings-->\n  <list id=\"maps\">\n" + lines.join('\n') + '\n  </list>\n</record>\n';
+  }
+
+  // ---------- zip sederhana (tanpa kompresi) ----------
+  var CRC = (function () { var t = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  function crc32(b) { var c = 0xFFFFFFFF; for (var i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+  function makeZip(files) { // [{name, data:Uint8Array}]
+    var parts = [], central = [], off = 0;
+    files.forEach(function (f) {
+      var nm = te.encode(f.name), crc = crc32(f.data), h = new Uint8Array(30), dv = new DataView(h.buffer);
+      dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true); dv.setUint16(8, 0, true);
+      dv.setUint32(14, crc, true); dv.setUint32(18, f.data.length, true); dv.setUint32(22, f.data.length, true); dv.setUint16(12, 0x5B71, true); dv.setUint16(26, nm.length, true);
+      parts.push(h, nm, f.data);
+      var c = new Uint8Array(46), cv = new DataView(c.buffer);
+      cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true);
+      cv.setUint32(16, crc, true); cv.setUint32(20, f.data.length, true); cv.setUint32(24, f.data.length, true); cv.setUint16(14, 0x5B71, true); cv.setUint16(28, nm.length, true); cv.setUint32(42, off, true);
+      central.push(c, nm); off += 30 + nm.length + f.data.length;
+    });
+    var cs = 0; central.forEach(function (x) { cs += x.length; });
+    var e = new Uint8Array(22), ev = new DataView(e.buffer);
+    ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true); ev.setUint32(12, cs, true); ev.setUint32(16, off, true);
+    return parts.concat(central, [e]);
+  }
+
+  var api = { openFmf: openFmf, getFile: getFile, buildFmf: buildFmf, walk: walk, openDb: openDb, openLogos: openLogos, findLogo: findLogo,
+    buildLogoArchive: buildLogoArchive, documentsConfig: documentsConfig, makeZip: makeZip, encodeChunks: encodeChunks, decodeChunks: decodeChunks,
+    parseClubs: parseClubs, parseCompetitions: parseCompetitions, parseNations: parseNations, editConfig: editConfig };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.FMM = api;
+})(this);
+</script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var DB=null, LG=null, Q={}; // Q key 'clubs:ID' / 'comps:ID' -> {kind,id,name,normal,small,url}
+var nationName={};
+var dl=null;
+try{ if(window.claude&&claude.use){ claude.use('downloads').then(function(d){dl=d}).catch(function(){}); } }catch(e){}
+
+function st(el,msg,cls){el.textContent=msg;el.className='status'+(cls?' '+cls:'')}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function mb(n){return (n/1048576).toFixed(n>1e9?0:1)+' MB'}
+
+// ---------- langkah 1 ----------
+$('fDb').onchange=function(){
+  var f=this.files[0]; if(!f) return; st($('sDb'),'Membaca '+f.name+' ('+mb(f.size)+') …');
+  FMM.openDb(f).then(function(db){
+    DB=db; db.nations.forEach(function(n){nationName[n.idx]=n.name});
+    db.compByIdx={}; db.comps.forEach(function(c){db.compByIdx[c.idx]=c});
+    st($('sDb'),'Terbaca: '+db.clubs.length.toLocaleString('id')+' klub, '+db.comps.length.toLocaleString('id')+' kompetisi, '+db.nations.length+' negara.','ok');
+    fillNations(); $('secPick').classList.remove('hidden'); $('secOut').classList.remove('hidden'); refreshButtons();
+  }).catch(function(e){st($('sDb'),'Gagal: '+e.message,'bad')});
+};
+// ---------- langkah 2 ----------
+$('fLogo').onchange=function(){
+  var f=this.files[0]; if(!f) return; st($('sLogo'),'Membaca daftar isi '+f.name+' ('+mb(f.size)+') …');
+  FMM.openLogos(f).then(function(lg){
+    LG=lg; var n=Object.keys(lg.png).length;
+    st($('sLogo'),'Terbaca: '+n.toLocaleString('id')+' gambar logo.','ok'); render(); refreshButtons();
+  }).catch(function(e){st($('sLogo'),'Gagal: '+e.message,'bad')});
+};
+
+// ---------- daftar ----------
+var TYPE={0:'liga utama',1:'liga',2:'piala',3:'piala liga',4:'piala lain',5:'piala super',8:'liga cadangan'};
+function fillNations(){
+  var has={}; DB.comps.forEach(function(c){if(c.nat>=0)has[c.nat]=1});
+  var ids=Object.keys(has).map(Number).sort(function(a,b){return (nationName[a]||'').localeCompare(nationName[b]||'')});
+  $('selNat').innerHTML=ids.map(function(i){return '<option value="'+i+'">'+esc(nationName[i]||('Negara '+i))+'</option>'}).join('');
+  $('selNat').value=ids.indexOf(58)>=0?58:ids[0]; fillComps();
+}
+function fillComps(){
+  var nat=+$('selNat').value;
+  var cs=DB.comps.filter(function(c){return c.nat===nat}).sort(function(a,b){return (a.type>1)-(b.type>1)||a.level-b.level||a.name.localeCompare(b.name)});
+  $('selComp').innerHTML=cs.map(function(c){return '<option value="'+c.idx+'">'+esc(c.name)+' — '+(TYPE[c.type]||'tipe '+c.type)+(c.type<2?' '+(c.level+1):'')+'</option>'}).join('');
+  render();
+}
+$('selNat').onchange=fillComps; $('selComp').onchange=function(){$('q').value='';render()};
+var qt; $('q').oninput=function(){clearTimeout(qt);qt=setTimeout(render,250)};
+
+function rowsFor(){
+  var q=$('q').value.trim().toLowerCase();
+  if(q){
+    var out=[]; var isNum=/^\d+$/.test(q);
+    DB.comps.forEach(function(c){ if(out.length<80 && (isNum?String(c.uid)===q:c.name.toLowerCase().indexOf(q)>=0)) out.push({kind:'comps',id:c.uid,name:c.name,sub:(nationName[c.nat]||'')+' · kompetisi'}) });
+    DB.clubs.forEach(function(c){ if(out.length<80 && (isNum?String(c.uid)===q:c.name.toLowerCase().indexOf(q)>=0)) out.push({kind:'clubs',id:c.uid,name:c.name,sub:(nationName[c.based]||'')+(DB.compByIdx[c.div]?' · '+DB.compByIdx[c.div].name:'')}) });
+    return out;
+  }
+  var ci=+$('selComp').value, c=DB.compByIdx[ci]; if(!c) return [];
+  var rows=[{kind:'comps',id:c.uid,name:c.name,sub:'logo kompetisi'}];
+  DB.clubs.filter(function(k){return k.div===ci}).sort(function(a,b){return a.name.localeCompare(b.name)}).forEach(function(k){rows.push({kind:'clubs',id:k.uid,name:k.name,sub:k.squad+' pemain'})});
+  if(rows.length===1) rows[0].sub+=' · tidak ada klub yang terdaftar langsung di sini';
+  return rows;
+}
+var urlCache={};
+function currentLogo(kind,id,img){
+  if(!LG) return;
+  var e=FMM.findLogo(LG,kind,'normal',id); if(!e){img.parentNode.innerHTML='belum ada';return}
+  var k=kind+id; if(urlCache[k]){img.src=urlCache[k];return}
+  FMM.getFile(LG.arc,e).then(function(b){urlCache[k]=URL.createObjectURL(new Blob([b],{type:'image/png'}));img.src=urlCache[k]});
+}
+function render(){
+  if(!DB) return; var rows=rowsFor(); var L=$('list');
+  L.innerHTML=rows.map(function(r,i){
+    var key=r.kind+':'+r.id, q=Q[key];
+    return '<div class="row"><div class="logos"><div class="box">'+(LG?'<img data-i="'+i+'" alt="">':'?')+'</div><div class="box'+(q?' new':'')+'">'+(q?'<img src="'+q.url+'" alt="">':'baru')+'</div></div>'+
+      '<div class="info"><div class="nm">'+esc(r.name)+'</div><div class="id">ID '+r.id+' · '+esc(r.sub)+'</div></div>'+
+      '<div class="acts"><label class="file">PNG<input type="file" accept="image/png,image/*" data-k="'+key+'" data-n="'+esc(r.name)+'"></label>'+(q?'<button class="sec" data-del="'+key+'">×</button>':'')+'</div></div>';
+  }).join('')||'<div class="note">Tidak ada hasil.</div>';
+  L.querySelectorAll('img[data-i]').forEach(function(img){var r=rows[+img.dataset.i];currentLogo(r.kind,r.id,img)});
+  L.querySelectorAll('input[data-k]').forEach(function(inp){inp.onchange=function(){var f=this.files[0];if(!f)return;var p=this.dataset.k.split(':');addLogo(p[0],+p[1],this.dataset.n,f).then(render)}});
+  L.querySelectorAll('button[data-del]').forEach(function(b){b.onclick=function(){delete Q[this.dataset.del];render();refreshButtons()}});
+}
+
+// ---------- olah gambar ----------
+function fit(bmp,w,h){
+  var c=document.createElement('canvas'); c.width=w; c.height=h; var x=c.getContext('2d');
+  x.imageSmoothingQuality='high'; var s=Math.min(w/bmp.width,h/bmp.height); var dw=Math.round(bmp.width*s), dh=Math.round(bmp.height*s);
+  x.drawImage(bmp,Math.round((w-dw)/2),Math.round((h-dh)/2),dw,dh);
+  return new Promise(function(res){c.toBlob(function(b){b.arrayBuffer().then(function(a){res(new Uint8Array(a))})},'image/png')});
+}
+function loadImg(file){
+  if(window.createImageBitmap) return createImageBitmap(file);
+  return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im)};im.onerror=rej;im.src=URL.createObjectURL(file)});
+}
+function addLogo(kind,id,name,file){
+  return loadImg(file).then(function(bmp){return Promise.all([fit(bmp,180,180),fit(bmp,25,18)])}).then(function(r){
+    var key=kind+':'+id; if(Q[key]) URL.revokeObjectURL(Q[key].url);
+    Q[key]={kind:kind,id:id,name:name,normal:r[0],small:r[1],url:URL.createObjectURL(new Blob([r[0]],{type:'image/png'}))};
+    refreshButtons();
+  }).catch(function(){alertBox('Gambar '+file.name+' tidak bisa dibaca.')});
+}
+function alertBox(m){st($('sOut'),m,'bad')}
+$('fBulk').onchange=function(){
+  var fs=[].slice.call(this.files); var clubIds={},compIds={};
+  DB.clubs.forEach(function(c){clubIds[c.uid]=c.name}); DB.comps.forEach(function(c){compIds[c.uid]=c.name});
+  var ok=0,miss=[];
+  Promise.all(fs.map(function(f){
+    var m=f.name.match(/(\d+)/); var id=m?+m[1]:-1; var comp=/comp|liga|league|kompetisi/i.test(f.name.replace(/\d+/,''));
+    if(id in clubIds && !(comp && id in compIds)) {ok++; return addLogo('clubs',id,clubIds[id],f)}
+    if(id in compIds){ok++; return addLogo('comps',id,compIds[id],f)}
+    miss.push(f.name); return null;
+  })).then(function(){st($('sBulk'),ok+' logo masuk antrean.'+(miss.length?' Tidak dikenali: '+miss.join(', '):''),miss.length?'warn':'ok');render()});
+};
+
+// ---------- antrean & hasil ----------
+function items(){return Object.keys(Q).map(function(k){return Q[k]})}
+function refreshButtons(){
+  var it=items(); $('bDocs').disabled=!it.length; $('bApk').disabled=!it.length||!LG; $('bClear').disabled=!it.length;
+  $('queue').innerHTML=it.length?('<b>'+it.length+' logo di antrean:</b> '+it.map(function(q){return esc(q.name)+' ('+(q.kind==='clubs'?'klub':'kompetisi')+' '+q.id+')'}).join(', ')):'Belum ada logo di antrean.';
+  if(it.length&&!LG) $('queue').innerHTML+='<br>Untuk file APK, buka dulu pictures_logos.fmf di langkah 2.';
+}
+$('bClear').onclick=function(){Q={};render();refreshButtons()};
+
+function bar(p){var b=$('bar');b.style.display=p==null?'none':'block';b.firstChild.style.width=((p||0)*100)+'%'}
+function crcBlob(blob,onp){
+  var T=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;T[n]=c>>>0}
+  var crc=0xFFFFFFFF,pos=0,STEP=8<<20;
+  function next(){
+    if(pos>=blob.size) return Promise.resolve((crc^0xFFFFFFFF)>>>0);
+    return blob.slice(pos,pos+STEP).arrayBuffer().then(function(a){var b=new Uint8Array(a);for(var i=0;i<b.length;i++)crc=T[(crc^b[i])&255]^(crc>>>8);pos+=b.length;onp&&onp(pos/blob.size);return next()});
+  }
+  return next();
+}
+function zipOne(name,blob,onp){ // zip tanpa kompresi untuk satu file besar (Zip64 bila perlu)
+  return crcBlob(blob,onp).then(function(crc){
+    var te=new TextEncoder(),nm=te.encode(name),big=blob.size>=0xFFFFFFFF;
+    var ex=big?new Uint8Array(20):new Uint8Array(0);
+    function u64(dv,p,v){dv.setUint32(p,v%4294967296,true);dv.setUint32(p+4,Math.floor(v/4294967296),true)}
+    if(big){var xv=new DataView(ex.buffer);xv.setUint16(0,1,true);xv.setUint16(2,16,true);u64(xv,4,blob.size);u64(xv,12,blob.size)}
+    var h=new Uint8Array(30),dv=new DataView(h.buffer);dv.setUint32(0,0x04034b50,true);dv.setUint16(4,big?45:20,true);dv.setUint32(14,crc,true);
+    dv.setUint32(18,big?0xFFFFFFFF:blob.size,true);dv.setUint32(22,big?0xFFFFFFFF:blob.size,true);dv.setUint16(12,0x5B71,true);dv.setUint16(26,nm.length,true);dv.setUint16(28,ex.length,true);
+    var c=new Uint8Array(46),cv=new DataView(c.buffer);cv.setUint32(0,0x02014b50,true);cv.setUint16(4,big?45:20,true);cv.setUint16(6,big?45:20,true);cv.setUint32(16,crc,true);
+    cv.setUint32(20,big?0xFFFFFFFF:blob.size,true);cv.setUint32(24,big?0xFFFFFFFF:blob.size,true);cv.setUint16(14,0x5B71,true);cv.setUint16(28,nm.length,true);cv.setUint16(30,ex.length,true);
+    var cdOff=30+nm.length+ex.length+blob.size, cdLen=46+nm.length+ex.length;
+    var e=new Uint8Array(22),ev=new DataView(e.buffer);ev.setUint32(0,0x06054b50,true);ev.setUint16(8,1,true);ev.setUint16(10,1,true);ev.setUint32(12,cdLen,true);ev.setUint32(16,Math.min(cdOff,0xFFFFFFFF),true);
+    return new Blob([h,nm,ex,blob,c,nm,ex,e]);
+  });
+}
+function save(filename,blob,allowed){
+  if(dl){
+    var p=allowed?Promise.resolve(blob):(st($('sOut'),'Menyiapkan zip (menghitung checksum) …'),zipOne(filename,blob,bar).then(function(z){filename+='.zip';return z}));
+    return p.then(function(b){bar(null);return dl.save({filename:filename,data:b})}).then(function(){st($('sOut'),'Tersimpan: '+filename+(allowed?'':' (ekstrak dulu untuk mendapat file aslinya)'),'ok')})
+      .catch(function(e){bar(null);var c=e&&e.code;st($('sOut'),c==='too_large'?'File terlalu besar untuk aplikasi Claude. Unduh file HTML aplikasi ini dan buka di Chrome.':c==='declined'?'Penyimpanan dibatalkan.':'Gagal menyimpan: '+(e&&e.message||c),'bad')});
+  }
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},60000);
+  st($('sOut'),'Unduhan dimulai: '+filename+' ('+mb(blob.size)+').','ok'); return Promise.resolve();
+}
+$('bDocs').onclick=function(){
+  var it=items(); var te=new TextEncoder();
+  var files=[{name:'logo_idn/config.xml',data:te.encode(FMM.documentsConfig(it))}];
+  it.forEach(function(q){files.push({name:'logo_idn/'+(q.kind==='clubs'?'club':'comp')+'_'+q.id+'.png',data:q.normal})});
+  save('logo_idn.zip',new Blob(FMM.makeZip(files)),true);
+};
+$('bApk').onclick=function(){
+  var btn=this; btn.disabled=true; st($('sOut'),'Menyusun pictures_logos.fmf …');
+  try{
+    var out=FMM.buildLogoArchive(LG,items());
+    var blob=new Blob(out.parts,{type:'application/octet-stream'});
+    save('pictures_logos.fmf',blob,false).then(function(){
+      st($('sOut'),$('sOut').textContent+' Arsip di halaman ini sudah ikut berubah; untuk perubahan berikutnya, buka ulang file hasil di langkah 2.',$('sOut').className.indexOf('bad')>=0?'bad':'ok');
+      LG=null; $('fLogo').value=''; st($('sLogo'),'Buka ulang pictures_logos.fmf (versi terbaru) sebelum membuat file APK lagi.','warn'); refreshButtons();
+    });
+  }catch(e){st($('sOut'),'Gagal: '+e.message,'bad');btn.disabled=false}
+};
+})();
+</script>
+</body>
+</html>

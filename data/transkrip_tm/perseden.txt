@@ -1,0 +1,35 @@
+20|Kiper|IDN|Ridho Al Wafaa|2000-03-02||
+43|Kiper|IDN|Komang Saskara|||
+56|Kiper|IDN|Bima Aidil|2006-10-25||
+27|Bek|IDN|Gede Darma|||
+4|Bek-Tengah|IDN|Komang Ari|2006-03-22||
+5|Bek-Tengah|IDN|Farhan Ramdani|2004-09-05||
+52|Bek-Tengah|IDN|Joriel Tuhuteru|2004-06-29||
+87|Bek-Tengah|IDN|Komang Dedi|2003-11-23||
+8|Bek-Kiri|IDN|Agus Mahendra|2002-06-01||
+25|Bek-Kiri|IDN|Junius Bate|1993-06-09||
+29|Bek-Kiri|IDN|Gerry Wilson|2004-02-28||
+13|Bek-Kanan|IDN|Wayan Adinata|2003-03-13||
+28|Bek-Kanan|IDN|Komang Agus|2006-08-28||
+14|Gel. Bertahan|IDN|Danil Reza|2004-03-14||
+23|Gel. Bertahan|IDN|Gede Sunu|2002-04-28||
+12|Gel. Bertahan|IDN|Alexandrow Benmetan|2005-05-21||
+16|Gelandang|IDN|Putu Andre|2008-01-18||
+17|Gelandang|IDN|Kadek Juliantara|2005-07-28||
+35|Gelandang|IDN|Subri Umarella|2003-05-14||
+74|Gel. Bertahan|IDN|Bagus Bramastha|2006-02-09||
+81|Gelandang|IDN|Agus Andika|||
+57|Gel. Tengah|IDN|Kadek Ari|2004-02-12||
+18|Gelandang Kiri|IDN|Larsan Holo|2004-07-06||
+21|Gel. Serang|IDN|Kadek Yoga|2002-12-10||
+26|Gel. Serang|IDN|Made Antha|1992-06-26||
+15|Sayap Kanan|IDN|Egy Panyonga|2006-09-24||
+88|Sayap Kanan|IDN|Kadek Riksa|2007-05-21||
+90|Depan-Tengah|IDN|Nathan Suarnatya|2005-01-27||
+7|Depan-Tengah|IDN|Alfian Arfarid|1997-12-19||
+19|Penyerang|IDN|Julyo Haraiva|2004-07-19||
+S|Pelatih Kepala|IDN|FX Yanuar|43
+S|Assisten Pelatih|IDN|Agung Bramastra|
+S|Assisten Pelatih|IDN|Harry Wandira|
+S|Pelatih Kiper|IDN|Ngurah Komang|41
+S|Pelatih Fisik|IDN|Asep Wahono|

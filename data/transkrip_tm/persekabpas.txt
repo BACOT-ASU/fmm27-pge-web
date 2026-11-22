@@ -1,0 +1,36 @@
+1|Kiper|IDN|Soka Buana|2006-02-10||
+30|Kiper|IDN|Yuniar Anif|2006-01-29||
+93|Kiper|IDN|Zidane Afreza|2006-04-04||
+6|Bek|IDN|Teddy Galih|2004-01-27||
+15|Bek|IDN|Fanca Agung|||
+2|Bek-Tengah|IDN|Joko Susilo|1996-01-10||
+5|Bek-Tengah|IDN/BRA|Otávio Dutra|1983-11-22||
+55|Bek-Tengah|IDN|Dandi Maulana|1998-06-17||
+3|Bek-Kiri|IDN|Alexandro Kamuru|2005-08-19||
+23|Bek-Kanan|IDN|Ickbal Maulana|2005-04-18||
+13|Gel. Bertahan|IDN|Firman Mutalib|2004-06-20||
+8|Gelandang|IDN|Wisnu Tegar|2004-03-18||
+19|Gelandang|IDN|Juan Evan|||
+22|Gelandang|IDN|Zanuar Ardani|2002-01-10||
+28|Gelandang|IDN|Manzila Fizal|2002-06-03||
+84|Gelandang|IDN|Diaz Firman|||
+10|Gel. Serang|IDN|Nofi Atmaja|2000-11-02||
+77|Gel. Serang|IDN|Gilang Pratama|2004-07-21||
+4|Sayap Kiri|IDN|Fran Saputra|2004-07-08||
+20|Sayap Kiri|IDN|Osvaldo Haay|1998-05-17||
+7|Sayap Kiri|IDN|Galang Saputra|2005-02-06||
+26|Sayap Kiri|IDN|Abdul Hamid|2004-05-28||
+-|Sayap Kanan|IDN|Bayu Gatra|1991-11-12||
+18|Sayap Kanan|IDN|Rahmat Beri|2004-02-02||
+27|Sayap Kanan|IDN|Ali Mashori|2001-01-28||
+9|Depan-Tengah|IDN/BRA|Beto|1980-12-31||
+11|Penyerang|IDN|Mukhammad Nurchaqiqi|2002-04-10||
+14|Depan-Tengah|IDN|Farhan Irwansyah|2007-10-27||
+17|Penyerang|IDN|Raihan Dwi|2008-11-15||
+35|Depan-Tengah|IDN|Devit Pakage|||
+85|Penyerang|IDN|Mohammad Rifki|2004-01-28||
+S|Pelatih Kepala|IDN/CMR|Bio Paulin|42|2028-06-30
+S|Assisten Pelatih|IDN|Yandri Pitoy|45
+S|Assisten Pelatih|IDN|Slamet Ardhyansyah|
+S|Assisten Pelatih|IDN|Jefridin Anwar|
+S|Pelatih Fisik|IDN|Inda Ramdhani|33|2027-02-28

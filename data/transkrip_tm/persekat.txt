@@ -1,0 +1,34 @@
+20|Kiper|IDN|Rachmad Hadi|||
+78|Kiper|IDN|Amrin Khanan|2005-05-16||
+81|Kiper|IDN|Julfikar Laing|2004-06-04||
+2|Bek-Tengah|IDN|Alex Sander|2004-04-07||
+66|Bek-Tengah|IDN|Akbar Haris|2002-08-21||
+13|Bek-Tengah|IDN|Agung Prasetyo|2000-01-09||
+23|Bek-Tengah|IDN|Laksana Prabu|2008-01-05||
+24|Bek-Tengah|IDN|Denny Ramadhan|||
+17|Bek-Kiri|IDN|Adam Aditya|2000-03-30||
+26|Bek-Kiri|IDN|Farriziano Habibie|2004-09-02||
+5|Bek-Kanan|IDN|Beckham Adu|2004-05-01||
+14|Bek-Kanan|IDN|Alberta Nino|2006-04-14||
+19|Bek-Kanan|IDN|Bagas Putra|||
+21|Gel. Bertahan|IDN|Gian Farhan|2006-02-23||
+30|Gel. Bertahan|IDN|Adam Rizki|2006-03-30||
+6|Gel. Tengah|IDN|Abdi Malik|2001-03-14||
+8|Gel. Tengah|IDN|Dave Mustaine|1992-11-16||
+7|Gel. Tengah|IDN|Wondo Sulaeman|2005-02-20||
+10|Gel. Tengah|IDN|Muhammad Firman|1999-01-28||
+16|Gel. Serang|IDN|Fayi Athallah|2009-03-16||
+18|Gel. Serang|IDN|Raka Ibrahimovic|2008-03-05||
+27|Sayap Kiri|IDN|Iqbal Maulana|2006-03-07||
+22|Sayap Kiri|IDN|Zuhdan Khafid|2009-07-22||
+32|Sayap Kanan|IDN|Faisal Ramadani|2005-10-16||
+71|Sayap Kanan|IDN|Imam Bagus|1995-09-05||
+91|Sayap Kanan|IDN|Yoska Cavalera|2004-01-18||
+9|Depan-Tengah|IDN|Imam Witoyo|1994-01-09||
+11|Depan-Tengah|IDN|Agusti Ardiansyah|2007-08-08||
+94|Depan-Tengah|IDN|Hanan Ritonga|||
+S|Pelatih Kepala|IDN|Agus Riyanto|
+S|Assisten Pelatih|IDN|Lukman Afif|41
+S|Assisten Pelatih|IDN|Akhmad Mustopa|
+S|Assisten Pelatih|IDN|Satria Nurzaman|
+S|Pelatih Kiper|IDN|Dedi Hariandi|

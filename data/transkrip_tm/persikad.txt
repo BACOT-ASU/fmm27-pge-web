@@ -1,0 +1,36 @@
+31|Kiper|IDN|Zaenuri Azhar|2002-03-16||435
+23|Kiper|IDN|Yehezkiel Petra|2006-04-21||174
+48|Kiper|IDN|Dafa Al Gasemi|2008-02-12||
+80|Kiper|IDN|Ghana Hadi|2006-07-08||
+82|Kiper|IDN|Azrial Aksa|2007-06-08||
+2|Bek-Tengah|CIV|Habib Omar Fofana|1998-11-16||1300
+32|Bek-Tengah|IDN|Yudi Safrizal|1999-06-09||1300
+16|Bek-Tengah|IDN|Ibnu Yazid|2006-01-18||435
+22|Bek-Tengah|IDN|Herwin Saputra|1991-01-10||435
+26|Bek-Tengah|IDN|Roman Badawi|2008-09-05||
+30|Bek-Kiri|IDN|Rendy Saputra|1989-09-16||
+20|Bek-Kiri|IDN|Salim Maidullah|2005-11-20||
+14|Bek-Kanan|IDN|Imus Wiranda|2002-08-14||1300
+6|Bek-Kanan|IDN|Ade Suryana|2000-03-12||
+53|Gel. Bertahan|IDN|Dolly Gultom|1993-03-05||174
+5|Gelandang|IDN|Rizky Ananda|2002-02-15||
+77|Gelandang|IDN|Yusril Tawainella|2007-08-30||
+15|Gel. Tengah|IDN|Fikri Firdaus|2002-07-31||
+95|Gel. Tengah|IDN|Sedek Tuakia|2001-12-10||
+21|Gel. Tengah|IDN|Nico Sitepu|2004-12-09||
+12|Gel. Serang|IDN|Fikri Ardiansyah|1995-12-25||1300
+39|Gel. Serang|IDN|Assyifa Marhaen|2006-02-25||
+19|Gel. Serang|IDN|Fachry Ghulam|2006-09-19||
+24|Gel. Serang|IDN|Gilang Alviqi|2008-03-14||
+46|Gel. Serang|IDN|Indra Pratama|2006-05-06||
+17|Sayap Kiri|IDN|Ramdani Tawainella|2000-01-01||
+33|Sayap Kiri|IDN|Pahri Al Mudzaki|2007-06-23||
+10|Sayap Kanan|COL|Jhon Mena|1997-06-06||2170
+11|Sayap Kanan|IDN|Reyfaldo Hermawan|2006-02-04||
+18|Sayap Kanan|IDN|Satria Dwi|2007-11-10||
+9|Depan-Tengah|BRA|Gustavo França|2002-06-30||1300
+27|Depan-Tengah|IDN|Faisal Ramadoni|1998-01-20||869
+28|Penyerang|IDN|Arfin Syahputra|2008-01-28||
+S|Pelatih Kepala|IDN|Achmad Zulkifli|42|2027-06-30
+S|Assisten Pelatih|IDN|Sunandar Boro|33
+S|Pelatih Kiper|IDN|Farid Ridwan|31

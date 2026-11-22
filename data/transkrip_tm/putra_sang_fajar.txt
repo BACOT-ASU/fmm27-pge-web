@@ -1,0 +1,33 @@
+1|Kiper|IDN|Iqbal Septian|2005-09-15||
+86|Kiper|IDN|Wahyu Tri Nugroho|1986-07-27||
+20|Kiper|IDN|Dava Siregar|2008-11-04||
+51|Bek-Tengah|IDN|Airlangga Mutamasiqdina|2001-02-11||
+87|Bek-Tengah|IDN|Fathul Ihsan|2002-10-26||
+40|Bek-Tengah|IDN|Fahrul Rojdi|||
+30|Bek-Kiri|IDN|Oky Kharisma|2000-04-03||
+14|Bek-Kiri|IDN|Difo Prasetya|2006-01-14||
+15|Bek-Kanan|IDN|Surya Maulana|2001-07-09||
+29|Bek-Kanan|IDN|Fahri Akbar|2005-10-27||
+75|Bek-Kanan|IDN|Rio Fernando|2001-10-17||
+8|Gel. Bertahan|IDN|Frezy Al Hudaifi|2004-04-21||
+12|Gel. Bertahan|IDN|Figo Firmansyah|2004-12-10||
+21|Gel. Bertahan|IDN|Firmansyah|1997-02-10||
+24|Gelandang|IDN|Yusuf Baihaqi|2008-10-09||
+22|Gel. Tengah|IDN|Fajar Ihsanudin|2004-02-11||
+17|Gel. Tengah|IDN|Ikhsan Nur Fauzan|2005-01-02||
+76|Gel. Tengah|IDN|Raditya Pramana|2005-09-29||
+7|Sayap Kiri|IDN|Ridwan Ansori|2004-02-13||
+18|Sayap Kiri|IDN|Dona Saputra|1998-01-02||
+44|Sayap Kanan|IDN|Muhammad Fadly|2004-12-14||869
+10|Sayap Kanan|IDN|Komarodin|1995-07-19||
+11|Sayap Kanan|IDN|Alex Sandro|2005-04-22||
+9|Depan-Tengah|IDN|Athallah Araihan|2004-06-04||
+90|Depan-Tengah|IDN|Johan Yoga|1990-02-19||
+26|Penyerang|IDN|Chaly Rumaropen|||
+27|Penyerang|IDN|Zidane Lubis|2008-03-18||
+99|Penyerang|IDN|Kevin Al Hafiz|2009-01-27||
+S|Pelatih Kepala|IDN|Agus Sugeng|47
+S|Assisten Pelatih|IDN|Anang Ma'ruf|50
+S|Assisten Pelatih|IDN|Arif Eko|
+S|Pelatih Kiper|IDN|Fauzal Mubaraq|42
+S|Pelatih Fisik|IDN|Suwanda|

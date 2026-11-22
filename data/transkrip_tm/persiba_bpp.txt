@@ -1,0 +1,33 @@
+1|Kiper|IDN|Pancar|2000-04-05||1300
+13|Kiper|IDN|Risky Sudirman|2002-02-02||435
+80|Kiper|IDN|Achmad Alfarizi|2006-06-27||
+4|Bek-Tengah|IDN|Muhammad Ilham|2003-04-25||869
+6|Bek-Tengah|JPN|Tomoki Taniguchi|1992-10-22||869
+24|Bek-Tengah|IDN|Valda Uzlah|2003-12-20||869
+27|Bek-Tengah|IDN/JPN|Meru Kimura|2001-06-27||435
+5|Bek-Tengah|IDN|Yudha Firdanna|2002-08-26||
+7|Bek-Kiri|IDN|Abdul Rachman|1988-01-30||174
+17|Bek-Kiri|IDN|Ahmad Mujtaba|2007-06-08||
+20|Bek-Kiri|IDN|Cerilus Seran|2006-06-27||
+29|Bek-Kanan|IDN|Gardhika Arya|2000-08-08||174
+8|Gel. Bertahan|IDN|Bryan Cesar|1993-03-16||435
+85|Gel. Bertahan|IDN|Evan Anwar|2006-03-01||
+23|Gel. Tengah|IDN|Yusran Al Makassar|2006-11-01||
+32|Gel. Tengah|IDN|Ilham Romadhona|2008-03-23||
+41|Gel. Serang|JPN|Ryohei Yoshihama|1992-10-24||1300
+37|Gel. Serang|IDN|Flavio Cameron|2002-02-02||
+67|Gel. Serang|IDN|Akbar|1998-07-29||
+19|Sayap Kiri|IDN|Ardi Ardiana|2003-12-22||869
+18|Sayap Kiri|IDN|Andi Mukhram|2006-03-08||
+25|Sayap Kiri|IDN|Cois Artomoro|2003-04-02||
+91|Sayap Kanan|IDN|Arsa Ahmad|2003-10-31||869
+9|Sayap Kanan|IDN/SLE|Prince Kallon|2002-02-03||435
+66|Sayap Kanan|IDN|Jay Amru|2007-11-09||435
+11|Sayap Kanan|IDN|Rizal|2001-07-02||
+14|Sayap Kanan|IDN|Fatihul Alif|2007-12-31||
+16|Sayap Kanan|IDN|Fabio Royyan|2007-08-28||
+10|Depan-Tengah|JPN|Takumu Nishihara|1992-07-17||1740
+S|Pelatih Kepala|IDN|Ega Raka Galih|43
+S|Assisten Pelatih|IDN|Yus Arfandi|39
+S|Pelatih Kiper|IDN|Sutrisno Hindarto|
+S|Pelatih Fisik|IDN|Ilham Ralibi|40

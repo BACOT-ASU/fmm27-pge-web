@@ -1,0 +1,35 @@
+22|Kiper|IDN|Zahid Amel|2000-03-09||
+20|Kiper|IDN|Dastin Mahardika|2004-04-23||
+95|Kiper|IDN|Reigi Al Farizi|2008-07-28||
+-|Bek|IDN|Satria Anugrah|||
+30|Bek|IDN|Emir Reza|||
+33|Bek|IDN|Daffa Al Nugraha|||
+25|Bek-Tengah|IDN|Fadhil Aksah|2002-10-02||
+5|Bek-Tengah|IDN|Mizan Agin|2005-04-30||
+53|Bek-Tengah|IDN|Gesang Hidayatullah|2005-01-20||
+66|Bek-Tengah|IDN|Ardan Fibryan|2005-01-26||
+91|Bek-Tengah|IDN|Wahyu Kurniawan|1995-04-16||
+13|Bek-Kiri|IDN|Naufal Choliq|2001-09-22||
+19|Gel. Bertahan|IDN|Alfredo Arya|2005-08-13||
+12|Gel. Bertahan|IDN|Muhammad Kandias|2005-07-17||
+17|Gel. Tengah|IDN|Al Wino Zacqy|1996-01-17||
+89|Gel. Tengah|IDN|Kakang Juventus|2008-06-03||
+24|Gel. Serang|IDN|Dalmiansyah|1997-10-14||
+26|Gel. Serang|IDN|Muhammad Mishbah|2005-02-06||
+7|Gel. Serang|IDN|Rosyid Irvani|2001-09-09||
+10|Gel. Serang|IDN|Zardan Aroby|2003-10-13||
+88|Gel. Serang|IDN|Ibnu Sina|2007-11-26||
+11|Sayap Kiri|IDN|Firmansyah Ahmad|2004-05-31||
+69|Sayap Kiri|IDN|Risal|1995-10-04||
+77|Sayap Kanan|IDN|Zarhan Fahrezi|2006-10-02||
+97|Sayap Kanan|IDN|Yadi Mulyadi|2002-02-11||
+21|Sayap Kanan|IDN|Orlen Islami|2007-01-30||
+71|Sayap Kanan|IDN|Ryan Pamungkas|2007-06-27||
+96|Sayap Kanan|IDN|Hazel Werkudoro|2005-02-19||
+29|Penyerang|IDN|Ajik Mashudi|1998-07-21||
+39|Depan-Tengah|IDN|Reja Kurniawan|2008-07-23||
+99|Penyerang|IDN|Abdullah Jaelani|2008-08-14||
+S|Pelatih Kepala|IDN|Mohamad Firdaus|
+S|Assisten Pelatih|IDN|Tedi Berlian|30
+S|Pelatih Kiper|IDN|Erry Abdullah|
+S|Pelatih Fisik|IDN|Eko Wiguna|
