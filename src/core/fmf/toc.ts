@@ -43,8 +43,8 @@ export function parseToc(raw: Uint8Array): FmfFolder {
         offset: readU64(dv, p),
         storedSize: readU64(dv, p + 8),
         rawSize: readU64(dv, p + 16),
-        time1: readU64(dv, p + 24),
-        time2: readU64(dv, p + 32),
+        time1: dv.getBigUint64(p + 24, true),
+        time2: dv.getBigUint64(p + 32, true),
       });
       p += 40;
     }
@@ -80,8 +80,8 @@ export function serializeToc(root: FmfFolder): Uint8Array {
       writeU64(dv, 0, e.offset);
       writeU64(dv, 8, e.storedSize);
       writeU64(dv, 16, e.rawSize);
-      writeU64(dv, 24, e.time1);
-      writeU64(dv, 32, e.time2);
+      dv.setBigUint64(24, e.time1, true);
+      dv.setBigUint64(32, e.time2, true);
       parts.push(b);
     }
     u32(f.subs.length);

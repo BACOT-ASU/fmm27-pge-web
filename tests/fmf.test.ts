@@ -21,8 +21,8 @@ interface ExpectedEntry {
   offset: number;
   storedSize: number;
   rawSize: number;
-  time1: number;
-  time2: number;
+  time1: string;
+  time2: string;
   sha256: string;
 }
 type Expected = Record<string, { flag: number; size: number; sha256: string; entries: ExpectedEntry[] }>;
@@ -45,8 +45,8 @@ describe.each(FIXTURE_NAMES)('golden: %s (dibuat fmfio.py)', (name) => {
       offset: entry.offset,
       storedSize: entry.storedSize,
       rawSize: entry.rawSize,
-      time1: entry.time1,
-      time2: entry.time2,
+      time1: String(entry.time1),
+      time2: String(entry.time2),
     }));
     expect(got).toEqual(
       exp.entries.map((e) => ({ path: e.path, offset: e.offset, storedSize: e.storedSize, rawSize: e.rawSize, time1: e.time1, time2: e.time2 })),
@@ -68,7 +68,7 @@ describe.each(FIXTURE_NAMES)('golden: %s (dibuat fmfio.py)', (name) => {
 
   it('patch tanpa perubahan: isi tetap sama setelah dibuka ulang', async () => {
     const arc = await openFmfBytes(bytes);
-    const out = await materializeOutput(arc, patchFmf(arc, [], exp.entries[0]!.time1));
+    const out = await materializeOutput(arc, patchFmf(arc, []));
     const arc2 = await openFmfBytes(out);
     const a = listEntries(arc.root);
     const b = listEntries(arc2.root);
@@ -113,6 +113,26 @@ describe.each(FIXTURE_NAMES)('golden: %s (dibuat fmfio.py)', (name) => {
       expect(pyMap.get('synthetic/data/sub/baru.bin')).toBe(sha256(newFile));
       expect(pyMap.size).toBe(exp.entries.length + 1);
     }
+  });
+
+  it('waktu > 2^53 (gaya sicomps.fmf) terbaca persis dan tidak berubah setelah ditambal', async () => {
+    const arc = await openFmfBytes(bytes);
+    const ft = listEntries(arc.root).find((x) => x.path === 'synthetic/data/sub/filetime.dbc')!.entry;
+    expect(ft.time1).toBe(134_078_400_000_000_000n);
+    expect(ft.time2).toBe(134_078_400_123_456_789n);
+    const out = await materializeOutput(
+      arc,
+      patchFmf(arc, [
+        { folder: 'synthetic/data/sub', name: 'filetime', ext: '.dbc', data: new Uint8Array([1, 2, 3]) },
+        { folder: 'synthetic/data/sub', name: 'baru', ext: '.dbc', data: new Uint8Array([4]) },
+      ]),
+    );
+    const byPath = new Map(listEntries((await openFmfBytes(out)).root).map((x) => [x.path, x.entry]));
+    // entri yang diganti mempertahankan waktunya
+    expect(byPath.get('synthetic/data/sub/filetime.dbc')!.time2).toBe(134_078_400_123_456_789n);
+    // entri baru meniru waktu entri pertama di folder yang sama
+    const first = arc.root.subs.find((f) => f.name === 'data')!.subs.find((f) => f.name === 'sub')!.files[0]!;
+    expect(byPath.get('synthetic/data/sub/baru.dbc')!.time1).toBe(first.time1);
   });
 
   it('patch menolak folder yang tidak ada', async () => {

@@ -24,6 +24,9 @@ Isi TOC setelah dekompresi (rekursif, little-endian):
 ```
 folder := str nama, u32 nFile, nFile × file, u32 nSub, nSub × folder
 file   := str nama, str ekstensi (dengan titik), u64 offset, u64 ukuranTersimpan, u64 ukuranAsli, u64 waktu1, u64 waktu2
+```
+**Waktu (VERIFIED, 22 Nov):** satuannya beda antar arsip. `pictures_logos.fmf` memakai angka kecil (detik Unix), sedangkan `sicomps.fmf` asli memakai angka di atas 2^53 (diduga FILETIME Windows, 100 ns sejak 1601) — terbukti dari galat pembaca TS versi awal di HP Bacad. Simpan sebagai u64 utuh (bigint), jangan dibulatkan. Saat menambal: entri yang diganti mempertahankan waktunya; entri baru meniru waktu entri lain di folder yang sama.
+```
 str    := u32 panjang + UTF-8
 ```
 Jalur entri ditulis `akar/sub/nama.ext` (nama folder akar ikut).

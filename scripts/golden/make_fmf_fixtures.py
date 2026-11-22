@@ -16,6 +16,8 @@ import fmfio  # noqa: E402
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 OUT = os.path.join(ROOT, 'tests', 'fixtures', 'fmf')
 T1, T2 = 1_763_800_000, 1_763_800_001
+# Waktu > 2^53 seperti di sicomps.fmf asli (diduga FILETIME Windows, satuan 100 ns sejak 1601)
+FT1, FT2 = 134_078_400_000_000_000, 134_078_400_123_456_789
 
 
 def payload(seed: int, n: int) -> bytes:
@@ -38,6 +40,7 @@ def build(flag: int):
     data.files.append(['nama_unicode_é'.encode(), b'.lng', 'Gresik United — Persija'.encode(), T1, T2])
     sub = fmfio.Folder(b'sub')
     sub.files.append([b'a', b'.xml', b'<record/>', T1, T2])
+    sub.files.append([b'filetime', b'.dbc', b'waktu besar', FT1, FT2])
     data.subs.append(sub)
     root.subs.append(data)
     root.subs.append(fmfio.Folder(b'folder_kosong'))
@@ -52,7 +55,7 @@ def describe(blob: bytes):
         content = fmfio.get(row)
         stored = row[2] if flag == 0 else row[5]
         rows.append({'path': path, 'offset': row[7], 'storedSize': len(stored), 'rawSize': row[6],
-                     'time1': row[3], 'time2': row[4], 'sha256': hashlib.sha256(content).hexdigest()})
+                     'time1': str(row[3]), 'time2': str(row[4]), 'sha256': hashlib.sha256(content).hexdigest()})
     return flag, rows
 
 

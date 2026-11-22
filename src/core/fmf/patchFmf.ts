@@ -2,7 +2,7 @@ import { writeU64 } from '../binary/le';
 import { encodeLengthPrefixedRawFrames, zstdRawFrame } from '../zstd/zstd';
 import { FMF_HEADER_SIZE, FMF_MAGIC } from './openFmf';
 import { cloneFolder, findFolder, serializeToc } from './toc';
-import type { FmfArchive, FmfOutput, OutputPart } from './types';
+import type { FmfArchive, FmfEntry, FmfFolder, FmfOutput, OutputPart } from './types';
 
 export interface FmfChange {
   /** Jalur folder lengkap, mis. "pictures_logos/logos/normal/clubs/custom". */
@@ -23,7 +23,25 @@ export interface FmfChange {
  *
  * Arsip asli tidak diubah. Data lama dikembalikan sebagai rentang sumber, bukan salinan.
  */
-export function patchFmf(arc: FmfArchive, changes: readonly FmfChange[], now = Math.floor(Date.now() / 1000)): FmfOutput {
+/**
+ * Waktu untuk entri baru: tiru entri lain di folder yang sama (atau di arsip),
+ * supaya satuan waktunya ikut konvensi arsip itu. Entri yang diganti mempertahankan waktunya.
+ */
+function referenceTimes(root: FmfFolder, folder: FmfFolder): { time1: bigint; time2: bigint } {
+  const sample = folder.files[0] ?? firstEntry(root);
+  return sample ? { time1: sample.time1, time2: sample.time2 } : { time1: 0n, time2: 0n };
+}
+
+function firstEntry(f: FmfFolder): FmfEntry | undefined {
+  if (f.files[0]) return f.files[0];
+  for (const s of f.subs) {
+    const e = firstEntry(s);
+    if (e) return e;
+  }
+  return undefined;
+}
+
+export function patchFmf(arc: FmfArchive, changes: readonly FmfChange[]): FmfOutput {
   const root = cloneFolder(arc.root);
   const extra: Uint8Array[] = [];
   let pos = arc.dataLength;
@@ -33,14 +51,12 @@ export function patchFmf(arc: FmfArchive, changes: readonly FmfChange[], now = M
     const stored = arc.flag === 0 ? c.data : zstdRawFrame(c.data);
     let e = f.files.find((x) => x.name === c.name && x.ext === c.ext);
     if (!e) {
-      e = { name: c.name, ext: c.ext, offset: 0, storedSize: 0, rawSize: 0, time1: now, time2: now };
+      e = { name: c.name, ext: c.ext, offset: 0, storedSize: 0, rawSize: 0, ...referenceTimes(root, f) };
       f.files.push(e);
     }
     e.offset = pos;
     e.storedSize = stored.length;
     e.rawSize = c.data.length;
-    e.time1 = now;
-    e.time2 = now;
     extra.push(stored);
     pos += stored.length;
   }

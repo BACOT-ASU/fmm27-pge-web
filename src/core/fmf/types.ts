@@ -10,8 +10,12 @@ export interface FmfEntry {
   storedSize: number;
   /** Ukuran asli setelah dekompresi. */
   rawSize: number;
-  time1: number;
-  time2: number;
+  /**
+   * Dua u64 waktu, disimpan sebagai bigint apa adanya. Satuannya berbeda antar arsip:
+   * pictures_logos memakai detik Unix, sicomps memakai nilai > 2^53 (diduga FILETIME Windows).
+   */
+  time1: bigint;
+  time2: bigint;
 }
 
 export interface FmfFolder {

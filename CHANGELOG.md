@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-22 — Perbaikan: waktu TOC > 2^53 (sicomps.fmf)
+- Uji di HP: `sicomps.fmf` asli gagal dibuka ("u64 terlalu besar untuk number di offset 67"). Penyebab: kolom waktu di TOC sicomps bernilai > 2^53 (diduga FILETIME Windows), padahal pembaca menyimpannya sebagai `number`.
+- `FmfEntry.time1/time2` sekarang `bigint` (dibaca/ditulis apa adanya). `patchFmf` tidak lagi menimpa waktu dengan detik Unix: entri yang diganti mempertahankan waktunya, entri baru meniru waktu entri lain di folder yang sama.
+- Fixture sintetis ditambah entri berwaktu gaya FILETIME; tes baru memastikan nilai terbaca persis dan bertahan setelah ditambal.
+- `pictures_logos.fmf` B7b terbaca di HP (flag 0, 142.934 entri); ukuran sicomps B7b (49.620.118) masuk daftar versi.
+
 ## 2026-11-22 — Uji file asli pertama
 - Aplikasi terbit di `https://fmm27-pge-web.bcdsu1.workers.dev` (Cloudflare Worker static assets).
 - `db_archive_2706.fmf` asli dibuka di HP: 149.842.446 byte, flag 0, 76 entri, SHA-256 `eb1d7164…bcf5cc`. Dicatat di `input_manifest.md` dan `src/core/versions.ts` (versi diduga B7b).

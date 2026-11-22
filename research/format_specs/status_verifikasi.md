@@ -19,6 +19,6 @@
 | Logo | VERIFIED | VERIFIED | – | VERIFIED | legacy (fmmcore.js) | `logos.md` |
 | `libgame.so` tabel | VERIFIED | (di luar lingkup) | – | VERIFIED | belum (read-only) | `libgame_tables.md` |
 
-**Uji file asli pertama (22 Nov, HP Bacad):** `db_archive_2706.fmf` (149.842.446 byte) terbuka di aplikasi: flag 0, 76 entri — cocok dengan panduan (76 file). Pembaca TS VERIFIED untuk db asli.
+**Uji file asli pertama (22 Nov, HP Bacad):** `db_archive_2706.fmf` (149.842.446 byte) terbuka di aplikasi: flag 0, 76 entri — cocok dengan panduan (76 file). Pembaca TS VERIFIED untuk db asli. `pictures_logos.fmf` (1.818.029.973 byte = B7b) juga terbuka: flag 0, 142.934 entri. `sicomps.fmf` (49.620.118 byte) gagal di versi awal karena waktu TOC > 2^53 → diperbaiki (waktu disimpan sebagai bigint), menunggu uji ulang.
 
 Pertanyaan terbuka yang bisa dijawab dengan aplikasi (layar "Arsip .fmf"): flag `sicomps.fmf`, flag arsip `comps.dbc`.
