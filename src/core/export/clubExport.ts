@@ -81,3 +81,34 @@ export function buildPatchedDbArchive(arc: FmfArchive, clubDat: Uint8Array): Fmf
   const folder = hit.path.slice(0, hit.path.lastIndexOf('/'));
   return patchFmf(arc, [{ folder, name: hit.entry.name, ext: hit.entry.ext, data: clubDat }]);
 }
+
+/**
+ * Zip Documents untuk banyak file db sekaligus. from = nama file tanpa ekstensi (pola club → club.dat,
+ * TERBUKTI untuk club). Untuk file lain pola yang sama dipakai (LIKELY); .lng belum pernah diuji lewat Documents.
+ */
+export function buildDbDocumentsZip(entries: readonly { name: string; ext: string; data: Uint8Array }[], report: string): Uint8Array {
+  return makeZip([
+    ...entries.map((e) => ({ name: `${DB_FOLDER}/${e.name}${e.ext}`, data: e.data })),
+    { name: `${DB_FOLDER}/config.xml`, data: te.encode(documentsConfigXml(entries.map((e) => e.name))) },
+    { name: 'LAPORAN_PERUBAHAN.txt', data: te.encode(report) },
+  ]);
+}
+
+export function workspaceReportText(lines: readonly { file: string; what: string; from?: string; to?: string }[], ctx: { sources: string[]; createdAt: Date }): string {
+  return [
+    'LAPORAN PERUBAHAN — FMM27 Pre-Game Editor',
+    `Dibuat      : ${ctx.createdAt.toISOString()}`,
+    `File sumber : ${ctx.sources.join(', ')}`,
+    `Perubahan   : ${lines.length}`,
+    '',
+    'PENTING',
+    '- Perubahan database dan aturan terlihat di KARIER BARU.',
+    '- Kalau dimasukkan ke APK: pakai Level "Store" (tanpa kompresi), lalu sign ulang.',
+    '- Jalur Documents: kalau daftar negara jadi kosong, HAPUS DATA aplikasi (bukan cache). Cadangkan save dulu.',
+    '- Stadion/klub baru harus terdaftar di sicomps 2700/fmm_*.dat (IDN-0/1/2) supaya ikut dimuat.',
+    '',
+    'RINCIAN',
+    ...lines.map((l) => `[${l.file}] ${l.what}${l.from !== undefined || l.to !== undefined ? `: ${l.from ?? ''} -> ${l.to ?? ''}` : ''}`),
+    '',
+  ].join('\n');
+}
