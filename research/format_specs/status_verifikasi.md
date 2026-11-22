@@ -19,4 +19,6 @@
 | Logo | VERIFIED | VERIFIED | – | VERIFIED | legacy (fmmcore.js) | `logos.md` |
 | `libgame.so` tabel | VERIFIED | (di luar lingkup) | – | VERIFIED | belum (read-only) | `libgame_tables.md` |
 
+**Uji file asli pertama (22 Nov, HP Bacad):** `db_archive_2706.fmf` (149.842.446 byte) terbuka di aplikasi: flag 0, 76 entri — cocok dengan panduan (76 file). Pembaca TS VERIFIED untuk db asli.
+
 Pertanyaan terbuka yang bisa dijawab dengan aplikasi (layar "Arsip .fmf"): flag `sicomps.fmf`, flag arsip `comps.dbc`.

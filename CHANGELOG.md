@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-22 — Uji file asli pertama
+- Aplikasi terbit di `https://fmm27-pge-web.bcdsu1.workers.dev` (Cloudflare Worker static assets).
+- `db_archive_2706.fmf` asli dibuka di HP: 149.842.446 byte, flag 0, 76 entri, SHA-256 `eb1d7164…bcf5cc`. Dicatat di `input_manifest.md` dan `src/core/versions.ts` (versi diduga B7b).
+
 ## 2026-11-22 — Analisa liga/kompetisi, koneksi data, award, dan jatah AFC
 - Dokumen riset baru `research/format_specs/liga_kompetisi_award_afc.md`: status semua kompetisi Indonesia (aktif/dorman, termasuk liga U21/U18 yang dirancang developer tapi tidak pernah dibangun ke database), peta koneksi data antar file, temuan `awards.dat` (file baru yang belum pernah dibongkar, nihil entri untuk kompetisi Indonesia), dan analisis akar masalah jatah AFC (Indonesia tidak terdaftar di `nation_list` benua Asia untuk sistem koefisien 8 tahun / seeding 6-4-2).
 - `research/format_specs/fmm27_panduan_induk.md` disinkronkan dengan panduan induk terbaru (section 10 item 4/4b/4c + section 12).
