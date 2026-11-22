@@ -57,4 +57,4 @@ Read: VERIFIED (flag 0 & 3) · Write (tambal): VERIFIED logo, UNKNOWN db/sicomps
 ## Unknown
 - Arti byte `08 00 00` di akhir magic (mungkin versi). Diperlakukan sebagai bagian magic.
 - Flag selain 0 dan 3 (ditolak).
-- Flag `sicomps.fmf` dan isi `fmm_*.dat` (flag 0/3) → **cek dengan aplikasi** (layar "Arsip .fmf").
+- ~~Flag `sicomps.fmf`~~ → **terjawab 22 Nov: flag 0** (1.489 entri); `comps.dbc` di dalamnya **flag 3** (1.344 entri). Flag arsip `fmm_*.dat` masih belum dicek.

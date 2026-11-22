@@ -4,7 +4,7 @@ Sumber: panduan induk §6; skrip `scripts/dbc.py`, `dbcarc.py`, `dbcshow.py`, `b
 
 ## Identifikasi
 `sicomps.fmf` berisi 1.489 file: XML aturan, `.md` developer, **`comps.dbc` (yang dibaca game)**, `comps.txt`, `2700/fmm_*.dat`. Bukti game membaca dbc: Serie C hanya ada di dbc.
-`comps.dbc` = arsip bersarang (prefix `03 01 "cbd." 04 00` + kontainer `.fmf`), 1.272 entri.
+`comps.dbc` = arsip bersarang (prefix `03 01 "cbd." 04 00` + kontainer `.fmf`) **flag 3** (tiap entri satu frame zstd), **1.344 entri** di sicomps B7b (dibaca aplikasi, 22 Nov). Catatan lama: parse/build identik untuk 1.272 entri — selisih 72 diduga `fixtures_N.dbc` (HYPOTHESIS).
 
 ## Entri — VERIFIED
 Nama: `comp_<nama>_<branch>.dbc`, `nation_<x>_<branch>.dbc`, `continent_…`, `fixtures_N.dbc` (tabel biner 25 byte per baris; salin apa adanya).

@@ -19,6 +19,10 @@
 | Logo | VERIFIED | VERIFIED | – | VERIFIED | legacy (fmmcore.js) | `logos.md` |
 | `libgame.so` tabel | VERIFIED | (di luar lingkup) | – | VERIFIED | belum (read-only) | `libgame_tables.md` |
 
-**Uji file asli pertama (22 Nov, HP Bacad):** `db_archive_2706.fmf` (149.842.446 byte) terbuka di aplikasi: flag 0, 76 entri — cocok dengan panduan (76 file). Pembaca TS VERIFIED untuk db asli. `pictures_logos.fmf` (1.818.029.973 byte = B7b) juga terbuka: flag 0, 142.934 entri. `sicomps.fmf` (49.620.118 byte) gagal di versi awal karena waktu TOC > 2^53 → diperbaiki (waktu disimpan sebagai bigint), menunggu uji ulang.
+**Uji file asli pertama (22 Nov, HP Bacad):** `db_archive_2706.fmf` (149.842.446 byte) terbuka di aplikasi: flag 0, 76 entri — cocok dengan panduan (76 file). Pembaca TS VERIFIED untuk db asli. `pictures_logos.fmf` (1.818.029.973 byte = B7b) juga terbuka: flag 0, 142.934 entri. `sicomps.fmf` (49.620.118 byte) gagal di versi awal karena waktu TOC > 2^53 → diperbaiki (waktu disimpan sebagai bigint). Uji ulang: **flag 0, 1.489 entri** (cocok dengan panduan), `comps.dbc` = arsip bersarang **flag 3, 1.344 entri**.
 
-Pertanyaan terbuka yang bisa dijawab dengan aplikasi (layar "Arsip .fmf"): flag `sicomps.fmf`, flag arsip `comps.dbc`.
+**Pertanyaan flag terjawab:** `sicomps.fmf` flag 0; `comps.dbc` flag 3. Akibatnya: menambal `comps.dbc` memakai jalur flag 3 (isi entri dibungkus frame zstd raw) yang statusnya masih HYPOTHESIS — perlu uji game, atau cadangan: kompres ulang dengan zstd sungguhan (WASM) agar sama dengan `fmfio.write`.
+
+**Selisih yang perlu dicek:** panduan menyebut `parse`/`build` identik untuk 1.272 entri, sedangkan arsip berisi 1.344 entri. Dugaan (HYPOTHESIS): 72 sisanya adalah `fixtures_N.dbc` (tabel biner, tidak di-parse) atau entri non-dbc lain. Dicek saat port `dbc.py`.
+
+

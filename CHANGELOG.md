@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-22 — Uji ulang sicomps.fmf (setelah perbaikan bigint)
+- `sicomps.fmf` B7b terbuka di HP: flag 0, 1.489 entri; `comps.dbc` = arsip bersarang flag 3, 1.344 entri. Pertanyaan flag terjawab; dicatat di `input_manifest.md`, `status_verifikasi.md`, `fmf_container.md`, `comps_dbc.md`.
+
 ## 2026-11-22 — Perbaikan: waktu TOC > 2^53 (sicomps.fmf)
 - Uji di HP: `sicomps.fmf` asli gagal dibuka ("u64 terlalu besar untuk number di offset 67"). Penyebab: kolom waktu di TOC sicomps bernilai > 2^53 (diduga FILETIME Windows), padahal pembaca menyimpannya sebagai `number`.
 - `FmfEntry.time1/time2` sekarang `bigint` (dibaca/ditulis apa adanya). `patchFmf` tidak lagi menimpa waktu dengan detik Unix: entri yang diganti mempertahankan waktunya, entri baru meniru waktu entri lain di folder yang sama.
