@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-22 — Uji penjelajah database dengan db asli
+- HP Bacad: 1.683 kompetisi · 38.772 klub · 251 negara terbaca dalam 1.098 ms, tanpa galat. Dicatat di `status_verifikasi.md`.
+
 ## 2026-11-22 — Sesi 03 (Fase 3, sebagian): adapter competition.dat + club.dat
 - `src/core/formats/competition/competitionDat.ts`: parse/serialize (round-trip identik), ubah field tetap-ukuran (jenis, benua, negara, reputasi, tingkat, induk), ganti nama, validator (index urut, UID ganda, induk, nama > 21 huruf).
 - `src/core/formats/club/clubDat.ts`: parse/serialize (round-trip identik), `withClubField` untuk negara, status, fasilitas, penonton, divisi, stadion, reputasi; `withClubNames`; validator (UID ganda, status, fasilitas, reputasi, divisi/stadion tidak ada, klub liga tanpa stadion). Setiap record menyimpan byte aslinya; bagian tak dikenal (kit, blok keuangan, daftar 21 byte, blok akhir) tidak disentuh.
