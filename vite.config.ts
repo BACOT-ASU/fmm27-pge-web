@@ -9,11 +9,15 @@ const base = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base,
+  define: {
+    __APP_BUILD__: JSON.stringify(`${process.env.WORKERS_CI_COMMIT_SHA?.slice(0, 7) ?? process.env.GITHUB_SHA?.slice(0, 7) ?? 'lokal'} · ${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC`),
+  },
   plugins: [
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'prompt',
+      // autoUpdate: versi baru langsung aktif (skipWaiting + clientsClaim) dan halaman dimuat ulang.
+      registerType: 'autoUpdate',
       includeAssets: ['icon.svg'],
       manifest: {
         name: 'FMM27 Pre-Game Editor',
@@ -34,6 +38,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
       },
     }),
   ],

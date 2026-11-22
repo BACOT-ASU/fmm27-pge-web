@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-22 — Perbaikan pembaruan PWA
+- Laporan Bacad: aplikasi di HP belum menampilkan fitur edit (Sesi 04). Dugaan: service worker mode `prompt` menahan versi lama karena tidak ada tombol pembaruan. Sekarang `autoUpdate` + `skipWaiting` + `clientsClaim` + hapus cache lama, sehingga versi baru langsung aktif.
+- Footer menampilkan versi build (commit + waktu) supaya mudah dicek di HP.
+
 ## 2026-11-22 — Sesi 04: Club Editor + simpan
 - `src/core/edit/clubEditSession.ts`: sesi edit club.dat — `set`, `setMany` (satu langkah undo), `batch` (mode samakan / lantai / atap), undo/redo, daftar perubahan bersih (nilai asli vs sekarang), `build`.
 - `src/core/edit/competitionTree.ts`: klub di kompetisi beserta turunannya (mis. Liga Nusantara + Grup A/B/C).

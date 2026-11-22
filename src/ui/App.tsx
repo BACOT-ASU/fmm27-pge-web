@@ -44,7 +44,7 @@ export default function App() {
       {file && /\.fmf$/i.test(file.name) && <ArchiveInfo key={`a-${file.name}-${file.size}`} file={file} />}
       {file && /db_archive.*\.fmf$/i.test(file.name) && <DatabaseExplorer key={`d-${file.name}-${file.size}`} file={file} />}
 
-      <footer className="mt-auto text-xs text-slate-600">Fase 4 · editor klub + simpan</footer>
+      <footer className="mt-auto text-xs text-slate-600">Fase 4 · editor klub + simpan · versi {__APP_BUILD__}</footer>
     </main>
   );
 }
