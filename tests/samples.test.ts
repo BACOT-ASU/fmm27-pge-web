@@ -7,6 +7,10 @@ import { describe, expect, it } from 'vitest';
 import { listEntries, openFmf, readEntry, splitInnerArchive, openFmfBytes, findEntry } from '../src/core/fmf';
 import type { ByteSource } from '../src/core/binary/byteSource';
 import { pythonAvailable, runPythonJson, samplePath, sha256 } from './helpers';
+import { loadDatabase, INDONESIA_NATION_INDEX } from '../src/core/db/loadDatabase';
+import { bytesEqual } from '../src/core/binary/le';
+import { serializeClubDat } from '../src/core/formats/club/clubDat';
+import { serializeCompetitionDat } from '../src/core/formats/competition/competitionDat';
 
 async function fileSource(path: string): Promise<ByteSource> {
   const blob = await openAsBlob(path);
@@ -54,4 +58,29 @@ describe('sampel asli: comps.dbc di dalam sicomps.fmf', () => {
     console.log(`comps.dbc: flag ${dbc.flag}, ${listEntries(dbc.root).length} entri`);
     expect(listEntries(dbc.root).length).toBeGreaterThan(1000);
   }, 120_000);
+});
+
+describe('sampel asli: competition.dat + club.dat di db_archive_2706.fmf', () => {
+  const path = samplePath('db_archive_2706.fmf');
+
+  it.skipIf(!path)('parse habis dan round-trip identik', async () => {
+    const arc = await openFmf(await fileSource(path!));
+    const db = await loadDatabase(arc);
+    const compRaw = await readEntry(arc, findEntry(arc.root, 'competition.dat')!.entry);
+    const clubRaw = await readEntry(arc, findEntry(arc.root, 'club.dat')!.entry);
+    expect(bytesEqual(serializeCompetitionDat(db.competitions), compRaw)).toBe(true);
+    expect(bytesEqual(serializeClubDat(db.clubs), clubRaw)).toBe(true);
+    const idn = db.clubs.records.filter((c) => c.nation === INDONESIA_NATION_INDEX);
+    console.log(`kompetisi ${db.competitions.records.length}, klub ${db.clubs.records.length}, klub IDN ${idn.length}, negara ${db.nations.length}`);
+    expect(db.clubs.records.find((c) => c.uid === 2000700017)?.longName).toBe('Gresik United');
+  }, 300_000);
+
+  it.skipIf(!path || !pythonAvailable)('sama dengan comp.py dan club.py', async () => {
+    const db = await loadDatabase(await openFmf(await fileSource(path!)));
+    type Dump = { competitionEnd: boolean; clubEnd: boolean; competitions: unknown[][]; clubs: unknown[][] };
+    const py = runPythonJson<Dump>('dump_db.py', [path!]);
+    expect(py.competitionEnd && py.clubEnd).toBe(true);
+    expect(db.competitions.records.map((c) => [c.index, c.uid, c.longName, c.shortName, c.type, c.nation, c.reputation, c.level, c.parent, c.entrants.length])).toEqual(py.competitions);
+    expect(db.clubs.records.map((c) => [c.uid, c.longName, c.nation, c.division, c.stadium, c.hasFinance ? 1 : 0, c.squad.length, c.raw.length, c.status, c.reputation])).toEqual(py.clubs);
+  }, 600_000);
 });

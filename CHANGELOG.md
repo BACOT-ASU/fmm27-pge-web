@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-22 — Sesi 03 (Fase 3, sebagian): adapter competition.dat + club.dat
+- `src/core/formats/competition/competitionDat.ts`: parse/serialize (round-trip identik), ubah field tetap-ukuran (jenis, benua, negara, reputasi, tingkat, induk), ganti nama, validator (index urut, UID ganda, induk, nama > 21 huruf).
+- `src/core/formats/club/clubDat.ts`: parse/serialize (round-trip identik), `withClubField` untuk negara, status, fasilitas, penonton, divisi, stadion, reputasi; `withClubNames`; validator (UID ganda, status, fasilitas, reputasi, divisi/stadion tidak ada, klub liga tanpa stadion). Setiap record menyimpan byte aslinya; bagian tak dikenal (kit, blok keuangan, daftar 21 byte, blok akhir) tidak disentuh.
+- `src/core/formats/nation/nationNames.ts`: nama negara (LIKELY, hanya tampilan). `src/core/db/loadDatabase.ts`: muat kompetisi + klub + negara dari arsip.
+- `src/core/binary/cursor.ts`: pembaca/penulis berurutan dengan pesan galat berposisi. `src/core/formats/types.ts`: `FormatAdapter`, `Issue`.
+- Golden test: `scripts/golden/make_db_fixtures.py` membuat competition.dat/club.dat sintetis dan membacanya dengan `comp.py`/`club.py`; `tests/db.test.ts` mencocokkan semua field + round-trip + edit di tempat (maks 2 byte berubah). `scripts/golden/dump_db.py` + `tests/samples.test.ts` untuk db asli di `samples/`.
+- UI: penjelajah database baca-saja untuk `db_archive*.fmf` — pilih negara (bawaan Indonesia), daftar kompetisi (jenis, tingkat, reputasi, induk, jumlah klub), kartu klub (reputasi, status, fasilitas, penonton, stadion, skuad/staf, blok keuangan), pencarian klub nama/UID.
+- ESLint: variabel berawalan `_` boleh tidak dipakai.
+
 ## 2026-11-22 — Uji ulang sicomps.fmf (setelah perbaikan bigint)
 - `sicomps.fmf` B7b terbuka di HP: flag 0, 1.489 entri; `comps.dbc` = arsip bersarang flag 3, 1.344 entri. Pertanyaan flag terjawab; dicatat di `input_manifest.md`, `status_verifikasi.md`, `fmf_container.md`, `comps_dbc.md`.
 

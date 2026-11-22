@@ -38,7 +38,7 @@ Parser harus berakhir tepat di akhir file (cek kelengkapan).
 Putaran A, B1, B4, B6, B6b (nama pendek Championship) → jalan di game.
 
 ## Status
-Read/Write/Round-trip: VERIFIED (Python). Port TS: belum (Sesi 03).
+Read/Write/Round-trip: VERIFIED (Python). Port TS: **selesai Sesi 03** — `src/core/formats/competition/competitionDat.ts` (`parseCompetitionDat`, `serializeCompetitionDat`, `withCompetitionField`, `withCompetitionNames`, `validateCompetitionDat`). Penamaan di `comp.py` membingungkan: `lvl` = jenis (u8), `typ` = benua (u16), `b11` = tingkat, `h12` = induk.
 
 ## Unknown
 Arti tepat blok peserta dan sejarah; warna.

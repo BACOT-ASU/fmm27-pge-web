@@ -254,8 +254,8 @@ Lihat `LANGKAH_AWAL.md`.
 | 0 | Repo + Vite/React/TS/Tailwind + PWA kosong di GitHub Pages | bisa di-install di HP |
 | 1 | Pecah panduan ke spesifikasi per file + `input_manifest.md` (hash file B6b/B7b) — **spesifikasi selesai (Sesi 02)**; hash menunggu Bacad | label keyakinan lengkap |
 | 2 | `core/fmf` (port `fmmcore.js` + `ByteSource`), flag 0 **dan** 3, tes Node — **selesai (Sesi 02)**, tinggal uji dengan file asli | buka 3 arsip, TOC sama dengan `fmfio.py` |
-| 3 | Adapter `competition`, `club` (lengkap), `lng`, `stadium`, `rivalries`, `fmmlists`, `dbc` + round-trip per entri + golden Python | semua identik |
-| 4 | Penjelajah read-only + Database Tools + Game Code Check | Bacad bisa melihat data B7b di HP |
+| 3 | Adapter `competition`, `club` (lengkap), `lng`, `stadium`, `rivalries`, `fmmlists`, `dbc` + round-trip per entri + golden Python — **`competition` + `club` selesai (Sesi 03)** | semua identik |
+| 4 | Penjelajah read-only + Database Tools + Game Code Check — **penjelajah kompetisi & klub sudah ada (Sesi 03)** | Bacad bisa melihat data B7b di HP |
 | 5 | Writer tambal-di-ujung + jalur Documents + laporan perubahan | **uji game**: ubah 1 reputasi via jalur B, lalu via jalur A |
 | 6 | **Club Editor** + aksi batch "reputasi/status/fasilitas per strata" → **B7c dibuat lewat aplikasi** | B7c jalan, Adjust Budgets tidak freeze |
 | 7 | Competition + Load Lists + Stadium + Rivalry | klon stadion/klub lengkap dengan semua daftar terkait |

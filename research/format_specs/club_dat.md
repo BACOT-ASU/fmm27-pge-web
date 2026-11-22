@@ -54,4 +54,4 @@ Klub Asia: blok kosong / tidak ada; game mengarang keuangan sendiri (LIKELY dari
 - Pita reputasi di editor dalam game: Worldwide > Continental > Top Division > National > … Obscure. Angka batasnya UNKNOWN.
 
 ## Status
-Read/Write: VERIFIED (Python `club.py` + skrip build). Port TS: belum (Sesi 03).
+Read/Write: VERIFIED (Python `club.py` + skrip build). Port TS: **selesai Sesi 03** — `src/core/formats/club/clubDat.ts` (`parseClubDat`, `serializeClubDat`, `withClubField` untuk 13 field tetap-ukuran, `withClubNames`, `validateClubDat`). Batas kewajaran sama dengan `club.py`. Di `club.py` field `rep` sebenarnya index stadion; reputasi ada di blok 23 byte (`repBlock + 1`).

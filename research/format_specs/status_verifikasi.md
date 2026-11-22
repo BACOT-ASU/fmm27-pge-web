@@ -5,13 +5,13 @@
 | Kontainer `.fmf` flag 0 | VERIFIED | VERIFIED (logo) / UNKNOWN (db, sicomps via tambal) | VERIFIED | VERIFIED | **Sesi 02 ✓** | `fmf_container.md` |
 | Kontainer `.fmf` flag 3 | VERIFIED | HYPOTHESIS (tambal raw) | VERIFIED (Python) | – | **Sesi 02 ✓** (baca + tulis) | `fmf_container.md` |
 | Arsip bersarang (prefix 8 byte) | VERIFIED | VERIFIED (Python) | VERIFIED | VERIFIED | **Sesi 02 ✓** (pisah prefix) | `fmf_container.md` |
-| `competition.dat` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `competition_dat.md` |
-| `club.dat` | VERIFIED | VERIFIED (field tetap ukuran, klon di ujung) | VERIFIED | VERIFIED | belum | `club_dat.md` |
+| `competition.dat` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | **Sesi 03 ✓** (round-trip + golden comp.py; data asli menunggu `samples/`) | `competition_dat.md` |
+| `club.dat` | VERIFIED | VERIFIED (field tetap ukuran, klon di ujung) | VERIFIED | VERIFIED | **Sesi 03 ✓** (round-trip + golden club.py; data asli menunggu `samples/`) | `club_dat.md` |
 | Blok keuangan klub 68 byte | struktur VERIFIED | – | – | – | belum | `club_dat.md` (HYPOTHESIS) |
 | `rivalries.dat` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `db_archive_lainnya.md` |
 | `.lng` | sebagian | VERIFIED (tambah di ujung) | – | VERIFIED | belum | `db_archive_lainnya.md` |
 | `stadium.dat` | VERIFIED | VERIFIED | VERIFIED | menunggu (B7a/B7b) | belum | `db_archive_lainnya.md` |
-| `nation.dat` | sebagian | youth rating HYPOTHESIS | – | – | belum | `db_archive_lainnya.md` |
+| `nation.dat` | sebagian | youth rating HYPOTHESIS | – | – | nama negara saja (LIKELY, baca) | `db_archive_lainnya.md` |
 | File nama | VERIFIED | – | – | – | belum | `db_archive_lainnya.md` |
 | `people.dat`, `players.dat`, `non_players.dat`, kontrak | UNKNOWN | – | – | – | – | B3 |
 | `comps.dbc` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `comps_dbc.md` |
