@@ -11,7 +11,7 @@
 | `rivalries.dat` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `db_archive_lainnya.md` |
 | `.lng` | sebagian | VERIFIED (tambah di ujung) | – | VERIFIED | belum | `db_archive_lainnya.md` |
 | `stadium.dat` | VERIFIED | VERIFIED | VERIFIED | menunggu (B7a/B7b) | belum | `db_archive_lainnya.md` |
-| `nation.dat` | sebagian | youth rating HYPOTHESIS | – | – | nama negara saja (LIKELY, baca) | `db_archive_lainnya.md` |
+| `nation.dat` | sebagian | youth rating HYPOTHESIS (melemah: IDN 19 → youth intake tetap 1 di klub semi-pro, 22 Nov) | – | – | nama negara saja (LIKELY, baca) | `db_archive_lainnya.md` |
 | File nama | VERIFIED | – | – | – | belum | `db_archive_lainnya.md` |
 | `people.dat`, `players.dat`, `non_players.dat`, kontrak | UNKNOWN | – | – | – | – | B3 |
 | `comps.dbc` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `comps_dbc.md` |

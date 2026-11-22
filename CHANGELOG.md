@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-22 — Hasil uji youth intake
+- Laporan Bacad: db B7b (youth rating IDN 19) → youth intake musim pertama tetap 1 (klub Gresik, semi-pro). Aplikasi modder lain dengan status klub profesional → 5 pemain.
+- Youth rating `nation.dat` turun jadi HYPOTHESIS melemah; status klub → youth intake jadi LIKELY. Rencana uji satu variabel (status Gresik 2 → 1 lewat Club Editor, jalur B) dicatat di panduan induk 10.2-uji.
+
 ## 2026-11-22 — Perbaikan pembaruan PWA
 - Laporan Bacad: aplikasi di HP belum menampilkan fitur edit (Sesi 04). Dugaan: service worker mode `prompt` menahan versi lama karena tidak ada tombol pembaruan. Sekarang `autoUpdate` + `skipWaiting` + `clientsClaim` + hapus cache lama, sehingga versi baru langsung aktif.
 - Footer menampilkan versi build (commit + waktu) supaya mudah dicek di HP.
