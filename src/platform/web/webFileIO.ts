@@ -48,3 +48,26 @@ export const webFileIO: FileIO = {
     }
   },
 };
+
+/**
+ * Simpan keluaran yang sebagian besar merujuk ke file sumber (rentang) tanpa menyalinnya ke memori:
+ * Blob dari potongan Blob.slice. Cocok untuk arsip ratusan MB sampai GB.
+ */
+export async function saveOutputParts(
+  name: string,
+  parts: readonly (Uint8Array | { start: number; end: number })[],
+  source: Blob,
+): Promise<void> {
+  const blobParts: BlobPart[] = parts.map((p) => (p instanceof Uint8Array ? (p as BlobPart) : source.slice(p.start, p.end)));
+  const url = URL.createObjectURL(new Blob(blobParts, { type: 'application/octet-stream' }));
+  try {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } finally {
+    setTimeout(() => URL.revokeObjectURL(url), 120_000);
+  }
+}

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-22 — Sesi 04: Club Editor + simpan
+- `src/core/edit/clubEditSession.ts`: sesi edit club.dat — `set`, `setMany` (satu langkah undo), `batch` (mode samakan / lantai / atap), undo/redo, daftar perubahan bersih (nilai asli vs sekarang), `build`.
+- `src/core/edit/competitionTree.ts`: klub di kompetisi beserta turunannya (mis. Liga Nusantara + Grup A/B/C).
+- `src/core/export/clubExport.ts`: laporan perubahan (teks), `config.xml` Documents (sama persis dengan resep terbukti 16 Nov), zip Documents (`db_archive_2706/club.dat`, `config.xml`, `LAPORAN_PERUBAHAN.txt`), `db_archive_2706.fmf` baru lewat tambal di ujung.
+- `src/core/zip/zip.ts`: zip stored dengan CRC-32, nama UTF-8, tanggal tetap.
+- `src/platform/web/webFileIO.ts` `saveOutputParts`: unduh arsip besar dari potongan file sumber tanpa memuatnya ke memori.
+- UI: bilah atas (jumlah perubahan, Urung, Ulang, Simpan); kartu klub bisa diedit (status, reputasi, fasilitas, penonton) dengan nilai lama dicoret; panel "Ubah massal" per kompetisi dengan konfirmasi dua ketuk; panel Simpan (paket Documents, db_archive_2706.fmf, laporan) beserta petunjuk dan peringatan Store.
+- Tes: `tests/edit.test.ts` (sesi edit, pohon kompetisi, config.xml, CRC-32, zip dibaca `zipfile` Python, arsip baru). Uji ujung-ke-ujung di Chrome headless: ubah massal + edit Gresik → unduh → `club.py` membaca club.dat hasil, `fmfio.py` membaca arsip hasil.
+
 ## 2026-11-22 — db_archive di HP terkonfirmasi B7b
 - Kartu Gresik United FC di aplikasi cocok dengan build B7b (reputasi 1.500, semi-pro, fasilitas 5/4, stadion 7212). `versions.ts` dan `input_manifest.md`: label "diduga" dihapus. Nama klub di db asli "Gresik United FC" (tes sampel disesuaikan).
 

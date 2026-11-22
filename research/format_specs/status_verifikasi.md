@@ -16,6 +16,7 @@
 | `people.dat`, `players.dat`, `non_players.dat`, kontrak | UNKNOWN | – | – | – | – | B3 |
 | `comps.dbc` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `comps_dbc.md` |
 | `fmm_*.dat` | VERIFIED | VERIFIED | – | VERIFIED | belum | `fmm_lists.md` |
+| Ekspor club.dat (Sesi 04): paket Documents & db_archive tambal | – | dibangun; zip & arsip dibaca ulang oleh Python (club.py, fmfio.py) | – | **menunggu uji game** | ✓ | `club_dat.md`, `fmf_container.md` |
 | Logo | VERIFIED | VERIFIED | – | VERIFIED | legacy (fmmcore.js) | `logos.md` |
 | `libgame.so` tabel | VERIFIED | (di luar lingkup) | – | VERIFIED | belum (read-only) | `libgame_tables.md` |
 

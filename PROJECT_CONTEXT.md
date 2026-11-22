@@ -256,8 +256,8 @@ Lihat `LANGKAH_AWAL.md`.
 | 2 | `core/fmf` (port `fmmcore.js` + `ByteSource`), flag 0 **dan** 3, tes Node — **selesai (Sesi 02)**, tinggal uji dengan file asli | buka 3 arsip, TOC sama dengan `fmfio.py` |
 | 3 | Adapter `competition`, `club` (lengkap), `lng`, `stadium`, `rivalries`, `fmmlists`, `dbc` + round-trip per entri + golden Python — **`competition` + `club` selesai (Sesi 03)** | semua identik |
 | 4 | Penjelajah read-only + Database Tools + Game Code Check — **penjelajah kompetisi & klub sudah ada (Sesi 03)** | Bacad bisa melihat data B7b di HP |
-| 5 | Writer tambal-di-ujung + jalur Documents + laporan perubahan | **uji game**: ubah 1 reputasi via jalur B, lalu via jalur A |
-| 6 | **Club Editor** + aksi batch "reputasi/status/fasilitas per strata" → **B7c dibuat lewat aplikasi** | B7c jalan, Adjust Budgets tidak freeze |
+| 5 | Writer tambal-di-ujung + jalur Documents + laporan perubahan — **dibangun (Sesi 04), menunggu uji game** | **uji game**: ubah 1 reputasi via jalur B, lalu via jalur A |
+| 6 | **Club Editor** + aksi batch "reputasi/status/fasilitas per strata" → **B7c dibuat lewat aplikasi** — **editor + ubah massal ada (Sesi 04)** | B7c jalan, Adjust Budgets tidak freeze |
 | 7 | Competition + Load Lists + Stadium + Rivalry | klon stadion/klub lengkap dengan semua daftar terkait |
 | 8 | Rules (`comps.dbc`) editor + validator struktur liga | ulang B6 dari aplikasi, hasil sama |
 | 9 | Logo (port editor lama) | 1 logo baru tampil |
