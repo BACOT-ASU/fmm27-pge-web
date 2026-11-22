@@ -258,9 +258,9 @@ Lihat `LANGKAH_AWAL.md`.
 | 4 | Penjelajah read-only + Database Tools + Game Code Check — **penjelajah kompetisi & klub sudah ada (Sesi 03)** | Bacad bisa melihat data B7b di HP |
 | 5 | Writer tambal-di-ujung + jalur Documents + laporan perubahan — **dibangun (Sesi 04), menunggu uji game** | **uji game**: ubah 1 reputasi via jalur B, lalu via jalur A |
 | 6 | **Club Editor** + aksi batch "reputasi/status/fasilitas per strata" → **B7c dibuat lewat aplikasi** — **editor + ubah massal ada (Sesi 04)** | B7c jalan, Adjust Budgets tidak freeze |
-| 7 | Competition + Load Lists + Stadium + Rivalry | klon stadion/klub lengkap dengan semua daftar terkait |
-| 8 | Rules (`comps.dbc`) editor + validator struktur liga | ulang B6 dari aplikasi, hasil sama |
-| 9 | Logo (port editor lama) | 1 logo baru tampil |
+| 7 | Competition + Load Lists + Stadium + Rivalry — **dibangun (Sesi 05)** | klon stadion/klub lengkap dengan semua daftar terkait |
+| 8 | Rules (`comps.dbc`) editor + validator struktur liga — **editor nilai skalar dibangun (Sesi 05); validator struktur belum** | ulang B6 dari aplikasi, hasil sama |
+| 9 | Logo (port editor lama) — **dibangun (Sesi 05)** | 1 logo baru tampil |
 | 10 | B3 (sesi analisis terpisah): `people.dat`/`players.dat`/`non_players.dat` → Player/Staff Editor + impor CSV | 1 pemain baru tampil di game |
 | 11 | Polish: offline penuh, backup, panduan singkat | |
 | 12 | Pembungkus lintas platform (opsional) | |
