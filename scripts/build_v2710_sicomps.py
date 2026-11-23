@@ -93,6 +93,21 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     cup_row[2] = dbc.build(cup); cup_row[5] = None
     report['piala_indonesia_qurl'] = (old_q, 1)
     report['piala_indonesia_XSvC'] = (old_x, (old_x + 1) & 255)
+    # BRI Super League: urutan penerima jatah Asia = posisi liga (CcQR, pola liga India/Jepang:
+    # {type 1 league_stage, HdRl false, stag 0, RkIn 1 league_position, ind1 0}). Jumlah slot & kompetisi tujuan
+    # (ACL Elite / ACL Two / Challenge League) diatur asi.xml menurut peringkat koefisien negara.
+    lg_row = filesB['comp_idn_league_one_1439.dbc']
+    lg = dbc.parse(fmfio.get(lg_row))
+    if not any(k == T('CcQR') for k, _v in lg['fields']):
+        rule = (0x0a, [(T('type'), (0x11, b'\x01')), (T('HdRl'), (0x03, b'\x00')), (T('stag'), (0x11, b'\x00')),
+                       (T('RkIn'), (0x11, b'\x01')), (T('ind1'), (0x11, b'\x00'))])
+        bi = next(i for i, (k, _v) in enumerate(lg['fields']) if k == T('Bran'))
+        lg['fields'].insert(bi, (T('CcQR'), (0x0b, [rule])))
+        xi = next(i for i, (k, _v) in enumerate(lg['fields']) if k == T('XSvC'))
+        old = lg['fields'][xi][1][1][0]
+        lg['fields'][xi] = (T('XSvC'), (0x11, bytes([(old + 1) & 255])))
+        lg_row[2] = dbc.build(lg); lg_row[5] = None
+        report['bri_ccqr'] = {'XSvC': (old, (old + 1) & 255)}
     newdbc, _ = fmfio.write(fB, rB)
     R['sicomps/comps.dbc'][2] = preB + newdbc
     report['dbc_diganti'] = replaced
@@ -107,6 +122,8 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     assert pos == list(range(pos[0], pos[-1] + 1)), 'blok idn_ di comps.txt tidak berurutan'
     lB = lB[:pos[0]] + blockA + lB[pos[-1] + 1:]
     lB = [('idn_cup(1438),%d' % report['piala_indonesia_XSvC'][1]) if l.startswith('idn_cup(1438),') else l for l in lB]
+    if 'bri_ccqr' in report:
+        lB = [('idn_league_one(1439),%d' % report['bri_ccqr']['XSvC'][1]) if l.startswith('idn_league_one(1439),') else l for l in lB]
     R['sicomps/comps.txt'][2] = '\n'.join(lB).encode('utf-8')
     report['comps_txt_idn'] = blockA
 

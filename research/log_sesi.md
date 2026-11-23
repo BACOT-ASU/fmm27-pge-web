@@ -299,7 +299,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - `build_v2710_sicomps.py`: comp_idn_cup_1438 `qurl` 2 → **1** (no_team_qualifies), XSvC 38 → 39, comps.txt `idn_cup(1438),39`. sicomps v2 (ukuran sama 51.837.583 byte, isi berubah).
 - HYPOTHESIS: jatah Indonesia di ACL lalu diisi dari posisi liga (mekanisme `get_qualified_teams_for_comp` per koefisien negara) — perlu dilihat di game siapa yang dapat slot setelah musim pertama.
 
+### 40. Slot AFC sesuai koefisien + analisa jadwal lompat (23 Nov)
+- Bacad: juara liga → ACL2, runner-up → Challenge League; slot bertambah sesuai poin/koefisien liga; pelajari liga Asia lain; tanya apakah jadwal lompat sudah diperbaiki.
+- **Tabel jatah AFC** (`asi.xml`, list teams; per peringkat koefisien negara dalam wilayah; Indonesia = wilayah timur, 22 negara): ACL Elite: tim liga peringkat 1–6/1–3/1–2/1 + juara piala 1–4 & 5, tim liga 7. **ACL Two**: tim liga peringkat 1–5, juara piala 6–7, tim liga 8–10, juara piala 8–10 (unggulan 5), tim liga 11–12. **Challenge League**: juara piala 11–12, tim liga 13–22. Jadi slot naik otomatis bila koefisien Indonesia naik (sama untuk semua negara Asia). GUFC dulu masuk ACL2 lewat "juara piala" (cocok dengan peringkat 6–10).
+- Urutan penerima jatah per negara = `cont_cup_qual_rules` (dbc **`CcQR`**). Ada di liga India, Jepang, Australia; BRI Super League tidak punya. India: {type 1 league_stage, stag 0, RkIn 1 league_position, comp liga}. Jepang: aturan terakhir {type 1, stag 0, RkIn 1} tanpa comp.
+- `build_v2710_sicomps.py`: comp_idn_league_one ditambah CcQR = [{type 1, HdRl false, stag 0, RkIn 1, ind1 0}] (XSvC 90 → 91, comps.txt idn_league_one(1439),91). Bersama qurl Piala Indonesia = 1: slot "juara piala" diharapkan jatuh ke tim liga berikutnya (runner-up). HYPOTHESIS — perilaku pengalihan slot belum diuji. Di peringkat 11–12: juara → ACL2, runner-up → Challenge League; peringkat 8–10: juara + runner-up → ACL2.
+- sicomps v3: 51.837.577 byte.
+- **Jadwal lompat setahun**: belum diperbaiki. `_first_year` ternyata khusus kompetisi AFC (field `vlys` = aturan pemilihan format: "First Year", jumlah tim mntm/mxtm, versi fmm) → dugaan lama (Championship kurang _first_year) melemah. Tanggal laga Championship wajar (mulai Sep). Dugaan baru (HYPOTHESIS): format grup Championship hanya berlaku untuk **tepat 10 tim** (vlys mntm=mxtm=10), grup Liga Nusantara tepat 7/8/8; SL degradasi 3, grup Championship degradasi 1 per grup, Liga Nusantara promosi via final → kalau jumlah per grup bergeser (9/11), tidak ada format valid → liga tidak jalan semusim. Butuh bukti dari game sebelum diubah.
+
 ### Menunggu dari Bacad
+- Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).

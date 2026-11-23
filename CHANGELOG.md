@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — Urutan jatah AFC dari posisi liga
+- BRI Super League diberi `CcQR` (posisi liga) seperti liga India/Jepang; tabel jatah AFC per koefisien dicatat (log 40). sicomps v3.
+- Analisa jadwal lompat: `_first_year` khusus AFC; dugaan baru = jumlah tim grup harus tepat (vlys).
+
 ## 2026-11-23 — Piala Indonesia tanpa jatah kontinental
 - comps.dbc tag `qurl` dipetakan (0/1/2); comp_idn_cup → 1 (no_team_qualifies). sicomps v2.
 

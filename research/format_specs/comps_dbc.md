@@ -48,3 +48,8 @@ Read/Write/Round-trip: VERIFIED (Python). Port TS: belum.
 
 ## Tag `qurl` (kualifikasi kontinental piala) — VERIFIED pemetaan (23 Nov 2026)
 Sama dengan XML `qualification` pada piala tipe main_cup: 0 = winner_qualifies_only, 1 = no_team_qualifies, 2 = runner_up_can_qualify; tanpa tag = 41 piala (perilaku bawaan). Dicocokkan dari 36 piala utama 27.1.0. Build 27.1.0: Piala Indonesia → 1.
+
+## Tag `CcQR` (cont_cup_qual_rules) dan `vlys` (valid_years) — 23 Nov 2026
+- `CcQR`: daftar urutan tim penerima jatah kontinental negara. Record: type (1 = league_stage, 5 = custom_team, 0 = …), HdRl (hide_rule), stag, RkIn (ranked_team_info: 1 league_position, 2 …, 7, 14 cup_performance), comp (opsional), ind1. LIKELY.
+- `vlys`: aturan pemilihan format entri: {type 1/2} (versi fm/fmm), {mntm, mxtm} (jumlah tim), {} kosong; versi AFC `_first_year` memakai comp_format_to_use "First Year". LIKELY.
+- Jatah AFC per peringkat koefisien: `asi.xml` list teams (lihat log poin 40).
