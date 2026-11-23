@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Nama pemain asing versi modder
+- `scripts/apply_modder_names_v2710.py`: 114 orang non-Indonesia memakai nama versi modder; build db v2 + peta wajah v2.
+
 ## 2026-11-23 — Tab Wajah: progres & tombol terpisah
 - Proses (pencocokan, persen) dan Unduh (tulis bertahap dengan persen/MB lewat showSaveFilePicker; cadangan unduhan biasa) dipisah; Proses terkunci saat/sesudah berjalan.
 

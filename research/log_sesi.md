@@ -258,6 +258,13 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - pictures_logos build kita: wajah (lewat tab Wajah) + 23 logo klub IDN + logo bawaan ori (± 900 klub, 64 kompetisi). Logo tambahan modder (klub/kompetisi) BELUM disalin; nama klub dari .lng modder BELUM; bendera ada di `assets/data/game/flags.fmf` (belum disentuh). Diminta: config.xml clubs/comps (normal+small) dari pictures_logos modder, eng.lng (atau bahasa lain yang dipakai) dari db modder, flags.fmf modder & ori.
 - **Nama pemain**: people.dat + file nama modder vs ori 27.1.0: semua 163.159 UID ori ada di modder; nama berbeda hanya **226** orang (112 berkebangsaan Indonesia; sisanya kebanyakan pemain asing di liga Indonesia — modder memakai nama lengkap + nama umum, mis. "Zé Valente" → "Jose Pedro Magalhaes Valente"/"Ze Valente"). Modder menambah 1.990 orang (pemain Indonesia). Jadi nama pemain luar negeri di build kita = nama ori, praktis sama dengan modder.
 
+### 33. Nama pemain asing versi modder (23 Nov)
+- Bacad: "iya termasuk pemain luar yang bermain di indonesia dan pemain luar yang bermain di luar negeri".
+- `scripts/apply_modder_names_v2710.py` (dipanggil build_v2710_db.py dengan argumen ke-4 = folder db modder): orang non-Indonesia dengan nama beda → first/second/common versi modder (nama baru ditambah di ujung file nama). **114 orang** diubah; orang Indonesia tidak.
+- Build ulang: db_archive_2707.fmf 184.661.269 byte, SHA-256 797dfb4c…6961. sicomps/pictures_logos/libgame **tidak berubah** (hash sama dengan poin 30).
+- Peta wajah dibuat ulang: 85.069 baris (+66 wajah cocok karena nama sekarang sama dengan modder, −1). Dikirim sebagai `peta_wajah_27.1.0_v2.csv`.
+- Dikirim: db_archive_2707_27.1.0_mod_v2 (zip pecah, CRC dicek identik), peta v2, SHA256_v2.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.

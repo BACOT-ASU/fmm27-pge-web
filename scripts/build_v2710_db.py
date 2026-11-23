@@ -13,7 +13,8 @@ Sumber mod = B7b kita sendiri (sudah jalan di game 27.0), dipindah lewat UID (in
 Keluaran: <folder_keluar>/db_archive_2707.fmf + laporan. Semua .dat hasil dibaca ulang oleh parser.
 
 Pakai:
-  python3 scripts/build_v2710_db.py <db_archive_2707.fmf ori> <db_archive_2706.fmf B7b> <folder_keluar>
+  python3 scripts/build_v2710_db.py <db_archive_2707.fmf ori> <db_archive_2706.fmf B7b> <folder_keluar> [folder db modder]
+(folder db modder = people.dat + 3 file nama dari db modder; dipakai untuk nama orang non-Indonesia, poin 33 log)
 """
 import json
 import os
@@ -29,6 +30,7 @@ import riv as rivmod            # noqa: E402
 import stadium as stadmod       # noqa: E402
 import build_people_v2710       # noqa: E402
 import build_staff_v2710        # noqa: E402
+import apply_modder_names_v2710  # noqa: E402
 
 IDN = 58
 B7B_COMP_RANGE = range(1670, 1683)          # index kompetisi Indonesia di competition.dat B7b
@@ -55,7 +57,7 @@ def sb(text, g=None):
     return struct.pack('<I', len(t)) + t + (bytes([g]) if g is not None else b'')
 
 
-def build(ori_path, b7b_path, out_dir, verbose=True):
+def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     os.makedirs(out_dir, exist_ok=True)
     work = os.path.join(out_dir, 'kerja'); os.makedirs(work, exist_ok=True)
     flag, root, R = load_arc(ori_path)
@@ -255,6 +257,12 @@ def build(ori_path, b7b_path, out_dir, verbose=True):
     report['staf_diperbarui'] = sum(x['aksi'] == 'perbarui' for x in srep)
     report['staf_dilewati'] = len(sskip)
     report['manajer_lama_dilepas'] = released
+    # nama orang non-Indonesia versi modder (permintaan Bacad 23 Nov), kalau folder db modder tersedia
+    if modder_db and os.path.isdir(modder_db):
+        ch = apply_modder_names_v2710.apply(dbdir, modder_db, verbose=verbose)
+        report['nama_versi_modder'] = len(ch)
+        json.dump([(u, list(o), list(n)) for u, o, n in ch], open(os.path.join(out_dir, 'nama_versi_modder.json'), 'w'),
+                  ensure_ascii=False, indent=0)
     report['pemain_baru'] = len(new_uids)
     report['pemain_diperbarui'] = sum(x['aksi'] == 'perbarui' for x in prep)
     report['pemain_dilewati'] = skipped
@@ -282,4 +290,4 @@ def build(ori_path, b7b_path, out_dir, verbose=True):
 
 
 if __name__ == '__main__':
-    build(sys.argv[1], sys.argv[2], sys.argv[3])
+    build(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4] if len(sys.argv) > 4 else None)
