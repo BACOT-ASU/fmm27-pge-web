@@ -387,6 +387,9 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Bacad: kalau bisa, kirim file tanpa dipecah. Uji: `db_archive_2707_27.1.0_mod_v7.zip` satu file 54.328.812 byte berhasil dikirim (isi SHA-256 4f9b0d1f…a11d, sama dengan versi 3 bagian). Mulai sekarang kiriman dibuat satu file.
 - Langkah pasang step by step ditulis ulang di `docs/LANGKAH_BUILD_27.1.0.md`.
 
+### 53. Kirim ulang file lain dalam satu zip (23 Nov)
+- `file_lain_27.1.0_mod.zip` (64.974.581 byte, dites utuh): sicomps.fmf v4 (1a05f9d8…), pictures_logos.fmf build (e04a0cb4…, belum digabung wajah), libgame.so (53dde79e…), peta_aset_27.1.0.csv, SHA256_v9.txt, LANGKAH_BUILD_27.1.0.md, CEKLIST_UJI_27.1.0.md. Bersama `db_archive_2707_27.1.0_mod_v7.zip` = semua bahan build.
+
 ### Menunggu dari Bacad
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
