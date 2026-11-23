@@ -502,6 +502,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - **Preferred moves (PPM)**: daftar 44 PPM (urutan layar) dicatat. Dicari di players.dat (82 byte: semua offset sudah terpetakan kecuali 70, 71, 73, 78–81 = nol untuk Mbappé yang punya 11 PPM), people.dat (relasi = orang/klub favorit, bukan PPM), dan semua file db yang merujuk Mbappé (players, starting_bans, player_history, starting_injuries, people_to_always_load, kontrak, club, awards) → **tidak ditemukan**. Dugaan: PPM (dan trait pelatih) dibuat game dari atribut/riwayat, atau ada di player_history.dat (format belum dibongkar). UNKNOWN; tidak bisa diedit dulu.
 - Aplikasi: pilihan formasi kini 21 nama lengkap; gaya pelatih + Fitness.
 
+### 70. Bongkar player_history.dat (23 Nov) — VERIFIED struktur
+- Format: 8 byte kepala (`03 01 74 61 64 2e 01 00`), lalu **indeks 132.495 × 5 byte** (u32 nomor urut people.dat, u8 jumlah entri; urut naik), lalu 8 byte, lalu **1.327.706 entri × 20 byte** (riwayat musim: nomor entri, nomor orang, tahun, klub, main/gol, dst.; arti rinci belum dipetakan). Ukuran pas 27.216.611 byte.
+- `players.dat` offset 4 (u4) = posisi awal entri pemain itu di daftar entri (jumlah kumulatif dari indeks): VERIFIED (0, 31, 57, 94 …). Pemain baru kita kini 0xFFFFFFFF (tanpa riwayat) — benar.
+- **PPM tidak ada di sini** (entri hanya riwayat musim). `player_types.dat` = 924 record × 7 byte (u32 id, FFFF, u8), hampir kosong — bukan PPM. Kesimpulan: PPM & trait pelatih tidak ada di db_archive yang sudah dibongkar → LIKELY dibuat game saat karier dimulai (dari atribut/posisi), atau di file lain yang belum diketahui.
+- Uji pembeda (Bacad): lihat PPM Mbappé/Pedri di 2 karier baru berbeda (atau di game modder). Kalau berbeda → dibuat acak oleh game (tidak bisa diedit dari db); kalau selalu sama → tersimpan di tempat lain.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

@@ -154,3 +154,7 @@ Baca VERIFIED · Tulis ulang identik VERIFIED · Arti field sebagian LIKELY · U
 - coaches/scouts/physios.dat 7 byte: u32 nomor urut, u8 gaya/spesialisasi, u8 badge (1 Bronze, 2 Silver, 3 Gold), u8 aptitude (1 Poor, 2 Normal, 3 Natural). VERIFIED (14 profil).
 - non_players.dat offset 31 = formasi Preferred (VERIFIED), 32 Attacking, 33 Defensive (LIKELY). Kode: 1 3-4-3 DM, 2 4-1-2-2-1, 6 4-2-3-1, 7 4-2-3-1 DM, 8 4-2-4, 15 4-5-1.
 - Trainable player traits & style/specialism manajer: UNKNOWN.
+
+## player_history.dat (23 Nov, log 70)
+- 8 byte kepala; indeks N × (u32 nomor urut people.dat, u8 jumlah entri), urut naik (N = 132.495 di 27.1.0); 8 byte; entri M × 20 byte (riwayat musim, arti rinci UNKNOWN). VERIFIED (ukuran pas).
+- players.dat offset 4 = posisi awal entri pemain (kumulatif), 0xFFFFFFFF = tanpa riwayat. VERIFIED.
