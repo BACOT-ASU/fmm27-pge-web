@@ -432,6 +432,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - **Wajah**: Abanda Rahman = pemain baru (tidak ada di file modder) → tanpa wajah memang. Wajah hanya bisa untuk orang yang ada wajahnya di modder.
 - **Logo timnas**: config modder (normal & small) tidak punya timnas sama sekali → modder juga tanpa logo timnas. Opsi: Bacad sediakan gambar, atau Claude cari di internet (mis. Wikipedia/Wikimedia) untuk semua timnas → masuk lewat jalur logo klub (timnas = klub di club.dat, mis. Indonesia UID 113).
 
+### 59. Staf, wajah Abanda Rahman, logo timnas (23 Nov)
+- Bacad: Bali United manajer ada + 1 staf tampil; PSM manajer ada tapi staf kosong; Abanda Rahman PUNYA wajah di APK modder; logo timnas: "oke carikan".
+- **Staf (dugaan baru, LIKELY)**: Bali = manajer ori + 1 pelatih ori (idx2 142) → tampil. PSM = manajer BARU (tampil!) + pelatih ori 7740426 + 4 pelatih/asisten baru + 1 scout baru → staf kosong, termasuk pelatih ori. Jadi staf baru bukan rusak per record; pola cocok dengan **jumlah staf melebihi slot klub** (Persib: slot 3/3/3 "good facilities", tapi diberi 6 pelatih/asisten + 3 physio + 2 scout; PSM 5 pelatih > 3; Kashima 3 pelatih + 1 asisten = 3/4 tampil). Dugaan: kalau melebihi slot, game membuang semua staf klub itu (manajer terpisah). Manajer Persib kosong: sebab belum jelas (manajer PSM yang juga baru tampil).
+  - Perbaikan usulan: batasi staf per klub sesuai slot (pelatih ≤ slot, asisten 1, scout/physio ≤ slot; slot tergantung fasilitas — angka pasti per klub UNKNOWN, pakai batas aman), sisanya jadi staf tanpa klub (tetap ada di bursa).
+- **Wajah Abanda Rahman**: people.dat modder yang diterima (samples/mod_lain/db, 165.149 orang) TIDAK berisi Abanda Rahman (dicek nama & tgl lahir 24-08-1990). Jadi modder memasukkan pemainnya lewat data lain (mis. db versi lebih baru / folder Documents). Perlu: people.dat + first/second/common_names.dat dari db yang benar-benar dipakai APK modder (atau dari Documents modder) supaya wajah pemain baru bisa dipetakan.
+- **Logo timnas**: akses en.wikipedia.org / commons.wikimedia.org / upload.wikimedia.org DIBLOKIR jaringan sesi (403). Usulan environment baru dengan host itu ditolak di kartu persetujuan → belum bisa diunduh dari sesi ini.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
