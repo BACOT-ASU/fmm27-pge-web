@@ -32,7 +32,7 @@ sesudahnya, jadi record pertama mulai di offset 13. File lain mulai di offset 12
 |---|---|---|---|---|
 | 1 | pre | i32 | selalu −1 | VERIFIED |
 | 2 | uid | u32 | UID orang | VERIFIED |
-| 3 | first / second | u32, u32 | index `first_names.dat` / `second_names.dat` | VERIFIED |
+| 3 | first / second | u32, u32 | index `first_names.dat` / `second_names.dat`; `0xFFFFFFFF` = tidak ada (3 orang di 27.1.0, hanya nama belakang) | VERIFIED |
 | 4 | common | i32 | index `common_names.dat`, −1 = tidak ada | VERIFIED |
 | 5 | dob_day, dob_year | u16, u16 | tanggal lahir (hari ke-n mulai 0, tahun) | VERIFIED |
 | 6 | nation | u16 | index negara (58 = Indonesia) | VERIFIED |

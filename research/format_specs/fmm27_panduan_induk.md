@@ -463,3 +463,14 @@ Bacad mau menguji di APK **27.1.0** dan menerapkan ulang semua data mod (B2–B7
 - Langkah 2: periksa apakah `competition.dat`/`club.dat` terbaca habis, jumlah record, dan apakah index kompetisi/klub Indonesia sama (skrip build merujuk index).
 - Langkah 3: baru setelah itu, terapkan ulang mod. Skrip build lama berantai (B2 → … → B7b) dengan path tetap; untuk 27.1.0 perlu satu skrip penerap yang mencari berdasarkan UID, bukan index tetap.
 
+### 10.14 Rencana Player/Staff Editor (23 Nov)
+Dasar: struktur people/players/non_players/kontrak VERIFIED (4.8). Dataset vs people.dat 27.1.0: pemain 213/1.823 ketemu (13 dengan tgl lahir sama), staf 18/364 → mayoritas harus jadi orang baru.
+1. Petakan atribut pemain (butuh screenshot 3–5 pemain) dan staf.
+2. Adapter TS people/players/non_players/kontrak + golden test terhadap `scripts/people.py`.
+3. Penjelajah pemain/staf per klub (baca saja).
+4. Edit field tetap: CA/PA, reputasi, tinggi/berat, kaki, nomor punggung, kebangsaan. Uji game: ubah CA/PA 1 pemain IDN.
+5. Pindah klub (club_index + kontrak) → uji game.
+6. Tambah orang baru: people + players/non_players + kontrak + nama (first/second/common) + fmm_people. Uji game: 1 pemain baru tampil.
+7. Impor massal dari CSV dataset (pemain lalu staf), atribut diperkirakan dari CA/posisi/strata.
+Staf: perlu juga file tujuan idx2–4 (diduga coaches.dat dkk.) → minta entri itu dari db_archive 27.1.0.
+

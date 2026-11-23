@@ -54,6 +54,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Setelah build Cloudflare (1–3 menit), Bacad cek versi di footer lalu uji unduhan per entri.
 - Saat akan push: `main` ternyata sudah berisi **Sesi 05** dari sesi Claude lain (adapter stadion/rivalitas/.lng/comps.dbc/logo/libgame + UI semua modul, 22 Nov malam). Digabung (merge) dengan pekerjaan sesi ini; konflik hanya di `CHANGELOG.md` dan panduan induk (kedua isi disimpan). `mimeForFileName` dipindah ke `src/platform/mime.ts` (tanpa DOM) supaya typecheck tes lulus. Lint, typecheck, 97 tes, build: lulus.
 
+### 9. Pertanyaan Bacad: Player/Staff Editor & data pemain/staf (23 Nov)
+- Status: belum ada Player/Staff Editor di aplikasi. Format sudah VERIFIED strukturnya (poin 5), arti atribut belum.
+- Pencocokan dataset dengan people.dat 27.1.0 (`scripts/match_dataset_people.py`, nama persis + tgl lahir):
+  - Pemain (1.823): cocok nama + tgl lahir **13**, cocok nama saja (tgl lahir beda / dataset perkiraan) **200**, nama ganda 16, **tidak ada di db 1.594**. Super League 153 ketemu dari 536; Championship 54 dari 604; Liga Nusantara 6 dari 675; Liga 4 0 dari 8.
+  - Staf (364): cocok **18**, ganda 3, tidak ada 343.
+  - Jadi sebagian besar pemain/staf Indonesia harus **ditambah sebagai orang baru**, bukan diedit.
+- Temuan format: `first` = 0xFFFFFFFF berarti tanpa nama depan (3 orang) → dicatat di `people_players.md`.
+- Hasil CSV di `samples/v2710/cocok_pemain.csv`, `cocok_staf.csv` (tidak di-commit; berisi data dari file game).
+- Rencana Player/Staff: lihat jawaban chat; ringkasan di panduan induk 10.14.
+
 ### Menunggu dari Bacad
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - Screenshot profil 3–5 pemain 27.1.0 (atribut + posisi), mis. Marc Klok, Witan, Jay Idzes, 1 kiper, 1 bintang.

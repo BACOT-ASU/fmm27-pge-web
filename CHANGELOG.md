@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — Pencocokan dataset pemain/staf dengan people.dat 27.1.0
+- `scripts/match_dataset_people.py`: cocokkan `data/pemain_indonesia_v2.csv` dan `data/staf_indonesia_v2.csv` dengan people.dat (nama persis + tgl lahir). Hasil: pemain 213/1.823 ketemu (13 dengan tgl lahir sama), staf 18/364.
+- `people_players.md`: `first` = 0xFFFFFFFF = tanpa nama depan.
+- Panduan induk 10.14: rencana Player/Staff Editor.
+
 ## 2026-11-23 — Perbaikan: unduhan per entri berakhiran .txt
 - Laporan Bacad: entri yang diunduh dari penjelajah arsip tersimpan sebagai `people.dat.txt` dst. Dugaan penyebab: Blob tanpa tipe MIME → Chrome Android menganggapnya teks.
 - `webFileIO.ts`: `mimeForFileName` (biner → `application/octet-stream`, zip/txt/xml/png sesuai jenis) dipakai semua unduhan; `ArchiveInfo` sekarang mengunduh lewat `webFileIO.saveFile`. Tes `tests/mimeForFileName.test.ts`.
