@@ -307,6 +307,11 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - sicomps v3: 51.837.577 byte.
 - **Jadwal lompat setahun**: belum diperbaiki. `_first_year` ternyata khusus kompetisi AFC (field `vlys` = aturan pemilihan format: "First Year", jumlah tim mntm/mxtm, versi fmm) → dugaan lama (Championship kurang _first_year) melemah. Tanggal laga Championship wajar (mulai Sep). Dugaan baru (HYPOTHESIS): format grup Championship hanya berlaku untuk **tepat 10 tim** (vlys mntm=mxtm=10), grup Liga Nusantara tepat 7/8/8; SL degradasi 3, grup Championship degradasi 1 per grup, Liga Nusantara promosi via final → kalau jumlah per grup bergeser (9/11), tidak ada format valid → liga tidak jalan semusim. Butuh bukti dari game sebelum diubah.
 
+### 41. Pertanyaan Bacad: bisakah dapat slot ACLE & tambah slot ACL2/ACGL? ("jangan eksekusi") (23 Nov)
+- Hanya analisa, tidak ada perubahan build.
+- Dari tabel asi.xml (wilayah timur), jumlah slot per peringkat koefisien: peringkat 1: ACLE 4 tim liga + juara piala, ACL2 1; 2: ACLE 3 liga + piala, ACL2 1; 3: ACLE 2 liga + piala, ACL2 1; 4: ACLE 1 liga + piala, ACL2 1; 5: ACLE 1 liga + piala, ACL2 1; 6: ACLE 1 liga, ACL2 juara piala; 7: ACLE 1 liga, ACL2 juara piala; 8–10: ACL2 liga + juara piala; 11–12: ACL2 liga, ACGL juara piala; 13–22: ACGL 1 liga.
+- Koefisien = hasil klub negara itu di kompetisi AFC, 8 musim berbobot (1,0 → 0,3), bukan poin/kualitas liga domestik. Dengan perubahan v2/v3, slot "juara piala" diharapkan jatuh ke tim liga berikutnya (HYPOTHESIS). Nilai koefisien awal Indonesia di game belum diketahui (tempat penyimpanannya belum dibongkar).
+
 ### Menunggu dari Bacad
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
