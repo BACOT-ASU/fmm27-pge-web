@@ -286,6 +286,13 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - **Belum termasuk** di build. Dicek ulang: `awards.dat` 27.1.0 (199.218 byte, 1.123 record) dan B7b (199.619 byte, 1.123 record) sama-sama tanpa entri Indonesia/BRI. "Best 11 weekly" di FMM = "Team of the Week" (ada untuk liga lain).
 - Temuan 22 Nov (liga_kompetisi_award_afc.md §3, panduan 4c): awards.dat tidak menyimpan UID kompetisi → penautan award↔kompetisi belum diketahui; dugaan HYPOTHESIS: tabel di libgame.so (seperti tabel negara playable/liga terdalam) atau tag di comps.dbc. Perlu riset sebelum bisa ditambah.
 
+### 38. Award & best 11 mingguan Indonesia (23 Nov) — "sekalian bongkar dan masukkan update"
+- Bacad membatalkan dulu proses di aplikasi web (tab Wajah & logo).
+- **Koreksi temuan 22 Nov**: awards.dat MENYIMPAN rujukan kompetisi, sebagai **index competition.dat** di ekor record (offset 4, i16), bukan UID. 1.055 dari 1.123 award menautkan liga; negara (offset 2) selalu = negara kompetisi. Contoh Premier League = index 5. Spesifikasi baru `research/format_specs/awards_dat.md`.
+- `scripts/add_awards_v2710.py` (dipanggil build_v2710_db.py): 44 award Indonesia di ujung awards.dat, disalin dari set Asia: BRI Super League ← K League 1 (8, termasuk **Best 11 of the Round**) + CSL Manager of the Month; Championship Grup Barat/Timur ← J2 (6 tiap grup, termasuk **Team of the Week**, Monthly MVP); Liga Nusantara Grup A/B/C ← J3 (6 tiap grup); Piala Indonesia ← Korea Cup (3); Piala Liga ← Japanese League Cup (2). award_id 2.100.600.001–044, negara 58, riwayat dikosongkan.
+- db v4: 184.689.968 byte (CRC zip dicek identik). sicomps/pictures_logos/libgame & peta aset tidak berubah.
+- HYPOTHESIS: belum diketahui apakah game membatasi award_id lewat kode; award untuk grup (bukan induk) dipilih karena klub & jadwal ada di kompetisi grup.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.

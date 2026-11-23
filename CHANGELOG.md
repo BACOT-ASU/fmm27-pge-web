@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Award Indonesia
+- awards.dat: rujukan kompetisi = index di ekor record (koreksi 22 Nov); `add_awards_v2710.py` menambah 44 award (Best 11 of the Round, Team of the Week, Player/Manager of the Month, dst.); spesifikasi `awards_dat.md`.
+
 ## 2026-11-23 — Nama & logo klub/kompetisi versi modder
 - `apply_modder_club_names_v2710.py` (nama klub/kompetisi non-IDN versi modder), `map_logos_v2710.py` (peta aset gabungan), gabung aset di aplikasi (wajah + logo klub/timnas + logo kompetisi) dengan indeks file modder.
 

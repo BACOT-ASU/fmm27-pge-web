@@ -71,6 +71,8 @@ libgame.so (kode, bukan data)
 
 ### 3a. Struktur record `awards.dat` — dibongkar 22 Nov malam
 
+> **KOREKSI 23 Nov:** ekor 102 byte berisi u16 benua, i16 negara, **i16 index kompetisi** (bukan UID). Award bisa ditambah untuk Indonesia. Lihat `awards_dat.md`.
+
 Header 8 byte standar (`03 01 "tad." 01 00`), lalu **u32 jumlah record = 1.123**. Tiap record (ukuran berbeda-beda, tidak fixed, karena mengandung 2 string panjang-variabel):
 
 | Field | Tipe | Contoh | Keterangan |
