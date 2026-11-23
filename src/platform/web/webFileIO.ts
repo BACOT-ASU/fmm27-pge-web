@@ -1,5 +1,6 @@
 import { checkRange, type ByteSource } from '../../core/binary/byteSource';
 import type { FileIO, PickedFile } from '../types';
+import { mimeForFileName } from '../mime';
 
 /** ByteSource dari Blob/File browser: hanya potongan yang diminta yang dibaca. */
 export function byteSourceFromBlob(blob: Blob): ByteSource {
@@ -38,20 +39,6 @@ export const webFileIO: FileIO = {
     triggerDownload(name, new Blob(parts as BlobPart[], { type: mimeForFileName(name) }), 60_000);
   },
 };
-
-/**
- * Tipe MIME untuk unduhan. Blob tanpa tipe membuat Chrome Android menganggapnya teks dan
- * menambah ".txt" ke nama file (laporan Bacad 23 Nov: people.dat → people.dat.txt).
- * File biner (.dat, .fmf, dll.) memakai application/octet-stream agar nama tidak diubah.
- */
-export function mimeForFileName(name: string): string {
-  const ext = name.slice(name.lastIndexOf('.') + 1).toLowerCase();
-  if (ext === 'txt') return 'text/plain;charset=utf-8';
-  if (ext === 'zip') return 'application/zip';
-  if (ext === 'xml') return 'application/xml';
-  if (ext === 'png') return 'image/png';
-  return 'application/octet-stream';
-}
 
 function triggerDownload(name: string, blob: Blob, revokeAfterMs: number): void {
   const url = URL.createObjectURL(blob);

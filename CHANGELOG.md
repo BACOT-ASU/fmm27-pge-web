@@ -20,6 +20,20 @@
 - Laporan Bacad: db B7b (youth rating IDN 19) → youth intake musim pertama tetap 1 (klub Gresik, semi-pro). Aplikasi modder lain dengan status klub profesional → 5 pemain.
 - Uji lanjutan: Persib (pro) juga hanya 1 pemain → status pro tidak terbukti, jadi UNKNOWN. Youth intake ditunda; prioritas APK 27.1.0 (panduan induk 10.13).
 - Youth rating `nation.dat` turun jadi HYPOTHESIS melemah; status klub → youth intake jadi LIKELY. Rencana uji satu variabel (status Gresik 2 → 1 lewat Club Editor, jalur B) dicatat di panduan induk 10.2-uji.
+## 2026-11-22 — Sesi 05: semua modul (permintaan Bacad: "buatkan dulu semua aplikasinya")
+- **File kerja**: 4 slot — db_archive, sicomps, pictures_logos, libgame.so (hanya dibaca). Tab muncul sesuai file yang dibuka. Urung/ulang gabungan lintas file (`src/core/workspace/history.ts`, `workspace.ts`).
+- **Klub**: edit status/reputasi/fasilitas/penonton/nama (nama ikut diganti di 16 .lng)/**stadion kandang**; ubah massal per kompetisi; **klon jadi klub baru** (ujung club.dat, skuad & staf kosong, +16 .lng, +fmm_clubs IDN-0/1/2).
+- **Stadion** (baru): cari, edit nama/alias/kapasitas/kapasitas maks/kota (pinjam dari stadion lain); **stadion baru** di ujung stadium.dat (pola B7a, UID 2000700202 dst.), opsional didaftarkan di fmm_stadiums dan langsung dijadikan kandang klub.
+- **Kompetisi**: nama panjang/pendek/singkatan, reputasi; peringatan nama > 21 huruf.
+- **Rivalitas**: ubah intensitas, tambah rivalitas baru.
+- **Negara**: youth rating (eksperimen, HYPOTHESIS).
+- **Daftar muat** (sicomps 2700/fmm_*.dat): lihat/cari/tambah/hapus UID per IDN-0/1/2 (nama klub/stadion/kompetisi ditampilkan).
+- **Aturan** (comps.dbc): cari entri, pohon tag, ubah nilai skalar (angka/bool/teks); versi comps.txt naik otomatis.
+- **Logo**: pilih klub/kompetisi, unggah gambar → PNG 180×180 & 25×18, tambal pictures_logos + config.xml.
+- **Kode**: baca tabel negara playable & liga terdalam di libgame.so, cek Indonesia (58) & Liga Nusantara (41042746).
+- **Simpan**: paket Documents (semua file db yang berubah + config.xml), db_archive_2706.fmf, sicomps.fmf, pictures_logos.fmf, laporan.
+- Adapter baru + tes golden: stadium.dat (stadium.py), rivalries.dat (riv.py), .lng, daftar UID, entri comps.dbc (dbc.py), config logo, tabel libgame, youth rating. Fixture sintetis: `scripts/golden/make_more_fixtures.py`, `make_workspace_fixtures.py`.
+- Uji: 105 tes (96 lulus + 9 butuh file asli); arsip hasil Workspace dibaca ulang oleh fmfio.py/dbc.py/club.py/stadium.py; uji ujung-ke-ujung Chrome headless semua tab → unduhan diverifikasi Python.
 
 ## 2026-11-22 — Perbaikan pembaruan PWA
 - Laporan Bacad: aplikasi di HP belum menampilkan fitur edit (Sesi 04). Dugaan: service worker mode `prompt` menahan versi lama karena tidak ada tombol pembaruan. Sekarang `autoUpdate` + `skipWaiting` + `clientsClaim` + hapus cache lama, sehingga versi baru langsung aktif.

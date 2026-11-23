@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mimeForFileName } from '../src/platform/web/webFileIO';
+import { mimeForFileName } from '../src/platform/mime';
 
 // Blob tanpa tipe → Chrome Android menambah ".txt" (people.dat → people.dat.txt, 23 Nov 2026).
 describe('mimeForFileName', () => {

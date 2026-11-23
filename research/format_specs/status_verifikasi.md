@@ -17,6 +17,7 @@
 | `comps.dbc` | VERIFIED | VERIFIED | VERIFIED | VERIFIED | belum | `comps_dbc.md` |
 | `fmm_*.dat` | VERIFIED | VERIFIED | – | VERIFIED | belum | `fmm_lists.md` |
 | Ekspor club.dat (Sesi 04): paket Documents & db_archive tambal | – | dibangun; zip & arsip dibaca ulang oleh Python (club.py, fmfio.py) | – | **menunggu uji game** | ✓ | `club_dat.md`, `fmf_container.md` |
+| Sesi 05: stadion, rivalitas, .lng, daftar UID, comps.dbc, logo, libgame (port TS) | – | – | round-trip + golden Python ✓ | **semua penulisan menunggu uji game** | ✓ | file spesifikasi masing-masing |
 | Logo | VERIFIED | VERIFIED | – | VERIFIED | legacy (fmmcore.js) | `logos.md` |
 | `libgame.so` tabel | VERIFIED | (di luar lingkup) | – | VERIFIED | belum (read-only) | `libgame_tables.md` |
 

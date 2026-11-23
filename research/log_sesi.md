@@ -52,6 +52,7 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Penyebab: perubahan sesi ini hanya di branch `ccr-af646131-1wzlkx`; Cloudflare menerbitkan dari `main`.
 - **Izin Bacad: "aku izinkan akses penuh"** → boleh push/gabung ke `main`. Branch digabung fast-forward ke `main`.
 - Setelah build Cloudflare (1–3 menit), Bacad cek versi di footer lalu uji unduhan per entri.
+- Saat akan push: `main` ternyata sudah berisi **Sesi 05** dari sesi Claude lain (adapter stadion/rivalitas/.lng/comps.dbc/logo/libgame + UI semua modul, 22 Nov malam). Digabung (merge) dengan pekerjaan sesi ini; konflik hanya di `CHANGELOG.md` dan panduan induk (kedua isi disimpan). `mimeForFileName` dipindah ke `src/platform/mime.ts` (tanpa DOM) supaya typecheck tes lulus. Lint, typecheck, 97 tes, build: lulus.
 
 ### Menunggu dari Bacad
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
