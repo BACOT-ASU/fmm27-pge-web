@@ -1,4 +1,4 @@
-# Spesifikasi: people.dat, players.dat, non_players.dat, starting_contracts.dat
+# Spesifikasi: people.dat, players.dat, non_players.dat, starting_contracts.dat, coaches.dat
 
 Skrip: `scripts/people.py` (baca + tulis ulang; `python3 scripts/people.py <folder>` = ringkasan + uji round-trip).
 Dibongkar 23 Nov 2026 dari **APK 27.1.0 ori**. Belum dicek ke 27.0 (2706), tapi pola awal `people.dat`
@@ -11,6 +11,7 @@ Dibongkar 23 Nov 2026 dari **APK 27.1.0 ori**. Belum dicek ke 27.0 (2706), tapi 
 | players.dat | 11.226.632 | 136.910 × 82 byte | 221a28ef880f3289b8e23609766566ab6216233b703486f186336a0154224666 |
 | non_players.dat | 744.054 | 19.078 × 39 byte | f87f1a56157347973c3154dda8f7b904d1a943134508c38e424a3e934b407f51 |
 | starting_contracts.dat | 7.648.194 | 141.633 × 54 byte | 3183a7823c4a32db511bc80d4b138533d5754f65d7ffc210347a07bb091b1f76 |
+| coaches.dat | 118.424 | 16.916 × 7 byte | c5963f1dcbf8cdd3540911f6effe74d1f0048d9bd026bcdc8a99b85e85c2f1ea |
 
 ## Header
 Semua: `03 01 74 61 64 2e 01 00` (8 byte) + u32 jumlah record. `people.dat` punya 1 byte tambahan (`00`)
@@ -46,10 +47,10 @@ sesudahnya, jadi record pertama mulai di offset 13. File lain mulai di offset 12
 | 14 | club_index | i32 | index `club.dat`, −1 = tanpa klub | VERIFIED |
 | 15 | joined | u16 hari, u16 tahun | tanggal masuk klub | LIKELY |
 | 16 | pad0 | 2 byte | selalu 00 00 | VERIFIED (nilai) |
-| 17 | personality | 8 × u8 | Adaptability, Ambition, Controversy, Loyalty, Pressure, Professionalism, Sportsmanship, Temperament (urutan dari editor FMM26; wasit bernilai 0 di byte ke-3 = Controversy, cocok) | LIKELY |
+| 17 | personality | 8 × u8 | **Adaptability, Ambition, Determination, Loyalty, Pressure, Professionalism, Sportsmanship, Temperament**. Dicocokkan dengan layar game (Mourinho 20/20/18/14/20/13/–/6, Bento 15/12/7/15/12/18/–/11: sama persis). Editor FMM26 menyebut byte ke-3 "Controversy": keliru. Sportsmanship tidak tampil di layar | VERIFIED (urutan 7 dari 8), LIKELY (Sportsmanship) |
 | 18 | player_index | i32 | index `players.dat`, −1 = bukan pemain | VERIFIED |
 | 19 | non_player_index | i32 | index `non_players.dat` | VERIFIED |
-| 20 | idx2, idx3, idx4 | 3 × i32 | index ke file lain (9.864 / 1.767 / 3.539 orang). Editor FMM26 menebak: manajer/pelatih/scout/physio; ada `coaches.dat` (coach/scout/physio) dan `officials.dat` di editor itu | UNKNOWN (file tujuan) |
+| 20 | idx2, idx3, idx4 | 3 × i32 | idx2 → `coaches.dat` (pelatih; asisten manajer Pascua & Tralhão punya idx2), idx3 → scout (Calafat, "Scout"), idx4 → physio (García Parrales, "Head Physio"). File scout/physio belum dikirim | LIKELY (dari layar), VERIFIED (idx2 < jumlah record coaches.dat) |
 | 21 | staff_extra | 2 byte | **hanya ada** kalau salah satu field 19–20 ≥ 0 | VERIFIED (syarat), UNKNOWN (arti) |
 | 22 | official_index | i32 | 2.469 orang, index 0..2.468 (wasit) | LIKELY |
 | 23 | flags3 | 3 byte | byte ke-3 = 1 → field 24 ada | VERIFIED (syarat) |
@@ -83,12 +84,31 @@ dicocokkan dengan data 27.1.0: panjang 82 byte sama persis, dan nilainya masuk a
 **Dua jenis penyimpanan atribut (VERIFIED dari statistik 136.910 pemain):**
 - 18 atribut **selalu 1–20**: Heading, Jumping, Unselfishness, Pace, Strength, Stamina, Technique, Consistency, Aggression, Big Matches, Injury Proneness, Leadership, Versatility, Set Pieces, Penalties, Work Rate, Flair, Agility.
 - 16 atribut **bertanda −100..100**: Crossing, Dribbling, Tackling, Finishing, Long Shots, Passing, Decisions, Creativity, Movement, Positioning, dan 6 atribut kiper (Handling, Kicking, Aerial, Reflexes, Communication, Throwing; untuk pemain non-kiper umumnya sangat negatif, −100). Contoh: Haaland Finishing +71, Tackling −83; Messi Dribbling +54, Tackling −76.
-- Dugaan (HYPOTHESIS): nilai bertanda adalah kekuatan relatif, dan angka 1–20 di layar dihitung game dari nilai ini + CA. **Rumus belum diketahui**, perlu kalibrasi dengan screenshot (CA tiap pemain sudah diketahui dari file).
-- Editor FMM26 menyimpan atribut sebagai byte mentah tanpa konversi, jadi tidak membantu soal rumus.
+- **Cocok dengan layar game** (kalibrasi 23 Nov, `research/kalibrasi/kalibrasi_atribut.md`):
+  - Atribut 1–20 tampil apa adanya (Pace, Stamina, Strength, Technique, Aggression, Leadership, Agility), selisih paling banyak 1–3 karena karier sudah berjalan 1 tahun. VERIFIED.
+  - Atribut bertanda: **angka layar ≈ dasar pemain + nilai/10**. Dasar sama untuk semua atribut satu pemain (Marc Klok: 8 atribut → dasar 9,2–9,3). Dasar berbeda antarpemain (±9 untuk pemain Indonesia CA 83–105, ±14–15 untuk bintang CA 180–192). Cara game menghitung dasar: UNKNOWN (dugaan dari CA/posisi). LIKELY (rumus +nilai/10), HYPOTHESIS (asal dasar).
+  - Atribut gabungan di layar FMM: **Shooting ≈ max(Finishing, Long Shots)**, **Teamwork ≈ (Work Rate + Unselfishness)/2**, **Aerial (non-kiper) ≈ (Heading + Jumping)/2**. LIKELY.
+- Editor FMM26 menyimpan atribut sebagai byte mentah tanpa konversi.
 
-## non_players.dat — 39 byte per record
-u32 nomor urut (= non_player_index, VERIFIED); lalu u16 ×2 (contoh 105/120, diduga CA/PA staf), u16 ×3
-(diduga reputasi), sisanya kebanyakan nilai 1–20 (atribut staf). Selain nomor urut: UNKNOWN.
+## non_players.dat — 39 byte per record (manajer, asisten manajer)
+| Offset | Tipe | Arti | Keyakinan |
+|---|---|---|---|
+| 0 | u32 | nomor urut (= non_player_index) | VERIFIED |
+| 4 / 6 | i16 / i16 | CA / PA (Mourinho 150/187, Bento 53/70) | LIKELY |
+| 8 / 10 / 12 | i16 × 3 | reputasi (Mourinho 9.500 / 8.000 / 8.000; layar "World Class") | LIKELY |
+| 15 | u8 | Financial Control | VERIFIED (2 orang) |
+| 19 | u8 | Discipline | VERIFIED (2 orang) |
+| 21 / 22 | u8 / u8 | Judging Ability / Judging Potential | VERIFIED (2 orang) |
+| 23 | u8 | People Management | VERIFIED (2 orang) |
+| 25 | u8 | Motivating | VERIFIED (2 orang) |
+| 29 | u8 | Tactical Knowledge | VERIFIED (2 orang) |
+| 14, 16–18, 20, 24, 26–28, 30–38 | u8 | atribut staf lain (diduga coaching/fitness/GK/youth, formasi, gaya) | UNKNOWN |
+
+Mourinho: tampil 7 atribut kepribadian (dari `people.dat`) + 7 atribut manajer (dari tabel ini).
+
+## coaches.dat — 7 byte per record (pelatih)
+u32 nomor urut (50 slot terakhir = −1, kosong) + 3 × u8. Byte 4 = spesialisasi, nilai 1–7 (Pascua 5 = Goalkeeping,
+Tralhão 3 = Attacking): LIKELY. Byte 5–6 (nilai 1–3): UNKNOWN (mungkin bakat/"aptitude": Tralhão "Natural" 03 03, Pascua "Normal" 01 02).
 
 ## starting_contracts.dat — 54 byte per record
 | Offset | Tipe | Arti | Keyakinan |
@@ -122,5 +142,5 @@ Baca VERIFIED · Tulis ulang identik VERIFIED · Arti field sebagian LIKELY · U
 
 ## Unknown / langkah berikutnya
 1. Rumus konversi 16 atribut bertanda (−100..100) ke angka 1–20 di layar: butuh screenshot atribut 8–10 pemain dengan CA berbeda-beda; urutan atribut sudah LIKELY dari editor FMM26.
-2. File tujuan idx2/idx3/idx4: cek `coaches.dat` dan file lain di db_archive.
+2. File scout (idx3) dan physio (idx4) belum dikirim; nama entri di db_archive belum diketahui (minta screenshot daftar entri).
 3. Uji game: ubah CA/PA 1 pemain Indonesia, lalu tambah 1 pemain baru.

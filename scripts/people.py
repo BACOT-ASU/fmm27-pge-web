@@ -13,8 +13,13 @@ Pakai:
 import struct
 import sys
 
-HEADER_LEN = {'people': 13, 'players': 12, 'non_players': 12, 'starting_contracts': 12}
-PLAYER_LEN, NON_PLAYER_LEN, CONTRACT_LEN = 82, 39, 54
+HEADER_LEN = {'people': 13, 'players': 12, 'non_players': 12, 'starting_contracts': 12, 'coaches': 12}
+PLAYER_LEN, NON_PLAYER_LEN, CONTRACT_LEN, COACH_LEN = 82, 39, 54, 7
+
+# Urutan 8 nilai kepribadian di people.dat. VERIFIED dengan layar game (Mourinho, Bento: 7 nilai sama persis).
+# Byte ke-3 = Determination (editor FMM26 menyebutnya Controversy: keliru). Sportsmanship tidak tampil di layar.
+PERSONALITY = ('adaptability', 'ambition', 'determination', 'loyalty', 'pressure',
+               'professionalism', 'sportsmanship', 'temperament')
 
 
 class Bad(Exception):
@@ -158,6 +163,26 @@ def player_fields(x):
     return f
 
 
+def non_player_fields(x):
+    """Field non_players.dat (39 byte). Offset 14..38 = 25 nilai atribut staf; yang sudah dicocokkan dengan
+    layar (Mourinho + Bento) diberi nama, sisanya 'a<offset>'. Lihat people_players.md."""
+    f = {'index': struct.unpack_from('<I', x, 0)[0],
+         'ca': struct.unpack_from('<h', x, 4)[0], 'pa': struct.unpack_from('<h', x, 6)[0],   # LIKELY
+         'rep_8': struct.unpack_from('<h', x, 8)[0], 'rep_10': struct.unpack_from('<h', x, 10)[0],
+         'rep_12': struct.unpack_from('<h', x, 12)[0]}                                         # LIKELY reputasi
+    named = {15: 'financial_control', 19: 'discipline', 21: 'judging_ability', 22: 'judging_potential',
+             23: 'people_management', 25: 'motivating', 29: 'tactical_knowledge'}             # VERIFIED (2 orang)
+    for off in range(14, 39):
+        f[named.get(off, 'a%d' % off)] = x[off]
+    return f
+
+
+def coach_fields(x):
+    """coaches.dat (7 byte): u32 nomor urut (-1 = slot kosong, 50 di ujung), 3 x u8.
+    Byte 4 = spesialisasi (5 = Goalkeeping, 3 = Attacking: dari 2 orang, LIKELY). Byte 5-6 UNKNOWN."""
+    return {'index': struct.unpack_from('<i', x, 0)[0], 'speciality': x[4], 'b5': x[5], 'b6': x[6]}
+
+
 def contract_fields(x):
     return {
         'person_uid': struct.unpack_from('<I', x, 0)[0],
@@ -177,8 +202,12 @@ def _main(folder):
     hdr, recs, raws = parse_people(d)
     rebuilt = build_people(hdr, recs)
     print('people.dat: %d orang, round-trip %s' % (len(recs), 'IDENTIK' if rebuilt == d else 'BEDA'))
+    import os
     for name, ln in (('players', PLAYER_LEN), ('non_players', NON_PLAYER_LEN),
-                     ('starting_contracts', CONTRACT_LEN)):
+                     ('starting_contracts', CONTRACT_LEN), ('coaches', COACH_LEN)):
+        if not os.path.exists(folder + name + '.dat'):
+            print('%s.dat: tidak ada, dilewati' % name)
+            continue
         x = open(folder + name + '.dat', 'rb').read()
         h, rs = split_fixed(x, ln, name)
         print('%s.dat: %d record x %d byte, round-trip %s' % (

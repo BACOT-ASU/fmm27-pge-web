@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-23 — Kalibrasi atribut dari screenshot + coaches.dat
+- `research/kalibrasi/`: angka layar 8 pemain (`atribut_screenshot_2027-08-15.csv`) + analisis (`kalibrasi_atribut.md`). Atribut 1–20 = layar (VERIFIED); atribut bertanda ≈ dasar + nilai/10 (LIKELY); Shooting/Teamwork/Aerial = gabungan.
+- Kepribadian: byte ke-3 = Determination (VERIFIED, Mourinho & Bento).
+- `scripts/people.py`: `PERSONALITY`, `non_player_fields` (7 atribut manajer), `coach_fields`; coaches.dat (16.916 × 7 byte) ikut uji round-trip.
+- `people_players.md`: non_players.dat, coaches.dat, idx2/3/4 = pelatih/scout/physio.
+
 ## 2026-11-23 — Nama atribut pemain dari editor FMM26 (nyongrand/fmm-editor)
 - Urutan 34 atribut, 15 posisi, kepribadian, Ethnicity, caps U21 diambil dari `nyongrand/fmm-editor` (MIT) sebagai LIKELY; panjang record 82 byte sama persis.
 - Temuan: 16 atribut disimpan bertanda −100..100 (bukan 1–20); rumus ke angka di layar belum diketahui.

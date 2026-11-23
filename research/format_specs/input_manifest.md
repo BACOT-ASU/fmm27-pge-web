@@ -19,6 +19,7 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 | club.dat | 22.912.176 | f88f43ab80d5269904b41d42662387346bed279eb117b5addca9f20c63ea2867 |
 | first_names.dat | 1.762.541 | d5a97395f7e9aebb4ddc57fb57660aa4f9f6a03a290c853868995bff3599f07b |
 | second_names.dat | 3.113.643 | 4b01441a38c7d900f440837396b099dd913da6462730bc1ab3b171f35e5c7376 |
+| coaches.dat | 118.424 | c5963f1dcbf8cdd3540911f6effe74d1f0048d9bd026bcdc8a99b85e85c2f1ea |
 | common_names.dat | 311.760 | 3e01702abe75c1525ebb83297d0484605079c28ca4bac41e035dc4737fe92974 |
 
 Catatan 27.1.0: `club.dat` berisi **53.182 klub** (27.0: 38.747) dan terbaca habis oleh `club.py` lama. Index klub bergeser total dibanding 27.0, jadi skrip build lama (berbasis index) tidak bisa dipakai langsung.

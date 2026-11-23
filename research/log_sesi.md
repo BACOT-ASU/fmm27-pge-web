@@ -73,7 +73,20 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Diperbarui: `scripts/people.py` (`player_fields` dengan nama atribut), `people_players.md`.
 - Masih butuh dari Bacad: screenshot atribut untuk kalibrasi rumus (lihat daftar di bawah).
 
+### 11. coaches.dat + 23 screenshot (23 Nov)
+- Bacad kirim `coaches.dat` (27.1.0 ori, 16.916 × 7 byte; round-trip identik) dan 23 screenshot dari **game modder** di HP (tanggal game 15 Agu 2027 = karier sudah 1 tahun).
+- Isi screenshot: Messi, Haaland, Mbappé, Klok, Witan, Arhan, Courtois, Athallah (tidak ada di db ori), Krisna (beda orang dengan Krisna Korani di db ori), Ernando; Mourinho (manajer), Bento (manajer Persib), Tralhão & Pascua (asisten), Calafat (scout), García Parrales (physio); daftar 64 kepribadian; layar in-game editor (tab Personal/Positions/Attributes/Preferred Moves).
+- Hasil kalibrasi (`research/kalibrasi/kalibrasi_atribut.md`):
+  - Atribut 1–20 di file = angka di layar (VERIFIED, selisih ≤ 1–3 karena 1 tahun karier).
+  - Atribut bertanda: layar ≈ dasar pemain + nilai/10 (LIKELY). Asal "dasar" belum diketahui.
+  - Shooting ≈ max(Finishing, Long Shots); Teamwork ≈ (Work Rate + Unselfishness)/2; Aerial ≈ (Heading + Jumping)/2 (LIKELY).
+  - Kepribadian: byte ke-3 = **Determination** (bukan Controversy seperti editor FMM26). VERIFIED.
+  - `non_players.dat`: 7 atribut manajer ditemukan; idx2 = pelatih (coaches.dat), idx3 = scout, idx4 = physio.
+  - Wage di kontrak = £ per minggu (Haaland 472.500 → £475K, Messi 404.321 → £400K). Tanggal akhir kontrak cocok (Haaland 30/6/2034).
+- Diperbarui: `scripts/people.py` (`PERSONALITY`, `non_player_fields`, `coach_fields`, coaches.dat ikut uji round-trip), `people_players.md`, `input_manifest.md`.
+- Masih butuh: eksperimen terkendali di game **ori** 27.1.0 untuk rumus "dasar" (lihat dokumen kalibrasi), file scout/physio, screenshot daftar entri db_archive.
+
 ### Menunggu dari Bacad
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
-- Screenshot halaman atribut 8–10 pemain 27.1.0 dengan CA beragam (bintang, pemain Super League, pemain Liga Nusantara, 2 kiper) + 1–2 pelatih + daftar entri db_archive 27.1.0.
+- ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.
