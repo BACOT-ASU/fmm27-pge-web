@@ -117,6 +117,14 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Untuk build: perlu scouts/physios/coaches **ori** — semuanya ada di dalam `db_archive` 27.1.0 ori yang akan dikirim utuh, jadi tidak perlu dikirim terpisah.
 - Screenshot kalibrasi juga dari game modder (sudah tercatat di poin 11).
 
+### 16. Info Bacad: beda APK modder vs ori (23 Nov)
+- Menurut Bacad, APK modder lain berbeda dari ori **hanya di kompetisi dan data Indonesia**: pemain, staf, pelatih, klub, dll. (info dari Bacad, belum dicek byte per byte).
+- Akibatnya:
+  - `scouts.dat` / `physios.dat` / (`coaches.dat` bila juga dari modder): bagian non-Indonesia kemungkinan sama dengan ori; bagian staf Indonesia bisa beda. Temuan struktur dari orang non-Indonesia (Pascua, Tralhão, Calafat, García Parrales) tetap berlaku (LIKELY).
+  - Kalibrasi screenshot: pemain non-Indonesia (Messi, Haaland, Mbappé, Courtois) = data ori + 1 tahun karier → paling bisa dipercaya. Pemain/staf Indonesia (Klok, Witan, Arhan, Ernando, Athallah, Krisna, Bento) = data modder → bisa beda dari ori. Catatan: Klok/Arhan tetap memberi "dasar" yang konsisten, jadi rumus layar ≈ dasar + nilai/10 tidak berubah.
+  - Kompetisi Indonesia di APK modder juga beda → struktur liga untuk build 27.1.0 tetap dari mod kita sendiri (B6/B7b) yang dipasang ulang di atas ori.
+- Tetap perlu konfirmasi: `coaches.dat` dari ori atau modder (tidak menghambat; versi ori ikut di db_archive utuh).
+
 ### Menunggu dari Bacad
 - Jawaban: `coaches.dat` dari APK ori atau modder?
 - File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.

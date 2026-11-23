@@ -3,6 +3,7 @@
 ## Sumber data
 - File: `players.dat` / `people.dat` / `non_players.dat` / `coaches.dat` **27.1.0 ori** (`samples/v2710/`).
 - Layar: 23 screenshot dari Bacad, diambil dari **game modder** yang terpasang di HP. Tanggal di game **15 Agu 2027**, jadi karier sudah berjalan sekitar 1 tahun (umur, latihan, dan penurunan sudah mengubah atribut). Database modder juga bisa berbeda dari ori (Witan di Bali United, kontrak berbeda). Karena itu selisih 1–3 poin masih wajar.
+- Menurut Bacad, APK modder berbeda dari ori hanya di kompetisi & data Indonesia. Jadi pemain non-Indonesia (Messi, Haaland, Mbappé, Courtois) = data ori; pemain/staf Indonesia = data modder (bisa beda dari ori).
 - Angka layar dicatat di `atribut_screenshot_2027-08-15.csv` (8 pemain). Staf: Mourinho, Bento (manajer), Tralhão & Pascua (asisten), Calafat (scout), García Parrales (physio).
 - Atribut yang tampil di layar FMM (in-game editor): Aerial, Crossing, Dribbling, Passing, Shooting, Tackling, Technique, Creativity, Decisions, Movement, Aggression, Positioning, Teamwork, Pace, Stamina, Strength, Leadership, + kiper: Agility, Handling, Kicking, Reflexes, Throwing, Communication.
 

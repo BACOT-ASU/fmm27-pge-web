@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Info: APK modder beda dari ori hanya di data Indonesia
+- Dicatat di log poin 16 dan `research/kalibrasi/kalibrasi_atribut.md` (pengaruh ke kalibrasi & file staf).
+
 ## 2026-11-23 — Koreksi asal file
 - `scouts.dat` dan `physios.dat` ternyata dari APK modder lain, bukan 27.1.0 ori. Dipindah ke `samples/mod_lain/`; label struktur/rujukan turun ke LIKELY (`people_players.md`, `input_manifest.md`, log poin 15).
 
