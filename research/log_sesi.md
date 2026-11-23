@@ -508,6 +508,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - **PPM tidak ada di sini** (entri hanya riwayat musim). `player_types.dat` = 924 record × 7 byte (u32 id, FFFF, u8), hampir kosong — bukan PPM. Kesimpulan: PPM & trait pelatih tidak ada di db_archive yang sudah dibongkar → LIKELY dibuat game saat karier dimulai (dari atribut/posisi), atau di file lain yang belum diketahui.
 - Uji pembeda (Bacad): lihat PPM Mbappé/Pedri di 2 karier baru berbeda (atau di game modder). Kalau berbeda → dibuat acak oleh game (tidak bisa diedit dari db); kalau selalu sama → tersimpan di tempat lain.
 
+### 71. Bacad: skip PPM; eksekusi, satu file + cara pasang (23 Nov)
+- PPM ditunda (skip).
+- Logo timnas: 205 dari 225 timnas (410 PNG: pria + wanita) dari Wikipedia (`scripts/fetch_logo_timnas.py`, cache di samples/logo_timnas). Tanpa logo (tidak ada badge di infobox / unduh gagal 429): Bhutan, Borneo Malay, Cambodia, Chinese Taipei, Crimea, France, Ireland (Pre-1922), Mayotte, Monaco, New Caledonia, Pays Basque, SEA Chinese, Senegal, Singh Indian, Sweden, Syria, Tamil Indian, West Malay, Zambia, Zimbabwe.
+- pictures_logos.fmf build: 23 logo klub + 410 logo timnas = 433, 37.675.132 byte, SHA-256 fbce60e0…613f (belum digabung wajah modder).
+- Kiriman satu file `build_27.1.0_mod_v8.zip` (127,8 MB): db v8 (0d27a8b4…), sicomps v4 (1a05f9d8…), pictures_logos (fbce60e0…), libgame v2 (0e6ec00a…), peta_aset_27.1.0_v2.csv, SHA256.txt, LANGKAH_BUILD_27.1.0.md (ditulis ulang), CEKLIST_UJI_27.1.0.md.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
