@@ -325,6 +325,11 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Semua pekerjaan lain dari daftar "belum dikerjakan" **menunggu perintah "eksekusi"**.
 - Dibuat `docs/LANGKAH_BUILD_27.1.0.md` (langkah menjalankan build terbaru: db v4, sicomps v3, pictures_logos + gabung wajah & logo, libgame).
 
+### 45. Laporan Bacad: Unduh gagal saat browser di latar belakang (23 Nov)
+- Bukan karena internet: semua proses lokal di HP. Penyebab (LIKELY): penulisan lewat showSaveFilePicker berjalan di halaman (JavaScript); Android/Chrome menghentikan/membekukan tab di latar belakang → penulisan putus.
+- Saran sementara: biarkan Chrome & layar tetap menyala sampai 100 %, ruang kosong ≥ 3 GB.
+- Usulan perbaikan (menunggu "eksekusi"): (a) Wake Lock layar selama menulis + peringatan bila tab disembunyikan; (b) pilihan "Unduh lewat Chrome" (Blob → pengelola unduhan Chrome, lebih tahan di latar belakang).
+
 ### Menunggu dari Bacad
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
