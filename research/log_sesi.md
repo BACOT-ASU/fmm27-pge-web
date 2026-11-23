@@ -268,6 +268,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 34. Wajah pemain asing di luar negeri (23 Nov)
 - Bacad minta wajah pemain luar yang bermain di luar negeri ikut dimasukkan. Dicek: **sudah termasuk** di peta v2 (85.069): asing di klub luar negeri 72.573, asing tanpa klub 11.652, asing di klub Indonesia 176, orang Indonesia 668. Yang tidak terpetakan: 1.032 orang modder yang tidak ada di build kita (kebanyakan tambahan Indonesia modder) + 339 UID modder tanpa orang.
 
+### 35. Klarifikasi: "logo negara" = logo tim nasional, bukan bendera (23 Nov)
+- Tim nasional disimpan sebagai klub di club.dat (mis. klub "Indonesia", nat 58), jadi logonya ada di `pictures_logos/logos/{normal,small}/clubs/config.xml` (`graphics/pictures/club/<UID>/logo|icon`) — ikut tercakup permintaan config clubs. flags.fmf tidak diperlukan.
+- Daftar file yang diminta dari APK modder: config.xml clubs & comps (normal + small) dari pictures_logos; club.dat, competition.dat, eng.lng (+ id.lng bila dipakai) dari db_archive_2707.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
