@@ -477,6 +477,11 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 ### 65. Klarifikasi Bacad (23 Nov)
 - Yang dimaksud "aplikasi" = aplikasi web kita (PWA editor), bukan editor dalam game (IGE). Fitur poin 64 memang dibuat di aplikasi web kita (tab Klub → kartu klub).
 
+### 66. Permintaan: edit formasi & trainable player traits pelatih/manajer/asisten; pertanyaan slot (23 Nov)
+- Screenshot Bacad: Ixsan Fajar Pranoto (Coach, Free Agent, formasi 3-4-3 DM, spesialisasi Attacking, aptitude Poor, trait "Likes To Round Keeper"); Dicky Adithia (Assistant Manager, Free Agent, 4-2-3-1, Attacking, Normal, trait "Places Shots" + "Likes To Try To Beat Offside Trap").
+- Analisa field (HYPOTHESIS, 2–3 contoh saja): coaches.dat byte 4 = spesialisasi (3 = Attacking, keduanya 3 ✓); byte 5 cocok dengan aptitude (Dicky 2 = Normal, Ixsan 1 = Poor); byte 6 cocok dengan jumlah trait (2 vs 1). Formasi & ID trait belum ketemu: manajer (tanpa coaches.dat) juga punya formasi → kemungkinan di non_players.dat offset 30–38 (UNKNOWN). Butuh ±10 contoh staf ori (formasi + trait + spesialisasi + aptitude terlihat) untuk memetakan.
+- Slot: build v7 TIDAK memasukkan staf ke slot mana pun (semua slot staf klub IDN = −1), bukan salah slot. v8 mengisi menurut jabatan kontrak: Persib slot 0–2 = asisten + 2 pelatih, 5–6 = 2 scout, 8–10 = 3 physio (dicek). Dicky (PSGC) & Ixsan (PSIM) tampil "Free Agent": staf yang tidak ada di slot dilepas game (v7), atau dilepas karena jatah (v8: Ixsan dilepas; Dicky di v8 tetap di PSGC).
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
