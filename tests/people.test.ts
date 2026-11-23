@@ -74,3 +74,18 @@ describe.skipIf(!has('players.dat') || !has('starting_contracts.dat') || !has('f
     expect(isoToDayYear('2027-05-31')).toEqual({ day: 150, year: 2027 });
   });
 });
+
+describe.skipIf(!has('people.dat') || !has('non_players.dat') || !has('coaches.dat'))('staf: formasi & peran cocok dengan layar game (log 67)', () => {
+  it('Maresca 4-2-3-1 ×3, Okiwa 4-2-3-1 DM ×3, Kurimoto Defensive/Silver/Normal, Krücken Youth/Gold/Natural', async () => {
+    const { readNonPlayer, readRole, formationLabel, ROLE_LEN } = await import('../src/core/formats/people/fixedRecords');
+    const m = parsePeopleDat(read('people.dat'));
+    const np = parseFixedDat(read('non_players.dat'), NON_PLAYER_LEN, 'non_players.dat');
+    const co = parseFixedDat(read('coaches.dat'), ROLE_LEN, 'coaches.dat');
+    const by = new Map(m.records.map((r) => [r.uid, r]));
+    const f = (uid: number) => readNonPlayer(np.records[by.get(uid)!.nonPlayerIndex]!).formations;
+    expect(f(703149)).toEqual({ preferred: 6, attacking: 6, defensive: 6 });
+    expect(formationLabel(f(3901185).preferred)).toBe('4-2-3-1 DM');
+    expect(readRole(co.records[by.get(788532)!.coachIndex]!)).toEqual({ style: 2, badge: 2, aptitude: 2 });
+    expect(readRole(co.records[by.get(91121280)!.coachIndex]!)).toEqual({ style: 6, badge: 3, aptitude: 3 });
+  });
+});

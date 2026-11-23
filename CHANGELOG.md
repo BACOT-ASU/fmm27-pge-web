@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Edit formasi, gaya, badge, aptitude staf
+- coaches/scouts/physios.dat byte 4–6 dan formasi non_players 31–33 (dicocokkan dengan 12 profil game).
+
 ## 2026-11-23 — Aplikasi: isi klub & edit pemain/staf/manajer
 - people.dat, players.dat, non_players.dat, starting_contracts.dat, file nama (TS) + tes round-trip & golden. Kartu klub menampilkan tim utama/cadangan/manajer/staf; ketuk orang untuk edit.
 

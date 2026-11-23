@@ -11,7 +11,7 @@ import { buildDbcEntry, bumpCompsTxt, parseDbcEntry, setAt, type DbcEntry, type 
 import { editLogoConfig, LOGO_BASE, parseLogoConfig, type LogoKind, type LogoSize } from '../formats/logos/logoConfig';
 import { History } from './history';
 import { parsePeopleDat, serializePeopleDat, withPerson, type PeopleDat, type PersonRecord } from '../formats/people/peopleDat';
-import { CONTRACT_LEN, NON_PLAYER_LEN, PLAYER_LEN, isoToDayYear, parseFixedDat, readContract, serializeFixedDat, writeContract, writeNonPlayer, writePlayer, type FixedDat, type NonPlayerView, type PlayerView } from '../formats/people/fixedRecords';
+import { CONTRACT_LEN, NON_PLAYER_LEN, PLAYER_LEN, ROLE_LEN, writeRole, type RoleKind, type RoleView, isoToDayYear, parseFixedDat, readContract, serializeFixedDat, writeContract, writeNonPlayer, writePlayer, type FixedDat, type NonPlayerView, type PlayerView } from '../formats/people/fixedRecords';
 import { findOrAddName, nameAt, parseNamesDat, serializeNamesDat, type NamesDat } from '../formats/people/namesDat';
 
 const td = new TextDecoder('utf-8', { fatal: false });
@@ -31,11 +31,13 @@ export const K = {
   nonPlayers: 'db:non_players.dat',
   contracts: 'db:starting_contracts.dat',
   names: (k: NameKind) => `db:${k}_names.dat`,
+  role: (k: RoleKind) => `db:${k}.dat`,
   list: (n: FmmListName) => `sc:list:${n}`,
 } as const;
 
 export type NameKind = 'first' | 'second' | 'common';
 const NAME_KINDS: NameKind[] = ['first', 'second', 'common'];
+const ROLE_KINDS: RoleKind[] = ['coaches', 'scouts', 'physios'];
 
 /** Isi klub menurut club.dat (daftar skuad + slot staf) dan people.dat (club_index + jabatan kontrak). */
 export interface ClubRoster {
@@ -360,6 +362,7 @@ export class Workspace {
     this.h.register(K.nonPlayers, parseFixedDat(np!, NON_PLAYER_LEN, 'non_players.dat'));
     this.h.register(K.contracts, parseFixedDat(co!, CONTRACT_LEN, 'starting_contracts.dat'));
     NAME_KINDS.forEach((k, i) => this.h.register(K.names(k), parseNamesDat(nm[i]!)));
+    for (const k of ROLE_KINDS) this.h.register(K.role(k), parseFixedDat(await this.dbEntry(`${k}.dat`), ROLE_LEN, `${k}.dat`));
     this.h.register(K.people, parsePeopleDat(pe!));
   }
 
@@ -489,6 +492,28 @@ export class Workspace {
     this.h.apply(`Staf ${this.personName(i)}`, [[K.nonPlayers, { ...this.nonPlayers, records: recs }]]);
   }
 
+  role(k: RoleKind): FixedDat { return this.h.get(K.role(k)); }
+
+  /** Record peran (coaches/scouts/physios.dat) orang ini, atau null. */
+  roleOf(i: number): { kind: RoleKind; index: number } | null {
+    const p = this.person(i);
+    if (p.coachIndex >= 0) return { kind: 'coaches', index: p.coachIndex };
+    if (p.scoutIndex >= 0) return { kind: 'scouts', index: p.scoutIndex };
+    if (p.physioIndex >= 0) return { kind: 'physios', index: p.physioIndex };
+    return null;
+  }
+
+  setRole(i: number, v: Partial<RoleView>): void {
+    const r = this.roleOf(i);
+    if (!r) throw new Error('Orang ini tidak punya data pelatih/scout/physio');
+    const m = this.role(r.kind);
+    const recs = m.records.slice();
+    const x = writeRole(recs[r.index]!, v);
+    if (bytesEqual(x, recs[r.index]!)) return;
+    recs[r.index] = x;
+    this.h.apply(`Peran ${this.personName(i)}`, [[K.role(r.kind), { ...m, records: recs }]]);
+  }
+
   setContract(i: number, o: { endIso?: string; wage?: number }): void {
     const j = this.contractOf(this.person(i).uid);
     if (j < 0) throw new Error('Orang ini tidak punya kontrak');
@@ -583,6 +608,7 @@ export class Workspace {
       diffRecs(K.nonPlayers, 'non_players.dat', (j) => `staf ${nm(byNp.get(j))}`);
       diffRecs(K.contracts, 'starting_contracts.dat', (j) => `kontrak UID ${readContract(this.contracts.records[j]!).personUid}`);
       for (const k of NAME_KINDS) diffRecs(K.names(k), `${k}_names.dat`, (j) => `nama #${j}`);
+      for (const k of ROLE_KINDS) diffRecs(K.role(k), `${k}.dat`, (j) => `record #${j} (gaya/badge/aptitude)`);
     }
     for (const k of keys) {
       if (!k.startsWith('sc:list:')) continue;
@@ -624,6 +650,7 @@ export class Workspace {
       if (keys.has(k)) put(f, serializeFixedDat(this.h.get<FixedDat>(k)));
     }
     for (const k of NAME_KINDS) if (keys.has(K.names(k))) put(`${k}_names.dat`, serializeNamesDat(this.names(k)));
+    for (const k of ROLE_KINDS) if (keys.has(K.role(k))) put(`${k}.dat`, serializeFixedDat(this.role(k)));
     if (keys.has(K.lng)) {
       const orig = this.h.original<Map<string, LngDat>>(K.lng);
       for (const [path, l] of this.h.get<Map<string, LngDat>>(K.lng)) if (orig.get(path) !== l) put(path, serializeLngDat(l));

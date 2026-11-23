@@ -148,3 +148,9 @@ Baca VERIFIED · Tulis ulang identik VERIFIED · Arti field sebagian LIKELY · U
 1. Rumus konversi 16 atribut bertanda (−100..100) ke angka 1–20 di layar: butuh screenshot atribut 8–10 pemain dengan CA berbeda-beda; urutan atribut sudah LIKELY dari editor FMM26.
 2. File scout (idx3) dan physio (idx4) belum dikirim; nama entri di db_archive belum diketahui (minta screenshot daftar entri).
 3. Uji game: ubah CA/PA 1 pemain Indonesia, lalu tambah 1 pemain baru.
+
+
+## Tambahan 23 Nov (log 67) — staf
+- coaches/scouts/physios.dat 7 byte: u32 nomor urut, u8 gaya/spesialisasi, u8 badge (1 Bronze, 2 Silver, 3 Gold), u8 aptitude (1 Poor, 2 Normal, 3 Natural). VERIFIED (14 profil).
+- non_players.dat offset 31 = formasi Preferred (VERIFIED), 32 Attacking, 33 Defensive (LIKELY). Kode: 1 3-4-3 DM, 2 4-1-2-2-1, 6 4-2-3-1, 7 4-2-3-1 DM, 8 4-2-4, 15 4-5-1.
+- Trainable player traits & style/specialism manajer: UNKNOWN.

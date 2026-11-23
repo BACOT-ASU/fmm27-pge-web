@@ -482,6 +482,15 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Analisa field (HYPOTHESIS, 2–3 contoh saja): coaches.dat byte 4 = spesialisasi (3 = Attacking, keduanya 3 ✓); byte 5 cocok dengan aptitude (Dicky 2 = Normal, Ixsan 1 = Poor); byte 6 cocok dengan jumlah trait (2 vs 1). Formasi & ID trait belum ketemu: manajer (tanpa coaches.dat) juga punya formasi → kemungkinan di non_players.dat offset 30–38 (UNKNOWN). Butuh ±10 contoh staf ori (formasi + trait + spesialisasi + aptitude terlihat) untuk memetakan.
 - Slot: build v7 TIDAK memasukkan staf ke slot mana pun (semua slot staf klub IDN = −1), bukan salah slot. v8 mengisi menurut jabatan kontrak: Persib slot 0–2 = asisten + 2 pelatih, 5–6 = 2 scout, 8–10 = 3 physio (dicek). Dicky (PSGC) & Ixsan (PSIM) tampil "Free Agent": staf yang tidak ada di slot dilepas game (v7), atau dilepas karena jatah (v8: Ixsan dilepas; Dicky di v8 tetap di PSGC).
 
+### 67. Peta field staf dari 12 profil game (screenshot Bacad 23 Nov)
+- Sumber: Maresca, Vitiello, Krücken, Worthington, Baldwin (Man City); Okiwa, Kurimoto, Nagata, Sakamoto, Kurata (Kashima); Jansen, Talan (Bali) + Ixsan & Dicky (staf baru kita).
+- **coaches/scouts/physios.dat (7 byte)** — VERIFIED (14 orang cocok): byte 4 = gaya/spesialisasi (pelatih: 2 Defensive, 3 Attacking, 6 Youth; 5 Goalkeeping = dugaan lama; 1/4/7 belum diketahui. Scout: 1 First Team, 3 Youth. Physio: 1 Rehabilitation, 2 Prevention), byte 5 = badge (1 Bronze, 2 Silver, 3 Gold), byte 6 = aptitude (1 Poor, 2 Normal, 3 Natural).
+- **Formasi = non_players.dat offset 31/32/33**: 31 Preferred VERIFIED (Maresca 6/6/6 = 4-2-3-1 tiga-tiganya di layar Edit; Okiwa 7/7/7 = 4-2-3-1 DM; Jansen 6/6/6). Kode: 1 = 3-4-3 DM, 2 = 4-1-2-2-1, 6 = 4-2-3-1, 7 = 4-2-3-1 DM, 8 = 4-2-4, 15 = 4-5-1; kode lain di data ori: 0, 12, 14, 16, 17, 18, 19 (nama belum diketahui). 32 = Attacking, 33 = Defensive: LIKELY (kode 8 = 4-2-4 paling sering di 32; 15/16 di 33).
+- Atribut staf bernama (offset 15, 19, 21, 22, 23, 25, 29) dicek ulang dengan Maresca: cocok.
+- **Trainable player traits**: belum ketemu (bukan di non_players 34–38; Vitiello & Krücken sama-sama "Cross Pitch Passes" tapi byte tidak sama). UNKNOWN — mungkin di bagian lain people.dat atau dibuat game.
+- Style & Specialism MANAJER (Attacking/Normal; Professionalism/General): belum ketemu.
+- Aplikasi: halaman edit staf ditambah Formasi (Preferred/Attacking/Defensive), Coaching style/Specialism, Badge, Aptitude. Tes 119 lulus.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

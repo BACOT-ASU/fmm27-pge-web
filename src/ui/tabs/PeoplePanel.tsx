@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { JOB_NAMES, PLAYER_ATTRS, PLAYER_POSITIONS, PLAYER_SIGNED_ATTRS, STAFF_NAMED, dayYearToIso, readContract, readNonPlayer, readPlayer } from '../../core/formats/people/fixedRecords';
+import { APTITUDE, BADGE, FORMATION_CODES, ROLE_STYLE, ROLE_STYLE_MAX, formationLabel, readRole, JOB_NAMES, PLAYER_ATTRS, PLAYER_POSITIONS, PLAYER_SIGNED_ATTRS, STAFF_NAMED, dayYearToIso, readContract, readNonPlayer, readPlayer } from '../../core/formats/people/fixedRecords';
 import { PERSONALITY } from '../../core/formats/people/peopleDat';
 import { nameAt } from '../../core/formats/people/namesDat';
 import type { Workspace } from '../../core/workspace/workspace';
@@ -98,6 +98,19 @@ function SlotList({ ws, title, slots, onOpen }: { ws: Workspace; title: string; 
   );
 }
 
+function Pick({ label, value, options, onChange }: { label: string; value: string; options: (readonly [number, string])[]; onChange: (v: string) => void }) {
+  const known = options.some(([k]) => String(k) === value);
+  return (
+    <label className="block text-xs text-slate-500">
+      {label}
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 min-h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-2 text-sm text-slate-100">
+        {!known && <option value={value}>kode {value}</option>}
+        {options.map(([k, t]) => <option key={k} value={k}>{t}</option>)}
+      </select>
+    </label>
+  );
+}
+
 function PersonEditor({ ws, index, onBack, onChange }: { ws: Workspace; index: number; onBack: () => void; onChange: () => void }) {
   const p = ws.person(index);
   const job = ws.jobOf(index);
@@ -105,6 +118,8 @@ function PersonEditor({ ws, index, onBack, onChange }: { ws: Workspace; index: n
   const con = ci >= 0 ? readContract(ws.contracts.records[ci]!) : null;
   const pv = p.playerIndex >= 0 ? readPlayer(ws.players.records[p.playerIndex]!) : null;
   const nv = p.nonPlayerIndex >= 0 ? readNonPlayer(ws.nonPlayers.records[p.nonPlayerIndex]!) : null;
+  const ro = ws.roleOf(index);
+  const rv = ro ? readRole(ws.role(ro.kind).records[ro.index]!) : null;
   const [f, setF] = useState(() => ({
     firstName: p.first !== 0xffffffff ? nameAt(ws.names('first'), p.first) : '',
     secondName: nameAt(ws.names('second'), p.second),
@@ -123,6 +138,8 @@ function PersonEditor({ ws, index, onBack, onChange }: { ws: Workspace; index: n
     height: String(pv?.height ?? ''),
     weight: String(pv?.weight ?? ''),
     squadNumber: String(pv?.squadNumber ?? ''),
+    form: nv ? { preferred: String(nv.formations.preferred), attacking: String(nv.formations.attacking), defensive: String(nv.formations.defensive) } : { preferred: '', attacking: '', defensive: '' },
+    role: rv ? { style: String(rv.style), badge: String(rv.badge), aptitude: String(rv.aptitude) } : { style: '', badge: '', aptitude: '' },
     staff: Object.fromEntries(Object.entries(nv?.attrs ?? {}).map(([o, v]) => [o, String(v)])) as Record<string, string>,
   }));
   const [msg, setMsg] = useState<{ t: string; k: 'ok' | 'err' } | null>(null);
@@ -141,7 +158,11 @@ function PersonEditor({ ws, index, onBack, onChange }: { ws: Workspace; index: n
         ca: num(f.ca), pa: num(f.pa), attrs: Object.fromEntries(PLAYER_ATTRS.map((k) => [k, num(f.attrs[k]!)])),
         positions: f.positions.map(num), leftFoot: num(f.leftFoot), rightFoot: num(f.rightFoot), height: num(f.height), weight: num(f.weight), squadNumber: num(f.squadNumber),
       });
-      if (nv) ws.setNonPlayer(index, { ca: num(f.ca), pa: num(f.pa), attrs: Object.fromEntries(Object.entries(f.staff).map(([o, v]) => [Number(o), num(v)])) });
+      if (nv) ws.setNonPlayer(index, {
+        ca: num(f.ca), pa: num(f.pa), attrs: Object.fromEntries(Object.entries(f.staff).map(([o, v]) => [Number(o), num(v)])),
+        formations: { preferred: num(f.form.preferred), attacking: num(f.form.attacking), defensive: num(f.form.defensive) },
+      });
+      if (rv) ws.setRole(index, { style: num(f.role.style), badge: num(f.role.badge), aptitude: num(f.role.aptitude) });
       if (con) ws.setContract(index, { endIso: f.endDate, wage: num(f.wage) });
       onChange();
       setMsg({ t: 'Tersimpan di ruang kerja. Unduh lewat tab Simpan.', k: 'ok' });
@@ -205,6 +226,27 @@ function PersonEditor({ ws, index, onBack, onChange }: { ws: Workspace; index: n
           </div>
         </>
       )}
+      {nv && (
+        <>
+          <h5 className="mt-3 text-xs font-semibold text-slate-400">Formasi</h5>
+          <div className={grid}>
+            {([['preferred', 'Preferred'], ['attacking', 'Attacking (dugaan)'], ['defensive', 'Defensive (dugaan)']] as const).map(([k, label]) => (
+              <Pick key={k} label={label} value={f.form[k]} options={FORMATION_CODES.map((c) => [c, formationLabel(c)])} onChange={(v) => setF({ ...f, form: { ...f.form, [k]: v } })} />
+            ))}
+          </div>
+        </>
+      )}
+      {ro && rv && (
+        <>
+          <h5 className="mt-3 text-xs font-semibold text-slate-400">{ro.kind === 'coaches' ? 'Pelatih' : ro.kind === 'scouts' ? 'Scout' : 'Physio'}</h5>
+          <div className={grid}>
+            <Pick label={ro.kind === 'coaches' ? 'Coaching style' : 'Specialism'} value={f.role.style} options={Array.from({ length: ROLE_STYLE_MAX[ro.kind] }, (_, k) => [k + 1, ROLE_STYLE[ro.kind][k + 1] ?? `kode ${k + 1} (nama belum diketahui)`])} onChange={(v) => setF({ ...f, role: { ...f.role, style: v } })} />
+            <Pick label="Coaching badge" value={f.role.badge} options={[1, 2, 3].map((k) => [k, BADGE[k]!])} onChange={(v) => setF({ ...f, role: { ...f.role, badge: v } })} />
+            <Pick label="Aptitude" value={f.role.aptitude} options={[1, 2, 3].map((k) => [k, APTITUDE[k]!])} onChange={(v) => setF({ ...f, role: { ...f.role, aptitude: v } })} />
+          </div>
+        </>
+      )}
+      <p className="mt-2 text-xs text-slate-500">Trainable player traits: tempat penyimpanannya di database belum ditemukan (belum bisa diedit).</p>
       {nv && (
         <>
           <h5 className="mt-3 text-xs font-semibold text-slate-400">Atribut staf (0–20; nama yang belum dicocokkan dengan layar game ditulis a&lt;offset&gt;)</h5>

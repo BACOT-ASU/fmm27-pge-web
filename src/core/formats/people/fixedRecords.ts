@@ -101,20 +101,23 @@ export function writePlayer(r: Uint8Array, v: Partial<PlayerView>): Uint8Array {
 }
 
 // ---------------------------------------------------------------- non_players.dat (39 byte)
-/** Atribut staf bernama (VERIFIED dengan layar game, 2 orang); offset lain 14..38 = 'a<offset>'. */
+/** Atribut staf bernama (VERIFIED dengan layar game: Mourinho, Bento, Maresca, Okiwa, Jansen); offset lain = 'a<offset>'. 31–33 = formasi. */
 export const STAFF_NAMED: Record<number, string> = { 15: 'financial_control', 19: 'discipline', 21: 'judging_ability', 22: 'judging_potential', 23: 'people_management', 25: 'motivating', 29: 'tactical_knowledge' };
 
 export interface NonPlayerView {
   ca: number;
   pa: number;
   attrs: Record<number, number>;
+  /** Formasi (kode) di offset 31/32/33. */
+  formations: { preferred: number; attacking: number; defensive: number };
 }
 
 export function readNonPlayer(r: Uint8Array): NonPlayerView {
   const dv = dvOf(r);
   const attrs: Record<number, number> = {};
-  for (let o = 14; o < 39; o++) attrs[o] = r[o]!;
-  return { ca: dv.getInt16(4, true), pa: dv.getInt16(6, true), attrs };
+  for (let o = 14; o < 31; o++) attrs[o] = r[o]!;
+  for (let o = 34; o < 39; o++) attrs[o] = r[o]!;
+  return { ca: dv.getInt16(4, true), pa: dv.getInt16(6, true), attrs, formations: { preferred: r[31]!, attacking: r[32]!, defensive: r[33]! } };
 }
 
 export function writeNonPlayer(r: Uint8Array, v: Partial<NonPlayerView>): Uint8Array {
@@ -124,7 +127,12 @@ export function writeNonPlayer(r: Uint8Array, v: Partial<NonPlayerView>): Uint8A
   if (v.pa !== undefined) dv.setInt16(6, Math.max(1, Math.min(200, v.pa)), true);
   if (v.attrs) for (const [o, x] of Object.entries(v.attrs)) {
     const off = Number(o);
-    if (off >= 14 && off < 39) out[off] = Math.max(0, Math.min(20, x));
+    if (off >= 14 && off < 39 && (off < 31 || off > 33)) out[off] = Math.max(0, Math.min(20, x));
+  }
+  if (v.formations) {
+    out[31] = v.formations.preferred;
+    out[32] = v.formations.attacking;
+    out[33] = v.formations.defensive;
   }
   return out;
 }
@@ -171,4 +179,46 @@ export function isoToDayYear(iso: string): { day: number; year: number } {
   const [y, m, d] = iso.split('-').map(Number) as [number, number, number];
   const t = Date.UTC(y, m - 1, d);
   return { day: Math.round((t - Date.UTC(y, 0, 1)) / 86400000), year: y };
+}
+
+// ---------------------------------------------------------------- coaches/scouts/physios.dat (7 byte) — log 67
+// u32 nomor urut (−1 = slot kosong) + 3 byte. Dicocokkan dengan 12 staf di layar game (Man City, Kashima, Bali):
+//   byte 4 = gaya/spesialisasi, byte 5 = badge (1 Bronze, 2 Silver, 3 Gold), byte 6 = aptitude (1 Poor, 2 Normal, 3 Natural).
+export const ROLE_LEN = 7;
+export type RoleKind = 'coaches' | 'scouts' | 'physios';
+export const ROLE_STYLE: Record<RoleKind, Record<number, string>> = {
+  coaches: { 2: 'Defensive', 3: 'Attacking', 5: 'Goalkeeping (dugaan)', 6: 'Youth' },
+  scouts: { 1: 'First Team Scout', 3: 'Youth Scout' },
+  physios: { 1: 'Rehabilitation', 2: 'Prevention' },
+};
+export const ROLE_STYLE_MAX: Record<RoleKind, number> = { coaches: 7, scouts: 4, physios: 2 };
+export const BADGE: Record<number, string> = { 1: 'Bronze', 2: 'Silver', 3: 'Gold' };
+export const APTITUDE: Record<number, string> = { 1: 'Poor', 2: 'Normal', 3: 'Natural' };
+
+export interface RoleView {
+  style: number;
+  badge: number;
+  aptitude: number;
+}
+export function readRole(r: Uint8Array): RoleView {
+  return { style: r[4]!, badge: r[5]!, aptitude: r[6]! };
+}
+export function writeRole(r: Uint8Array, v: Partial<RoleView>): Uint8Array {
+  const out = r.slice();
+  if (v.style !== undefined) out[4] = v.style;
+  if (v.badge !== undefined) out[5] = Math.max(1, Math.min(3, v.badge));
+  if (v.aptitude !== undefined) out[6] = Math.max(1, Math.min(3, v.aptitude));
+  return out;
+}
+
+// ---------------------------------------------------------------- formasi staf (non_players.dat offset 31/32/33) — log 67
+// Dicocokkan dengan layar game: Maresca 6/6/6 = 4-2-3-1 (tiga formasi sama di layar Edit), Okiwa 7/7/7 = 4-2-3-1 DM,
+// Kurimoto 15 = 4-5-1, Nagata 8 = 4-2-4, Talan 2 = 4-1-2-2-1, Ixsan 1 = 3-4-3 DM.
+// 31 = Preferred (VERIFIED); 32 = Attacking, 33 = Defensive (LIKELY: 4-2-4 paling sering di 32, 4-5-1 di 33).
+export const FORMATION_OFFSETS = { preferred: 31, attacking: 32, defensive: 33 } as const;
+export const FORMATION_NAMES: Record<number, string> = { 1: '3-4-3 DM', 2: '4-1-2-2-1', 6: '4-2-3-1', 7: '4-2-3-1 DM', 8: '4-2-4', 15: '4-5-1' };
+/** Kode formasi yang muncul di data ori 27.1.0. */
+export const FORMATION_CODES = [0, 1, 2, 6, 7, 8, 12, 14, 15, 16, 17, 18, 19];
+export function formationLabel(code: number): string {
+  return FORMATION_NAMES[code] ?? `kode ${code} (nama belum diketahui)`;
 }
