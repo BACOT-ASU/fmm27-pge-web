@@ -495,6 +495,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Status aplikasi: personality (8 nilai) SUDAH bisa diedit untuk semua orang. Preferred moves (PPM) pemain & trait staf: lokasi di db UNKNOWN → butuh screenshot pemain ori dengan PPM terlihat (±10 pemain, beberapa PPM sama) untuk dipetakan.
 - CA: disimpan terpisah (players.dat offset 59). Mengubah atribut TIDAK menaikkan CA otomatis (di db tidak ada hubungan; game memakai nilai CA yang tersimpan). Rumus CA dari atribut di FMM UNKNOWN (kalibrasi_atribut.md belum selesai) → opsi: tombol "perkirakan CA" setelah rumus dikalibrasi.
 
+### 69. Screenshot: daftar formasi, manajer (Flick, Simeone, Mourinho), Kugel, PPM pemain (Lamine Yamal, Pedri, Mbappé) (23 Nov)
+- **Daftar formasi lengkap** (urutan layar Edit game) = kode 0–20: 3-4-3, 3-4-3 DM, 4-1-2-2-1, 4-1-4-1, 4-2-1-3, 4-2-2-2, 4-2-3-1, 4-2-3-1 DM, 4-2-4, 4-3-1-2, 4-3-2-1, 4-3-3, 4-4-1-1, 4-4-2, 4-4-2 Diamond, 4-5-1, 5-1-2-2, 5-2-1-2, 5-2-2-1, 5-3-2, 5-4-1. Cocok dengan 6 kode yang sudah terbukti (1, 2, 6, 7, 8, 15) dan Simeone 4-2-4 = 8, Flick/Mourinho 4-2-3-1 = 6 → VERIFIED.
+- Coaching style 7 = Fitness (Kugel). 
+- **Style & Specialism manajer** (Flick Attacking/Adaptability, Simeone Defensive/Professionalism, Mourinho Normal/Adaptability, Maresca Attacking/Professionalism, Okiwa Attacking/General, Jansen Normal/General): tidak ada byte di non_players yang cocok → LIKELY dihitung game (specialism = atribut tertinggi, mis. Mourinho Adaptability 20; Simeone Professionalism 20). Tidak perlu diedit langsung.
+- **Preferred moves (PPM)**: daftar 44 PPM (urutan layar) dicatat. Dicari di players.dat (82 byte: semua offset sudah terpetakan kecuali 70, 71, 73, 78–81 = nol untuk Mbappé yang punya 11 PPM), people.dat (relasi = orang/klub favorit, bukan PPM), dan semua file db yang merujuk Mbappé (players, starting_bans, player_history, starting_injuries, people_to_always_load, kontrak, club, awards) → **tidak ditemukan**. Dugaan: PPM (dan trait pelatih) dibuat game dari atribut/riwayat, atau ada di player_history.dat (format belum dibongkar). UNKNOWN; tidak bisa diedit dulu.
+- Aplikasi: pilihan formasi kini 21 nama lengkap; gaya pelatih + Fitness.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

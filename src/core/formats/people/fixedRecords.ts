@@ -187,7 +187,7 @@ export function isoToDayYear(iso: string): { day: number; year: number } {
 export const ROLE_LEN = 7;
 export type RoleKind = 'coaches' | 'scouts' | 'physios';
 export const ROLE_STYLE: Record<RoleKind, Record<number, string>> = {
-  coaches: { 2: 'Defensive', 3: 'Attacking', 5: 'Goalkeeping (dugaan)', 6: 'Youth' },
+  coaches: { 2: 'Defensive', 3: 'Attacking', 5: 'Goalkeeping (dugaan)', 6: 'Youth', 7: 'Fitness' },
   scouts: { 1: 'First Team Scout', 3: 'Youth Scout' },
   physios: { 1: 'Rehabilitation', 2: 'Prevention' },
 };
@@ -216,9 +216,11 @@ export function writeRole(r: Uint8Array, v: Partial<RoleView>): Uint8Array {
 // Kurimoto 15 = 4-5-1, Nagata 8 = 4-2-4, Talan 2 = 4-1-2-2-1, Ixsan 1 = 3-4-3 DM.
 // 31 = Preferred (VERIFIED); 32 = Attacking, 33 = Defensive (LIKELY: 4-2-4 paling sering di 32, 4-5-1 di 33).
 export const FORMATION_OFFSETS = { preferred: 31, attacking: 32, defensive: 33 } as const;
-export const FORMATION_NAMES: Record<number, string> = { 1: '3-4-3 DM', 2: '4-1-2-2-1', 6: '4-2-3-1', 7: '4-2-3-1 DM', 8: '4-2-4', 15: '4-5-1' };
-/** Kode formasi yang muncul di data ori 27.1.0. */
-export const FORMATION_CODES = [0, 1, 2, 6, 7, 8, 12, 14, 15, 16, 17, 18, 19];
+// Daftar lengkap = urutan pilihan di layar Edit game (log 69); kode yang sudah dicocokkan (1, 2, 6, 7, 8, 15) sesuai urutan ini.
+export const FORMATION_LIST = ['3-4-3', '3-4-3 DM', '4-1-2-2-1', '4-1-4-1', '4-2-1-3', '4-2-2-2', '4-2-3-1', '4-2-3-1 DM', '4-2-4', '4-3-1-2',
+  '4-3-2-1', '4-3-3', '4-4-1-1', '4-4-2', '4-4-2 Diamond', '4-5-1', '5-1-2-2', '5-2-1-2', '5-2-2-1', '5-3-2', '5-4-1'] as const;
+export const FORMATION_NAMES: Record<number, string> = Object.fromEntries(FORMATION_LIST.map((n, i) => [i, n]));
+export const FORMATION_CODES = FORMATION_LIST.map((_, i) => i);
 export function formationLabel(code: number): string {
   return FORMATION_NAMES[code] ?? `kode ${code} (nama belum diketahui)`;
 }
