@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — db_archive_2707.fmf (27.1.0 ori) diterima
+- 184.134.385 byte, flag 0, 76 entri; semua kiriman sebelumnya identik dengan isinya; scouts/physios modder identik dengan ori.
+- competition/stadium/rivalries/.lng 27.1.0 terbaca habis dengan skrip lama.
+- Temuan: 27.1.0 ori tidak punya kompetisi Indonesia sama sekali (semua klub IDN divisi −1) → harus ditambah ulang saat build.
+
 ## 2026-11-23 — club/players/people terkonfirmasi ori
 - Salinan kedua dari APK ori identik dengan `samples/v2710/` (log poin 19).
 

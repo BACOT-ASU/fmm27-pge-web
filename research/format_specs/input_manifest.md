@@ -9,6 +9,11 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 | pictures_logos.fmf | B7b | 1.818.029.973 | | assets/data/game/ | flag 0, 142.934 entri (dibaca aplikasi di HP, 22 Nov). Store wajib |
 | libgame.so | B2c | 52.355.608 | | lib/arm64-v8a/ | hanya dibaca |
 
+### APK 27.1.0 ori — db_archive_2707.fmf utuh
+| File | Ukuran | SHA-256 | Catatan |
+|---|---|---|---|
+| db_archive_2707.fmf | 184.134.385 | 278769f0ad58037aeec894ecd0acfa147f90f6ca7d7910999d0b4f230317090b | flag 0, 76 entri; 1.669 kompetisi (tanpa kompetisi Indonesia), 53.182 klub, 16.082 stadion, 1.681 rivalitas |
+
 ### APK 27.1.0 ori — lokasi file (MT Manager, 23 Nov 2026)
 | File | Path di APK | Ukuran (MT Manager) |
 |---|---|---|
@@ -29,8 +34,8 @@ Catatan: APK dari situs pihak ketiga (androidoyunclub; ada `lib/arm64-v8a/liband
 | first_names.dat | 1.762.541 | d5a97395f7e9aebb4ddc57fb57660aa4f9f6a03a290c853868995bff3599f07b |
 | second_names.dat | 3.113.643 | 4b01441a38c7d900f440837396b099dd913da6462730bc1ab3b171f35e5c7376 |
 | coaches.dat (ori, dikonfirmasi) | 118.424 | c5963f1dcbf8cdd3540911f6effe74d1f0048d9bd026bcdc8a99b85e85c2f1ea |
-| scouts.dat (**APK modder lain, bukan ori**) | 22.349 | 8a5e4f3c90942cb1e833aeb68019859b03e288a0f65bf6d6aed96e5db6e54c0e |
-| physios.dat (**APK modder lain, bukan ori**) | 38.456 | 4c8b94a2e7e842be1b2a26d7bc5832adf2711d5075485c8c12171b9e4fef05f9 |
+| scouts.dat (dari APK modder, **identik dengan ori**) | 22.349 | 8a5e4f3c90942cb1e833aeb68019859b03e288a0f65bf6d6aed96e5db6e54c0e |
+| physios.dat (dari APK modder, **identik dengan ori**) | 38.456 | 4c8b94a2e7e842be1b2a26d7bc5832adf2711d5075485c8c12171b9e4fef05f9 |
 | common_names.dat | 311.760 | 3e01702abe75c1525ebb83297d0484605079c28ca4bac41e035dc4737fe92974 |
 
 Catatan 27.1.0: `club.dat` berisi **53.182 klub** (27.0: 38.747) dan terbaca habis oleh `club.py` lama. Index klub bergeser total dibanding 27.0, jadi skrip build lama (berbasis index) tidak bisa dipakai langsung.

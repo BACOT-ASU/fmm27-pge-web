@@ -142,8 +142,18 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Bacad kirim ulang `club.dat`, `players.dat`, `people.dat` dari APK ori. Ketiganya **identik byte demi byte** dengan `samples/v2710/` (SHA-256 f88f43ab… / 221a28ef… / 841021a1…). Jadi semua hasil bongkar (poin 5, 9–11, 14) dan uji `build_people_v2710.py` memakai data ori.
 - Masih dianggap dari `db_archive_2707.fmf` (belum disebut eksplisit oleh Bacad; konsisten dengan 163.159 orang).
 
+### 20. db_archive_2707.fmf ori diterima (23 Nov)
+- Dikirim sebagai zip terbagi ZArchiver (z01–z07 + zip, 8 bagian). `zip -s 0` gagal (CRC salah, "overlapped components") karena format split ZArchiver; berhasil dengan menyambung bagian mentah lalu mengambil entri "stored" (tanpa kompresi). CRC32 cocok (97d78cf2).
+- `db_archive_2707.fmf`: **184.134.385 byte**, SHA-256 `278769f0ad58037aeec894ecd0acfa147f90f6ca7d7910999d0b4f230317090b`, flag 0, 76 entri. Disimpan di `samples/v2710/` (+ semua entri di `samples/v2710/db/`).
+- Semua file yang dikirim sebelumnya **identik** dengan entri di arsip ini (people, players, non_players, starting_contracts, club, coaches, 3 file nama) → terbukti asalnya `db_archive_2707`.
+- **`scouts.dat` & `physios.dat` modder = identik dengan ori** → label struktur & rujukan idx3/idx4 kembali VERIFIED (batas pas di file ori).
+- Format lama terbaca habis di 27.1.0: competition.dat **1.669** kompetisi (`comp.py`), stadium.dat **16.082** stadion (27.0: 12.509), rivalries.dat **1.681**, `.lng` 16 bahasa = **53.182** = jumlah klub.
+- **TEMUAN BESAR: 27.1.0 ori TIDAK punya satu pun kompetisi Indonesia.** BRI Super League (41004312), Pegadaian Championship (41042740/41/42), Liga Nusantara (41042746), Piala Indonesia (7746536), Piala Super (7746537), Piala Liga (2000560926), Piala Presiden (2000189135), Liga 4 (41045091): semua TIDAK ADA. Ke-55 klub berkebangsaan Indonesia: divisi −1.
+  - Akibat: build 27.1.0 harus **menambah ulang seluruh kompetisi Indonesia** di ujung competition.dat (UID lama dipakai lagi), mengisi divisi klub, dan aturan di `comps.dbc` (sicomps) — perlu dicek apakah aturan Indonesia di sicomps 27.1.0 juga hilang. Tambalan libgame (liga terdalam) juga bergantung pada ini.
+  - Referensi berguna: APK modder "27.1 mod" (Bacad punya) sudah menambahkan kompetisi Indonesia di 27.1 → bisa dibandingkan sebagai contoh (bukan dasar build).
+
 ### Menunggu dari Bacad
-- File ori 27.1.0 (zip dipecah ≤ 25 MB): `lib/arm64-v8a/libgame.so`, `assets/data/game/db_archive_2707.fmf`, `assets/shared/data/sicomps.fmf`, `assets/data/game/pictures_logos.fmf`. (Path sudah diterima, poin 18.)
+- File ori 27.1.0 (zip dipecah ≤ 25 MB): `lib/arm64-v8a/libgame.so`, `assets/shared/data/sicomps.fmf`, `assets/data/game/pictures_logos.fmf`. (`db_archive_2707.fmf` sudah diterima, poin 20.)
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.
