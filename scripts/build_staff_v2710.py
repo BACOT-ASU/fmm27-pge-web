@@ -1,0 +1,233 @@
+"""Tambah / perbarui staf Indonesia (data/staf_indonesia_v2.csv) di database 27.1.0.
+
+Pola dari data asli 27.1.0 (lihat research/format_specs/people_players.md, log poin 30):
+  jabatan (byte 24 kontrak) | file yang dipakai orang itu
+  16 manajer                | non_players.dat
+  20 asisten manajer        | non_players.dat + coaches.dat
+   2 pelatih               | non_players.dat + coaches.dat
+  12 physio                 | physios.dat
+  14 scout                  | scouts.dat
+Peta jabatan dataset: Head coach → 16; Assistant coach pertama per klub → 20, berikutnya → 2;
+Goalkeeping coach / Fitness coach / U20 / U18 Head coach → 2; Physiotherapist → 12; Head of scouting → 14.
+Analyst, Doctor, Technical director, Sporting director, Technical advisor, Video analyst: tidak ada padanannya → dilewati.
+
+Orang baru: record people/non_players/coaches/physios/scouts + kontrak DISALIN dari staf asli dengan jabatan sama
+(diutamakan orang Indonesia di klub Indonesia), lalu diganti UID/nama/tgl lahir/negara/klub/indeks. Record baru di
+coaches/physios/scouts disisipkan sebelum 50 slot kosong (−1) di ujung, supaya slot kosong tetap di ujung dan
+index lama tidak bergeser. Manajer lama di klub yang mendapat Head coach baru: kontraknya dihapus dan klubnya −1.
+Semua ini HYPOTHESIS sampai diuji di game. Atribut staf = salinan templat (perkiraan).
+"""
+import csv
+import datetime
+import os
+import struct
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import people                                   # noqa: E402
+from build_people_v2710 import (CODE_TO_TEAM, REPO, IDN, NameFile, day_year, h, norm,  # noqa: E402
+                                JOB_COACH, JOB_PHYSIO, JOB_SCOUT, JOB_MANAGER, JOB_ASSISTANT, START_DATE)
+import club as clubmod                           # noqa: E402
+
+ROLE_FILE = {JOB_MANAGER: None, JOB_ASSISTANT: 'coaches', JOB_COACH: 'coaches', JOB_PHYSIO: 'physios', JOB_SCOUT: 'scouts'}
+ROLE_IDX = {'coaches': 'idx2', 'scouts': 'idx3', 'physios': 'idx4'}
+
+
+def job_of(title, first_assistant):
+    t = title.strip().lower()
+    if t == 'head coach':
+        return JOB_MANAGER
+    if t == 'assistant coach':
+        return JOB_ASSISTANT if first_assistant else JOB_COACH
+    if t in ('goalkeeping coach', 'fitness coach', 'u20 head coach', 'u18 head coach'):
+        return JOB_COACH
+    if t == 'physiotherapist':
+        return JOB_PHYSIO
+    if t == 'head of scouting':
+        return JOB_SCOUT
+    return None
+
+
+class RoleFile:
+    """coaches/scouts/physios.dat: u32 nomor urut (−1 = slot kosong di ujung) + 3 byte."""
+
+    def __init__(self, path):
+        d = open(path, 'rb').read()
+        self.header, self.recs = people.split_fixed(d, 7, os.path.basename(path))
+        k = len(self.recs)
+        while k and struct.unpack_from('<i', self.recs[k - 1], 0)[0] == -1:
+            k -= 1
+        self.used, self.empty = self.recs[:k], self.recs[k:]
+        assert all(struct.unpack_from('<i', r, 0)[0] == i for i, r in enumerate(self.used))
+
+    def add(self, template7):
+        i = len(self.used)
+        r = bytearray(template7); struct.pack_into('<i', r, 0, i)
+        self.used.append(bytes(r))
+        return i
+
+    def build(self):
+        return people.join_fixed(self.header, self.used + self.empty)
+
+
+def build(src, dst, club_map, verbose=True):
+    """src/dst = folder db (people, non_players, coaches, physios, scouts, starting_contracts, 3 file nama).
+    club_map: nama klub dataset -> (club_index, club_uid). Mengembalikan (laporan, dilewati)."""
+    src = src.rstrip('/') + '/'; dst = dst.rstrip('/') + '/'
+    ph, recs, _ = people.parse_people(open(src + 'people.dat', 'rb').read())
+    nph, nps = people.split_fixed(open(src + 'non_players.dat', 'rb').read(), 39, 'non_players')
+    roles = {n: RoleFile(src + n + '.dat') for n in ('coaches', 'physios', 'scouts')}
+    sch, scs = people.split_fixed(open(src + 'starting_contracts.dat', 'rb').read(), 54, 'contracts')
+    FN, SN, CN = (NameFile(src + n + '_names.dat') for n in ('first', 'second', 'common'))
+    clubs, _, _ = clubmod.parse(src + 'club.dat', verbose=False)
+    team_nat = {}
+    for c in clubs:
+        team_nat.setdefault(c['long'], c['nat'])
+    byuid = {r['uid']: i for i, r in enumerate(recs)}
+    idn_club_uids = {u for _, u in club_map.values()}
+    contracts_by_uid = {}
+    for j, x in enumerate(scs):
+        contracts_by_uid.setdefault(struct.unpack_from('<I', x, 0)[0], []).append(j)
+
+    # templat per jabatan: utamakan orang Indonesia di klub Indonesia
+    tpl = {}
+    for x in scs:
+        u, cu = struct.unpack_from('<II', x, 0)
+        job = x[24]
+        if job not in ROLE_FILE or u not in byuid:
+            continue
+        r = recs[byuid[u]]
+        need_np = job in (JOB_MANAGER, JOB_ASSISTANT, JOB_COACH)
+        rf = ROLE_FILE[job]
+        if need_np != (r['non_player_index'] >= 0) or (rf and r[ROLE_IDX[rf]] < 0) or r['player_index'] >= 0:
+            continue
+        score = (cu in idn_club_uids) * 2 + (r['nation'] == IDN)
+        if job not in tpl or score > tpl[job][0]:
+            tpl[job] = (score, r, bytes(x))
+    assert set(tpl) == set(ROLE_FILE), set(ROLE_FILE) - set(tpl)
+
+    def full_name(r):
+        f = FN.raw[r['first']][20:].decode('utf-8', 'replace') if r['first'] < len(FN.raw) else ''
+        s = SN.raw[r['second']][20:].decode('utf-8', 'replace') if r['second'] < len(SN.raw) else ''
+        keys = {norm((f + ' ' + s).strip())}
+        if r['common'] >= 0:
+            keys.add(norm(CN.raw[r['common']][20:].decode('utf-8', 'replace')))
+        return keys
+    name_idx = {}
+    for i, r in enumerate(recs):
+        if r['player_index'] < 0:
+            for k in full_name(r):
+                name_idx.setdefault(k, []).append(i)
+
+    used_uids = {r['uid'] for r in recs} | {c['uid'] for c in clubs}
+    next_uid = max([u for u in used_uids if 2100000001 <= u < 2200000000] + [2100000000]) + 1
+    rows = list(csv.DictReader(open(os.path.join(REPO, 'data/staf_indonesia_v2.csv'), encoding='utf-8')))
+    report, skipped = [], []
+    assistant_seen = set()
+    managers_new = {}
+    drop_contracts = set()
+
+    for row in rows:
+        if row['klub'] not in club_map:
+            skipped.append((row['nama'], row['klub'], row['jabatan'], 'klub belum ada')); continue
+        first_asst = row['jabatan'].strip().lower() == 'assistant coach' and row['klub'] not in assistant_seen
+        job = job_of(row['jabatan'], first_asst)
+        if job is None:
+            skipped.append((row['nama'], row['klub'], row['jabatan'], 'jabatan tidak ada padanan di game')); continue
+        if job == JOB_ASSISTANT:
+            assistant_seen.add(row['klub'])
+        ci, cuid = club_map[row['klub']]
+        end = datetime.date.fromisoformat(row['kontrak_sampai']) if row['kontrak_sampai'] else datetime.date(2027, 5, 31)
+        codes = [c for c in (row['negara'] or 'IDN').split('/') if c]
+        nats = [team_nat.get(CODE_TO_TEAM.get(c, ''), -1) for c in codes]
+        if nats[0] < 0:
+            skipped.append((row['nama'], row['klub'], row['jabatan'], 'negara %s tidak dikenal' % row['negara'])); continue
+
+        cand = name_idx.get(norm(row['nama']), [])
+        cand = [i for i in cand if recs[i]['nation'] == nats[0] or recs[i]['club_index'] == ci]
+        if len(cand) == 1:                                   # orang sudah ada: pindah klub + kontrak
+            r = recs[cand[0]]
+            r['club_index'] = ci; r['joined'] = day_year(START_DATE)
+            for j in contracts_by_uid.get(r['uid'], []):
+                c = bytearray(scs[j]); struct.pack_into('<I', c, 4, cuid)
+                struct.pack_into('<HH', c, 20, *day_year(end)); scs[j] = bytes(c)
+            if job == JOB_MANAGER:
+                managers_new[ci] = r['uid']
+            report.append({'aksi': 'perbarui', 'uid': r['uid'], 'nama': row['nama'], 'klub': row['klub'], 'jabatan': job})
+            continue
+
+        while next_uid in used_uids:
+            next_uid += 1
+        used_uids.add(next_uid)
+        _, tp, tcon = tpl[job]
+        r = dict(tp)
+        nuid = struct.unpack_from('<I', FN.raw[tp['first']], 9)[0] if tp['first'] < len(FN.raw) else 113
+        words = row['nama'].split()
+        tF = FN.raw[tp['first']] if tp['first'] < len(FN.raw) else FN.raw[0]
+        tS = SN.raw[tp['second']]
+        tC = CN.raw[tp['common']] if tp['common'] >= 0 else CN.raw[0]
+        if len(words) == 1:
+            fi, si, co = 0xFFFFFFFF, SN.get_or_add(words[0], nuid, tS), CN.get_or_add(words[0], nuid, tC)
+        else:
+            fi, si, co = FN.get_or_add(words[0], nuid, tF), SN.get_or_add(' '.join(words[1:]), nuid, tS), -1
+        age = int(row['umur']) if row['umur'].isdigit() else 45
+        r.update({'uid': next_uid, 'first': fi, 'second': si, 'common': co,
+                  'dob_day': h(row['nama'], 365), 'dob_year': 2026 - age, 'nation': nats[0],
+                  'other_nations': [n for n in nats[1:] if n >= 0],
+                  'intl_date': (1, 1900), 'caps': 0, 'intl_goals': 0, 'intl_x': b'\x00\x00',
+                  'club_index': ci, 'joined': day_year(START_DATE),
+                  'personality': bytes(8 + h(row['nama'] + str(k), 9) for k in range(8)),
+                  'player_index': -1, 'non_player_index': -1, 'idx2': -1, 'idx3': -1, 'idx4': -1,
+                  'languages': [], 'relations': []})
+        if job in (JOB_MANAGER, JOB_ASSISTANT, JOB_COACH):
+            x = bytearray(nps[tp['non_player_index']]); struct.pack_into('<I', x, 0, len(nps)); nps.append(bytes(x))
+            r['non_player_index'] = len(nps) - 1
+        rf = ROLE_FILE[job]
+        if rf:
+            t7 = roles[rf].used[tp[ROLE_IDX[rf]]]
+            r[ROLE_IDX[rf]] = roles[rf].add(t7)
+        if r['non_player_index'] < 0 and r['idx2'] < 0 and r['idx3'] < 0 and r['idx4'] < 0:
+            r['staff_extra'] = None
+        elif r['staff_extra'] is None:
+            r['staff_extra'] = b'\x00\x01'
+        recs.append(r)
+        c = bytearray(tcon)
+        struct.pack_into('<II', c, 0, next_uid, cuid)
+        struct.pack_into('<HH', c, 16, *day_year(START_DATE))
+        struct.pack_into('<HH', c, 20, *day_year(end))
+        struct.pack_into('<H', c, 24, job)
+        scs.append(bytes(c))
+        if job == JOB_MANAGER:
+            managers_new[ci] = next_uid
+        report.append({'aksi': 'baru', 'uid': next_uid, 'nama': row['nama'], 'klub': row['klub'], 'jabatan': job})
+        next_uid += 1
+
+    # manajer lama di klub yang dapat Head coach dari dataset: lepas dari klub
+    released = []
+    club_uid_of = {i: u for i, u in club_map.values()}
+    for j, x in enumerate(scs):
+        u, cu = struct.unpack_from('<II', x, 0)
+        if x[24] == JOB_MANAGER and u in byuid:
+            ci = next((i for i, uu in club_uid_of.items() if uu == cu), None)
+            if ci in managers_new and managers_new[ci] != u:
+                drop_contracts.add(j)
+                recs[byuid[u]]['club_index'] = -1
+                released.append(u)
+    scs = [x for j, x in enumerate(scs) if j not in drop_contracts]
+
+    os.makedirs(dst, exist_ok=True)
+    open(dst + 'people.dat', 'wb').write(people.build_people(ph, recs))
+    open(dst + 'non_players.dat', 'wb').write(people.join_fixed(nph, nps))
+    for n, rfile in roles.items():
+        open(dst + n + '.dat', 'wb').write(rfile.build())
+    open(dst + 'starting_contracts.dat', 'wb').write(people.join_fixed(sch, scs))
+    for n, nf in (('first', FN), ('second', SN), ('common', CN)):
+        open(dst + n + '_names.dat', 'wb').write(nf.build())
+    with open(dst + 'laporan_staf.csv', 'w', newline='', encoding='utf-8') as f:
+        w = csv.DictWriter(f, fieldnames=['aksi', 'uid', 'nama', 'klub', 'jabatan']); w.writeheader(); w.writerows(report)
+    with open(dst + 'dilewati_staf.csv', 'w', newline='', encoding='utf-8') as f:
+        w = csv.writer(f); w.writerow(['nama', 'klub', 'jabatan', 'alasan']); w.writerows(skipped)
+    if verbose:
+        print('staf baru %d, diperbarui %d, dilewati %d, manajer lama dilepas %d' % (
+            sum(x['aksi'] == 'baru' for x in report), sum(x['aksi'] == 'perbarui' for x in report), len(skipped), len(released)))
+    return report, skipped, released

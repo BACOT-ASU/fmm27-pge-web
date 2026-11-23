@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — Build 27.1.0 lengkap
+- `build_staff_v2710.py` (staf dataset; jabatan lewat byte 24 kontrak), `build_v2710_logos.py` (23 logo klub), `patch_libgame_v2710.py` (Indonesia playable + Liga Nusantara).
+- Perbaikan: pemain baru sempat tercatat sebagai manajer (templat kontrak salah).
+- `tests/build_v2710.test.ts`: hasil build dibuka pembaca aplikasi.
+
 ## 2026-11-23 — scripts/build_v2710_sicomps.py + koreksi city.dat
 - Aturan Indonesia B7b ke comps.dbc 27.1.0, comps.txt, IDN-0/1/2 di 6 daftar muat (+ pemain baru).
 - city.dat: record diawali u16 nomor urut, UID di offset +2.

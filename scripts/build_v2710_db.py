@@ -28,6 +28,7 @@ import people as peoplemod      # noqa: E402
 import riv as rivmod            # noqa: E402
 import stadium as stadmod       # noqa: E402
 import build_people_v2710       # noqa: E402
+import build_staff_v2710        # noqa: E402
 
 IDN = 58
 B7B_COMP_RANGE = range(1670, 1683)          # index kompetisi Indonesia di competition.dat B7b
@@ -244,6 +245,16 @@ def build(ori_path, b7b_path, out_dir, verbose=True):
     new_uids, prep, skipped = build_people_v2710.build(dbdir, pdir, verbose=verbose)
     for n in ('people.dat', 'players.dat', 'starting_contracts.dat', 'first_names.dat', 'second_names.dat', 'common_names.dat'):
         open(os.path.join(dbdir, n), 'wb').write(open(os.path.join(pdir, n), 'rb').read())
+    # staf dataset (sesudah pemain; UID lanjut dari pemain baru)
+    sdir = os.path.join(work, 'staff_out')
+    srep, sskip, released = build_staff_v2710.build(dbdir, sdir, build_people_v2710.build.last_club_map, verbose=verbose)
+    for n in ('people.dat', 'non_players.dat', 'coaches.dat', 'physios.dat', 'scouts.dat', 'starting_contracts.dat',
+              'first_names.dat', 'second_names.dat', 'common_names.dat'):
+        open(os.path.join(dbdir, n), 'wb').write(open(os.path.join(sdir, n), 'rb').read())
+    report['staf_baru'] = sum(x['aksi'] == 'baru' for x in srep)
+    report['staf_diperbarui'] = sum(x['aksi'] == 'perbarui' for x in srep)
+    report['staf_dilewati'] = len(sskip)
+    report['manajer_lama_dilepas'] = released
     report['pemain_baru'] = len(new_uids)
     report['pemain_diperbarui'] = sum(x['aksi'] == 'perbarui' for x in prep)
     report['pemain_dilewati'] = skipped

@@ -119,7 +119,7 @@ Jumlah: coaches 16.916 (idx2), scouts 3.191 (idx3, maks rujukan 3.140), physios 
 | 4 | u32 | UID klub | VERIFIED |
 | 8 | 8 byte | umumnya ff | UNKNOWN |
 | 16 / 20 | u16 hari, u16 tahun | mulai / berakhir kontrak | LIKELY |
-| 24 | u16 | umumnya 1 | UNKNOWN |
+| 24 | u16 | **jabatan**: 1 pemain, 2 pelatih, 12 physio, 14 scout, 16 manajer, 20 asisten manajer (3/17/21/35 = gabungan dengan pemain). Cek: staf Real Madrid di layar game | LIKELY (kuat) |
 | 26 | u32 | gaji (Haaland 472.500, Messi 404.321, Klok 720) | LIKELY (satuan & periode belum pasti) |
 | 30 | 24 byte | umumnya ff; Mbappé berisi angka (diduga klausul) | UNKNOWN |
 

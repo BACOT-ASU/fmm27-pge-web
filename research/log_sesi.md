@@ -228,7 +228,27 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - IDN-0: kompetisi 1.173, klub 2.134 (6 dibuang), cadangan 18, kota 3.237 (326 dibuang), stadion 4.903, orang 12.585 (3.758 orang B7b sudah tidak ada di 27.1.0).
   - Hasil sicomps.fmf 51.836.876 byte; dibaca ulang (entri baru ada, 3 daftar IDN per file).
 
+### 30. Build lengkap 27.1.0 selesai (23 Nov) — "jika sudah analisa, langsung kerjakan"
+- **Bug diperbaiki** di `build_people_v2710.py`: templat kontrak pertama kebetulan kontrak manajer → 1.633 pemain baru tercatat jabatan 16 (manajer). Sekarang templat = kontrak pemain di klub IDN, byte 24 dipaksa 1.
+- **Temuan format kontrak** (`starting_contracts.dat` byte 24, u16) = jabatan: 1 pemain, 2 pelatih, 12 physio, 14 scout, 16 manajer, 20 asisten manajer (gabungan: 3, 17, 21, 35 = pemain-pelatih dst.). Dicek dari staf Real Madrid (Mourinho 16, Tralhão 20, Calafat 14, García Parrales 12). Pola file per jabatan (data asli): 16 → non_players; 20 & 2 → non_players + coaches; 12 → physios; 14 → scouts. Slot staf 12 × i32 di club.dat selalu −1 (juga di Persib) → peran staf hanya lewat kontrak.
+- `scripts/build_staff_v2710.py`: staf dataset → 312 baru, 9 diperbarui, 43 dilewati (Analyst/Doctor/Technical director dll. tidak ada padanan), 1 manajer lama dilepas (klub −1, kontrak dihapus). Record coaches/physios/scouts baru disisipkan sebelum 50 slot kosong. Hasil di klub liga IDN: 61 manajer, 58 asisten, 178 pelatih, 19 physio, 2 scout; tidak ada klub dengan 2 manajer; 3 klub tanpa manajer (dataset tidak punya Head coach).
+- Validasi db akhir: 7 file orang round-trip identik; tidak ada rujukan index rusak; kontrak = club_index.
+- `scripts/build_v2710_logos.py`: 23 logo `data/logo_klub` → pictures_logos (normal 180×180, small 25×18, config.xml); klon Batavia/Persinab/Persikad → UID klub asli (tidak ada logo resmi di 27.1.0, jadi logo Bacad dipakai).
+- `scripts/patch_libgame_v2710.py`: 0x647832 175 → 58, 0x7cf650 29236871 → 41042746 (tepat 5 byte berubah; hash ori dicek).
+- sicomps dibangun ulang (staf ikut daftar muat): fmm_people IDN 12.897.
+- Peta wajah dibuat ulang terhadap db akhir: 85.004 baris (84.361 UID sama + 635 pemain baru + 8 ganda). 2 berkurang karena nama kembar dengan staf baru (sengaja tidak dipetakan).
+- `tests/build_v2710.test.ts`: pembaca TS aplikasi membuka db/sicomps/logo hasil build (13 kompetisi IDN, Grup B 8 klub).
+- **Keluaran** (`samples/out_v2710/`, dikirim ke Bacad sebagai zip pecah 24 MB, deflate):
+  | File | Ukuran | SHA-256 | Tempat di APK |
+  |---|---|---|---|
+  | db_archive_2707.fmf | 184.655.484 | 5c60cfbd…cf98 | assets/data/game/ |
+  | sicomps.fmf | 51.837.583 | 9f647431…14ce | assets/shared/data/ |
+  | pictures_logos.fmf | 29.002.900 | e04a0cb4…2918 | assets/data/game/ (sesudah digabung wajah di aplikasi) |
+  | libgame.so | 52.515.648 | 53dde79e…a813 | lib/arm64-v8a/ |
+- Belum: uji game. Wajah digabung Bacad di aplikasi (tab Wajah) memakai pictures_logos hasil build + CSV peta baru.
+
 ### Menunggu dari Bacad
+- Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.

@@ -38,6 +38,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIRST_NEW_UID = 2100000001
 START_DATE = datetime.date(2026, 7, 1)
 IDN = 58
+JOB_PLAYER, JOB_COACH, JOB_PHYSIO, JOB_SCOUT, JOB_MANAGER, JOB_ASSISTANT = 1, 2, 12, 14, 16, 20
 
 # Kode negara di dataset -> nama tim nasional di club.dat (index negara diambil dari situ).
 CODE_TO_TEAM = {
@@ -167,12 +168,18 @@ def build(src, dst, club_map_extra=None, verbose=True):
     for r in recs:
         if r['player_index'] >= 0 and r['nation'] not in person_tpl and r['main_language']:
             person_tpl[r['nation']] = r
-    contract_tpl = scs[0]
+    # templat kontrak = kontrak PEMAIN di klub Indonesia (byte 24 = jabatan: 1 pemain, 16 manajer, 20 asisten,
+    # 2 pelatih, 12 physio, 14 scout). Bug 23 Nov: templat pertama kebetulan kontrak manajer → semua pemain baru
+    # tercatat sebagai manajer. Sekarang jabatan dipaksa 1.
+    player_uids = {r['uid'] for r in recs if r['player_index'] >= 0}
+    contract_tpl = None
+    idn_club_uids = {u for _, u in club_map.values()}
     for x in scs:
         c = people.contract_fields(x)
-        if c['club_uid'] in {u for _, u in club_map.values()}:
+        if c['club_uid'] in idn_club_uids and c['person_uid'] in player_uids and x[24] == 1:
             contract_tpl = x
             break
+    assert contract_tpl is not None
 
     # kumpulan templat pemain per posisi utama
     pos_names = people.PLAYER_POSITIONS
@@ -325,6 +332,7 @@ def build(src, dst, club_map_extra=None, verbose=True):
         struct.pack_into('<HH', c, 16, *day_year(START_DATE))
         struct.pack_into('<HH', c, 20, *day_year(end))
         struct.pack_into('<I', c, 26, max(50, wage))
+        struct.pack_into('<H', c, 24, JOB_PLAYER)
         scs.append(bytes(c))
         report.append({'aksi': 'baru', 'uid': next_uid, 'nama': row['nama'], 'klub': row['klub'],
                        'ca': ca, 'templat': tpl_i})
@@ -346,6 +354,7 @@ def build(src, dst, club_map_extra=None, verbose=True):
     if verbose:
         print('baru %d, diperbarui %d, dilewati %d (lihat %s)' % (
             len(new_uids), sum(x['aksi'] == 'perbarui' for x in report), len(skipped), dst))
+    build.last_club_map = club_map
     return new_uids, report, skipped
 
 
