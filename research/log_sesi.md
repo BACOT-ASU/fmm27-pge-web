@@ -398,6 +398,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - 4a memakai penulis baru. **4b sekarang 2 langkah**: "Siapkan file" (disusun di penyimpanan internal browser/OPFS, ada persen, cek ruang kosong) → tombol **"Unduh sekarang"** menyerahkan SATU file ke pengelola unduhan Chrome (dari ketukan, tidak diblokir).
 - Tes 110 lulus, lint & build lulus. Belum diuji di HP.
 
+### 55. Hasil 4b: unduhan bernama pictures_logos.fmf.txt (23 Nov)
+- 4b berhasil mengunduh, tapi nama jadi `.fmf.txt`: File dari OPFS tidak punya tipe MIME → Chrome Android menganggap teks (sama dengan kasus people.dat.txt). Isi file tidak berubah; cukup ganti nama (hapus `.txt`).
+- Perbaikan: `downloadPreparedFile` membungkus file dengan tipe `application/octet-stream` (mimeForFileName).
+
 ### Menunggu dari Bacad
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).

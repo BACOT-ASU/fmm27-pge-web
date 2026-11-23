@@ -157,5 +157,7 @@ export async function prepareSourcedPartsInBrowserStorage(
 
 /** 4b langkah 2: serahkan file yang sudah disusun ke pengelola unduhan Chrome (dipanggil dari ketukan tombol). */
 export function downloadPreparedFile(file: File): void {
-  triggerDownload(file.name, file, 30 * 60_000);
+  // File dari OPFS tidak bertipe → Chrome Android menambah ".txt" (laporan Bacad 23 Nov). Bungkus dengan tipe biner;
+  // Blob satu bagian ini hanya merujuk file yang sama (tidak disalin).
+  triggerDownload(file.name, new Blob([file], { type: mimeForFileName(file.name) }), 30 * 60_000);
 }
