@@ -23,7 +23,7 @@ Buka aplikasi di Chrome, tutup–buka sampai versi di footer berganti.
 2. Tab **Wajah & logo** → **1.** pilih `pictures_logos.fmf` **modder** (1,42 GB).
 3. **2.** pilih `peta_aset_27.1.0.csv`.
 4. **3. Proses** → tunggu sampai 100 % (beberapa detik).
-5. **4a. Simpan langsung** (ada persen; jangan tinggalkan Chrome, layar dijaga menyala) **atau 4b. Unduh lewat Chrome** (boleh ditinggal, progres di notifikasi). ±1,4 GB, beberapa menit.
+5. **4b. Siapkan file** (ada persen; jangan tinggalkan Chrome sampai 100 %) → tekan **Unduh sekarang** (setelah unduhan muncul di notifikasi, boleh ditinggal). Atau **4a. Simpan langsung** (pilih lokasi, ada persen). ±1,4 GB; butuh ruang kosong ±3 GB.
 
 ## 4. Pasang ke APK ori 27.1.0 (MT Manager)
 1. Buka APK ori 27.1.0 → ganti 4 file dengan **Level Store** (tanpa kompresi):

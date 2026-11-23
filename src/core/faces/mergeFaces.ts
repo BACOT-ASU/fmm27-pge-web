@@ -186,6 +186,7 @@ export async function mergeFacesIntoFmf(
     const used = new Set<number>();
     const order: number[] = [];
 
+    const picked: { uid: number; src: FmfEntry }[] = [];
     for (const r of list) {
       if (++done % 2000 === 0) {
         onProgress?.(done, rows.length);
@@ -201,8 +202,14 @@ export async function mergeFacesIntoFmf(
         continue;
       }
       used.add(r.toUid);
-      order.push(r.toUid);
-      const name = String(r.toUid);
+      picked.push({ uid: r.toUid, src });
+    }
+    // Urutkan menurut posisi di file modder: file modder dibaca berurutan (bukan lompat-lompat) saat menulis.
+    // Laporan Bacad 23 Nov: baca acak ±110 rb potongan dari file 1,4 GB macet di Chrome Android.
+    picked.sort((a, b) => a.src.offset - b.src.offset);
+    for (const { uid, src } of picked) {
+      order.push(uid);
+      const name = String(uid);
       let e = existing.get(name);
       if (!e) {
         e = { name, ext: src.ext, offset: 0, storedSize: 0, rawSize: 0, time1: src.time1 ?? ref.time1, time2: src.time2 ?? ref.time2 };
@@ -213,7 +220,12 @@ export async function mergeFacesIntoFmf(
       e.offset = pos;
       e.storedSize = src.storedSize;
       e.rawSize = src.rawSize;
-      parts.push({ source: 1, start: FMF_HEADER_SIZE + src.offset, end: FMF_HEADER_SIZE + src.offset + src.storedSize });
+      const last = parts[parts.length - 1];
+      const start = FMF_HEADER_SIZE + src.offset;
+      const end = start + src.storedSize;
+      // gabungkan rentang yang bersambung jadi satu potongan
+      if (last && !(last instanceof Uint8Array) && last.source === 1 && last.end === start) last.end = end;
+      else parts.push({ source: 1, start, end });
       pos += src.storedSize;
     }
 

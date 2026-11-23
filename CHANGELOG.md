@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Perbaikan simpan/unduh gabung wajah & logo
+- Baca file modder berurutan per jendela 16 MB (`sourcedWriter.ts`), rentang diurutkan & digabung. 4b: siapkan di penyimpanan browser lalu "Unduh sekarang".
+
 ## 2026-11-23 — db v7 + daftar cek uji sekali instal
 - Uji blok keuangan (Persib A, Borneo E, nilai wajar) masuk build utama. `docs/CEKLIST_UJI_27.1.0.md`.
 

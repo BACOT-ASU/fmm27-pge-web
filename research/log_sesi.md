@@ -390,6 +390,14 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 53. Kirim ulang file lain dalam satu zip (23 Nov)
 - `file_lain_27.1.0_mod.zip` (64.974.581 byte, dites utuh): sicomps.fmf v4 (1a05f9d8…), pictures_logos.fmf build (e04a0cb4…, belum digabung wajah), libgame.so (53dde79e…), peta_aset_27.1.0.csv, SHA256_v9.txt, LANGKAH_BUILD_27.1.0.md, CEKLIST_UJI_27.1.0.md. Bersama `db_archive_2707_27.1.0_mod_v7.zip` = semua bahan build.
 
+### 54. Laporan Bacad: 4a macet 32 %, 4b tidak memunculkan unduhan (23 Nov)
+- Penyebab (LIKELY): hasil gabung = ±110 rb rentang kecil yang dibaca ACAK dari file modder 1,4 GB lewat Blob.slice; 4a merangkai banyak slice per tulis, 4b merangkai semuanya jadi satu Blob → Chrome Android macet / unduhan tidak dimulai.
+- Perbaikan aplikasi:
+  - `mergeFaces.ts`: file modder diurutkan menurut posisinya di arsip modder, rentang yang bersambung digabung → dibaca berurutan.
+  - `src/platform/sourcedWriter.ts` (`writeSourcedParts`): baca sumber per jendela 16 MB (arrayBuffer), salin ke buffer 8 MB, tulis; batas waktu 120 detik per baca/tulis → galat jelas, bukan macet diam. Tes `tests/sourcedWriter.test.ts`.
+  - 4a memakai penulis baru. **4b sekarang 2 langkah**: "Siapkan file" (disusun di penyimpanan internal browser/OPFS, ada persen, cek ruang kosong) → tombol **"Unduh sekarang"** menyerahkan SATU file ke pengelola unduhan Chrome (dari ketukan, tidak diblokir).
+- Tes 110 lulus, lint & build lulus. Belum diuji di HP.
+
 ### Menunggu dari Bacad
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).

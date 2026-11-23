@@ -3,7 +3,7 @@ import { formatBytes } from '../../core/binary/formatBytes';
 import { FACES_FOLDER, mergeFacesIntoFmf, parseFaceMapCsv, type FaceMapRow, type MergeFacesResult } from '../../core/faces/mergeFaces';
 import { findFolder, openFmf, type FmfArchive } from '../../core/fmf';
 import type { PickedFile } from '../../platform/types';
-import { saveSourcedParts, saveSourcedPartsWithProgress, webFileIO } from '../../platform/web/webFileIO';
+import { downloadPreparedFile, prepareSourcedPartsInBrowserStorage, saveSourcedPartsWithProgress, webFileIO } from '../../platform/web/webFileIO';
 import { keepScreenOn } from '../../platform/web/wakeLock';
 import { Btn, Card, errText, Msg } from '../common';
 
@@ -33,10 +33,12 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
   const [result, setResult] = useState<MergeFacesResult | null>(null);
   const [prog, setProg] = useState<{ pct: number; label: string } | null>(null);
   const [msg, setMsg] = useState<{ t: string; k: 'ok' | 'err' } | null>(null);
+  const [prepared, setPrepared] = useState<File | null>(null);
   const busy = stage === 'processing' || stage === 'writing';
 
   function resetResult() {
     setResult(null);
+    setPrepared(null);
     setStage('idle');
     setProg(null);
   }
@@ -98,46 +100,51 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
   }
 
   /**
-   * mode 'file'   : tulis langsung ke file pilihan (progres %). Berjalan di halaman → JANGAN tinggalkan Chrome.
-   * mode 'chrome' : serahkan ke pengelola unduhan Chrome (Blob). Lebih tahan di latar belakang; progres di notifikasi Chrome.
-   * Laporan Bacad 23 Nov: mode 'file' gagal saat Chrome dipindah ke latar belakang (tab dibekukan Android).
+   * mode 'file'    (4a): tulis langsung ke file pilihan (progres %). Berjalan di halaman → JANGAN tinggalkan Chrome.
+   * mode 'prepare' (4b): susun file utuh di penyimpanan internal browser (progres %), lalu tombol "Unduh sekarang"
+   *                     menyerahkan satu file itu ke pengelola unduhan Chrome (boleh ditinggal).
+   * Laporan Bacad 23 Nov: 4a macet 32 %, 4b (Blob dari ±110 rb potongan) tidak memunculkan unduhan → penulisan diganti
+   * writeSourcedParts (baca berurutan per jendela 16 MB, batas waktu per baca).
    */
-  async function download(mode: 'file' | 'chrome') {
+  async function download(mode: 'file' | 'prepare') {
     if (!result || busy || !donor) return;
     setStage('writing');
     setMsg(null);
+    setPrepared(null);
     let leftTab = false;
     const release = await keepScreenOn(() => {
       leftTab = true;
     });
+    const label = mode === 'file' ? 'menulis file' : 'menyiapkan file';
     try {
       if (!target.blob || !donor.file.blob) throw new Error('File sumber tidak tersedia');
-      if (mode === 'chrome') {
-        setProg({ pct: 0, label: 'Menyiapkan unduhan untuk Chrome…' });
-        await saveSourcedParts('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob]);
+      setProg({ pct: 0, label: `Langkah 2/2 · ${label}… 0% (jangan tinggalkan Chrome)` });
+      const onProg = (w: number, t: number) => {
+        const pct = Math.floor((w / t) * 100);
+        setProg({ pct, label: `Langkah 2/2 · ${label}… ${pct}% (${formatBytes(w)} / ${formatBytes(t)}) · jangan tinggalkan Chrome` });
+      };
+      if (mode === 'prepare') {
+        const file = await prepareSourcedPartsInBrowserStorage('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob], onProg);
+        setPrepared(file);
         setStage('done');
-        setProg({ pct: 100, label: 'Diserahkan ke pengelola unduhan Chrome.' });
-        setMsg({ t: `Unduhan (${formatBytes(result.size)}) sekarang ditangani Chrome; progres ada di notifikasi unduhan dan boleh ditinggal. Tunggu sampai selesai, lalu masukkan ke APK dengan Level Store.`, k: 'ok' });
+        setProg({ pct: 100, label: `File siap (${formatBytes(file.size)}). Tekan "Unduh sekarang".` });
+        setMsg({ t: 'Tekan "Unduh sekarang"; setelah itu unduhan ditangani Chrome dan boleh ditinggal. Tunggu sampai selesai, lalu masukkan ke APK dengan Level Store.', k: 'ok' });
         return;
       }
-      setProg({ pct: 0, label: 'Langkah 2/2 · menulis file… 0% (jangan tinggalkan Chrome)' });
-      const how = await saveSourcedPartsWithProgress('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob], (w, t) => {
-        const pct = Math.floor((w / t) * 100);
-        setProg({ pct, label: `Langkah 2/2 · menulis file… ${pct}% (${formatBytes(w)} / ${formatBytes(t)}) · jangan tinggalkan Chrome` });
-      });
+      const how = await saveSourcedPartsWithProgress('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob], onProg);
       setStage('done');
       if (how === 'file') {
         setProg({ pct: 100, label: `Selesai · pictures_logos.fmf tersimpan (${formatBytes(result.size)}).` });
         setMsg({ t: 'Masukkan ke APK dengan Level Store.', k: 'ok' });
       } else {
         setProg({ pct: 100, label: 'Diserahkan ke pengelola unduhan Chrome.' });
-        setMsg({ t: `Browser ini tidak mendukung penulisan langsung, jadi progres penulisan (${formatBytes(result.size)}) terlihat di notifikasi unduhan Chrome. Tunggu sampai selesai, lalu masukkan ke APK dengan Level Store.`, k: 'ok' });
+        setMsg({ t: `Browser ini tidak mendukung penulisan langsung; progres (${formatBytes(result.size)}) ada di notifikasi unduhan Chrome. Kalau tidak muncul, pakai 4b.`, k: 'ok' });
       }
     } catch (e) {
       setStage('processed');
-      setProg({ pct: 100, label: 'Proses sudah selesai; unduhan gagal atau dibatalkan. Coba lagi, atau pakai "Unduh lewat Chrome".' });
+      setProg({ pct: 100, label: 'Proses sudah selesai; penulisan gagal atau dibatalkan. Coba lagi (4a atau 4b).' });
       setMsg({
-        t: (leftTab ? 'Chrome sempat ditinggal ke latar belakang sehingga penulisan terhenti. Pakai "Unduh lewat Chrome" kalau ingin bisa ditinggal. ' : '') + errText(e),
+        t: (leftTab ? 'Chrome sempat ditinggal ke latar belakang sehingga penulisan terhenti. Biarkan Chrome terbuka sampai 100 %. ' : '') + errText(e),
         k: 'err',
       });
     } finally {
@@ -167,10 +174,17 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
         <Btn kind={canDownload ? 'primary' : 'plain'} full disabled={!canDownload} onClick={() => void download('file')}>
           {stage === 'writing' ? 'Menulis…' : '4a. Simpan langsung (ada persen, jangan tinggalkan Chrome)'}
         </Btn>
-        <Btn full disabled={!canDownload} onClick={() => void download('chrome')}>
-          4b. Unduh lewat Chrome (boleh ditinggal, progres di notifikasi)
+        <Btn full disabled={!canDownload} onClick={() => void download('prepare')}>
+          4b. Siapkan file untuk diunduh Chrome (ada persen)
         </Btn>
-        <p className="text-xs text-slate-500">Layar dijaga tetap menyala selama 4a berjalan. Kalau HP sering membekukan Chrome, pakai 4b.</p>
+        {prepared && (
+          <Btn kind="primary" full onClick={() => downloadPreparedFile(prepared)}>
+            Unduh sekarang ({formatBytes(prepared.size)}) · boleh ditinggal setelah unduhan muncul
+          </Btn>
+        )}
+        <p className="text-xs text-slate-500">
+          Selama 4a/4b berjalan, layar dijaga menyala; jangan pindah aplikasi sampai 100 %. Butuh ruang kosong ±3 GB.
+        </p>
       </div>
       {prog && <Bar pct={prog.pct} label={prog.label} />}
       <Msg text={msg?.t ?? null} kind={msg?.k} />
