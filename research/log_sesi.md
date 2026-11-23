@@ -467,6 +467,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Logo timnas: `scripts/fetch_logo_timnas.py` (badge infobox Wikipedia → thumbnail 360 px → `samples/logo_timnas/<UID>_<negara>.png`, timnas pria & wanita); `build_v2710_logos.py` menerima folder logo tambahan. Wikipedia membatasi IP sesi (HTTP 429, retry-after ±26 dtk) → unduhan berjalan sangat lambat di latar.
 - Manajer Persib kosong: manajer tidak ada di slot staf (manajer ori Persija tampil tanpa slot); sebab belum diketahui — cek di uji v8.
 
+### 64. Aplikasi: isi klub + halaman edit orang (permintaan Bacad 23 Nov)
+- Permintaan: di edit klub tampil manajer, staf, pemain tim utama & cadangan; ketuk orang → halaman edit pemain/staf/manajer.
+- Core (TS, tanpa DOM): `src/core/formats/people/peopleDat.ts` (people.dat: parse/serialize, `withPerson` tambal field tetap-ukuran), `fixedRecords.ts` (players 82 / non_players 39 / starting_contracts 54: baca/tulis CA, PA, 34 atribut, 15 posisi, kaki, tinggi, berat, nomor; staf CA/PA + 25 atribut; kontrak sampai & gaji), `namesDat.ts` (first/second/common_names: nama baru di ujung). Tes `tests/people.test.ts`: round-trip identik (people, players, non_players, kontrak, 3 file nama) + golden terhadap `scripts/people.py` (`scripts/golden/people_json.py`).
+- Workspace: `loadPeople`, `roster(klub)` (tim utama = daftar skuad club.dat; cadangan = pemain klub di luar skuad; manajer = kontrak jabatan 16; staf = slot 0–3 / 5–7 / 8–10; staf di luar slot ditandai), `setPersonBasic` (nama, tgl lahir, negara, kepribadian), `setPlayer`, `setNonPlayer`, `setContract`; ikut daftar perubahan & tab Simpan (db_archive).
+- UI: kartu klub → "Lihat pemain, manajer & staf" → daftar; ketuk nama → halaman edit (`src/ui/tabs/PeoplePanel.tsx`). Pindah klub & isi daftar skuad belum bisa dari aplikasi (dikerjakan skrip build).
+- Tes 118 lulus, lint & build lulus. Belum dicoba di HP.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

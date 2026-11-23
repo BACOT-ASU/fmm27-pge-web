@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Aplikasi: isi klub & edit pemain/staf/manajer
+- people.dat, players.dat, non_players.dat, starting_contracts.dat, file nama (TS) + tes round-trip & golden. Kartu klub menampilkan tim utama/cadangan/manajer/staf; ketuk orang untuk edit.
+
 ## 2026-11-23 — db v8: skuad & slot staf club.dat, jatah staf, u4, nama Milan/Inter
 - `scripts/rosters_v2710.py`, `scripts/fetch_logo_timnas.py`; libgame nama Milan/Inter.
 

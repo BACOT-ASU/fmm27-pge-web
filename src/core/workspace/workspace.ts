@@ -1,5 +1,5 @@
 import { findEntry, listEntries, openFmfBytes, patchFmf, readEntry, splitInnerArchive, type FmfArchive, type FmfChange, type FmfOutput, materializeOutput } from '../fmf';
-import { concatBytes } from '../binary/le';
+import { bytesEqual, concatBytes } from '../binary/le';
 import { cloneClubRecord, parseClubDat, serializeClubDat, withClubField, withClubNames, type ClubDat, type ClubFixedField, type ClubRecord } from '../formats/club/clubDat';
 import { parseCompetitionDat, serializeCompetitionDat, withCompetitionField, withCompetitionNames, type CompetitionDat } from '../formats/competition/competitionDat';
 import { appendStadium, parseStadiumDat, serializeStadiumDat, withStadium, type StadiumDat, type StadiumFields } from '../formats/stadium/stadiumDat';
@@ -10,6 +10,9 @@ import { addUids, parseUidList, removeUids, serializeUidList, type FmmListName, 
 import { buildDbcEntry, bumpCompsTxt, parseDbcEntry, setAt, type DbcEntry, type DbcPath, type DbcValue } from '../formats/dbc/dbc';
 import { editLogoConfig, LOGO_BASE, parseLogoConfig, type LogoKind, type LogoSize } from '../formats/logos/logoConfig';
 import { History } from './history';
+import { parsePeopleDat, serializePeopleDat, withPerson, type PeopleDat, type PersonRecord } from '../formats/people/peopleDat';
+import { CONTRACT_LEN, NON_PLAYER_LEN, PLAYER_LEN, isoToDayYear, parseFixedDat, readContract, serializeFixedDat, writeContract, writeNonPlayer, writePlayer, type FixedDat, type NonPlayerView, type PlayerView } from '../formats/people/fixedRecords';
+import { findOrAddName, nameAt, parseNamesDat, serializeNamesDat, type NamesDat } from '../formats/people/namesDat';
 
 const td = new TextDecoder('utf-8', { fatal: false });
 const te = new TextEncoder();
@@ -23,8 +26,31 @@ export const K = {
   lng: 'db:lng',
   dbc: 'sc:dbc',
   logos: 'logo:items',
+  people: 'db:people.dat',
+  players: 'db:players.dat',
+  nonPlayers: 'db:non_players.dat',
+  contracts: 'db:starting_contracts.dat',
+  names: (k: NameKind) => `db:${k}_names.dat`,
   list: (n: FmmListName) => `sc:list:${n}`,
 } as const;
+
+export type NameKind = 'first' | 'second' | 'common';
+const NAME_KINDS: NameKind[] = ['first', 'second', 'common'];
+
+/** Isi klub menurut club.dat (daftar skuad + slot staf) dan people.dat (club_index + jabatan kontrak). */
+export interface ClubRoster {
+  /** Pemain di daftar skuad club.dat = tim utama di game. */
+  squad: number[];
+  /** Pemain dengan club_index klub ini tapi TIDAK di daftar skuad → masuk tim cadangan di game. */
+  outsideSquad: number[];
+  managers: number[];
+  /** Slot staf club.dat: 0–3 pelatih (termasuk asisten), 5–7 scout, 8–10 physio. -1 = kosong. */
+  coachSlots: number[];
+  scoutSlots: number[];
+  physioSlots: number[];
+  /** Staf dengan club_index klub ini tapi tidak ada di slot → tidak tampil di halaman Staff game. */
+  staffOutsideSlots: number[];
+}
 
 export interface LogoItem {
   kind: LogoKind;
@@ -313,6 +339,168 @@ export class Workspace {
     this.h.apply(`Logo ${item.label}`, [[K.logos, [...items, item]]]);
   }
 
+  // ---------- orang: pemain, staf, manajer (people.dat dkk.) ----------
+  private contractIdx?: { model: FixedDat; byUid: Map<number, number> };
+  private clubOfPersonIdx?: { model: PeopleDat; byClub: Map<number, number[]> };
+
+  get peopleLoaded(): boolean {
+    return this.h.has(K.people);
+  }
+  get people(): PeopleDat { return this.h.get(K.people); }
+  get players(): FixedDat { return this.h.get(K.players); }
+  get nonPlayers(): FixedDat { return this.h.get(K.nonPlayers); }
+  get contracts(): FixedDat { return this.h.get(K.contracts); }
+  names(k: NameKind): NamesDat { return this.h.get(K.names(k)); }
+
+  /** Muat people/players/non_players/starting_contracts + 3 file nama (±40 MB, beberapa detik). */
+  async loadPeople(): Promise<void> {
+    if (this.peopleLoaded) return;
+    const [pe, pl, np, co, ...nm] = await Promise.all(['people.dat', 'players.dat', 'non_players.dat', 'starting_contracts.dat', ...NAME_KINDS.map((k) => `${k}_names.dat`)].map((n) => this.dbEntry(n)));
+    this.h.register(K.players, parseFixedDat(pl!, PLAYER_LEN, 'players.dat'));
+    this.h.register(K.nonPlayers, parseFixedDat(np!, NON_PLAYER_LEN, 'non_players.dat'));
+    this.h.register(K.contracts, parseFixedDat(co!, CONTRACT_LEN, 'starting_contracts.dat'));
+    NAME_KINDS.forEach((k, i) => this.h.register(K.names(k), parseNamesDat(nm[i]!)));
+    this.h.register(K.people, parsePeopleDat(pe!));
+  }
+
+  person(i: number): PersonRecord {
+    const r = this.people.records[i];
+    if (!r) throw new Error(`Orang #${i} tidak ada`);
+    return r;
+  }
+
+  personName(i: number): string {
+    const r = this.person(i);
+    const common = r.common >= 0 ? nameAt(this.names('common'), r.common) : '';
+    if (common) return common;
+    return `${r.first !== 0xffffffff ? nameAt(this.names('first'), r.first) : ''} ${nameAt(this.names('second'), r.second)}`.trim() || `UID ${r.uid}`;
+  }
+
+  /** Index kontrak orang (UID), atau -1. */
+  contractOf(uid: number): number {
+    const m = this.contracts;
+    if (this.contractIdx?.model !== m) {
+      const byUid = new Map<number, number>();
+      m.records.forEach((x, j) => {
+        const u = new DataView(x.buffer, x.byteOffset, 4).getUint32(0, true);
+        if (!byUid.has(u)) byUid.set(u, j);
+      });
+      this.contractIdx = { model: m, byUid };
+    }
+    return this.contractIdx.byUid.get(uid) ?? -1;
+  }
+
+  jobOf(i: number): number {
+    const j = this.contractOf(this.person(i).uid);
+    return j < 0 ? 0 : readContract(this.contracts.records[j]!).job;
+  }
+
+  peopleAtClub(clubIndex: number): number[] {
+    const m = this.people;
+    if (this.clubOfPersonIdx?.model !== m) {
+      const byClub = new Map<number, number[]>();
+      m.records.forEach((r, i) => {
+        if (r.clubIndex < 0) return;
+        const l = byClub.get(r.clubIndex);
+        if (l) l.push(i);
+        else byClub.set(r.clubIndex, [i]);
+      });
+      this.clubOfPersonIdx = { model: m, byClub };
+    }
+    return this.clubOfPersonIdx.byClub.get(clubIndex) ?? [];
+  }
+
+  roster(clubIndex: number): ClubRoster {
+    const c = this.clubs.records[clubIndex]!;
+    const at = this.peopleAtClub(clubIndex);
+    const inSquad = new Set(c.squad);
+    const slotted = new Set([...c.staff.slice(0, 11)].filter((x) => x >= 0));
+    const recs = this.people.records;
+    const isPlayer = (i: number) => (recs[i]?.playerIndex ?? -1) >= 0;
+    return {
+      squad: c.squad.filter((i) => i >= 0 && i < recs.length),
+      outsideSquad: at.filter((i) => isPlayer(i) && !inSquad.has(i)),
+      managers: at.filter((i) => !isPlayer(i) && this.jobOf(i) === 16),
+      coachSlots: c.staff.slice(0, 4),
+      scoutSlots: c.staff.slice(5, 8),
+      physioSlots: c.staff.slice(8, 11),
+      staffOutsideSlots: at.filter((i) => !isPlayer(i) && !slotted.has(i) && [2, 12, 14, 20].includes(this.jobOf(i))),
+    };
+  }
+
+  // ---------- edit: orang ----------
+  /** Nama, tanggal lahir (ISO), negara (index), kepribadian. Nama baru ditambah di ujung file nama. */
+  setPersonBasic(i: number, o: { firstName?: string; secondName?: string; commonName?: string; dobIso?: string; nation?: number; personality?: number[] }): void {
+    const r = this.person(i);
+    const updates: [string, unknown][] = [];
+    const patch: Parameters<typeof withPerson>[1] = {};
+    const natUid = this.nations.find((n) => n.index === (o.nation ?? r.nation))?.uid ?? 0;
+    const setName = (k: NameKind, v: string | undefined, cur: number, field: 'first' | 'second' | 'common') => {
+      if (v === undefined) return;
+      const t = v.trim();
+      const curName = (k === 'first' && cur === 0xffffffff) || (k === 'common' && cur < 0) ? '' : nameAt(this.names(k), cur);
+      if (t === curName) return;
+      if (!t) {
+        if (k === 'second') throw new Error('Nama belakang tidak boleh kosong');
+        patch[field] = k === 'first' ? 0xffffffff : -1;
+        return;
+      }
+      const [m2, idx] = findOrAddName(this.names(k), t, natUid);
+      if (m2 !== this.names(k)) updates.push([K.names(k), m2]);
+      patch[field] = idx;
+    };
+    setName('first', o.firstName, r.first, 'first');
+    setName('second', o.secondName, r.second, 'second');
+    setName('common', o.commonName, r.common, 'common');
+    if (o.dobIso) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(o.dobIso)) throw new Error('Tanggal lahir harus YYYY-MM-DD');
+      const { day, year } = isoToDayYear(o.dobIso);
+      if (day !== r.dobDay || year !== r.dobYear) {
+        patch.dobDay = day;
+        patch.dobYear = year;
+      }
+    }
+    if (o.nation !== undefined && o.nation !== r.nation) patch.nation = o.nation;
+    if (o.personality && o.personality.some((v, k) => v !== r.personality[k])) patch.personality = o.personality;
+    if (!Object.keys(patch).length && !updates.length) return;
+    const recs = this.people.records.slice();
+    recs[i] = withPerson(r, patch);
+    updates.push([K.people, { ...this.people, records: recs }]);
+    this.h.apply(`Orang ${this.personName(i)}: data dasar`, updates);
+  }
+
+  setPlayer(i: number, v: Partial<PlayerView>): void {
+    const pi = this.person(i).playerIndex;
+    if (pi < 0) throw new Error('Orang ini bukan pemain');
+    const recs = this.players.records.slice();
+    const x = writePlayer(recs[pi]!, v);
+    if (bytesEqual(x, recs[pi]!)) return;
+    recs[pi] = x;
+    this.h.apply(`Pemain ${this.personName(i)}`, [[K.players, { ...this.players, records: recs }]]);
+  }
+
+  setNonPlayer(i: number, v: Partial<NonPlayerView>): void {
+    const ni = this.person(i).nonPlayerIndex;
+    if (ni < 0) throw new Error('Orang ini tidak punya data staf (non_players)');
+    const recs = this.nonPlayers.records.slice();
+    const x = writeNonPlayer(recs[ni]!, v);
+    if (bytesEqual(x, recs[ni]!)) return;
+    recs[ni] = x;
+    this.h.apply(`Staf ${this.personName(i)}`, [[K.nonPlayers, { ...this.nonPlayers, records: recs }]]);
+  }
+
+  setContract(i: number, o: { endIso?: string; wage?: number }): void {
+    const j = this.contractOf(this.person(i).uid);
+    if (j < 0) throw new Error('Orang ini tidak punya kontrak');
+    if (o.endIso && !/^\d{4}-\d{2}-\d{2}$/.test(o.endIso)) throw new Error('Tanggal kontrak harus YYYY-MM-DD');
+    const e = o.endIso ? isoToDayYear(o.endIso) : undefined;
+    const recs = this.contracts.records.slice();
+    const x = writeContract(recs[j]!, { endDay: e?.day, endYear: e?.year, wage: o.wage });
+    if (bytesEqual(x, recs[j]!)) return;
+    recs[j] = x;
+    this.h.apply(`Kontrak ${this.personName(i)}`, [[K.contracts, { ...this.contracts, records: recs }]]);
+  }
+
   // ---------- perubahan ----------
   dirty(prefix: 'db:' | 'sc:' | 'logo:'): string[] {
     return this.h.dirtyKeys().filter((k) => k.startsWith(prefix));
@@ -371,6 +559,31 @@ export class Workspace {
       }
     }
     if (keys.has(K.lng)) out.push({ file: '*.lng (16 bahasa)', what: 'nama klub ditambah/diubah' });
+    const diffRecs = (key: string, file: string, label: (j: number) => string) => {
+      if (!keys.has(key)) return;
+      const a = this.h.original<{ records: unknown[] }>(key).records;
+      const b = this.h.get<{ records: unknown[] }>(key).records;
+      let n = 0;
+      b.forEach((r, j) => {
+        if (a[j] === r) return;
+        if (n++ < 200) out.push({ file, what: a[j] ? `${label(j)} diubah` : `record baru #${j}` });
+      });
+      if (n > 200) out.push({ file, what: `… dan ${n - 200} lagi` });
+    };
+    if (this.peopleLoaded) {
+      const byPlayer = new Map<number, number>();
+      const byNp = new Map<number, number>();
+      this.people.records.forEach((r, i) => {
+        if (r.playerIndex >= 0) byPlayer.set(r.playerIndex, i);
+        if (r.nonPlayerIndex >= 0) byNp.set(r.nonPlayerIndex, i);
+      });
+      const nm = (i: number | undefined) => (i === undefined ? '?' : this.personName(i));
+      diffRecs(K.people, 'people.dat', (j) => nm(j));
+      diffRecs(K.players, 'players.dat', (j) => `pemain ${nm(byPlayer.get(j))}`);
+      diffRecs(K.nonPlayers, 'non_players.dat', (j) => `staf ${nm(byNp.get(j))}`);
+      diffRecs(K.contracts, 'starting_contracts.dat', (j) => `kontrak UID ${readContract(this.contracts.records[j]!).personUid}`);
+      for (const k of NAME_KINDS) diffRecs(K.names(k), `${k}_names.dat`, (j) => `nama #${j}`);
+    }
     for (const k of keys) {
       if (!k.startsWith('sc:list:')) continue;
       const name = k.slice(8);
@@ -406,6 +619,11 @@ export class Workspace {
     if (keys.has(K.stadium)) put('stadium.dat', serializeStadiumDat(this.stadiums));
     if (keys.has(K.rivalries)) put('rivalries.dat', serializeRivalryDat(this.rivalries));
     if (keys.has(K.nation)) put('nation.dat', this.nationBytes);
+    if (keys.has(K.people)) put('people.dat', serializePeopleDat(this.people));
+    for (const [k, f] of [[K.players, 'players.dat'], [K.nonPlayers, 'non_players.dat'], [K.contracts, 'starting_contracts.dat']] as const) {
+      if (keys.has(k)) put(f, serializeFixedDat(this.h.get<FixedDat>(k)));
+    }
+    for (const k of NAME_KINDS) if (keys.has(K.names(k))) put(`${k}_names.dat`, serializeNamesDat(this.names(k)));
     if (keys.has(K.lng)) {
       const orig = this.h.original<Map<string, LngDat>>(K.lng);
       for (const [path, l] of this.h.get<Map<string, LngDat>>(K.lng)) if (orig.get(path) !== l) put(path, serializeLngDat(l));

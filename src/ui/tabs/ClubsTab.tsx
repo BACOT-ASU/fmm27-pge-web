@@ -5,6 +5,7 @@ import { clubsInCompetitionTree } from '../../core/edit/competitionTree';
 import { CLUB_STATUS, NO_STADIUM, type ClubFixedField, type ClubRecord } from '../../core/formats/club/clubDat';
 import { COMPETITION_TYPE, type CompetitionRecord } from '../../core/formats/competition/competitionDat';
 import type { Workspace } from '../../core/workspace/workspace';
+import { RosterPanel } from './PeoplePanel';
 import { Btn, Card, errText, ListEntryChecks, Msg, NumField, parseIntIn, StadiumPicker, TextField } from '../common';
 
 export function NationSelect({ ws, value, onChange }: { ws: Workspace; value: number; onChange: (n: number) => void }) {
@@ -134,6 +135,7 @@ function ClubCard({ ws, index, orig, onChange }: { ws: Workspace; index: number;
             <Btn onClick={() => setMode('edit')}>Edit</Btn>
             <Btn onClick={() => setMode('clone')}>Klon jadi klub baru</Btn>
           </div>
+          <RosterPanel ws={ws} clubIndex={index} onChange={onChange} />
         </>
       )}
     </li>

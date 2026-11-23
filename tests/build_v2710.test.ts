@@ -24,3 +24,29 @@ describe.skipIf(!db)('build 27.1.0 dibuka pembaca aplikasi', () => {
     });
   }
 });
+
+describe.skipIf(!db)('aplikasi: isi klub & edit orang (db 27.1.0 build)', () => {
+  it('roster Persib: skuad club.dat, slot staf, manajer; edit CA tersimpan', async () => {
+    const { Workspace } = await import('../src/core/workspace/workspace');
+    const { materializeOutput, openFmfBytes: open2, findEntry, readEntry } = await import('../src/core/fmf');
+    const { parseFixedDat, readPlayer, PLAYER_LEN } = await import('../src/core/formats/people/fixedRecords');
+    const ws = new Workspace();
+    await ws.attachDb(await openFmfBytes(new Uint8Array(readFileSync(db!))));
+    await ws.loadPeople();
+    const ci = ws.clubs.records.findIndex((c) => c.longName === 'Persib Bandung');
+    const r = ws.roster(ci);
+    expect(r.squad.length).toBeGreaterThanOrEqual(20);
+    expect(r.managers.length).toBe(1);
+    expect(r.coachSlots.filter((x) => x >= 0).length).toBeGreaterThan(0);
+    expect(r.staffOutsideSlots).toHaveLength(0);
+    const who = r.squad[0]!;
+    const pi = ws.person(who).playerIndex;
+    ws.setPlayer(who, { ca: 150 });
+    ws.setPersonBasic(who, { commonName: 'Uji Nama Umum' });
+    expect(ws.personName(who)).toBe('Uji Nama Umum');
+    const out = await materializeOutput(ws.db!, ws.buildDbFmf());
+    const arc2 = await open2(out);
+    const pl = parseFixedDat(await readEntry(arc2, findEntry(arc2.root, 'players.dat')!.entry), PLAYER_LEN, 'players.dat');
+    expect(readPlayer(pl.records[pi]!).ca).toBe(150);
+  }, 120_000);
+});
