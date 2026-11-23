@@ -9,6 +9,15 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 | pictures_logos.fmf | B7b | 1.818.029.973 | | assets/data/game/ | flag 0, 142.934 entri (dibaca aplikasi di HP, 22 Nov). Store wajib |
 | libgame.so | B2c | 52.355.608 | | lib/arm64-v8a/ | hanya dibaca |
 
+### APK 27.1.0 ori — lokasi file (MT Manager, 23 Nov 2026)
+| File | Path di APK | Ukuran (MT Manager) |
+|---|---|---|
+| libgame.so | lib/arm64-v8a/ | 50,08 MB |
+| db_archive_2707.fmf | assets/data/game/ | 175,60 MB |
+| sicomps.fmf | assets/shared/data/ | 49,29 MB |
+| pictures_logos.fmf | assets/data/game/ | 26,73 MB |
+Catatan: APK dari situs pihak ketiga (androidoyunclub; ada `lib/arm64-v8a/libandroidoyunclub.so`). `db_archive_2706/2623/2622/2621/2620.fmf` lama juga masih ada di folder yang sama.
+
 ### APK 27.1.0 ori (entri db_archive, diunduh per entri 23 Nov 2026; nama arsipnya belum dicatat)
 | Entri | Ukuran | SHA-256 |
 |---|---|---|

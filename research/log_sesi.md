@@ -128,8 +128,18 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 17. coaches.dat terkonfirmasi ori (23 Nov)
 - Bacad kirim `coaches_1.dat` langsung dari **APK ori 27.1.0**. Dibandingkan dengan `coaches.dat` kiriman sebelumnya: **identik byte demi byte** (SHA-256 c5963f1d…f1ea). Jadi `coaches.dat` di `samples/v2710/` = ori. Temuan coaches.dat (7 byte, idx2 → pelatih, 50 slot kosong) tetap VERIFIED/LIKELY seperti tercatat.
 
+### 18. Lokasi file di APK 27.1.0 ori (23 Nov, screenshot MT Manager)
+- Nama file APK berakhiran `...roidoyunclub.apk` (situs androidoyunclub). Di `lib/arm64-v8a/` ada **`libandroidoyunclub.so`** (325,93 KB) — bukan library game; kemungkinan tambahan dari situs pengunggah (APK dikemas ulang). Jadi "ori" ini = APK 27.1.0 dari situs pihak ketiga, bukan langsung dari toko resmi. Dicatat sebagai risiko/catatan; tidak mengubah rencana.
+- Lokasi & ukuran (MT Manager, tanggal file 18 Nov 2026 20:41):
+  - `lib/arm64-v8a/libgame.so` — 50,08 MB (27.0: 52.355.608 byte → berubah).
+  - `assets/data/game/db_archive_2707.fmf` — **175,60 MB** = database 27.1.0. Di folder yang sama masih ada `db_archive_2706.fmf` (54,21 MB), `2623`, `2622`, `2621`, `2620` (versi lama/sisa).
+  - `assets/shared/data/sicomps.fmf` — 49,29 MB (folder sama dengan 27.0).
+  - `assets/data/game/pictures_logos.fmf` — **26,73 MB** (27.0 ori/B6: 1,8 GB → isi logo di 27.1.0 jauh lebih kecil). Karena kecil, file ini **bisa dikirim** ke chat.
+- Pertanyaan: entri people/players/club dkk. yang dikirim sebelumnya diambil dari `db_archive_2707.fmf`? (jumlah orang 163.159 cocok dengan pola 2707).
+- Nama folder data Documents untuk jalur B kemungkinan `db_archive_2707` (belum diuji; aplikasi masih menulis `db_archive_2706`).
+
 ### Menunggu dari Bacad
-- File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
+- File ori 27.1.0 (zip dipecah ≤ 25 MB): `lib/arm64-v8a/libgame.so`, `assets/data/game/db_archive_2707.fmf`, `assets/shared/data/sicomps.fmf`, `assets/data/game/pictures_logos.fmf`. (Path sudah diterima, poin 18.)
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.
