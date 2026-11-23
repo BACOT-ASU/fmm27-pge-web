@@ -198,7 +198,7 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 
 ### 26. Path config.xml wajah di arsip modder (23 Nov)
 - Kata Bacad: `pictures_logos/logos/normal/people/config.xml`. Jadi PNG wajah kemungkinan di `pictures_logos/logos/normal/people/custom/<N>` (ekstensi dicek saat aplikasi membaca arsip). Pola sama dengan logo klub (`logos/normal/clubs/config.xml` + `custom/<ID>`).
-- Belum diketahui: apakah ada juga `logos/small/people/` di arsip modder (27.1.0 ori tidak punya folder people sama sekali).
+- Arsip modder **tidak punya** `logos/small/people/` (konfirmasi Bacad). config.xml di small hanya: comps (117 KB), clubs (932 KB), default (1,5 KB), __netflix__/comps. Jadi wajah cukup di `logos/normal/people/`.
 - Langkah berikutnya: fitur "Gabung wajah" di aplikasi (baca `logos/normal/people/` dari arsip modder, salin PNG sesuai peta, tulis config.xml baru di folder yang sama di pictures_logos kita).
 
 ### Menunggu dari Bacad
