@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — B7c langkah 2 (reputasi per pita) + koefisien AFC Indonesia peringkat 11 (db v6)
+- Reputasi klub IDN mengikuti pita yang terbukti dari screenshot (Continental/Top Division/National/Regional/Local) per kasta dan kekuatan; Gresik Top Division. Koefisien AFC awal Indonesia × 0,84 → peringkat 11 timur.
+
 ## 2026-11-23 — Eksekusi: staf tambahan, Liga Nusantara profesional, riset koefisien
 - Doctor → physio, Analyst → scout (350 staf baru). Klub Liga Nusantara → profesional (B7c langkah 1). Koefisien AFC awal ditemukan di nation.dat (Indonesia peringkat 10 timur). db v5, sicomps v4.
 

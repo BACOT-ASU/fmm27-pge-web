@@ -344,9 +344,28 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - **Keuangan / reputasi (B7c langkah 2–3)**: angka acuan 27.1.0: Man City 9.150 (Worldwide), Man United 8.150 (Continental), Everton 6.900 (Top Division), Kashima 6.400, Buriram 5.500, JDT 5.000; klub IDN 700–4.600; hanya 2/64 klub IDN punya blok keuangan. Batas angka antar pita belum terbukti → tidak dikerjakan; butuh bukti dari game.
 - db v5 (184.697.096 byte), sicomps v4 (fmm_people IDN 12.935). Peta aset tidak berubah. Tes 108 lulus.
 
+### 48. Keputusan koefisien + screenshot reputasi/anggaran → db v6 (23 Nov)
+- Keputusan Bacad: **koefisien diturunkan** (juara → ACL Two, runner-up → Challenge League sejak musim 1).
+- Screenshot Bacad (editor game 27.1.0, Club Details; reputasi mentah dari db kita):
+  | Klub | Reputasi db | Pita | Transfer | Gaji/minggu |
+  |---|---|---|---|---|
+  | Kashima Antlers | 6400 | Top Division | £662K | £314K |
+  | Buriram United | 5500 | National | £106K | £67,5K |
+  | Johor Darul Ta'zim | 5000 | National | £96K | £123K |
+  | Persib Bandung | 4300 (ori) / 4600 (B7b) | Regional | £282K | £26,5K |
+  | Java United FC (SL) | 2900 | Local | £190K | £22K |
+  | Persibo Bojonegoro (LN Grup A) | 2800 | Local | £0 | £6,75K |
+  Ditambah acuan lama: Everton 6900 Top Division, Man Utd 8150 Continental, Man City 9150 Worldwide.
+- Rentang pita TERBUKTI: Local 2800–2900, Regional 4300–4600, National 5000–5500, Top Division 6400–6900, Continental 8150, Worldwide 9150. Batas tepat antarpita UNKNOWN (mis. batas Regional ada di 2901–4300).
+- Anggaran tidak hanya dari reputasi (Persib £282K > JDT £96K; Java United £190K vs Persibo £0 di pita sama) → LIKELY ikut liga/negara/penonton. Persibo: transfer £0 tapi gaji £6,75K (bukan 0) → Local cukup untuk menghindari freeze (HYPOTHESIS; freeze 10.1d terjadi saat gaji $0).
+- **B7c langkah 2** (`apply_reputation_bands` di `build_v2710_db.py`): SL 6 kuat (Persib, Persija, Persebaya, Borneo, Bali + Dewa United) Continental 8150; 6 menengah Top Division 6900→6400; 6 lemah National 5500→5000. Championship 7/7/6 = Top Division/National/Regional. Liga Nusantara 22 klub Regional (4600→4300; urutan kuat/lemah tidak ada di data, semua 1200 → diperlakukan menengah); Gresik United Top Division 6900 (pengecualian nama besar). Liga 4: Local 2800–2900. Pembagian kuat/menengah/lemah = sepertiga urutan reputasi B7b.
+- **B7c langkah 3 (blok keuangan) tidak dikerjakan**: klub Asia (Kashima/Buriram/JDT/Persib) blok keuangannya kosong tapi game tetap memberi anggaran → cukup reputasi. Perlu cek Adjust Budgets di klub Liga 4.
+- **Koefisien**: `scale_idn_coefficient` mengalikan 9 nilai Indonesia × 0,84 → [3,44; 4,24; 0; 0; 3,33; 2,99; 6,05; 9,27; 0]. Skor berbobot (0,3→1,0) di kedua arah urutan musim: Indonesia **peringkat 11 dari 22** (bawah Hong Kong 22,7 / Korea Utara 17,4; atas Filipina 15,1–15,7). Peringkat 11 = ACL Two 1 tim liga + Challenge League "juara piala" (dialihkan ke runner-up, HYPOTHESIS). Rumus bobot game yang pasti UNKNOWN; margin tipis (±0,5).
+- db **v6**: 184.697.096 byte, SHA-256 ba073a99…6d65, kiriman `db_archive_2707_27.1.0_mod_v6` (.z01, .z02, .zip; dicek ulang dengan join_split_zip.py). sicomps v4, pictures_logos, libgame tetap. Tes 108 lulus.
+
 ### Menunggu dari Bacad
-- Keputusan: koefisien awal Indonesia diturunkan ke peringkat 11–12 (juara → ACL2, runner-up → Challenge League sejak musim 1) atau dibiarkan (peringkat 10: juara & runner-up → ACL2).
-- Untuk reputasi/anggaran: screenshot pita reputasi + Transfer/Wage Budget beberapa klub di game 27.1.0 (mis. Kashima, Buriram, JDT, Persib, satu klub Championship, satu klub Liga Nusantara) supaya batas pita bisa dikalibrasi.
+- ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
+- Uji db v6: pita reputasi klub IDN di editor (Persib Continental, PSM Top Division, Persibo Regional, Gresik Top Division), anggaran tiap kasta, Adjust Budgets tidak freeze (termasuk Liga 4); akhir musim 1: juara → ACL Two, runner-up → Challenge League?
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.

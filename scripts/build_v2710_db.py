@@ -42,6 +42,78 @@ NOAH_ADNAN = 2000430201
 YOUTH_IDN = 19
 
 
+# ---------------------------------------------------------------- B7c langkah 2 (keputusan & screenshot Bacad 23 Nov)
+# Pita reputasi di editor game 27.1.0 (screenshot): Persibo 2800 & Java United 2900 = Local; Persib 4300/4600 = Regional;
+# JDT 5000 & Buriram 5500 = National; Kashima 6400 & Everton 6900 = Top Division; Man Utd 8150 = Continental;
+# Man City 9150 = Worldwide. Batas pita yang tepat UNKNOWN → hanya dipakai rentang yang TERBUKTI.
+BAND_RANGE = {'Continental': (8150, 8150), 'Top Division': (6400, 6900), 'National': (5000, 5500),
+              'Regional': (4300, 4600), 'Local': (2800, 2900)}
+# Aturan Bacad (panduan induk 10.1e): SL kuat/menengah/lemah = Continental/Top Division/National; tiap kasta di bawahnya turun
+# satu pita. Kuat/menengah/lemah = urutan reputasi B7b di kasta itu (sepertiga). Dewa United (kaya) masuk kuat SL.
+# Gresik United = Top Division (nama besar). Liga Nusantara & Liga 4 tidak punya urutan bermakna (hampir semua 1200/700)
+# → semua "menengah". Lantai Local 2800: di bawahnya anggaran gaji bisa $0 → Adjust Budgets freeze (10.1d).
+TIER_BANDS = [('BRI Super League', ('Continental', 'Top Division', 'National')),
+              ('Pegadaian Championship', ('Top Division', 'National', 'Regional')),
+              ('Liga Nusantara', ('National', 'Regional', 'Local')),
+              ('Liga 4', ('Regional', 'Local', 'Local'))]
+STRONG_EXTRA = {2000090667}                  # Dewa United Banten FC
+BAND_EXCEPTION = {2000700017: 'Top Division'}  # Gresik United FC
+FLAT_TIERS = {'Liga Nusantara', 'Liga 4'}
+
+
+def rep_off(c):          # offset reputasi (u16) relatif awal record
+    return c['o_div'] - c['off'] + 10 + (68 if c['flag'] else 0) + 4 + c['k'] + 1
+
+
+def apply_reputation_bands(buf, clubs, comp_map, comps_b7b):
+    """Timpa reputasi klub IDN di kompetisi Indonesia sesuai pita. Mengembalikan daftar (klub, lama, baru, pita)."""
+    tier_of = {}
+    for i in B7B_COMP_RANGE:
+        name = comps_b7b[i]['long']
+        for tier, _ in TIER_BANDS:
+            if name.startswith(tier):
+                tier_of[comp_map[i]] = tier
+    by_tier = {}
+    for c in clubs:
+        if c['nat'] == IDN and c['div'] in tier_of:
+            r = struct.unpack_from('<H', buf, c['off'] + rep_off(c))[0]
+            by_tier.setdefault(tier_of[c['div']], []).append((c, r))
+    out = []
+    for tier, bands in TIER_BANDS:
+        lst = sorted(by_tier.get(tier, []), key=lambda x: (-(x[0]['uid'] in STRONG_EXTRA), -x[1], x[0]['long']))
+        n = len(lst)
+        groups = {}
+        for pos, (c, r) in enumerate(lst):
+            g = 1 if tier in FLAT_TIERS else min(2, pos * 3 // n)
+            groups.setdefault(g, []).append((c, r))
+        for g, members in groups.items():
+            for j, (c, r) in enumerate(members):
+                band = BAND_EXCEPTION.get(c['uid'], bands[g])
+                lo, hi = BAND_RANGE[band]
+                new = hi if len(members) == 1 else round((hi - (hi - lo) * j / (len(members) - 1)) / 50) * 50
+                struct.pack_into('<H', buf, c['off'] + rep_off(c), new)
+                out.append((c['long'], tier, r, new, band))
+    return out
+
+
+# ---------------------------------------------------------------- koefisien AFC awal Indonesia (keputusan Bacad 23 Nov)
+# Juara → ACL Two, runner-up → Challenge League sejak musim 1 = peringkat 11–12 wilayah timur (asi.xml).
+# Skor berbobot (8 musim, bobot 0,3..1,0 di kedua arah urutan musim) → faktor 0,84 menaruh Indonesia di peringkat 11
+# (di bawah Hong Kong & Korea Utara, di atas Filipina). Lihat log_sesi poin 48.
+IDN_COEF_FACTOR = 0.84
+
+
+def scale_idn_coefficient(nd, k):
+    """nd = nation.dat (bytearray), k = offset penanda ff7fd4000000ff7f di record Indonesia."""
+    s = k + 8
+    q = next(q for q in range(40) if nd[s + q:s + q + 2] == b'\x08\x00' and nd[s + q + 18] == 9)
+    o = s + q + 19
+    old = struct.unpack_from('<9f', nd, o)
+    new = tuple(round(v * IDN_COEF_FACTOR, 2) for v in old)
+    struct.pack_into('<9f', nd, o, *new)
+    return [round(v, 2) for v in old], list(new)
+
+
 def tmpfile(folder, name, data):
     p = os.path.join(folder, name)
     open(p, 'wb').write(data)
@@ -197,6 +269,7 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     for c in C3:
         if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
+    report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
     club_new = bytes(cb3)
     C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
     assert e == L and len(C2) == n_old + len(tail_add)
@@ -243,6 +316,7 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     i = nd.find(b'\x71\x00\x00\x00\x3a\x00\x09\x00\x00\x00Indonesia\xff'); assert i > 0
     k = nd.find(b'\xff\x7f\xd4\x00\x00\x00\xff\x7f', i); assert 0 < k - i < 120
     report['youth_idn'] = (nd[k + 11], YOUTH_IDN); nd[k + 11] = YOUTH_IDN
+    report['koefisien_afc_idn'] = scale_idn_coefficient(nd, k)
 
     # ------------------------------------------------------------ tulis folder kerja untuk build pemain
     dbdir = os.path.join(work, 'db'); os.makedirs(dbdir, exist_ok=True)

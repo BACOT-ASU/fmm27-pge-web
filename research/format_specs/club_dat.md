@@ -51,7 +51,8 @@ Klub Asia: blok kosong / tidak ada; game mengarang keuangan sendiri (LIKELY dari
 ## Bukti / temuan penting
 - B7b: reputasi/status/fasilitas/penonton diubah → game jalan.
 - Uji 1d (22 Nov): Adjust Budgets freeze terjadi karena anggaran awal $0 (reputasi terlalu rendah), bukan status klub.
-- Pita reputasi di editor dalam game: Worldwide > Continental > Top Division > National > … Obscure. Angka batasnya UNKNOWN.
+- Pita reputasi di editor dalam game: Worldwide > Continental > Top Division > National > Regional > Local > … Obscure. Rentang TERBUKTI (23 Nov, screenshot Bacad): Local 2800–2900, Regional 4300–4600, National 5000–5500, Top Division 6400–6900, Continental 8150, Worldwide 9150. Batas tepat UNKNOWN.
+- Anggaran awal klub Asia dihitung game walau blok keuangan kosong; nilainya tidak hanya dari reputasi (LIKELY juga liga/negara/penonton).
 
 ## Status
 Read/Write: VERIFIED (Python `club.py` + skrip build). Port TS: **selesai Sesi 03** — `src/core/formats/club/clubDat.ts` (`parseClubDat`, `serializeClubDat`, `withClubField` untuk 13 field tetap-ukuran, `withClubNames`, `validateClubDat`). Batas kewajaran sama dengan `club.py`. Di `club.py` field `rep` sebenarnya index stadion; reputasi ada di blok 23 byte (`repBlock + 1`).
