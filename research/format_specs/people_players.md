@@ -106,9 +106,10 @@ dicocokkan dengan data 27.1.0: panjang 82 byte sama persis, dan nilainya masuk a
 
 Mourinho: tampil 7 atribut kepribadian (dari `people.dat`) + 7 atribut manajer (dari tabel ini).
 
-## coaches.dat — 7 byte per record (pelatih)
+## coaches.dat / scouts.dat / physios.dat — 7 byte per record
 u32 nomor urut (50 slot terakhir = −1, kosong) + 3 × u8. Byte 4 = spesialisasi, nilai 1–7 (Pascua 5 = Goalkeeping,
-Tralhão 3 = Attacking): LIKELY. Byte 5–6 (nilai 1–3): UNKNOWN (mungkin bakat/"aptitude": Tralhão "Natural" 03 03, Pascua "Normal" 01 02).
+Tralhão 3 = Attacking): LIKELY. Byte 5–6 (nilai 1–3) = aptitude: 03 03 = Natural (Tralhão, Calafat, García Parrales), 01 02 = Normal (Pascua): LIKELY.
+Jumlah: coaches 16.916 (idx2), scouts 3.191 (idx3, maks rujukan 3.140), physios 5.492 (idx4, maks 5.441). Ketiganya punya 50 slot kosong (−1) di ujung: VERIFIED.
 
 ## starting_contracts.dat — 54 byte per record
 | Offset | Tipe | Arti | Keyakinan |

@@ -95,9 +95,15 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - Pemain/staf baru belum pernah diuji di game; editor FMM26 lain juga punya masalah "pemain baru tidak muncul".
 - Usulan Claude: tetap satu kali install, tapi dibagi 2 lapis: (1) di dalam APK: bagian yang sudah terbukti di 27.0 (libgame, liga/kompetisi, klub, stadion, rivalitas, daftar muat, logo); (2) pemain/staf baru + edit pemain lewat **paket Documents** db (bisa dicabut tanpa install ulang kalau macet). Menunggu keputusan Bacad.
 
+### 13. Keputusan Bacad + scouts/physios (23 Nov)
+- **Keputusan 1: semua dimasukkan ke dalam APK** (tidak pakai lapis Documents).
+- **Keputusan 2: atribut pemain baru pakai perkiraan** (boleh meleset ±2 di layar; diperbaiki setelah dilihat di game).
+- Diterima `scouts.dat` (3.191 × 7 byte) dan `physios.dat` (5.492 × 7 byte), 27.1.0 ori; round-trip identik. Sama seperti coaches.dat: u32 nomor urut, 50 slot kosong di ujung, 3 × u8. idx3 (maks 3.140) → scouts, idx4 (maks 5.441) → physios: VERIFIED (batas pas).
+- Byte 5–6 = "aptitude": 03 03 = Natural (Calafat, García Parrales, Tralhão), 01 02 = Normal (Pascua). LIKELY.
+- `scripts/people.py`: `staff_role_fields` untuk ketiga file; ketiganya ikut uji round-trip.
+
 ### Menunggu dari Bacad
 - File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
-- Keputusan: 2 lapis (APK + Documents) atau semua di APK; atribut pemain baru boleh perkiraan (±2 di layar)?
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.

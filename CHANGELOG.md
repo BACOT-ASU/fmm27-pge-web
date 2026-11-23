@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — scouts.dat + physios.dat
+- Keduanya 7 byte per record seperti coaches.dat; idx3/idx4 people.dat → scouts/physios (VERIFIED). `staff_role_fields` di `scripts/people.py`; round-trip identik.
+- Keputusan Bacad: semua mod 27.1.0 di dalam APK; atribut pemain baru pakai perkiraan.
+
 ## 2026-11-23 — Kalibrasi atribut dari screenshot + coaches.dat
 - `research/kalibrasi/`: angka layar 8 pemain (`atribut_screenshot_2027-08-15.csv`) + analisis (`kalibrasi_atribut.md`). Atribut 1–20 = layar (VERIFIED); atribut bertanda ≈ dasar + nilai/10 (LIKELY); Shooting/Teamwork/Aerial = gabungan.
 - Kepribadian: byte ke-3 = Determination (VERIFIED, Mourinho & Bento).

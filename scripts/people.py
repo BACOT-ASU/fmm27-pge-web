@@ -177,10 +177,16 @@ def non_player_fields(x):
     return f
 
 
-def coach_fields(x):
-    """coaches.dat (7 byte): u32 nomor urut (-1 = slot kosong, 50 di ujung), 3 x u8.
-    Byte 4 = spesialisasi (5 = Goalkeeping, 3 = Attacking: dari 2 orang, LIKELY). Byte 5-6 UNKNOWN."""
+STAFF_ROLE_FILES = ('coaches', 'scouts', 'physios')   # people.idx2 / idx3 / idx4
+
+
+def staff_role_fields(x):
+    """coaches.dat / scouts.dat / physios.dat (7 byte): u32 nomor urut (-1 = slot kosong, 50 di ujung), 3 x u8.
+    Byte 4 = spesialisasi (pelatih: 5 = Goalkeeping, 3 = Attacking; LIKELY). Byte 5-6 UNKNOWN."""
     return {'index': struct.unpack_from('<i', x, 0)[0], 'speciality': x[4], 'b5': x[5], 'b6': x[6]}
+
+
+coach_fields = staff_role_fields
 
 
 def contract_fields(x):
@@ -204,7 +210,8 @@ def _main(folder):
     print('people.dat: %d orang, round-trip %s' % (len(recs), 'IDENTIK' if rebuilt == d else 'BEDA'))
     import os
     for name, ln in (('players', PLAYER_LEN), ('non_players', NON_PLAYER_LEN),
-                     ('starting_contracts', CONTRACT_LEN), ('coaches', COACH_LEN)):
+                     ('starting_contracts', CONTRACT_LEN), ('coaches', COACH_LEN),
+                     ('scouts', COACH_LEN), ('physios', COACH_LEN)):
         if not os.path.exists(folder + name + '.dat'):
             print('%s.dat: tidak ada, dilewati' % name)
             continue
