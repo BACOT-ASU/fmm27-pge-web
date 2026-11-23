@@ -48,6 +48,11 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 7. Permintaan Bacad (23 Nov)
 - "Setiap update perubahan dan informasi baru, catat semua, terutama di chat ini." → log ini dibuat; aturan ditambahkan ke `CLAUDE.md`.
 
+### 8. Versi aplikasi di HP belum berubah (23 Nov)
+- Penyebab: perubahan sesi ini hanya di branch `ccr-af646131-1wzlkx`; Cloudflare menerbitkan dari `main`.
+- **Izin Bacad: "aku izinkan akses penuh"** → boleh push/gabung ke `main`. Branch digabung fast-forward ke `main`.
+- Setelah build Cloudflare (1–3 menit), Bacad cek versi di footer lalu uji unduhan per entri.
+
 ### Menunggu dari Bacad
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - Screenshot profil 3–5 pemain 27.1.0 (atribut + posisi), mis. Marc Klok, Witan, Jay Idzes, 1 kiper, 1 bintang.
