@@ -14,6 +14,7 @@ Bahasa dokumentasi dan pesan ke pengguna: Bahasa Indonesia sederhana.
 5. Record baru (klub, stadion, kompetisi) hanya ditambahkan di ujung; rujukan antar file memakai index.
 6. Tugas berulang → skrip di `scripts/`, jangan dikerjakan manual lewat chat.
 7. Satu tugas = satu branch/commit kecil. Perbarui `CHANGELOG.md` dan dokumen terkait.
+7a. WAJIB: setiap informasi baru, keputusan, hasil uji dari Bacad, atau perubahan yang muncul di chat langsung dicatat di `research/log_sesi.md` (kronologis) dan dokumen yang tepat, lalu di-commit + push di giliran yang sama. Jangan tunggu diminta.
 8. Jika bukti kurang, berhenti dan sebutkan file atau eksperimen yang dibutuhkan.
 9. `legacy/` hanya acuan; jangan diubah.
 
