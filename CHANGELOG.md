@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Nama & logo klub/kompetisi versi modder
+- `apply_modder_club_names_v2710.py` (nama klub/kompetisi non-IDN versi modder), `map_logos_v2710.py` (peta aset gabungan), gabung aset di aplikasi (wajah + logo klub/timnas + logo kompetisi) dengan indeks file modder.
+
 ## 2026-11-23 — Nama pemain asing versi modder
 - `scripts/apply_modder_names_v2710.py`: 114 orang non-Indonesia memakai nama versi modder; build db v2 + peta wajah v2.
 

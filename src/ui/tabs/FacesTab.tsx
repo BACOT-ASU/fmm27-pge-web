@@ -73,15 +73,19 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
     if (!targetArc || !donor || !rows || busy || result) return;
     setStage('processing');
     setMsg(null);
-    setProg({ pct: 0, label: 'Langkah 1/2 · mencocokkan wajah… 0%' });
+    setProg({ pct: 0, label: 'Langkah 1/2 · mencocokkan wajah & logo… 0%' });
     try {
       const res = await mergeFacesIntoFmf(targetArc, donor.arc, rows, (d, t) => {
         const pct = Math.round((d / t) * 100);
-        setProg({ pct, label: `Langkah 1/2 · mencocokkan wajah… ${pct}% (${d.toLocaleString('id-ID')} / ${t.toLocaleString('id-ID')})` });
+        setProg({ pct, label: `Langkah 1/2 · mencocokkan wajah & logo… ${pct}% (${d.toLocaleString('id-ID')} / ${t.toLocaleString('id-ID')})` });
       });
       setResult(res);
       setStage('processed');
-      setProg({ pct: 100, label: `Proses selesai · ${res.added.toLocaleString('id-ID')} wajah siap, ukuran file ${formatBytes(res.size)}. Tekan Unduh.` });
+      const by = (k: string) => (res.addedBy[k] ?? 0).toLocaleString('id-ID');
+      setProg({
+        pct: 100,
+        label: `Proses selesai · wajah ${by('person/normal')}, logo klub ${by('club/normal')} (+ kecil ${by('club/small')}), logo kompetisi ${by('comp/normal')} (+ kecil ${by('comp/small')}). Ukuran file ${formatBytes(res.size)}. Tekan Unduh.`,
+      });
       if (res.missing.length || res.duplicateUids.length) {
         setMsg({ t: `${res.missing.length} file tidak ada di arsip modder, ${res.duplicateUids.length} UID ganda dilewati.`, k: 'ok' });
       }
@@ -121,16 +125,17 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
   const canProcess = !!donor && !!rows && !!targetArc && !busy && !result;
   const canDownload = !!result && !busy;
   return (
-    <Card title="Gabung wajah (dari pictures_logos modder)">
+    <Card title="Gabung wajah & logo (dari pictures_logos modder)">
       <p className="text-xs text-slate-400">
-        Tujuan: <b>{target.name}</b> (slot Logo). Wajah disalin langsung dari file modder tanpa dimuat utuh ke memori,
-        lalu ditulis ke <code>{FACES_FOLDER}</code> dengan UID database kita. File hasil ±1,4 GB; menulisnya bisa makan
-        beberapa menit. Belum diuji di game.
+        Tujuan: <b>{target.name}</b> (slot Logo). Wajah (<code>{FACES_FOLDER}</code>), logo klub/timnas dan logo kompetisi
+        disalin langsung dari file modder tanpa dimuat utuh ke memori, lalu ditulis dengan UID database kita. Pakai CSV
+        peta aset dari Claude (format lama berisi wajah saja juga bisa). File hasil ±1,4 GB; menulisnya bisa makan beberapa
+        menit. Belum diuji di game.
       </p>
       <div className="mt-2 space-y-2">
         <Btn full disabled={busy} onClick={() => void pickDonor()}>{donor ? `Modder: ${donor.file.name} (${donor.faces} wajah)` : '1. Pilih pictures_logos.fmf modder'}</Btn>
         <label className="block text-sm">
-          <span className="text-slate-300">2. Peta wajah (CSV dari Claude): {csvName ? `${csvName} (${rows?.length ?? 0} baris)` : 'belum dipilih'}</span>
+          <span className="text-slate-300">2. Peta aset (CSV dari Claude): {csvName ? `${csvName} (${rows?.length ?? 0} baris)` : 'belum dipilih'}</span>
           <input type="file" accept=".csv,text/csv" disabled={busy} className="mt-1 block w-full text-xs" onChange={(e) => void pickCsv(e.target.files?.[0])} />
         </label>
         <Btn kind={canProcess ? 'primary' : 'plain'} full disabled={!canProcess} onClick={() => void process()}>

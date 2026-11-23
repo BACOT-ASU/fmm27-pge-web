@@ -72,7 +72,7 @@ describe('mergeFacesIntoFmf', () => {
     const res = await mergeFacesIntoFmf(ours, mod, rows, (d) => prog.push(d));
     expect(prog.at(-1)).toBe(rows.length);
     expect(res.added).toBe(2);
-    expect(res.missing).toEqual(['custom/999']);
+    expect(res.missing).toEqual(['person/normal:custom/999']);
     expect(res.duplicateUids).toEqual([3]);
 
     const bytes = await materializeSourcedParts([ours, mod], res.parts, res.size);
@@ -102,9 +102,35 @@ print(fmfio.get(dict(fmfio.walk(r))['pictures_logos/logos/normal/people/custom/2
     }
   });
 
+  it('logo klub: baris config lama untuk UID diganti custom/<UID>, baris lain tetap; CSV gabungan', async () => {
+    const cfgOurs = '\uFEFF<?xml version="1.0" ?>\n<record>\n\t<list id="maps">\n\t\t<record from="eng/x/club7" to="graphics/pictures/club/7/logo"/>\n\t\t<record from="eng/x/club8" to="graphics/pictures/club/8/logo"/>\n\t</list>\n</record>\n';
+    const ours = await openFmfBytes(buildFmf('pictures_logos', [
+      ['pictures_logos/logos/normal/clubs/config.xml', te.encode(cfgOurs)],
+      ['pictures_logos/logos/normal/clubs/eng/x/club7.png', png('fake7')],
+    ]));
+    const mod = await openFmfBytes(buildFmf('pictures_logos', [
+      ['pictures_logos/logos/normal/clubs/config.xml', te.encode('<m/>')],
+      ['pictures_logos/logos/normal/clubs/custom/7.png', png('real7')],
+      ['pictures_logos/logos/normal/people/config.xml', te.encode('<m/>')],
+      ['pictures_logos/logos/normal/people/custom/3.png', png('face3')],
+    ]));
+    const rows = parseFaceMapCsv('jenis,ukuran,from,to_uid\nclub,normal,custom/7,7\nperson,normal,custom/3,3\n');
+    const res = await mergeFacesIntoFmf(ours, mod, rows);
+    expect(res.addedBy).toEqual({ 'club/normal': 1, 'person/normal': 1 });
+    const out = await openFmfBytes(await materializeSourcedParts([ours, mod], res.parts, res.size));
+    const cfgRaw = await readEntry(out, findEntry(out.root, 'pictures_logos/logos/normal/clubs/config.xml')!.entry);
+    expect([...cfgRaw.subarray(0, 3)]).toEqual([0xef, 0xbb, 0xbf]);
+    const cfg = td.decode(cfgRaw);
+    expect(cfg).not.toContain('eng/x/club7');
+    expect(cfg).toContain('<record from="eng/x/club8" to="graphics/pictures/club/8/logo"/>');
+    expect(cfg).toContain('<record from="custom/7" to="graphics/pictures/club/7/logo"/>');
+    expect(td.decode(await readEntry(out, findEntry(out.root, 'pictures_logos/logos/normal/clubs/custom/7.png')!.entry))).toBe('PNG-real7');
+    expect(td.decode(await readEntry(out, findEntry(out.root, 'pictures_logos/logos/normal/people/custom/3.png')!.entry))).toBe('PNG-face3');
+  });
+
   it('menolak arsip modder tanpa folder people', async () => {
     const a = await openFmfBytes(buildFmf('pictures_logos', [['pictures_logos/x/a.png', png('a')]]));
-    await expect(mergeFacesIntoFmf(a, a, [])).rejects.toThrow(/tidak ada di arsip modder/);
+    await expect(mergeFacesIntoFmf(a, a, [{ from: 'custom/1', toUid: 1 }])).rejects.toThrow(/tidak ada di arsip modder/);
   });
 
   const ori = samplePath('v2710/pictures_logos.fmf');
@@ -128,4 +154,41 @@ print(len(fmfio.get(rows['pictures_logos/logos/normal/clubs/config.xml'])))`;
     expect(out[1]).toBe('PNG-face3');
     expect(Number(out[2])).toBeGreaterThan(1000);
   });
+
+  const built = samplePath('out_v2710/pictures_logos.fmf');
+  const peta = samplePath('out_v2710/peta_aset_27.1.0.csv');
+  it.skipIf(!built || !peta || !pythonAvailable)('skala penuh: pictures_logos build + peta aset asli (111 ribu baris) + modder sintetis', async () => {
+    const rows = parseFaceMapCsv(readFileSync(peta!, 'utf-8'));
+    const files: [string, Uint8Array][] = [];
+    const seen = new Set<string>();
+    for (const r of rows) {
+      const folder = r.kind === 'person' ? 'pictures_logos/logos/normal/people' : `pictures_logos/logos/${r.size}/${r.kind === 'club' ? 'clubs' : 'comps'}`;
+      const path = `${folder}/${r.from}.png`;
+      if (seen.has(path)) continue;
+      seen.add(path);
+      files.push([path, png(r.from)]);
+    }
+    for (const f of ['normal/people', 'normal/clubs', 'small/clubs', 'normal/comps', 'small/comps']) files.push([`pictures_logos/logos/${f}/config.xml`, te.encode('<m/>')]);
+    const mod = await openFmfBytes(buildFmf('pictures_logos', files));
+    const ours = await openFmfBytes(new Uint8Array(readFileSync(built!)));
+    const t0 = Date.now();
+    const res = await mergeFacesIntoFmf(ours, mod, rows);
+    const ms = Date.now() - t0;
+    expect(res.missing).toEqual([]);
+    expect(ms).toBeLessThan(20000);
+    const bytes = await materializeSourcedParts([ours, mod], res.parts, res.size);
+    // fmfio.py hanya membaca TOC satu frame; TOC sebesar ini ditulis sebagai rangkaian [u32 + frame raw]
+    // (format yang sama dengan B6/B7b, VERIFIED diterima game), jadi diperiksa dengan pembaca TS.
+    const out = await openFmfBytes(bytes);
+    let n = 0;
+    const walk = (f: FmfFolder) => { n += f.files.length; f.subs.forEach(walk); };
+    walk(out.root);
+    expect(n).toBeGreaterThan(2006 + 100000);
+    const c = td.decode(await readEntry(out, findEntry(out.root, 'pictures_logos/logos/normal/clubs/config.xml')!.entry));
+    expect((c.match(/<record from=/g) ?? []).length).toBeGreaterThan(11900);
+    expect(c.split('from="custom/2000700001"').length - 1).toBe(1); // logo Bacad (klon) tetap ada
+    const sample = rows.find((r) => r.kind === 'club' && r.size === 'small')!;
+    expect(td.decode(await readEntry(out, findEntry(out.root, `pictures_logos/logos/small/clubs/custom/${sample.toUid}.png`)!.entry))).toBe(`PNG-${sample.from}`);
+    console.log('gabung', rows.length, 'baris dalam', ms, 'ms;', res.addedBy);
+  }, 120000);
 });

@@ -31,6 +31,7 @@ import stadium as stadmod       # noqa: E402
 import build_people_v2710       # noqa: E402
 import build_staff_v2710        # noqa: E402
 import apply_modder_names_v2710  # noqa: E402
+import apply_modder_club_names_v2710  # noqa: E402
 
 IDN = 58
 B7B_COMP_RANGE = range(1670, 1683)          # index kompetisi Indonesia di competition.dat B7b
@@ -261,6 +262,11 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     if modder_db and os.path.isdir(modder_db):
         ch = apply_modder_names_v2710.apply(dbdir, modder_db, verbose=verbose)
         report['nama_versi_modder'] = len(ch)
+        if os.path.exists(os.path.join(modder_db, 'club.dat')):
+            cr = apply_modder_club_names_v2710.apply(dbdir, modder_db, verbose=verbose)
+            report['nama_klub_modder'] = len(cr['klub']); report['nama_kompetisi_modder'] = len(cr['kompetisi'])
+            report['lng_modder'] = {k: v for k, v in cr.items() if k.endswith('.lng')}
+            json.dump(cr, open(os.path.join(out_dir, 'nama_klub_kompetisi_modder.json'), 'w'), ensure_ascii=False, indent=0)
         json.dump([(u, list(o), list(n)) for u, o, n in ch], open(os.path.join(out_dir, 'nama_versi_modder.json'), 'w'),
                   ensure_ascii=False, indent=0)
     report['pemain_baru'] = len(new_uids)

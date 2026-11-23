@@ -80,7 +80,7 @@ export default function App() {
     { id: 'daftar', label: 'Daftar muat', need: 'sc' },
     { id: 'aturan', label: 'Aturan', need: 'sc' },
     { id: 'logo', label: 'Logo', need: 'logos' },
-    { id: 'wajah', label: 'Wajah', need: 'logos' },
+    { id: 'wajah', label: 'Wajah & logo', need: 'logos' },
     { id: 'kode', label: 'Kode', need: 'lib' },
     { id: 'arsip', label: 'Arsip', need: null },
     { id: 'simpan', label: `Simpan${changes ? ` (${changes})` : ''}`, need: null },

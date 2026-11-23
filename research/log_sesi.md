@@ -272,6 +272,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Tim nasional disimpan sebagai klub di club.dat (mis. klub "Indonesia", nat 58), jadi logonya ada di `pictures_logos/logos/{normal,small}/clubs/config.xml` (`graphics/pictures/club/<UID>/logo|icon`) — ikut tercakup permintaan config clubs. flags.fmf tidak diperlukan.
 - Daftar file yang diminta dari APK modder: config.xml clubs & comps (normal + small) dari pictures_logos; club.dat, competition.dat, eng.lng (+ id.lng bila dipakai) dari db_archive_2707.
 
+### 36. File modder: config logo, club.dat, competition.dat, eng/id.lng → nama & logo asli (23 Nov)
+- Diterima dari APK modder: config.xml normal/small clubs (953.894 byte) & comps (119.350 byte) dari pictures_logos; club.dat, competition.dat, eng.lng, id.lng dari db_archive_2707. Disimpan `samples/mod_lain/`.
+- Logo modder: klub 12.713 (ori 901), kompetisi 1.559 (ori 73), semua `custom/<UID>`; 886 logo klub ori + 64 kompetisi ori dialihkan modder ke versi custom.
+- Nama: modder memakai **nama asli** untuk klub/kompetisi tanpa lisensi (Casciavit Milano → AC Milan, Blu-neri Milano → FC Internazionale Milano, A. Madrid → Atlético de Madrid, Italian Serie A → Serie A Enilive). club.dat: 144 klub non-IDN beda; eng.lng 2.553, id.lng 2.552; competition.dat 1.179 kompetisi non-IDN beda.
+- Keputusan (sesuai permintaan Bacad): nama & logo versi modder dipakai untuk semua klub/kompetisi **non-Indonesia**; data Indonesia tetap milik kita; 23 logo Bacad dipertahankan.
+- `scripts/apply_modder_club_names_v2710.py` (segmen nama club.dat/competition.dat + record .lng eng/id diganti versi modder; dipanggil build_v2710_db.py) → db v3: 184.682.293 byte, SHA-256 64fc047b…49fc.
+- `scripts/map_logos_v2710.py` → `peta_aset_27.1.0.csv` (jenis,ukuran,from,to_uid): logo klub 11.906 × 2 (804 UID modder tidak ada di db kita; 3 logo Bacad dipertahankan), kompetisi 1.546 × 2 (13 tidak ada), wajah 85.069; total 111.973 baris.
+- Aplikasi: `mergeFacesIntoFmf` diperluas jadi gabung aset (person/club/comp × normal/small); config klub/kompetisi diedit sekali jalan (baris lama UID dibuang, baris custom/<UID> ditambah, BOM dipertahankan); indeks file modder (sebelumnya cari linear per baris → sangat lambat). Tab "Wajah & logo". Tes skala penuh: 111.973 baris digabung < 1 detik di server; hasil dibaca pembaca TS (fmfio.py hanya baca TOC satu frame; TOC rangkaian frame raw = format B6/B7b yang VERIFIED diterima game).
+- Dikirim: db v3 (zip pecah, CRC identik), peta_aset_27.1.0.csv, SHA256_v3. sicomps/pictures_logos/libgame tidak berubah.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
