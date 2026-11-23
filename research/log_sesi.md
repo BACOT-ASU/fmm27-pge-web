@@ -319,6 +319,12 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 43. Rencana berikutnya (catatan Bacad, 23 Nov): liga cadangan
 - Untuk tahap berikutnya (belum dikerjakan): kompetisi tim cadangan mengikuti kasta tim utamanya (cadangan klub Super League di liga cadangan tingkat 1, Championship di tingkat 2, dst.), dengan promosi/degradasi mengikuti tim utama.
 
+### 44. Keputusan Bacad: urutan kerja (23 Nov)
+- Koreksi poin 43: liga cadangan **sudah** mengikuti kasta tim utama. Build berikutnya: liga cadangan bisa **promosi/degradasi sendiri, tidak mengikuti kasta tim utama** (seperti Inggris).
+- Liga U21/U18 dibahas bersama build kompetisi cadangan itu.
+- Semua pekerjaan lain dari daftar "belum dikerjakan" **menunggu perintah "eksekusi"**.
+- Dibuat `docs/LANGKAH_BUILD_27.1.0.md` (langkah menjalankan build terbaru: db v4, sicomps v3, pictures_logos + gabung wajah & logo, libgame).
+
 ### Menunggu dari Bacad
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
