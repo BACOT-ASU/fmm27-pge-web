@@ -451,6 +451,9 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Pola tetap cocok dengan **kelebihan jatah**: klub yang diberi pelatih > jatah (Persib 5 pelatih vs 3, Persija 7 vs 3, PSM 1 ori + 3 baru vs jatah PSM fasilitas 10, Gresik 3 pelatih + asisten vs 2) → SEMUA staf klub itu hilang dari halaman Staff (termasuk pelatih ori PSM), sementara orangnya tetap terikat klub (muncul di Search). Bali (1 pelatih ori, tanpa staf baru) dan Kashima (dalam jatah) normal. Kontrak sebagai penyebab: tidak didukung data (pola kontrak = ori).
 - Perbaikan usulan (menunggu "eksekusi"): staf per klub dibatasi jatah menurut fasilitas latihan (≥14: 4/3/3; 10–13: 3/3/3, tapi untuk 10–12 dipakai 2/2/2 karena belum terbukti; ≤9: 2/1/1), pelatih ori ikut dihitung, asisten ≤ 1; sisanya club_index −1 + tanpa kontrak (jadi staf bebas di bursa).
 
+### 62. Koreksi Bacad: jatah Persib = 9 (23 Nov)
+- Bacad: jatah Persib 9 (3 pelatih + 3 scout + 3 physio). Data v7 Persib: 5 pelatih (job 2) + 1 asisten + 3 physio + 2 scout = 10 tanpa asisten (11 dengan asisten) → melebihi jatah total 9 dan jatah pelatih 3. Physio (3/3) & scout (2/3) sebenarnya muat, tapi ikut hilang → game tampaknya menolak semua staf klub bila ada yang lewat jatah (per kategori atau total). Perbaikan sama: batasi per kategori sesuai jatah, sehingga total juga ≤ jatah.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
