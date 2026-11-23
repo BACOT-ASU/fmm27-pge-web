@@ -172,6 +172,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Semua file di poin 20–21 (db_archive_2707, libgame.so, sicomps.fmf, pictures_logos.fmf) **dari APK ori 27.1.0**.
 - Bacad minta: cukup dicatat dan dianalisa, tidak perlu penjelasan panjang di chat.
 
+### 23. Pertanyaan Bacad: memindahkan wajah dari pictures_logos.fmf modder (23 Nov)
+- Fakta: `pictures_logos.fmf` 27.1.0 ori **tidak punya wajah sama sekali** (2.006 entri: logo klub/kompetisi/default/__netflix__ saja). Modder (catatan panduan 7a): config.xml `custom/<N>` → `graphics/pictures/person/<UID>/portrait`, 86.440 entri; pemetaan wajah↔pemain banyak salah.
+- `data/pemain_uid_wajah_match.csv` (450 pemain, panduan 7a) **tidak ada di repo** → dibuat ulang.
+- Metode yang diusulkan:
+  1. Baca config.xml wajah + PNG dari pictures_logos.fmf modder.
+  2. Petakan UID: orang non-Indonesia → UID sama (menurut Bacad modder = ori kecuali data Indonesia). Orang Indonesia → UID modder dicocokkan ke nama + tgl lahir di people.dat modder, lalu ke orang yang sama di build kita (UID ori, atau UID baru 2.100.000.001+ untuk pemain baru). Jadi tidak perlu meniru UID modder (rencana lama 7a diganti).
+  3. Tulis: PNG ditambahkan di ujung pictures_logos.fmf kita (tambal di ujung) + config.xml wajah gabungan di folder yang sama dengan modder. Store.
+  4. Wajah yang salah di modder: hanya bisa ketahuan dari nama/tgl lahir; yang tampak salah di game ditandai Bacad lalu dibuang dari peta.
+- Butuh: pictures_logos.fmf modder (ukuran? ≤ ~500 MB → zip pecah MT Manager; jika GB → fitur impor wajah di aplikasi HP), people.dat + first/second/common_names.dat dari db_archive_2707 **modder**.
+
 ### Menunggu dari Bacad
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
