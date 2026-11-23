@@ -110,7 +110,7 @@ Mourinho: tampil 7 atribut kepribadian (dari `people.dat`) + 7 atribut manajer (
 u32 nomor urut (50 slot terakhir = −1, kosong) + 3 × u8. Byte 4 = spesialisasi, nilai 1–7 (Pascua 5 = Goalkeeping,
 Tralhão 3 = Attacking): LIKELY. Byte 5–6 (nilai 1–3) = aptitude: 03 03 = Natural (Tralhão, Calafat, García Parrales), 01 02 = Normal (Pascua): LIKELY.
 Jumlah: coaches 16.916 (idx2), scouts 3.191 (idx3, maks rujukan 3.140), physios 5.492 (idx4, maks 5.441). Ketiganya punya 50 slot kosong (−1) di ujung.
-**Asal file (koreksi Bacad 23 Nov): `scouts.dat` dan `physios.dat` diambil dari APK modder lain, BUKAN 27.1.0 ori.** Jumlah record terisi (3.141 / 5.442) pas sama dengan rujukan tertinggi di `people.dat` ori + 1, jadi kemungkinan besar isinya sama dengan ori: LIKELY, belum terbukti. Struktur 7 byte: LIKELY (dari file modder). Jangan dipakai sebagai dasar build; tunggu file ori. Asal `coaches.dat`: ditanyakan ke Bacad.
+**Asal file (koreksi Bacad 23 Nov): `scouts.dat` dan `physios.dat` diambil dari APK modder lain, BUKAN 27.1.0 ori.** Jumlah record terisi (3.141 / 5.442) pas sama dengan rujukan tertinggi di `people.dat` ori + 1, jadi kemungkinan besar isinya sama dengan ori: LIKELY, belum terbukti. Struktur 7 byte: LIKELY (dari file modder). Jangan dipakai sebagai dasar build; tunggu file ori. `coaches.dat` = **ori 27.1.0** (dikonfirmasi 23 Nov: identik dengan salinan langsung dari APK ori).
 
 ## starting_contracts.dat — 54 byte per record
 | Offset | Tipe | Arti | Keyakinan |

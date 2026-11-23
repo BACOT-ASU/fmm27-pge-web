@@ -125,8 +125,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - Kompetisi Indonesia di APK modder juga beda → struktur liga untuk build 27.1.0 tetap dari mod kita sendiri (B6/B7b) yang dipasang ulang di atas ori.
 - Tetap perlu konfirmasi: `coaches.dat` dari ori atau modder (tidak menghambat; versi ori ikut di db_archive utuh).
 
+### 17. coaches.dat terkonfirmasi ori (23 Nov)
+- Bacad kirim `coaches_1.dat` langsung dari **APK ori 27.1.0**. Dibandingkan dengan `coaches.dat` kiriman sebelumnya: **identik byte demi byte** (SHA-256 c5963f1d…f1ea). Jadi `coaches.dat` di `samples/v2710/` = ori. Temuan coaches.dat (7 byte, idx2 → pelatih, 50 slot kosong) tetap VERIFIED/LIKELY seperti tercatat.
+
 ### Menunggu dari Bacad
-- Jawaban: `coaches.dat` dari APK ori atau modder?
 - File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.

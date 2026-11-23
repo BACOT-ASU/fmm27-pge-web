@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — coaches.dat terkonfirmasi ori
+- Salinan langsung dari APK ori identik dengan `samples/v2710/coaches.dat` (SHA-256 sama).
+
 ## 2026-11-23 — Info: APK modder beda dari ori hanya di data Indonesia
 - Dicatat di log poin 16 dan `research/kalibrasi/kalibrasi_atribut.md` (pengaruh ke kalibrasi & file staf).
 
