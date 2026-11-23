@@ -182,6 +182,13 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   4. Wajah yang salah di modder: hanya bisa ketahuan dari nama/tgl lahir; yang tampak salah di game ditandai Bacad lalu dibuang dari peta.
 - Butuh: pictures_logos.fmf modder (ukuran? ≤ ~500 MB → zip pecah MT Manager; jika GB → fitur impor wajah di aplikasi HP), people.dat + first/second/common_names.dat dari db_archive_2707 **modder**.
 
+### 24. Ukuran pictures_logos.fmf modder: 1,42 GB (23 Nov)
+- Terlalu besar untuk chat (± 57 bagian × 25 MB). Rencana hibrida:
+  1. Bacad unduh lewat aplikasi (per entri) hanya bagian kecil: `config.xml` wajah dari pictures_logos modder + people.dat & 3 file nama dari db_archive_2707 modder.
+  2. Claude membuat peta UID wajah (modder → UID build kita) sebagai file kecil (CSV/JSON) + skrip Python pembanding.
+  3. Fitur baru di aplikasi HP "Gabung wajah": buka pictures_logos kita + pictures_logos modder + peta → tulis pictures_logos baru dengan PNG wajah disalin dari file modder (Blob.slice, tanpa memuat 1,42 GB ke memori; patchFmf perlu mendukung rentang dari file sumber kedua).
+- Belum diketahui: path config.xml wajah di arsip modder (dicari Bacad lewat penjelajah arsip di aplikasi; kata kunci "person"/"faces").
+
 ### Menunggu dari Bacad
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
