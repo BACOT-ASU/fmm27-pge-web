@@ -1,21 +1,44 @@
 import { useState } from 'react';
 import { formatBytes } from '../../core/binary/formatBytes';
-import { FACES_FOLDER, mergeFacesIntoFmf, parseFaceMapCsv, type FaceMapRow } from '../../core/faces/mergeFaces';
+import { FACES_FOLDER, mergeFacesIntoFmf, parseFaceMapCsv, type FaceMapRow, type MergeFacesResult } from '../../core/faces/mergeFaces';
 import { findFolder, openFmf, type FmfArchive } from '../../core/fmf';
 import type { PickedFile } from '../../platform/types';
-import { saveSourcedParts, webFileIO } from '../../platform/web/webFileIO';
+import { saveSourcedPartsWithProgress, webFileIO } from '../../platform/web/webFileIO';
 import { Btn, Card, errText, Msg } from '../common';
+
+type Stage = 'idle' | 'processing' | 'processed' | 'writing' | 'done';
+
+function Bar({ pct, label }: { pct: number; label: string }) {
+  return (
+    <div className="mt-2">
+      <div className="h-3 w-full overflow-hidden rounded-full bg-slate-800">
+        <div className="h-3 bg-emerald-600 transition-all" style={{ width: `${Math.max(0, Math.min(100, pct))}%` }} />
+      </div>
+      <p className="mt-1 text-xs text-slate-300">{label}</p>
+    </div>
+  );
+}
 
 /**
  * Gabung wajah dari pictures_logos.fmf modder ke pictures_logos.fmf yang sedang dibuka (slot Logo).
+ * Dua tombol: PROSES (mencocokkan wajah & menyusun daftar isi, di memori) lalu UNDUH (menulis file ±1,4 GB).
  * Peta UID dibuat di luar aplikasi: scripts/map_faces_v2710.py → CSV (from,to_uid,...).
  */
 export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc: FmfArchive | null }) {
   const [donor, setDonor] = useState<{ file: PickedFile; arc: FmfArchive; faces: number } | null>(null);
   const [rows, setRows] = useState<FaceMapRow[] | null>(null);
   const [csvName, setCsvName] = useState('');
-  const [busy, setBusy] = useState(false);
+  const [stage, setStage] = useState<Stage>('idle');
+  const [result, setResult] = useState<MergeFacesResult | null>(null);
+  const [prog, setProg] = useState<{ pct: number; label: string } | null>(null);
   const [msg, setMsg] = useState<{ t: string; k: 'ok' | 'err' } | null>(null);
+  const busy = stage === 'processing' || stage === 'writing';
+
+  function resetResult() {
+    setResult(null);
+    setStage('idle');
+    setProg(null);
+  }
 
   async function pickDonor() {
     setMsg(null);
@@ -26,6 +49,7 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
       const custom = findFolder(arc.root, `${FACES_FOLDER}/custom`);
       if (!custom) throw new Error(`Arsip ini tidak punya ${FACES_FOLDER}/custom`);
       setDonor({ file: f, arc, faces: custom.files.length });
+      resetResult();
     } catch (e) {
       setMsg({ t: errText(e), k: 'err' });
     }
@@ -39,49 +63,84 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
       setRows(r);
       setCsvName(file.name);
       setMsg(null);
+      resetResult();
     } catch (e) {
       setMsg({ t: errText(e), k: 'err' });
     }
   }
 
-  async function run() {
-    if (!targetArc || !donor || !rows) return;
-    setBusy(true);
+  async function process() {
+    if (!targetArc || !donor || !rows || busy || result) return;
+    setStage('processing');
     setMsg(null);
+    setProg({ pct: 0, label: 'Langkah 1/2 · mencocokkan wajah… 0%' });
+    try {
+      const res = await mergeFacesIntoFmf(targetArc, donor.arc, rows, (d, t) => {
+        const pct = Math.round((d / t) * 100);
+        setProg({ pct, label: `Langkah 1/2 · mencocokkan wajah… ${pct}% (${d.toLocaleString('id-ID')} / ${t.toLocaleString('id-ID')})` });
+      });
+      setResult(res);
+      setStage('processed');
+      setProg({ pct: 100, label: `Proses selesai · ${res.added.toLocaleString('id-ID')} wajah siap, ukuran file ${formatBytes(res.size)}. Tekan Unduh.` });
+      if (res.missing.length || res.duplicateUids.length) {
+        setMsg({ t: `${res.missing.length} file tidak ada di arsip modder, ${res.duplicateUids.length} UID ganda dilewati.`, k: 'ok' });
+      }
+    } catch (e) {
+      setStage('idle');
+      setProg(null);
+      setMsg({ t: errText(e), k: 'err' });
+    }
+  }
+
+  async function download() {
+    if (!result || busy || !donor) return;
+    setStage('writing');
+    setMsg(null);
+    setProg({ pct: 0, label: 'Langkah 2/2 · menulis file… 0%' });
     try {
       if (!target.blob || !donor.file.blob) throw new Error('File sumber tidak tersedia');
-      const res = mergeFacesIntoFmf(targetArc, donor.arc, rows);
-      await saveSourcedParts('pictures_logos.fmf', res.parts, [target.blob, donor.file.blob]);
-      setMsg({
-        t: `pictures_logos.fmf diunduh (${formatBytes(res.size)}): ${res.added} wajah dimasukkan` +
-          (res.missing.length ? `, ${res.missing.length} file tidak ada di arsip modder` : '') +
-          (res.duplicateUids.length ? `, ${res.duplicateUids.length} UID ganda dilewati` : '') +
-          '. Masukkan ke APK dengan Level Store.',
-        k: 'ok',
+      const how = await saveSourcedPartsWithProgress('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob], (w, t) => {
+        const pct = Math.floor((w / t) * 100);
+        setProg({ pct, label: `Langkah 2/2 · menulis file… ${pct}% (${formatBytes(w)} / ${formatBytes(t)})` });
       });
+      setStage('done');
+      if (how === 'file') {
+        setProg({ pct: 100, label: `Selesai · pictures_logos.fmf tersimpan (${formatBytes(result.size)}).` });
+        setMsg({ t: 'Masukkan ke APK dengan Level Store.', k: 'ok' });
+      } else {
+        setProg({ pct: 100, label: 'Diserahkan ke pengelola unduhan Chrome.' });
+        setMsg({ t: `Browser ini tidak mendukung penulisan langsung, jadi progres penulisan (${formatBytes(result.size)}) terlihat di notifikasi unduhan Chrome. Tunggu sampai selesai, lalu masukkan ke APK dengan Level Store.`, k: 'ok' });
+      }
     } catch (e) {
+      setStage('processed');
+      setProg({ pct: 100, label: 'Proses sudah selesai; unduhan gagal atau dibatalkan. Tekan Unduh untuk mencoba lagi.' });
       setMsg({ t: errText(e), k: 'err' });
-    } finally {
-      setBusy(false);
     }
   }
 
+  const canProcess = !!donor && !!rows && !!targetArc && !busy && !result;
+  const canDownload = !!result && !busy;
   return (
     <Card title="Gabung wajah (dari pictures_logos modder)">
       <p className="text-xs text-slate-400">
         Tujuan: <b>{target.name}</b> (slot Logo). Wajah disalin langsung dari file modder tanpa dimuat utuh ke memori,
-        lalu ditulis ke <code>{FACES_FOLDER}</code> dengan UID database kita. Belum diuji di game.
+        lalu ditulis ke <code>{FACES_FOLDER}</code> dengan UID database kita. File hasil ±1,4 GB; menulisnya bisa makan
+        beberapa menit. Belum diuji di game.
       </p>
       <div className="mt-2 space-y-2">
-        <Btn full onClick={() => void pickDonor()}>{donor ? `Modder: ${donor.file.name} (${donor.faces} wajah)` : '1. Pilih pictures_logos.fmf modder'}</Btn>
+        <Btn full disabled={busy} onClick={() => void pickDonor()}>{donor ? `Modder: ${donor.file.name} (${donor.faces} wajah)` : '1. Pilih pictures_logos.fmf modder'}</Btn>
         <label className="block text-sm">
           <span className="text-slate-300">2. Peta wajah (CSV dari Claude): {csvName ? `${csvName} (${rows?.length ?? 0} baris)` : 'belum dipilih'}</span>
-          <input type="file" accept=".csv,text/csv" className="mt-1 block w-full text-xs" onChange={(e) => void pickCsv(e.target.files?.[0])} />
+          <input type="file" accept=".csv,text/csv" disabled={busy} className="mt-1 block w-full text-xs" onChange={(e) => void pickCsv(e.target.files?.[0])} />
         </label>
-        <Btn kind="primary" full disabled={busy || !donor || !rows || !targetArc} onClick={() => void run()}>
-          {busy ? 'Menyiapkan…' : '3. Gabung & unduh pictures_logos.fmf'}
+        <Btn kind={canProcess ? 'primary' : 'plain'} full disabled={!canProcess} onClick={() => void process()}>
+          {stage === 'processing' ? 'Memproses…' : result ? '3. Proses ✓ (sudah selesai)' : '3. Proses'}
+        </Btn>
+        <Btn kind={canDownload ? 'primary' : 'plain'} full disabled={!canDownload} onClick={() => void download()}>
+          {stage === 'writing' ? 'Menulis…' : stage === 'done' ? '4. Unduh lagi' : '4. Unduh pictures_logos.fmf'}
         </Btn>
       </div>
+      {prog && <Bar pct={prog.pct} label={prog.label} />}
       <Msg text={msg?.t ?? null} kind={msg?.k} />
     </Card>
   );

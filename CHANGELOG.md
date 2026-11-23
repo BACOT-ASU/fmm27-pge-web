@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Tab Wajah: progres & tombol terpisah
+- Proses (pencocokan, persen) dan Unduh (tulis bertahap dengan persen/MB lewat showSaveFilePicker; cadangan unduhan biasa) dipisah; Proses terkunci saat/sesudah berjalan.
+
 ## 2026-11-23 — Build 27.1.0 lengkap
 - `build_staff_v2710.py` (staf dataset; jabatan lewat byte 24 kontrak), `build_v2710_logos.py` (23 logo klub), `patch_libgame_v2710.py` (Indonesia playable + Liga Nusantara).
 - Perbaikan: pemain baru sempat tercatat sebagai manajer (templat kontrak salah).

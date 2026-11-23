@@ -68,7 +68,9 @@ describe('mergeFacesIntoFmf', () => {
     ]));
     const rows = parseFaceMapCsv('from,to_uid,modder_uid,nama,status\ncustom/3,3,3,A,uid_sama\ncustom/44,2100000001,44,B,cocok_nama_negara\ncustom/999,5,999,C,x\ncustom/900,,900,D,tidak_ada_di_build\ncustom/900,3,900,E,dup\n');
     expect(rows).toHaveLength(4);
-    const res = mergeFacesIntoFmf(ours, mod, rows);
+    const prog: number[] = [];
+    const res = await mergeFacesIntoFmf(ours, mod, rows, (d) => prog.push(d));
+    expect(prog.at(-1)).toBe(rows.length);
     expect(res.added).toBe(2);
     expect(res.missing).toEqual(['custom/999']);
     expect(res.duplicateUids).toEqual([3]);
@@ -102,7 +104,7 @@ print(fmfio.get(dict(fmfio.walk(r))['pictures_logos/logos/normal/people/custom/2
 
   it('menolak arsip modder tanpa folder people', async () => {
     const a = await openFmfBytes(buildFmf('pictures_logos', [['pictures_logos/x/a.png', png('a')]]));
-    expect(() => mergeFacesIntoFmf(a, a, [])).toThrow(/tidak ada di arsip modder/);
+    await expect(mergeFacesIntoFmf(a, a, [])).rejects.toThrow(/tidak ada di arsip modder/);
   });
 
   const ori = samplePath('v2710/pictures_logos.fmf');
@@ -112,7 +114,7 @@ print(fmfio.get(dict(fmfio.walk(r))['pictures_logos/logos/normal/people/custom/2
       ['pictures_logos/logos/normal/people/config.xml', te.encode('<m/>')],
       ['pictures_logos/logos/normal/people/custom/3.png', png('face3')],
     ]));
-    const res = mergeFacesIntoFmf(ours, mod, [{ from: 'custom/3', toUid: 2100000001 }]);
+    const res = await mergeFacesIntoFmf(ours, mod, [{ from: 'custom/3', toUid: 2100000001 }]);
     const bytes = await materializeSourcedParts([ours, mod], res.parts, res.size);
     const dir = mkdtempSync(join(tmpdir(), 'faces-'));
     const p = join(dir, 'out.fmf');

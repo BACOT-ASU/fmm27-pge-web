@@ -90,7 +90,17 @@ function anyEntry(f: FmfFolder): FmfEntry | undefined {
   return undefined;
 }
 
-export function mergeFacesIntoFmf(target: FmfArchive, donor: FmfArchive, rows: readonly FaceMapRow[]): MergeFacesResult {
+/** Progres langkah pencocokan: (baris selesai, total baris). */
+export type MergeProgress = (done: number, total: number) => void;
+
+const yieldToUi = () => new Promise<void>((r) => setTimeout(r, 0));
+
+export async function mergeFacesIntoFmf(
+  target: FmfArchive,
+  donor: FmfArchive,
+  rows: readonly FaceMapRow[],
+  onProgress?: MergeProgress,
+): Promise<MergeFacesResult> {
   if (target.flag !== donor.flag) throw new Error(`flag arsip berbeda (kita ${target.flag}, modder ${donor.flag})`);
   const donorPeople = findFolder(donor.root, FACES_FOLDER);
   if (!donorPeople) throw new Error(`Folder ${FACES_FOLDER} tidak ada di arsip modder`);
@@ -108,7 +118,12 @@ export function mergeFacesIntoFmf(target: FmfArchive, donor: FmfArchive, rows: r
   const duplicateUids: number[] = [];
   const order: number[] = [];
 
+  let done = 0;
   for (const r of rows) {
+    if (++done % 2000 === 0) {
+      onProgress?.(done, rows.length);
+      await yieldToUi();
+    }
     if (used.has(r.toUid)) {
       duplicateUids.push(r.toUid);
       continue;
@@ -138,6 +153,7 @@ export function mergeFacesIntoFmf(target: FmfArchive, donor: FmfArchive, rows: r
     pos += src.storedSize;
   }
 
+  onProgress?.(rows.length, rows.length);
   // config.xml baru (gabung dengan record lama kalau arsip kita sudah punya folder people)
   const cfg = buildFacesConfigXml(order);
   const stored = target.flag === 0 ? cfg : zstdRawFrame(cfg);

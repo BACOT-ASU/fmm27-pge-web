@@ -84,3 +84,66 @@ export async function saveSourcedParts(
   });
   triggerDownload(name, new Blob(blobParts, { type: mimeForFileName(name) }), 300_000);
 }
+
+export type WriteProgress = (written: number, total: number) => void;
+
+interface SaveFilePickerWindow {
+  showSaveFilePicker?: (opts: { suggestedName?: string }) => Promise<FileSystemFileHandle>;
+}
+
+/**
+ * Tulis keluaran multi-sumber dengan progres byte. Kalau browser punya showSaveFilePicker (File System Access),
+ * data ditulis bertahap (potongan 8 MB) ke file pilihan pengguna dan progres dilaporkan. Kalau tidak ada,
+ * jatuh ke unduhan Blob biasa (progres hanya terlihat di pengelola unduhan browser) → mengembalikan 'download'.
+ */
+export async function saveSourcedPartsWithProgress(
+  name: string,
+  parts: readonly (Uint8Array | { source: number; start: number; end: number })[],
+  sources: readonly Blob[],
+  onProgress: WriteProgress,
+): Promise<'file' | 'download'> {
+  const picker = (globalThis as unknown as SaveFilePickerWindow).showSaveFilePicker;
+  const total = parts.reduce((n, p) => n + (p instanceof Uint8Array ? p.length : p.end - p.start), 0);
+  if (!picker) {
+    await saveSourcedParts(name, parts, sources);
+    return 'download';
+  }
+  const handle = await picker({ suggestedName: name });
+  const w = await handle.createWritable();
+  let written = 0;
+  const CHUNK = 8 * 1024 * 1024;
+  let pending: BlobPart[] = [];
+  let pendingSize = 0;
+  const flush = async () => {
+    if (!pendingSize) return;
+    await w.write(new Blob(pending));
+    written += pendingSize;
+    pending = [];
+    pendingSize = 0;
+    onProgress(written, total);
+  };
+  try {
+    for (const p of parts) {
+      if (p instanceof Uint8Array) {
+        pending.push(p as BlobPart);
+        pendingSize += p.length;
+      } else {
+        const src = sources[p.source];
+        if (!src) throw new Error(`Sumber ${p.source} tidak ada`);
+        for (let s = p.start; s < p.end; s += CHUNK) {
+          const e = Math.min(p.end, s + CHUNK);
+          pending.push(src.slice(s, e));
+          pendingSize += e - s;
+          if (pendingSize >= CHUNK) await flush();
+        }
+      }
+      if (pendingSize >= CHUNK) await flush();
+    }
+    await flush();
+    await w.close();
+  } catch (e) {
+    await w.abort().catch(() => undefined);
+    throw e;
+  }
+  return 'file';
+}

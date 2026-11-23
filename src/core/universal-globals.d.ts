@@ -10,3 +10,5 @@ declare class TextDecoder {
 declare class TextEncoder {
   encode(input?: string): Uint8Array;
 }
+/** Ada di browser, Worker, Node, Capacitor, Tauri, Electron. Dipakai untuk memberi jeda ke UI (progres). */
+declare function setTimeout(callback: () => void, ms?: number): unknown;

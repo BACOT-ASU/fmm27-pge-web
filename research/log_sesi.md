@@ -247,6 +247,13 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   | libgame.so | 52.515.648 | 53dde79e…a813 | lib/arm64-v8a/ |
 - Belum: uji game. Wajah digabung Bacad di aplikasi (tab Wajah) memakai pictures_logos hasil build + CSV peta baru.
 
+### 31. Tab Wajah: progres + tombol Proses/Unduh terpisah (23 Nov)
+- Bacad (screenshot tab Wajah, versi 738962b): modder 86.440 wajah + CSV 85.004 baris siap; tanya apakah lama, minta keterangan proses & persentase; lalu minta tombol Proses dan Unduh dibedakan, Proses tidak bisa diklik kalau sudah diproses.
+- Jawaban: pencocokan cepat (detik); yang lama menulis file ±1,4 GB (beberapa menit).
+- Perubahan: `mergeFacesIntoFmf` jadi async dengan progres (lapor tiap 2.000 baris, memberi jeda ke UI); `saveSourcedPartsWithProgress` (webFileIO): tulis bertahap 8 MB lewat showSaveFilePicker dengan progres byte, kalau tidak didukung → unduhan Blob biasa (progres di notifikasi Chrome, aplikasi memberi tahu). `setTimeout` ditambahkan ke global universal core.
+- UI: tombol **3. Proses** (nonaktif saat berjalan dan sesudah selesai; aktif lagi kalau file modder/CSV diganti) dan **4. Unduh** (aktif hanya sesudah proses), bilah progres + teks langkah 1/2 dan 2/2 dengan persen dan MB.
+- Lint/typecheck/104 tes/build lulus. Belum dicoba di HP.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
