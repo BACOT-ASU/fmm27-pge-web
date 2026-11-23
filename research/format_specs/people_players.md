@@ -130,6 +130,8 @@ Jumlah: coaches 16.916 (idx2), scouts 3.191 (idx3, maks rujukan 3.140), physios 
 - Orang yang dimuat per negara: `sicomps/.../fmm_people.dat` (lihat `fmm_lists.md`).
 
 ## Aturan tulis (belum diuji di game)
+- Skrip: `scripts/build_people_v2710.py`. UID orang baru 2.100.000.001+ (27.1.0: UID orang maks 2.002.040.995).
+- Nama satu kata: first = 0xFFFFFFFF, second = nama, common = nama (pola orang asli, mis. Ferdiansyah).
 - Orang baru: tambah di ujung `people.dat` (+ record di ujung `players.dat`/`non_players.dat` dengan nomor urut
   = index baru, + kontrak, + nama di file nama, + UID di `fmm_people`). Semua ini **HYPOTHESIS** sampai 1 pemain baru tampil di game.
 - Ubah field ukuran tetap (CA/PA, reputasi, tinggi, kaki, klub) = timpa di tempat; aman dari sisi struktur, efek di game belum diuji.

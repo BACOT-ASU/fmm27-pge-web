@@ -102,6 +102,14 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Byte 5–6 = "aptitude": 03 03 = Natural (Calafat, García Parrales, Tralhão), 01 02 = Normal (Pascua). LIKELY.
 - `scripts/people.py`: `staff_role_fields` untuk ketiga file; ketiganya ikut uji round-trip.
 
+### 14. Mulai build 27.1.0: skrip penambah pemain (23 Nov)
+- Temuan: 25 klub di `data/klub_indonesia.csv` ber-UID `20007000xx` = klon mod kita di 27.0, **tidak ada di 27.1.0 ori**. 27.1.0 sudah punya sendiri: Batavia FC (41023300), Persinab Nabire (41001027), Persikad Kota Depok. **22 klub harus diklon ulang** (Liga Nusantara/Liga 4/Perserang dst.); UID klon lama dipakai lagi.
+- Temuan: UID orang di 27.1.0 sampai 2.002.040.995 → rentang UID orang baru dipindah ke **2.100.000.001+** (dicek kosong; rentang 2.000.800.001 bentrok).
+- CA pemain di klub Indonesia 27.1.0: Super League median lokal 80 / asing 101; Championship lokal 77–79 / asing 85–96. Liga Nusantara/Liga 4 hampir tidak ada data → diperkirakan 64/52 (lokal).
+- Format nama satu kata (contoh Ferdiansyah): first = 0xFFFFFFFF, second = nama, common = nama. Orang Indonesia: nation UID di file nama = 113, bahasa utama (76, 10).
+- `scripts/build_people_v2710.py`: pemain dataset → 190 diperbarui (klub, kontrak, nomor), **1.633 baru** (atribut/posisi disalin dari pemain nyata dengan posisi sama & CA terdekat; CA dari kompetisi + nilai pasar; nama baru ditambah di ujung file nama). Uji di `samples/v2710` dengan peta klon sementara: semua file terbaca ulang, UID unik.
+- Risiko tercatat: field `players.dat` offset 4 (UNKNOWN) ikut tersalin dari templat; daftar muat `fmm_people` belum (butuh sicomps 27.1.0); staf belum.
+
 ### Menunggu dari Bacad
 - File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.

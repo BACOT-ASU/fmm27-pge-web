@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — scripts/build_people_v2710.py (pemain dataset → db 27.1.0)
+- Perbarui pemain yang sudah ada (klub, kontrak, nomor punggung) dan tambah pemain baru di ujung people/players/starting_contracts + file nama. Atribut = perkiraan (disalin dari pemain nyata, posisi sama, CA terdekat).
+- UID orang baru mulai 2.100.000.001 (rentang kosong di 27.1.0).
+- Uji dengan file 27.1.0: 1.633 baru + 190 diperbarui; semua file hasil terbaca ulang (`people.py`, `names.py`).
+
 ## 2026-11-23 — scouts.dat + physios.dat
 - Keduanya 7 byte per record seperti coaches.dat; idx3/idx4 people.dat → scouts/physios (VERIFIED). `staff_role_fields` di `scripts/people.py`; round-trip identik.
 - Keputusan Bacad: semua mod 27.1.0 di dalam APK; atribut pemain baru pakai perkiraan.
