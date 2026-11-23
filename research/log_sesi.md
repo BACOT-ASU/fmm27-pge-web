@@ -207,7 +207,7 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - `saveSourcedParts` (webFileIO): unduh dari beberapa Blob sumber tanpa memuat file utuh.
 - Tab **Wajah** di aplikasi (muncul kalau slot Logo terisi): pilih pictures_logos modder → pilih CSV peta → unduh pictures_logos.fmf.
 - Tes `tests/faces.test.ts`: arsip sintetis (dibaca ulang TS + golden `fmfio.py`) dan pictures_logos 27.1.0 ori asli + wajah sintetis (2.006 → 2.008 entri, logo lama utuh). Lint/typecheck/100 tes/build lulus.
-- Peta wajah untuk Bacad: 84.369 baris berisi to_uid (dari 86.440), dibuat terhadap build pemain sementara (`build_people_v2710.py`, deterministik). Harus dibuat ulang kalau daftar pemain baru berubah.
+- Peta wajah untuk Bacad: 85.006 baris berisi to_uid (84.361 UID sama + 637 pemain baru + 8 ganda; dari 86.440), dibuat terhadap build pemain sementara (`build_people_v2710.py`, deterministik). Harus dibuat ulang kalau daftar pemain baru berubah.
 - Untuk build kompetisi/klub: 27.1.0 tidak punya kompetisi Indonesia; sumber paling tepat = **mod B7b kita sendiri** (db_archive_2706.fmf + sicomps.fmf B7b yang sudah jalan) → diminta ke Bacad.
 - Catatan perbaikan aplikasi: tab Kode masih memakai alamat 27.0 (0x643920 / 0x7cb440) → perlu ikut alamat 27.1.0 (0x647800 / 0x7cf618). Tab Simpan masih menulis nama `db_archive_2706.fmf`.
 
