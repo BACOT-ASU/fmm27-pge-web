@@ -110,11 +110,14 @@ def main(dbdir, out):
         paths = [os.path.join(out, '%d_%s.png' % (u, safe)) for u in teams[n]]
         if all(os.path.exists(p) for p in paths):
             ok += 1; continue
-        png = get(v['thumb'], binary=True)
+        try:
+            png = get(v['thumb'], binary=True)
+        except RuntimeError:
+            miss.append(n + ' (unduh gagal, jalankan ulang)'); continue
         for p in paths:
             open(p, 'wb').write(png)
         ok += 1
-        time.sleep(1)
+        time.sleep(3)
     json.dump({'ada_logo': ok, 'tanpa_logo': miss}, open(os.path.join(out, 'laporan.json'), 'w'), ensure_ascii=False, indent=1)
     print('timnas %d, logo %d, tanpa logo %d: %s' % (len(teams), ok, len(miss), ', '.join(miss)))
 
