@@ -491,6 +491,10 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Style & Specialism MANAJER (Attacking/Normal; Professionalism/General): belum ketemu.
 - Aplikasi: halaman edit staf ditambah Formasi (Preferred/Attacking/Defensive), Coaching style/Specialism, Badge, Aptitude. Tes 119 lulus.
 
+### 68. Permintaan: semua data pemain & staf bisa diedit; preferred moves & personality pemain; CA ikut naik? (23 Nov)
+- Status aplikasi: personality (8 nilai) SUDAH bisa diedit untuk semua orang. Preferred moves (PPM) pemain & trait staf: lokasi di db UNKNOWN → butuh screenshot pemain ori dengan PPM terlihat (±10 pemain, beberapa PPM sama) untuk dipetakan.
+- CA: disimpan terpisah (players.dat offset 59). Mengubah atribut TIDAK menaikkan CA otomatis (di db tidak ada hubungan; game memakai nilai CA yang tersimpan). Rumus CA dari atribut di FMM UNKNOWN (kalibrasi_atribut.md belum selesai) → opsi: tombol "perkirakan CA" setelah rumus dikalibrasi.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
