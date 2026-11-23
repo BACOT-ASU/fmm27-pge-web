@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — scripts/build_v2710_db.py
+- Database 27.1.0 = ori + mod Indonesia B7b (dipindah lewat UID) + pemain dataset. Kompetisi, stadion (kota lewat UID/pinjam), klub, klon + .lng, rivalitas, youth, Noah Adnan.
+
 ## 2026-11-23 — Gabung wajah (tab Wajah)
 - `src/core/faces/mergeFaces.ts` + `saveSourcedParts`: salin wajah dari pictures_logos modder ke pictures_logos kita (tambal di ujung, dua sumber, tanpa memuat file utuh), config.xml baru di `logos/normal/people`.
 - Tab Wajah di aplikasi. Tes `tests/faces.test.ts` (sintetis + golden fmfio.py + pictures_logos 27.1.0 ori asli).

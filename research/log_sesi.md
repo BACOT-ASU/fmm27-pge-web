@@ -211,6 +211,17 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Untuk build kompetisi/klub: 27.1.0 tidak punya kompetisi Indonesia; sumber paling tepat = **mod B7b kita sendiri** (db_archive_2706.fmf + sicomps.fmf B7b yang sudah jalan) → diminta ke Bacad.
 - Catatan perbaikan aplikasi: tab Kode masih memakai alamat 27.0 (0x643920 / 0x7cb440) → perlu ikut alamat 27.1.0 (0x647800 / 0x7cf618). Tab Simpan masih menulis nama `db_archive_2706.fmf`.
 
+### 28. File B7b diterima + build database 27.1.0 (23 Nov)
+- Diterima (zip pecah MT Manager): `db_archive_2706.fmf` B7b (149.842.446 byte, SHA-256 eb1d7164… = hash B7b yang tercatat) dan `sicomps.fmf` B7b (49.620.118 byte, SHA-256 296242b5e90b9dacd45a468a4559d2213bac82cce898ba43b385d4804ab10322, ukuran sama dengan catatan B7b). Disimpan di `samples/b7b/`.
+- Analisa B7b vs 27.1.0:
+  - competition.dat B7b: 13 kompetisi Indonesia ada di **ujung** (index 1670–1682) → di 27.0 pun kompetisi ini tambahan mod. Semua tidak ada di 27.1.0.
+  - Klub IDN B7b: 77; 52 ada di 27.1.0 (UID sama); 3 klon B7b punya padanan asli di 27.1.0 (Batavia FC 41023300, Persinab Nabire 41001027, Persikad Kota Depok 2000465973); 22 klon harus ditambah.
+  - 13 stadion B7a (2000700201–213) tidak ada di 27.1.0; `city.dat` berubah (7.747 → 9.956 kota; header 8 + **u16** jumlah, record 20 byte diawali UID kota). UID kota stadion baru tidak ada di 27.1.0 → kota dipinjam dari stadion saudara (hasilnya sama dengan sumber B7a: Wergu Wetan, 17 Mei, GBK, dst.).
+  - Rivalitas IDN: UID sama di 27.1.0; intensitas beda: Persija–Persib 182 → 200, Arema–Persebaya 17 → 190 (nilai B7b).
+  - comps.dbc: mod hanya mengubah entri Indonesia. 9 entri IDN identik B7b = 27.1.0; B7b mengubah idn_cup, league_two, nation_idn_comps/rules/reserve_comps dan menambah league_three (+group_a, groups_bc), league_two_groups.
+  - Daftar muat B7b IDN-0/1/2 ada di 6 file fmm_*; sebagian UID (orang: 3.758) tidak ada lagi di 27.1.0 → akan disaring.
+- `scripts/build_v2710_db.py` (ori 27.1.0 + B7b → db_archive_2707.fmf): +13 kompetisi (index 1669–1681, induk dipetakan), +13 stadion, 55 klub diperbarui (field B7b: status/fasilitas/penonton/divisi/stadion/reputasi), 22 klon + 16 .lng, rivalitas 2, youth IDN 1 → 19, Noah Adnan 120 → 58, pemain dataset (1.633 baru, 190 diperbarui). Hasil 184.586.800 byte; semua entri dibaca ulang dan cocok. Struktur liga = B7b (SL 18, CH 10+10, LN 7+8+8, L4 3); semua klub liga punya stadion valid.
+
 ### Menunggu dari Bacad
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
