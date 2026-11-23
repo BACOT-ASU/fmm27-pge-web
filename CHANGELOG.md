@@ -1,7 +1,7 @@
 # Changelog
 
 ## 2026-11-23 — libgame.so, sicomps.fmf, pictures_logos.fmf 27.1.0 ori
-- `scripts/join_split_zip.py`: gabung zip terbagi ZArchiver (stored/deflate, cek CRC).
+- `scripts/join_split_zip.py`: gabung zip terbagi MT Manager (stored/deflate, cek CRC).
 - libgame 27.1.0: tabel negara playable 0x647800 (Wales di 0x647832), liga terdalam 0x7cf618 (Wales di 0x7cf650) → `libgame_tables.md`.
 - sicomps 27.1.0: aturan Indonesia masih ada di comps.dbc; daftar muat IDN-0/1/2 tidak ada.
 

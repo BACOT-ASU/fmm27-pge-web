@@ -1,6 +1,6 @@
-"""Gabungkan zip terbagi buatan ZArchiver (nama.z01, nama.z02, ..., nama.zip) lalu keluarkan isinya.
+"""Gabungkan zip terbagi (nama.z01, nama.z02, ..., nama.zip; dibuat Bacad dengan MT Manager) lalu keluarkan isinya.
 
-`zip -s 0` gagal untuk arsip ZArchiver (CRC salah / "overlapped components"), jadi skrip ini
+`zip -s 0` gagal untuk arsip ini (CRC salah / "overlapped components"), jadi skrip ini
 menyambung semua bagian mentah, membaca setiap local header berurutan, dan mengambil datanya
 (stored atau deflate). CRC32 setiap file dicek; galat kalau tidak cocok.
 

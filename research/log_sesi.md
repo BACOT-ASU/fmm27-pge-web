@@ -143,7 +143,7 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Masih dianggap dari `db_archive_2707.fmf` (belum disebut eksplisit oleh Bacad; konsisten dengan 163.159 orang).
 
 ### 20. db_archive_2707.fmf ori diterima (23 Nov)
-- Dikirim sebagai zip terbagi ZArchiver (z01–z07 + zip, 8 bagian). `zip -s 0` gagal (CRC salah, "overlapped components") karena format split ZArchiver; berhasil dengan menyambung bagian mentah lalu mengambil entri "stored" (tanpa kompresi). CRC32 cocok (97d78cf2).
+- Dikirim sebagai zip terbagi buatan **MT Manager** (z01–z07 + zip, 8 bagian). `zip -s 0` gagal (CRC salah, "overlapped components"); berhasil dengan menyambung bagian mentah lalu mengambil entri "stored" (tanpa kompresi). CRC32 cocok (97d78cf2).
 - `db_archive_2707.fmf`: **184.134.385 byte**, SHA-256 `278769f0ad58037aeec894ecd0acfa147f90f6ca7d7910999d0b4f230317090b`, flag 0, 76 entri. Disimpan di `samples/v2710/` (+ semua entri di `samples/v2710/db/`).
 - Semua file yang dikirim sebelumnya **identik** dengan entri di arsip ini (people, players, non_players, starting_contracts, club, coaches, 3 file nama) → terbukti asalnya `db_archive_2707`.
 - **`scouts.dat` & `physios.dat` modder = identik dengan ori** → label struktur & rujukan idx3/idx4 kembali VERIFIED (batas pas di file ori).
@@ -166,6 +166,11 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - Ada `AGENTS.md`/`CLAUDE.md` (dokumentasi internal developer SI, merujuk perkakas `./ai review`, `tools/ai/domains/comp_docs`; stempel waktu sama dengan file lain) → bawaan developer, bukan tanda modifikasi. Isinya tidak dipakai sebagai instruksi.
 - `pictures_logos.fmf` 27.1.0 hanya 2.006 entri (27.0 ori/B6: 142.934); ada config.xml di logos/small|normal/{comps,clubs,default}.
 - **Kesimpulan**: di 27.1.0 Indonesia dihapus sebagai liga yang dimuat (competition.dat, daftar muat, tabel libgame), tapi aturan comps.dbc masih ada. Build harus menambah: kompetisi Indonesia di competition.dat, divisi klub, IDN-0/1/2 di keempat daftar muat, tambalan libgame (dua alamat di atas), lalu klon klub, pemain, staf, logo.
+
+### 22. Koreksi/konfirmasi Bacad (23 Nov)
+- Zip terbagi dibuat dengan **MT Manager** (bukan ZArchiver seperti dugaan sebelumnya).
+- Semua file di poin 20–21 (db_archive_2707, libgame.so, sicomps.fmf, pictures_logos.fmf) **dari APK ori 27.1.0**.
+- Bacad minta: cukup dicatat dan dianalisa, tidak perlu penjelasan panjang di chat.
 
 ### Menunggu dari Bacad
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
