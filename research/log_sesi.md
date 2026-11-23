@@ -196,8 +196,12 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Batas: wajah yang salah orang di data modder tetap salah (tidak bisa dicek otomatis).
 - Belum diketahui: folder config.xml wajah **di dalam** arsip pictures_logos modder (path internal, mis. `pictures_logos/.../config.xml`), dibutuhkan untuk menyalin PNG `custom/<N>`.
 
+### 26. Path config.xml wajah di arsip modder (23 Nov)
+- Kata Bacad: `pictures_logos/logos/normal/people/config.xml`. Jadi PNG wajah kemungkinan di `pictures_logos/logos/normal/people/custom/<N>` (ekstensi dicek saat aplikasi membaca arsip). Pola sama dengan logo klub (`logos/normal/clubs/config.xml` + `custom/<ID>`).
+- Belum diketahui: apakah ada juga `logos/small/people/` di arsip modder (27.1.0 ori tidak punya folder people sama sekali).
+- Langkah berikutnya: fitur "Gabung wajah" di aplikasi (baca `logos/normal/people/` dari arsip modder, salin PNG sesuai peta, tulis config.xml baru di folder yang sama di pictures_logos kita).
+
 ### Menunggu dari Bacad
-- Path internal config.xml wajah di dalam pictures_logos.fmf modder (lihat di penjelajah arsip aplikasi: baris path di atas daftar entri).
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
