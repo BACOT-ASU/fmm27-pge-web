@@ -8,7 +8,8 @@ sudah punya logo resmi di 27.1.0, logo resmi DIPERTAHANKAN (dicatat di laporan).
 Wajah (logos/normal/people) ditambahkan terpisah lewat tab Wajah di aplikasi.
 
 Pakai:
-  python3 scripts/build_v2710_logos.py <pictures_logos.fmf ori 27.1.0> <folder db hasil build> <keluar.fmf>
+  python3 scripts/build_v2710_logos.py <pictures_logos.fmf ori 27.1.0> <folder db hasil build> <keluar.fmf> [folder logo tambahan ...]
+Folder tambahan (mis. samples/logo_timnas dari scripts/fetch_logo_timnas.py) berisi <UID>_<nama>.png.
 """
 import io
 import json
@@ -45,7 +46,7 @@ def edit_config(text, uid, suffix):
     return text[:ls] + '\t\t<record from="custom/%d" to="%s"/>%s' % (uid, to, nl) + text[ls:]
 
 
-def build(ori_path, dbdir, out_path, verbose=True):
+def build(ori_path, dbdir, out_path, extra_dirs=(), verbose=True):
     flag, root, _ = fmfio.read(open(ori_path, 'rb').read())
     rows = dict(fmfio.walk(root))
     clubs, _, _ = clubmod.parse(os.path.join(dbdir, 'club.dat'), verbose=False)
@@ -64,8 +65,10 @@ def build(ori_path, dbdir, out_path, verbose=True):
         return f
     ref = rows['%s/normal/clubs/config.xml' % BASE]
     done, kept_official, missing_club = [], [], []
-    src_dir = os.path.join(REPO, 'data/logo_klub')
-    for fn in sorted(os.listdir(src_dir)):
+    files = [(os.path.join(REPO, 'data/logo_klub'), fn) for fn in sorted(os.listdir(os.path.join(REPO, 'data/logo_klub')))]
+    for d in extra_dirs:                       # mis. logo timnas (log 63): <UID>_<nama>.png, timnas = klub di club.dat
+        files += [(d, fn) for fn in sorted(os.listdir(d))]
+    for src_dir, fn in files:
         if not fn.lower().endswith('.png'):
             continue
         uid = int(fn.split('_')[0])
@@ -105,4 +108,4 @@ def build(ori_path, dbdir, out_path, verbose=True):
 
 
 if __name__ == '__main__':
-    build(*sys.argv[1:4])
+    build(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4:])

@@ -285,6 +285,9 @@ def build(src, dst, club_map_extra=None, verbose=True):
         x = bytearray(pls[tpl_i])
         new_pi = len(pls)
         struct.pack_into('<I', x, 0, new_pi)
+        # offset 4 = penunjuk riwayat karier (player_history.dat). Disalin dari templat = riwayat ORANG LAIN →
+        # pemain baru masuk tim cadangan (uji v7, log 58). 0xFFFFFFFF = tanpa riwayat (pola 4.415 pemain ori).
+        struct.pack_into('<I', x, 4, 0xFFFFFFFF)
         struct.pack_into('<hh', x, 59, ca, pa)
         wage, r63, r65, r67 = near(ca)
         struct.pack_into('<hhh', x, 63, r63, r65, r67)

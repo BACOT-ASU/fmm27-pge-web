@@ -216,6 +216,43 @@ def build(src, dst, club_map, verbose=True):
                 released.append(u)
     scs = [x for j, x in enumerate(scs) if j not in drop_contracts]
 
+    # Jatah staf per klub (uji v7, log 59–62): melebihi jatah → SEMUA staf klub hilang dari halaman Staff.
+    # Jatah dari fasilitas latihan (byte 1 blok misc club.dat): Kashima 15 → pelatih 4 / scout 3 / physio 3;
+    # Persib 13 → 3/3/3; Persibo 5 → 2/1/1. Rentang lain belum terbukti → batas aman. Asisten tidak dihitung
+    # sebagai pelatih (Kashima "3/4"), dibatasi 1. Kelebihan dilepas jadi staf bebas (tanpa klub & kontrak).
+    cdat = open(src + 'club.dat', 'rb').read()
+
+    def slots(ci):
+        tr = cdat[clubs[ci]['o_misc'] + 1]
+        if tr >= 14:
+            return {JOB_COACH: 4, JOB_SCOUT: 3, JOB_PHYSIO: 3, JOB_ASSISTANT: 1}
+        if tr >= 13:
+            return {JOB_COACH: 3, JOB_SCOUT: 3, JOB_PHYSIO: 3, JOB_ASSISTANT: 1}
+        if tr >= 10:
+            return {JOB_COACH: 2, JOB_SCOUT: 2, JOB_PHYSIO: 2, JOB_ASSISTANT: 1}
+        return {JOB_COACH: 2, JOB_SCOUT: 1, JOB_PHYSIO: 1, JOB_ASSISTANT: 1}
+    idn_ci = {i for i, _ in club_map.values()}
+    seen, over = {}, set()
+    for j, x in enumerate(scs):
+        u, cu = struct.unpack_from('<II', x, 0)
+        job = x[24]
+        k = byuid.get(u)
+        if k is None:
+            k = next((i for i in range(len(byuid), len(recs)) if recs[i]['uid'] == u), None)
+        if k is None or job not in (JOB_COACH, JOB_SCOUT, JOB_PHYSIO, JOB_ASSISTANT):
+            continue
+        ci = recs[k]['club_index']
+        if ci not in idn_ci:
+            continue
+        n = seen.setdefault((ci, job), 0) + 1
+        seen[(ci, job)] = n
+        if n > slots(ci)[job]:
+            over.add(j)
+            recs[k]['club_index'] = -1
+    scs = [x for j, x in enumerate(scs) if j not in over]
+    if verbose:
+        print('jatah staf: %d staf dilepas jadi staf bebas' % len(over))
+
     os.makedirs(dst, exist_ok=True)
     open(dst + 'people.dat', 'wb').write(people.build_people(ph, recs))
     open(dst + 'non_players.dat', 'wb').write(people.join_fixed(nph, nps))
