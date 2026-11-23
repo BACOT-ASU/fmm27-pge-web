@@ -46,7 +46,7 @@ def nation_names(nation_dat):
 
 
 def get(url, binary=False):
-    for a in range(8):
+    for a in range(4):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
                 b = r.read()
