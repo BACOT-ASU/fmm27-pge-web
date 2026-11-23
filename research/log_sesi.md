@@ -337,7 +337,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Tab Simpan: nama arsip db mengikuti file yang dibuka (`db_archive_2707` / `2706`), juga folder Documents & config.xml (`buildDbDocumentsZip(..., folder)`).
 - Lint/typecheck/108 tes/build lulus.
 
+### 47. "Eksekusi" bagian 2: staf, B7c langkah 1, riset koefisien & keuangan (23 Nov)
+- Staf: Doctor → physio (12), Analyst & Video analyst → scout (14) (padanan terdekat). Hasil: 350 baru, 9 diperbarui, 5 dilewati (Technical director ×3, Sporting director, Technical advisor). 3 klub Liga 4 klon (Persid Jember, PS Mojokerto Putra, Persikoba Batu) tanpa manajer: dataset tidak punya staf mereka → tidak dikarang.
+- **B7c langkah 1**: 22 klub Liga Nusantara → profesional (1); Liga 4 tetap semi-pro (2). SL & Championship sudah pro sejak B7b.
+- **Koefisien AFC awal** ditemukan di `nation.dat`: sesudah blok peringkat (08 00 + 8 × u16) ada byte 09 + **9 × f32** koefisien per musim (LIKELY). Indonesia [4,1; 5,05; 0; 0; 3,96; 3,56; 7,2; 11,03; 0], Jepang [13,85 … 30,38]. Dengan bobot asi.xml (1,0 … 0,3) Indonesia **peringkat 10 dari 22 negara timur** (skor ±19–22; di atas: Jepang, Korea, Thailand, China, Vietnam, Australia, Malaysia, Singapura; di bawah: Hong Kong ±18,7–20,8). Peringkat 8–10 = ACL2 untuk 1 tim liga + 1 "juara piala" → cocok dengan GUFC dulu. Dengan build sekarang: juara & runner-up → ACL2 (HYPOTHESIS pengalihan slot). Untuk "runner-up → Challenge League" Indonesia harus di peringkat 11–12 (koefisien awal diturunkan) — TIDAK dikerjakan, menunggu keputusan.
+- **Keuangan / reputasi (B7c langkah 2–3)**: angka acuan 27.1.0: Man City 9.150 (Worldwide), Man United 8.150 (Continental), Everton 6.900 (Top Division), Kashima 6.400, Buriram 5.500, JDT 5.000; klub IDN 700–4.600; hanya 2/64 klub IDN punya blok keuangan. Batas angka antar pita belum terbukti → tidak dikerjakan; butuh bukti dari game.
+- db v5 (184.697.096 byte), sicomps v4 (fmm_people IDN 12.935). Peta aset tidak berubah. Tes 108 lulus.
+
 ### Menunggu dari Bacad
+- Keputusan: koefisien awal Indonesia diturunkan ke peringkat 11–12 (juara → ACL2, runner-up → Challenge League sejak musim 1) atau dibiarkan (peringkat 10: juara & runner-up → ACL2).
+- Untuk reputasi/anggaran: screenshot pita reputasi + Transfer/Wage Budget beberapa klub di game 27.1.0 (mis. Kashima, Buriram, JDT, Persib, satu klub Championship, satu klub Liga Nusantara) supaya batas pita bisa dikalibrasi.
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.

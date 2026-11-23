@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Eksekusi: staf tambahan, Liga Nusantara profesional, riset koefisien
+- Doctor → physio, Analyst → scout (350 staf baru). Klub Liga Nusantara → profesional (B7c langkah 1). Koefisien AFC awal ditemukan di nation.dat (Indonesia peringkat 10 timur). db v5, sicomps v4.
+
 ## 2026-11-23 — Aplikasi: unduh tahan latar belakang, tab Kode 27.1.0, nama db
 - Tab Wajah & logo: 4a simpan langsung (wake lock) / 4b unduh lewat Chrome. Tab Kode mengenali libgame 27.1.0. Tab Simpan memakai nama arsip db yang dibuka.
 

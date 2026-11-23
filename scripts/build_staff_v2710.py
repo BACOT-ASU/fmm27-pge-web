@@ -8,8 +8,9 @@ Pola dari data asli 27.1.0 (lihat research/format_specs/people_players.md, log p
   12 physio                 | physios.dat
   14 scout                  | scouts.dat
 Peta jabatan dataset: Head coach → 16; Assistant coach pertama per klub → 20, berikutnya → 2;
-Goalkeeping coach / Fitness coach / U20 / U18 Head coach → 2; Physiotherapist → 12; Head of scouting → 14.
-Analyst, Doctor, Technical director, Sporting director, Technical advisor, Video analyst: tidak ada padanannya → dilewati.
+Goalkeeping coach / Fitness coach / U20 / U18 Head coach → 2; Physiotherapist & Doctor → 12;
+Head of scouting, Analyst, Video analyst → 14 (keputusan "eksekusi" 23 Nov, padanan terdekat).
+Technical director, Sporting director, Technical advisor: tidak ada padanannya → dilewati.
 
 Orang baru: record people/non_players/coaches/physios/scouts + kontrak DISALIN dari staf asli dengan jabatan sama
 (diutamakan orang Indonesia di klub Indonesia), lalu diganti UID/nama/tgl lahir/negara/klub/indeks. Record baru di
@@ -41,9 +42,9 @@ def job_of(title, first_assistant):
         return JOB_ASSISTANT if first_assistant else JOB_COACH
     if t in ('goalkeeping coach', 'fitness coach', 'u20 head coach', 'u18 head coach'):
         return JOB_COACH
-    if t == 'physiotherapist':
+    if t in ('physiotherapist', 'doctor'):          # dokter → physio (staf medis; FMM tidak punya jabatan dokter)
         return JOB_PHYSIO
-    if t == 'head of scouting':
+    if t in ('head of scouting', 'analyst', 'video analyst'):   # analis → scout (scout FMM juga membuat analisa lawan)
         return JOB_SCOUT
     return None
 

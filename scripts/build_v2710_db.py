@@ -187,6 +187,21 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     assert e == L and len(C2) == n_old + len(tail_add)
     report.update(klub_diperbarui=len(patched), klub_asli_pengganti_klon=natives, klon_baru=cloned)
 
+    # ------------------------------------------------------------ B7c langkah 1 (eksekusi 23 Nov): status klub
+    # Fakta dari Bacad (18 Nov): Liga Nusantara = klub profesional (1); Liga 4 tetap semi-pro (2).
+    # Status = byte pertama blok misc 10 byte (club_dat.md, VERIFIED).
+    ln_idx = {comp_map[i] for i in B7B_COMP_RANGE if cA[i]['long'].startswith('Liga Nusantara')}
+    cb_tmp = bytes(cdbB[:8]) + struct.pack('<I', n_old + len(tail_add)) + bytes(cdbB[12:]) + b''.join(tail_add)
+    C3, e3, L3 = clubmod.parse(tmpfile(work, 'club_b7c.dat', cb_tmp), verbose=False); assert e3 == L3
+    cb3 = bytearray(cb_tmp); status_changed = []
+    for c in C3:
+        if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
+            status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
+    club_new = bytes(cb3)
+    C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
+    assert e == L and len(C2) == n_old + len(tail_add)
+    report['status_liga_nusantara_pro'] = status_changed
+
     # ------------------------------------------------------------ 16 .lng (nama klon di ujung, urutan sama dengan club.dat)
     clone_uids = [u for _, u in cloned]
     lng_out = {}

@@ -16,6 +16,9 @@ Record: u16 idx, u32 id, 3 teks (+1 byte). ID dipakai: 20 Final, 76–79 Group A
 Aturan: stadion baru di ujung + daftar di `fmm_stadiums` IDN-0/1/2; kota dipinjam dari stadion terdekat (`city.dat` tanpa nama kota). Klub tanpa stadion → penonton 0.
 
 ## `nation.dat` — sebagian
+
+**Koefisien AFC (23 Nov, LIKELY):** sesudah penanda `ff 7f d4 00 00 00 ff 7f` + field peringkat, ada `08 00` + 8 × u16 (riwayat peringkat?) lalu byte `09` + 9 × f32 = koefisien klub per musim. Indonesia: 4,1 / 5,05 / 0 / 0 / 3,96 / 3,56 / 7,2 / 11,03 / 0. Negara non-AFC tertentu tidak punya blok ini.
+
 Record diawali u32 UID, u16 index, nama (+ff), kebangsaan (+ff), kode 3 huruf; panjang bervariasi (parser mencari berurutan). Setelah penanda `ff 7f d4 00 00 00 ff 7f`: u8, u16 index negara tetangga, **u8 kandidat youth rating** (HYPOTHESIS, melemah: uji 22 Nov dengan IDN 19 tetap 1 youth intake untuk klub semi-pro; lihat panduan induk 10.2-uji; IDN diubah ke 19 di B7b, belum terbukti), u8 1, u16 peringkat FIFA, u16 poin FIFA. Indonesia: index 58, UID 113.
 
 ## File nama — VERIFIED (`scripts/names.py`)
