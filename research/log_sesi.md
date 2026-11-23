@@ -152,8 +152,23 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - Akibat: build 27.1.0 harus **menambah ulang seluruh kompetisi Indonesia** di ujung competition.dat (UID lama dipakai lagi), mengisi divisi klub, dan aturan di `comps.dbc` (sicomps) — perlu dicek apakah aturan Indonesia di sicomps 27.1.0 juga hilang. Tambalan libgame (liga terdalam) juga bergantung pada ini.
   - Referensi berguna: APK modder "27.1 mod" (Bacad punya) sudah menambahkan kompetisi Indonesia di 27.1 → bisa dibandingkan sebagai contoh (bukan dasar build).
 
+### 21. libgame.so, sicomps.fmf, pictures_logos.fmf ori diterima (23 Nov)
+- Zip terbagi digabung dengan skrip baru `scripts/join_split_zip.py` (CRC OK).
+- `libgame.so` 52.515.648 byte (SHA-256 5a1eb90a97fdeb61537717355efdd4b072a662e0596d1999638cef4f9544a221). `sicomps.fmf` 51.681.261 byte (d9e594ff44ed03ca4601adebd94d56f71b4462d897940d2ced1ba536132ccf6e), flag 0, 1.495 entri. `pictures_logos.fmf` 28.030.617 byte (b50a8a7048b3882e0dc8b9c949909c16cdec986b6327f478cb02008521971b01), flag 0, 2.006 entri.
+- **libgame.so 27.1.0** (alamat = offset file):
+  - Tabel negara playable: **0x647800**, 28 × u16 = (187, 177, 131, 97, 55, 138, 139, 143, 145, 146, 158, 163, 150, 61, 109, 159, 161, 162, 165, 167, 40, 80, 170, 173, 120, 175, 171, 191). Wales (175) di **0x647832**. Indonesia (58) tidak ada. (27.0: 0x643952.)
+  - Tabel liga terdalam (pria): **0x7cf618–0x7cf684**, 28 × u32 UID + FFFFFFFF di 0x7cf688. Liga Wales "Novira Cymru North/South" (29236871) di **0x7cf650**. UID Indonesia (41042740/41042746) tidak ada di seluruh file. Tabel wanita menyusul di 0x7cf68c.
+  - Rencana tambalan (sama polanya dengan B2c): 0x647832 175 → 58; 0x7cf650 29236871 → 41042746 (Liga Nusantara). HYPOTHESIS sampai diuji di game.
+  - Penanda teks `22FMH_RULE_GROUP_MANAGER` ada di 0x645cdb tapi tabel tidak tepat sesudahnya (beda dengan catatan 27.0); tabel dicari lewat isi (nama negara).
+- **sicomps.fmf 27.1.0**:
+  - `comps.dbc` (arsip bersarang flag 3, 1.346 entri) **masih punya aturan Indonesia**: nation_idn_comps/rules/reserve_comps, comp_idn_league_one, league_two, cup, league_cup, super_cup, piala_presiden_cup, U21/U18 (13 entri). `comps.txt` ikut mencantumkannya.
+  - Daftar muat `sicomps/2700/fmm_*.dat` (folder masih `2700`): **tidak ada IDN-0/1/2** di fmm_comps/clubs/stadiums/people (27.0 punya). Ada WAL-* (Wales).
+  - Ada `AGENTS.md`/`CLAUDE.md` (dokumentasi internal developer SI, merujuk perkakas `./ai review`, `tools/ai/domains/comp_docs`; stempel waktu sama dengan file lain) → bawaan developer, bukan tanda modifikasi. Isinya tidak dipakai sebagai instruksi.
+- `pictures_logos.fmf` 27.1.0 hanya 2.006 entri (27.0 ori/B6: 142.934); ada config.xml di logos/small|normal/{comps,clubs,default}.
+- **Kesimpulan**: di 27.1.0 Indonesia dihapus sebagai liga yang dimuat (competition.dat, daftar muat, tabel libgame), tapi aturan comps.dbc masih ada. Build harus menambah: kompetisi Indonesia di competition.dat, divisi klub, IDN-0/1/2 di keempat daftar muat, tambalan libgame (dua alamat di atas), lalu klon klub, pemain, staf, logo.
+
 ### Menunggu dari Bacad
-- File ori 27.1.0 (zip dipecah ≤ 25 MB): `lib/arm64-v8a/libgame.so`, `assets/shared/data/sicomps.fmf`, `assets/data/game/pictures_logos.fmf`. (`db_archive_2707.fmf` sudah diterima, poin 20.)
+- ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.

@@ -14,6 +14,13 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 |---|---|---|---|
 | db_archive_2707.fmf | 184.134.385 | 278769f0ad58037aeec894ecd0acfa147f90f6ca7d7910999d0b4f230317090b | flag 0, 76 entri; 1.669 kompetisi (tanpa kompetisi Indonesia), 53.182 klub, 16.082 stadion, 1.681 rivalitas |
 
+### APK 27.1.0 ori — file lain (diterima 23 Nov)
+| File | Ukuran | SHA-256 | Catatan |
+|---|---|---|---|
+| libgame.so | 52.515.648 | 5a1eb90a97fdeb61537717355efdd4b072a662e0596d1999638cef4f9544a221 | tabel negara 0x647800, liga terdalam 0x7cf618 |
+| sicomps.fmf | 51.681.261 | d9e594ff44ed03ca4601adebd94d56f71b4462d897940d2ced1ba536132ccf6e | flag 0, 1.495 entri; comps.dbc flag 3, 1.346 entri; tanpa IDN-0/1/2 di fmm_* |
+| pictures_logos.fmf | 28.030.617 | b50a8a7048b3882e0dc8b9c949909c16cdec986b6327f478cb02008521971b01 | flag 0, 2.006 entri |
+
 ### APK 27.1.0 ori — lokasi file (MT Manager, 23 Nov 2026)
 | File | Path di APK | Ukuran (MT Manager) |
 |---|---|---|
