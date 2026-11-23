@@ -86,7 +86,18 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Diperbarui: `scripts/people.py` (`PERSONALITY`, `non_player_fields`, `coach_fields`, coaches.dat ikut uji round-trip), `people_players.md`, `input_manifest.md`.
 - Masih butuh: eksperimen terkendali di game **ori** 27.1.0 untuk rumus "dasar" (lihat dokumen kalibrasi), file scout/physio, screenshot daftar entri db_archive.
 
+### 12. Rencana Bacad: satu APK mod 27.1.0 berisi semua (23 Nov)
+- Bacad punya **APK ori 27.1.0, belum terpasang**. Rencana: masukkan semua data + semua pembaruan mod ke APK itu sekaligus, lalu install APK mod.
+- Konsekuensi teknis yang dicatat:
+  - Mod lama butuh tambalan `libgame.so` (tabel negara playable: Indonesia; tabel liga terdalam: Liga Nusantara). Di 27.1.0 offset kemungkinan bergeser → `libgame.so` 27.1.0 wajib dibongkar ulang (cari lewat penanda teks).
+  - Semua skrip build lama berbasis index 27.0 → perlu satu skrip penerap 27.1.0 berbasis UID.
+  - `pictures_logos.fmf` 1,8 GB tidak bisa dikirim ke chat → logo ditambal di HP lewat aplikasi PWA (modul Logo).
+  - Pemain/staf baru belum pernah diuji di game; editor FMM26 lain juga punya masalah "pemain baru tidak muncul".
+- Usulan Claude: tetap satu kali install, tapi dibagi 2 lapis: (1) di dalam APK: bagian yang sudah terbukti di 27.0 (libgame, liga/kompetisi, klub, stadion, rivalitas, daftar muat, logo); (2) pemain/staf baru + edit pemain lewat **paket Documents** db (bisa dicabut tanpa install ulang kalau macet). Menunggu keputusan Bacad.
+
 ### Menunggu dari Bacad
+- File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
+- Keputusan: 2 lapis (APK + Documents) atau semua di APK; atribut pemain baru boleh perkiraan (±2 di layar)?
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.
