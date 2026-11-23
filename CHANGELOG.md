@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — scripts/build_v2710_sicomps.py + koreksi city.dat
+- Aturan Indonesia B7b ke comps.dbc 27.1.0, comps.txt, IDN-0/1/2 di 6 daftar muat (+ pemain baru).
+- city.dat: record diawali u16 nomor urut, UID di offset +2.
+
 ## 2026-11-23 — scripts/build_v2710_db.py
 - Database 27.1.0 = ori + mod Indonesia B7b (dipindah lewat UID) + pemain dataset. Kompetisi, stadion (kota lewat UID/pinjam), klub, klon + .lng, rivalitas, youth, Noah Adnan.
 

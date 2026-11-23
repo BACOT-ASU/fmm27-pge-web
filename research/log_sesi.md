@@ -222,6 +222,12 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   - Daftar muat B7b IDN-0/1/2 ada di 6 file fmm_*; sebagian UID (orang: 3.758) tidak ada lagi di 27.1.0 → akan disaring.
 - `scripts/build_v2710_db.py` (ori 27.1.0 + B7b → db_archive_2707.fmf): +13 kompetisi (index 1669–1681, induk dipetakan), +13 stadion, 55 klub diperbarui (field B7b: status/fasilitas/penonton/divisi/stadion/reputasi), 22 klon + 16 .lng, rivalitas 2, youth IDN 1 → 19, Noah Adnan 120 → 58, pemain dataset (1.633 baru, 190 diperbarui). Hasil 184.586.800 byte; semua entri dibaca ulang dan cocok. Struktur liga = B7b (SL 18, CH 10+10, LN 7+8+8, L4 3); semua klub liga punya stadion valid.
 
+### 29. Build sicomps 27.1.0 + koreksi city.dat (23 Nov)
+- **Koreksi format city.dat**: header 8 + u16 jumlah; record 20 byte = **u16 nomor urut**, u32 UID kota, u16 negara, f32, f32, 4 byte. (Catatan poin 28 "record diawali UID" salah; skrip sudah diperbaiki.) Dengan UID yang benar, ke-13 stadion baru langsung dapat kota lewat UID (tidak perlu pinjam).
+- `scripts/build_v2710_sicomps.py`: comps.dbc 5 entri IDN diganti versi B7b (idn_cup, league_two, nation_idn_comps/rules/reserve_comps) + 4 ditambah (league_three, league_three_group_a, league_three_groups_bc, league_two_groups); blok `idn_*` di comps.txt = B7b; IDN-0/1/2 di 6 daftar muat (dari B7b, disaring ke UID yang ada + ditambah klub/kompetisi/stadion/kota/orang Indonesia + pemain baru).
+  - IDN-0: kompetisi 1.173, klub 2.134 (6 dibuang), cadangan 18, kota 3.237 (326 dibuang), stadion 4.903, orang 12.585 (3.758 orang B7b sudah tidak ada di 27.1.0).
+  - Hasil sicomps.fmf 51.836.876 byte; dibaca ulang (entri baru ada, 3 daftar IDN per file).
+
 ### Menunggu dari Bacad
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).

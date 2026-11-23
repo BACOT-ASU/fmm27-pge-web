@@ -91,9 +91,11 @@ def build(ori_path, b7b_path, out_dir, verbose=True):
 
     # ------------------------------------------------------------ stadium.dat (+ peta kota lewat UID)
     def cities(b):
-        n = struct.unpack_from('<H', b, 8)[0]       # city.dat: header 8 + u16 jumlah, record 20 byte (u32 UID di depan)
+        # city.dat: header 8 + u16 jumlah; record 20 byte = u16 nomor urut, u32 UID kota, u16 negara, f32, f32, 4 byte
+        n = struct.unpack_from('<H', b, 8)[0]
         assert 10 + 20 * n == len(b), (n, len(b))
-        return [struct.unpack_from('<I', b, 10 + 20 * i)[0] for i in range(n)]
+        assert all(struct.unpack_from('<H', b, 10 + 20 * i)[0] == i for i in range(n))
+        return [struct.unpack_from('<I', b, 12 + 20 * i)[0] for i in range(n)]
     cityA = cities(get(A, 'city.dat')); cityB = cities(get(R, 'city.dat'))
     city_idx_B = {u: i for i, u in enumerate(cityB)}
     sdB = get(R, 'stadium.dat'); sdA = get(A, 'stadium.dat')
