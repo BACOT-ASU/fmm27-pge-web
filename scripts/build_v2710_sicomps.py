@@ -24,6 +24,7 @@ import comp as compmod      # noqa: E402
 import fmfio                # noqa: E402
 import people as peoplemod  # noqa: E402
 import stadium as stadmod   # noqa: E402
+import dbc                  # noqa: E402
 
 IDN = 58
 LISTS = ('fmm_comps', 'fmm_clubs', 'fmm_reserve_clubs', 'fmm_cities', 'fmm_stadiums', 'fmm_people')
@@ -76,6 +77,22 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
             ref = folderB.files[0]
             folderB.files.append([x[0], x[1], data, ref[3], ref[4], None, len(data), None])
             added.append(name)
+    # Piala Indonesia: juaranya TIDAK dapat jatah kontinental (permintaan Bacad 23 Nov; sebelumnya juara
+    # Piala Indonesia masuk ACL Two lewat skema cup_winners_cup). Tag `qurl` (= XML "qualification"):
+    # 0 winner_qualifies_only, 1 no_team_qualifies, 2 runner_up_can_qualify (dipetakan dari 36 piala utama).
+    cup_row = filesB['comp_idn_cup_1438.dbc']
+    cup = dbc.parse(fmfio.get(cup_row))
+    T = lambda n: n.encode('latin1')[::-1]  # noqa: E731
+    fields = cup['fields']
+    qi = next(i for i, (k, _v) in enumerate(fields) if k == T('qurl'))
+    old_q = fields[qi][1][1][0]
+    fields[qi] = (T('qurl'), (0x11, bytes([1])))
+    xi = next(i for i, (k, _v) in enumerate(fields) if k == T('XSvC'))
+    old_x = fields[xi][1][1][0]
+    fields[xi] = (T('XSvC'), (0x11, bytes([(old_x + 1) & 255])))
+    cup_row[2] = dbc.build(cup); cup_row[5] = None
+    report['piala_indonesia_qurl'] = (old_q, 1)
+    report['piala_indonesia_XSvC'] = (old_x, (old_x + 1) & 255)
     newdbc, _ = fmfio.write(fB, rB)
     R['sicomps/comps.dbc'][2] = preB + newdbc
     report['dbc_diganti'] = replaced
@@ -89,6 +106,7 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     pos = [i for i, l in enumerate(lB) if l.startswith('idn_')]
     assert pos == list(range(pos[0], pos[-1] + 1)), 'blok idn_ di comps.txt tidak berurutan'
     lB = lB[:pos[0]] + blockA + lB[pos[-1] + 1:]
+    lB = [('idn_cup(1438),%d' % report['piala_indonesia_XSvC'][1]) if l.startswith('idn_cup(1438),') else l for l in lB]
     R['sicomps/comps.txt'][2] = '\n'.join(lB).encode('utf-8')
     report['comps_txt_idn'] = blockA
 

@@ -45,3 +45,6 @@ Lihat panduan induk §6.4 (`comp_idn_league_two_groups_1442`, `comp_idn_league_t
 
 ## Status
 Read/Write/Round-trip: VERIFIED (Python). Port TS: belum.
+
+## Tag `qurl` (kualifikasi kontinental piala) — VERIFIED pemetaan (23 Nov 2026)
+Sama dengan XML `qualification` pada piala tipe main_cup: 0 = winner_qualifies_only, 1 = no_team_qualifies, 2 = runner_up_can_qualify; tanpa tag = 41 piala (perilaku bawaan). Dicocokkan dari 36 piala utama 27.1.0. Build 27.1.0: Piala Indonesia → 1.

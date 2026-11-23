@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Piala Indonesia tanpa jatah kontinental
+- comps.dbc tag `qurl` dipetakan (0/1/2); comp_idn_cup → 1 (no_team_qualifies). sicomps v2.
+
 ## 2026-11-23 — Award Indonesia
 - awards.dat: rujukan kompetisi = index di ekor record (koreksi 22 Nov); `add_awards_v2710.py` menambah 44 award (Best 11 of the Round, Team of the Week, Player/Manager of the Month, dst.); spesifikasi `awards_dat.md`.
 

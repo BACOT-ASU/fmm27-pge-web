@@ -293,6 +293,12 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - db v4: 184.689.968 byte (CRC zip dicek identik). sicomps/pictures_logos/libgame & peta aset tidak berubah.
 - HYPOTHESIS: belum diketahui apakah game membatasi award_id lewat kode; award untuk grup (bukan induk) dipilih karena klub & jadwal ada di kompetisi grup.
 
+### 39. Slot ACL: juara Piala Indonesia tidak dapat jatah (23 Nov)
+- Bacad: sebelumnya juara Piala Indonesia dapat slot Asian Champions League (Two), seharusnya tidak.
+- Analisa: ACL Two (UID 2000347776) bertipe `cup_winners_cup` → mengambil juara **piala utama** negara. Piala Indonesia (`idn_cup`, type main_cup) punya XML `qualification = runner_up_can_qualify`. Tag biner di comps.dbc = **`qurl`** (u8). Pemetaan dari 36 piala utama 27.1.0 (XML ↔ dbc): **0 winner_qualifies_only (27 piala), 1 no_team_qualifies (Piala FA Wanita Inggris), 2 runner_up_can_qualify (8 piala, termasuk idn_cup)**; 41 piala tanpa tag. Piala Liga/Presiden/Super Indonesia tidak punya `qurl`.
+- `build_v2710_sicomps.py`: comp_idn_cup_1438 `qurl` 2 → **1** (no_team_qualifies), XSvC 38 → 39, comps.txt `idn_cup(1438),39`. sicomps v2 (ukuran sama 51.837.583 byte, isi berubah).
+- HYPOTHESIS: jatah Indonesia di ACL lalu diisi dari posisi liga (mekanisme `get_qualified_teams_for_comp` per koefisien negara) — perlu dilihat di game siapa yang dapat slot setelah musim pertama.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
