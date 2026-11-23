@@ -189,7 +189,15 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
   3. Fitur baru di aplikasi HP "Gabung wajah": buka pictures_logos kita + pictures_logos modder + peta → tulis pictures_logos baru dengan PNG wajah disalin dari file modder (Blob.slice, tanpa memuat 1,42 GB ke memori; patchFmf perlu mendukung rentang dari file sumber kedua).
 - Belum diketahui: path config.xml wajah di arsip modder (dicari Bacad lewat penjelajah arsip di aplikasi; kata kunci "person"/"faces").
 
+### 25. File modder untuk wajah diterima + peta wajah (23 Nov)
+- Diterima dari APK modder (lokasi file di APK sama dengan ori, kata Bacad): `people.dat` (165.149 orang), `first_names.dat` (67.159), `second_names.dat` (114.707), `common_names.dat` (11.767) dari db_archive_2707 modder, dan `config.xml` wajah dari pictures_logos modder (6,9 MB, 86.441 record `custom/<N>` → `graphics/pictures/person/<UID>/portrait`; N umumnya = UID). Disimpan di `samples/mod_lain/`. Semua terbaca habis dengan `people.py`/`names.py` → format modder = format ori.
+- Catatan: UID orang modder sampai 2.145.973.019 (modder juga memakai rentang 2.1 miliar). Tidak masalah karena peta wajah memakai UID kita.
+- `scripts/map_faces_v2710.py` (uji terhadap build pemain sementara): 86.440 wajah → **84.361 UID sama**, **637 ke pemain baru kita** (cocok nama + negara, kandidat tunggal; tgl lahir dataset perkiraan), 8 ganda (pakai UID sama), 1.095 tidak ada di build (949 di antaranya orang Indonesia modder yang tidak ada di dataset kita / beda tulisan nama), 339 UID modder tanpa orang.
+- Batas: wajah yang salah orang di data modder tetap salah (tidak bisa dicek otomatis).
+- Belum diketahui: folder config.xml wajah **di dalam** arsip pictures_logos modder (path internal, mis. `pictures_logos/.../config.xml`), dibutuhkan untuk menyalin PNG `custom/<N>`.
+
 ### Menunggu dari Bacad
+- Path internal config.xml wajah di dalam pictures_logos.fmf modder (lihat di penjelajah arsip aplikasi: baris path di atas daftar entri).
 - ~~File ori 27.1.0~~: semua sudah diterima (poin 20–21).
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — scripts/map_faces_v2710.py
+- Peta wajah pictures_logos modder → UID build kita (nama + tgl lahir; cadangan nama + negara). Uji: 84.361 UID sama, 637 ke pemain baru, 1.095 tidak ada.
+
 ## 2026-11-23 — libgame.so, sicomps.fmf, pictures_logos.fmf 27.1.0 ori
 - `scripts/join_split_zip.py`: gabung zip terbagi MT Manager (stored/deflate, cek CRC).
 - libgame 27.1.0: tabel negara playable 0x647800 (Wales di 0x647832), liga terdalam 0x7cf618 (Wales di 0x7cf650) → `libgame_tables.md`.
