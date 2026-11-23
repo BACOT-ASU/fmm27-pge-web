@@ -19,6 +19,7 @@ import { RivalriesTab } from './tabs/RivalriesTab';
 import { RulesTab } from './tabs/RulesTab';
 import { SaveTab } from './tabs/SaveTab';
 import { StadiumsTab } from './tabs/StadiumsTab';
+import { FacesTab } from './tabs/FacesTab';
 
 type Slot = 'db' | 'sc' | 'logos' | 'lib';
 const SLOTS: { id: Slot; label: string; hint: string; accept: string[] }[] = [
@@ -27,7 +28,7 @@ const SLOTS: { id: Slot; label: string; hint: string; accept: string[] }[] = [
   { id: 'logos', label: 'Logo', hint: 'pictures_logos.fmf (assets/data/game)', accept: ['.fmf'] },
   { id: 'lib', label: 'Kode game (hanya dibaca)', hint: 'libgame.so (lib/arm64-v8a)', accept: ['.so'] },
 ];
-type Tab = 'klub' | 'kompetisi' | 'stadion' | 'rivalitas' | 'negara' | 'daftar' | 'aturan' | 'logo' | 'kode' | 'arsip' | 'simpan';
+type Tab = 'klub' | 'kompetisi' | 'stadion' | 'rivalitas' | 'negara' | 'daftar' | 'aturan' | 'logo' | 'wajah' | 'kode' | 'arsip' | 'simpan';
 
 export default function App() {
   const [ws, setWs] = useState(() => new Workspace());
@@ -79,6 +80,7 @@ export default function App() {
     { id: 'daftar', label: 'Daftar muat', need: 'sc' },
     { id: 'aturan', label: 'Aturan', need: 'sc' },
     { id: 'logo', label: 'Logo', need: 'logos' },
+    { id: 'wajah', label: 'Wajah', need: 'logos' },
     { id: 'kode', label: 'Kode', need: 'lib' },
     { id: 'arsip', label: 'Arsip', need: null },
     { id: 'simpan', label: `Simpan${changes ? ` (${changes})` : ''}`, need: null },
@@ -142,6 +144,7 @@ export default function App() {
       {active === 'daftar' && files.sc && <ListsTab ws={ws} onChange={bump} rev={rev} />}
       {active === 'aturan' && files.sc && <RulesTab ws={ws} onChange={bump} rev={rev} />}
       {active === 'logo' && files.logos && <LogosTab ws={ws} onChange={bump} />}
+      {active === 'wajah' && files.logos && <FacesTab target={files.logos} targetArc={ws.logos ?? null} />}
       {active === 'kode' && <CodeTab ws={ws} file={files.lib} />}
       {active === 'arsip' && (
         <>

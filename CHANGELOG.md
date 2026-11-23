@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 — Gabung wajah (tab Wajah)
+- `src/core/faces/mergeFaces.ts` + `saveSourcedParts`: salin wajah dari pictures_logos modder ke pictures_logos kita (tambal di ujung, dua sumber, tanpa memuat file utuh), config.xml baru di `logos/normal/people`.
+- Tab Wajah di aplikasi. Tes `tests/faces.test.ts` (sintetis + golden fmfio.py + pictures_logos 27.1.0 ori asli).
+
 ## 2026-11-23 — scripts/map_faces_v2710.py
 - Peta wajah pictures_logos modder → UID build kita (nama + tgl lahir; cadangan nama + negara). Uji: 84.361 UID sama, 637 ke pemain baru, 1.095 tidak ada.
 

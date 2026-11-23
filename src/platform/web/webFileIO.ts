@@ -66,3 +66,21 @@ export async function saveOutputParts(
   const blobParts: BlobPart[] = parts.map((p) => (p instanceof Uint8Array ? (p as BlobPart) : source.slice(p.start, p.end)));
   triggerDownload(name, new Blob(blobParts, { type: mimeForFileName(name) }), 120_000);
 }
+
+/**
+ * Seperti saveOutputParts, tapi rentang boleh dari beberapa file sumber (mis. gabung wajah:
+ * sumber 0 = pictures_logos kita, sumber 1 = pictures_logos modder). Tidak ada yang dimuat utuh ke memori.
+ */
+export async function saveSourcedParts(
+  name: string,
+  parts: readonly (Uint8Array | { source: number; start: number; end: number })[],
+  sources: readonly Blob[],
+): Promise<void> {
+  const blobParts: BlobPart[] = parts.map((p) => {
+    if (p instanceof Uint8Array) return p as BlobPart;
+    const src = sources[p.source];
+    if (!src) throw new Error(`Sumber ${p.source} tidak ada`);
+    return src.slice(p.start, p.end);
+  });
+  triggerDownload(name, new Blob(blobParts, { type: mimeForFileName(name) }), 300_000);
+}
