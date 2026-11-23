@@ -282,6 +282,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Aplikasi: `mergeFacesIntoFmf` diperluas jadi gabung aset (person/club/comp × normal/small); config klub/kompetisi diedit sekali jalan (baris lama UID dibuang, baris custom/<UID> ditambah, BOM dipertahankan); indeks file modder (sebelumnya cari linear per baris → sangat lambat). Tab "Wajah & logo". Tes skala penuh: 111.973 baris digabung < 1 detik di server; hasil dibaca pembaca TS (fmfio.py hanya baca TOC satu frame; TOC rangkaian frame raw = format B6/B7b yang VERIFIED diterima game).
 - Dikirim: db v3 (zip pecah, CRC identik), peta_aset_27.1.0.csv, SHA256_v3. sicomps/pictures_logos/libgame tidak berubah.
 
+### 37. Pertanyaan Bacad: award & best 11 weekly untuk kompetisi Indonesia (23 Nov)
+- **Belum termasuk** di build. Dicek ulang: `awards.dat` 27.1.0 (199.218 byte, 1.123 record) dan B7b (199.619 byte, 1.123 record) sama-sama tanpa entri Indonesia/BRI. "Best 11 weekly" di FMM = "Team of the Week" (ada untuk liga lain).
+- Temuan 22 Nov (liga_kompetisi_award_afc.md §3, panduan 4c): awards.dat tidak menyimpan UID kompetisi → penautan award↔kompetisi belum diketahui; dugaan HYPOTHESIS: tabel di libgame.so (seperti tabel negara playable/liga terdalam) atau tag di comps.dbc. Perlu riset sebelum bisa ditambah.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
