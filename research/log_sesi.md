@@ -98,7 +98,7 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 ### 13. Keputusan Bacad + scouts/physios (23 Nov)
 - **Keputusan 1: semua dimasukkan ke dalam APK** (tidak pakai lapis Documents).
 - **Keputusan 2: atribut pemain baru pakai perkiraan** (boleh meleset ±2 di layar; diperbaiki setelah dilihat di game).
-- Diterima `scouts.dat` (3.191 × 7 byte) dan `physios.dat` (5.492 × 7 byte), 27.1.0 ori; round-trip identik. Sama seperti coaches.dat: u32 nomor urut, 50 slot kosong di ujung, 3 × u8. idx3 (maks 3.140) → scouts, idx4 (maks 5.441) → physios: VERIFIED (batas pas).
+- Diterima `scouts.dat` (3.191 × 7 byte) dan `physios.dat` (5.492 × 7 byte); round-trip identik. Sama seperti coaches.dat: u32 nomor urut, 50 slot kosong di ujung, 3 × u8. idx3 (maks 3.140) → scouts, idx4 (maks 5.441) → physios. **KOREKSI (poin 15): kedua file dari APK modder lain, bukan ori.**
 - Byte 5–6 = "aptitude": 03 03 = Natural (Calafat, García Parrales, Tralhão), 01 02 = Normal (Pascua). LIKELY.
 - `scripts/people.py`: `staff_role_fields` untuk ketiga file; ketiganya ikut uji round-trip.
 
@@ -110,7 +110,15 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - `scripts/build_people_v2710.py`: pemain dataset → 190 diperbarui (klub, kontrak, nomor), **1.633 baru** (atribut/posisi disalin dari pemain nyata dengan posisi sama & CA terdekat; CA dari kompetisi + nilai pasar; nama baru ditambah di ujung file nama). Uji di `samples/v2710` dengan peta klon sementara: semua file terbaca ulang, UID unik.
 - Risiko tercatat: field `players.dat` offset 4 (UNKNOWN) ikut tersalin dari templat; daftar muat `fmm_people` belum (butuh sicomps 27.1.0); staf belum.
 
+### 15. Koreksi Bacad: scouts.dat & physios.dat dari APK modder lain (23 Nov)
+- Kedua file **bukan** 27.1.0 ori. Dipindah ke `samples/mod_lain/` (tidak dipakai untuk build).
+- Label diturunkan: struktur 7 byte & rujukan idx3/idx4 → LIKELY (bukan VERIFIED). Catatan: jumlah record terisi (3.141 / 5.442) pas dengan rujukan tertinggi di people.dat ori + 1 → kemungkinan isinya sama dengan ori.
+- Ditanyakan ke Bacad: asal `coaches.dat` (ori atau modder?). Kalau dari modder, label coaches.dat juga turun dan file ori diminta.
+- Untuk build: perlu scouts/physios/coaches **ori** — semuanya ada di dalam `db_archive` 27.1.0 ori yang akan dikirim utuh, jadi tidak perlu dikirim terpisah.
+- Screenshot kalibrasi juga dari game modder (sudah tercatat di poin 11).
+
 ### Menunggu dari Bacad
+- Jawaban: `coaches.dat` dari APK ori atau modder?
 - File ori 27.1.0 (zip dipecah ≤ 30 MB): `libgame.so`, `db_archive_*.fmf` utuh, `sicomps.fmf` + nama & path persisnya di APK.
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
 - ~~Screenshot atribut~~ (diterima 23 Nov, dari game modder). Berikutnya: eksperimen terkendali di game ori 27.1.0 (lihat `research/kalibrasi/kalibrasi_atribut.md`) + screenshot daftar entri db_archive 27.1.0.

@@ -20,8 +20,8 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 | first_names.dat | 1.762.541 | d5a97395f7e9aebb4ddc57fb57660aa4f9f6a03a290c853868995bff3599f07b |
 | second_names.dat | 3.113.643 | 4b01441a38c7d900f440837396b099dd913da6462730bc1ab3b171f35e5c7376 |
 | coaches.dat | 118.424 | c5963f1dcbf8cdd3540911f6effe74d1f0048d9bd026bcdc8a99b85e85c2f1ea |
-| scouts.dat | 22.349 | 8a5e4f3c90942cb1e833aeb68019859b03e288a0f65bf6d6aed96e5db6e54c0e |
-| physios.dat | 38.456 | 4c8b94a2e7e842be1b2a26d7bc5832adf2711d5075485c8c12171b9e4fef05f9 |
+| scouts.dat (**APK modder lain, bukan ori**) | 22.349 | 8a5e4f3c90942cb1e833aeb68019859b03e288a0f65bf6d6aed96e5db6e54c0e |
+| physios.dat (**APK modder lain, bukan ori**) | 38.456 | 4c8b94a2e7e842be1b2a26d7bc5832adf2711d5075485c8c12171b9e4fef05f9 |
 | common_names.dat | 311.760 | 3e01702abe75c1525ebb83297d0484605079c28ca4bac41e035dc4737fe92974 |
 
 Catatan 27.1.0: `club.dat` berisi **53.182 klub** (27.0: 38.747) dan terbaca habis oleh `club.py` lama. Index klub bergeser total dibanding 27.0, jadi skrip build lama (berbasis index) tidak bisa dipakai langsung.

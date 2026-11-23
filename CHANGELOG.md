@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Koreksi asal file
+- `scouts.dat` dan `physios.dat` ternyata dari APK modder lain, bukan 27.1.0 ori. Dipindah ke `samples/mod_lain/`; label struktur/rujukan turun ke LIKELY (`people_players.md`, `input_manifest.md`, log poin 15).
+
 ## 2026-11-23 — scripts/build_people_v2710.py (pemain dataset → db 27.1.0)
 - Perbarui pemain yang sudah ada (klub, kontrak, nomor punggung) dan tambah pemain baru di ujung people/players/starting_contracts + file nama. Atribut = perkiraan (disalin dari pemain nyata, posisi sama, CA terdekat).
 - UID orang baru mulai 2.100.000.001 (rentang kosong di 27.1.0).

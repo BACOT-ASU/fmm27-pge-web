@@ -177,7 +177,8 @@ def non_player_fields(x):
     return f
 
 
-STAFF_ROLE_FILES = ('coaches', 'scouts', 'physios')   # people.idx2 / idx3 / idx4
+# people.idx2 / idx3 / idx4. Struktur scouts/physios dilihat dari file APK modder lain (LIKELY), belum dari ori.
+STAFF_ROLE_FILES = ('coaches', 'scouts', 'physios')
 
 
 def staff_role_fields(x):
