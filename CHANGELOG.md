@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Tab Simpan: pictures_logos lewat "Siapkan" lalu "Unduh sekarang"
+- Sama dengan tab Wajah 4b (unduhan Blob besar tidak muncul di Chrome Android).
+
 ## 2026-11-23 — Perbaikan simpan/unduh gabung wajah & logo
 - Baca file modder berurutan per jendela 16 MB (`sourcedWriter.ts`), rentang diurutkan & digabung. 4b: siapkan di penyimpanan browser lalu "Unduh sekarang".
 

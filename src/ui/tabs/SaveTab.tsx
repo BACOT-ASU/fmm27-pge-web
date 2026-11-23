@@ -4,7 +4,8 @@ import { buildDbDocumentsZip, workspaceReportText } from '../../core/export/club
 import type { FmfOutput } from '../../core/fmf';
 import type { Workspace } from '../../core/workspace/workspace';
 import type { PickedFile } from '../../platform/types';
-import { saveOutputParts, webFileIO } from '../../platform/web/webFileIO';
+import { downloadPreparedFile, prepareSourcedPartsInBrowserStorage, saveOutputParts, webFileIO } from '../../platform/web/webFileIO';
+import { keepScreenOn } from '../../platform/web/wakeLock';
 import { Btn, Card, errText, Msg } from '../common';
 
 const te = new TextEncoder();
@@ -16,6 +17,8 @@ function stamp(d: Date): string {
 export function SaveTab({ ws, files }: { ws: Workspace; files: Record<'db' | 'sc' | 'logos', PickedFile | null> }) {
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<{ t: string; k: 'ok' | 'err' } | null>(null);
+  const [logoProg, setLogoProg] = useState<string | null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const changes = ws.changes();
   const dbDirty = ws.dirty('db:').length > 0;
   const scDirty = ws.dirty('sc:').length > 0;
@@ -40,6 +43,30 @@ export function SaveTab({ ws, files }: { ws: Workspace; files: Record<'db' | 'sc
     if (!src?.blob) throw new Error('File sumber tidak tersedia');
     await saveOutputParts(name, out.parts, src.blob);
     return `${name} diunduh (${formatBytes(out.size)}). Masukkan ke APK dengan Level Store.`;
+  }
+
+  /**
+   * pictures_logos ±1,4 GB: unduhan Blob langsung tidak muncul di Chrome Android (laporan Bacad 23 Nov, tab Wajah 4b).
+   * Jadi sama seperti tab Wajah: susun dulu di penyimpanan internal browser (ada persen), lalu tombol "Unduh sekarang".
+   */
+  async function prepareLogos(): Promise<string> {
+    const src = files.logos;
+    if (!src?.blob) throw new Error('File sumber tidak tersedia');
+    setLogoFile(null);
+    const out = ws.buildLogosFmf();
+    const parts = out.parts.map((p) => (p instanceof Uint8Array ? p : { source: 0, start: p.start, end: p.end }));
+    const release = await keepScreenOn(() => undefined);
+    try {
+      const file = await prepareSourcedPartsInBrowserStorage('pictures_logos.fmf', parts, [src.blob], (w, t) => {
+        setLogoProg(`Menyiapkan… ${Math.floor((w / t) * 100)}% (${formatBytes(w)} / ${formatBytes(t)}) · jangan tinggalkan Chrome`);
+      });
+      setLogoFile(file);
+      setLogoProg(null);
+      return `pictures_logos.fmf siap (${formatBytes(file.size)}). Tekan "Unduh sekarang".`;
+    } finally {
+      setLogoProg(null);
+      release();
+    }
   }
 
   if (!changes.length) return <Card title="Simpan"><p className="text-sm text-slate-400">Belum ada perubahan.</p></Card>;
@@ -79,7 +106,13 @@ export function SaveTab({ ws, files }: { ws: Workspace; files: Record<'db' | 'sc
 
       {logoDirty && (
         <Card title="Logo (pictures_logos.fmf)">
-          <Btn kind="primary" full disabled={!!busy} onClick={() => void run('logo', () => saveArchive('pictures_logos.fmf', ws.buildLogosFmf(), files.logos))}>{busy === 'logo' ? 'Menyiapkan…' : 'Unduh pictures_logos.fmf (±1,8 GB, untuk APK)'}</Btn>
+          <Btn kind="primary" full disabled={!!busy} onClick={() => void run('logo', prepareLogos)}>{busy === 'logo' ? 'Menyiapkan…' : '1. Siapkan pictures_logos.fmf (ada persen)'}</Btn>
+          {logoProg && <p className="mt-1 text-xs text-slate-300">{logoProg}</p>}
+          {logoFile && (
+            <div className="mt-2">
+              <Btn kind="primary" full onClick={() => downloadPreparedFile(logoFile)}>2. Unduh sekarang ({formatBytes(logoFile.size)})</Btn>
+            </div>
+          )}
           <p className="mt-1 text-xs text-amber-300">Wajib <b>Store</b> di APK (kalau dikompres, game macet di splash). Pastikan ruang penyimpanan cukup.</p>
         </Card>
       )}

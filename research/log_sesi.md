@@ -402,6 +402,12 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - 4b berhasil mengunduh, tapi nama jadi `.fmf.txt`: File dari OPFS tidak punya tipe MIME → Chrome Android menganggap teks (sama dengan kasus people.dat.txt). Isi file tidak berubah; cukup ganti nama (hapus `.txt`).
 - Perbaikan: `downloadPreparedFile` membungkus file dengan tipe `application/octet-stream` (mimeForFileName).
 
+### 56. Laporan Bacad: logo Liga Nusantara & Gresik United tidak muncul (23 Nov)
+- Penyebab (VERIFIED dari laporan build): `build_v2710_logos.py` hanya memasukkan 23 logo klub dari `data/logo_klub/`. Logo yang dulu dipasang di B6 (panduan induk §B6: Championship 41042741/42, Liga Nusantara 41042746 + 2000700101–103, Gresik klub 2000700017) ada di pictures_logos B6/B7b 1,8 GB yang tidak ada di repo, dan modder tidak punya logo dengan UID ini → tidak terbawa ke 27.1.0.
+- Bisa lewat aplikasi web: tab **Logo** (Klub: Gresik United; Kompetisi: Liga Nusantara + Grup A/B/C, juga Championship Grup Barat/Timur bila kosong) → pilih gambar → Tambahkan → tab Simpan.
+- Perbaikan aplikasi: simpan pictures_logos di tab Simpan diganti alur 2 langkah seperti Wajah 4b ("1. Siapkan" ada persen di penyimpanan browser → "2. Unduh sekarang", bertipe biner) karena unduhan Blob 1,4 GB tidak muncul di Chrome Android.
+- Untuk build berikutnya: gambar Gresik & logo kompetisi disimpan di `data/logo_klub/` / folder logo kompetisi agar ikut otomatis.
+
 ### Menunggu dari Bacad
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
