@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Uji keuangan (opsional)
+- `UJI_KEUANGAN=1` di build_v2710_db.py: isi blok keuangan Persib (A) dan Borneo (E) untuk memetakan field ke anggaran di game.
+
 ## 2026-11-23 — B7c langkah 2 (reputasi per pita) + koefisien AFC Indonesia peringkat 11 (db v6)
 - Reputasi klub IDN mengikuti pita yang terbukti dari screenshot (Continental/Top Division/National/Regional/Local) per kasta dan kekuatan; Gresik Top Division. Koefisien AFC awal Indonesia × 0,84 → peringkat 11 timur.
 

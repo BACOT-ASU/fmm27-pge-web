@@ -96,6 +96,33 @@ def apply_reputation_bands(buf, clubs, comp_map, comps_b7b):
     return out
 
 
+# ---------------------------------------------------------------- uji keuangan (log poin 49), hanya bila UJI_KEUANGAN=1
+# Tujuan: membuktikan apakah blok keuangan 68 byte menentukan Transfer/Wage Budget klub Asia, dan field mana.
+# Satu variabel per klub, reputasi & liga sama (SL, Continental 8150):
+#   Persib (punya blok kosong): hanya A (f32, juta) = 50 dan D = 50000.
+#   Borneo (punya blok kosong): hanya E (u32) = 100000.
+#   Persija/Persebaya/Bali/Dewa (tanpa blok) = pembanding.
+FIN_TEST = {116140: {'A': 50.0}, 41021352: {'E': 100000}}
+
+
+def finance_block_experiment(buf, clubs):
+    out = []
+    for c in clubs:
+        t = FIN_TEST.get(c['uid'])
+        if not t:
+            continue
+        assert c['flag'], c['long']
+        b = c['o_div'] + 10
+        if 'A' in t:
+            struct.pack_into('<f', buf, b + 7, t['A'])
+            struct.pack_into('<I', buf, b + 19, int(t['A'] * 1000))
+        if 'E' in t:
+            struct.pack_into('<I', buf, b + 23, t['E'])
+        out.append((c['long'], t))
+    assert len(out) == len(FIN_TEST)
+    return out
+
+
 # ---------------------------------------------------------------- koefisien AFC awal Indonesia (keputusan Bacad 23 Nov)
 # Juara → ACL Two, runner-up → Challenge League sejak musim 1 = peringkat 11–12 wilayah timur (asi.xml).
 # Skor berbobot (8 musim, bobot 0,3..1,0 di kedua arah urutan musim) → faktor 0,84 menaruh Indonesia di peringkat 11
@@ -270,6 +297,8 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
         if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
+    if os.environ.get('UJI_KEUANGAN') == '1':
+        report['uji_keuangan'] = finance_block_experiment(cb3, C3)
     club_new = bytes(cb3)
     C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
     assert e == L and len(C2) == n_old + len(tail_add)

@@ -363,7 +363,15 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - **Koefisien**: `scale_idn_coefficient` mengalikan 9 nilai Indonesia × 0,84 → [3,44; 4,24; 0; 0; 3,33; 2,99; 6,05; 9,27; 0]. Skor berbobot (0,3→1,0) di kedua arah urutan musim: Indonesia **peringkat 11 dari 22** (bawah Hong Kong 22,7 / Korea Utara 17,4; atas Filipina 15,1–15,7). Peringkat 11 = ACL Two 1 tim liga + Challenge League "juara piala" (dialihkan ke runner-up, HYPOTHESIS). Rumus bobot game yang pasti UNKNOWN; margin tipis (±0,5).
 - db **v6**: 184.697.096 byte, SHA-256 ba073a99…6d65, kiriman `db_archive_2707_27.1.0_mod_v6` (.z01, .z02, .zip; dicek ulang dengan join_split_zip.py). sicomps v4, pictures_logos, libgame tetap. Tes 108 lulus.
 
+### 49. Keputusan Bacad: anggaran klub Indonesia (23 Nov)
+- Bacad: anggaran tim kecil diisi **minimal sesuai yang Bacad sebut**; **jangan pakai data mod sebagai acuan** (angka anggaran di screenshot poin 48 berasal dari game modder dan salah). Realitas: di Indonesia banyak klub kaya; gaji pemain paling mahal di ASEAN, bahkan Asia Timur.
+- Tafsiran Claude untuk "minimal": angka uji Persikad 22 Nov (panduan induk 10.1d), Transfer $675rb + Gaji $3,4rb/minggu = batas bawah yang terbukti tidak freeze. Perlu konfirmasi Bacad. Target klub besar: di atas JDT dan Kashima (angka pasti dari Bacad).
+- Kendala: anggaran tidak bisa ditulis langsung. Klub Asia (Kashima/Buriram/JDT/Persib) blok keuangannya kosong; game menghitung anggaran sendiri. Arti field blok 68 byte UNKNOWN (A/E Man City/Man Utd/Everton tidak sebanding dengan anggaran di game). Hanya 2 dari 77 klub IDN punya blok (Persib, Borneo).
+- **Uji keuangan (satu variabel, sekali instal)**: `UJI_KEUANGAN=1 build_v2710_db.py` (`finance_block_experiment`) = db v6 + Persib hanya A = 50 (D = 50000), Borneo hanya E = 100000. Pembanding (reputasi 8150 & liga sama, tanpa blok): Persija, Persebaya, Bali, Dewa. SHA-256 d6ba82e6…285e. Hanya untuk membaca Transfer/Wage Budget di Club Details karier baru.
+- Kalau blok terbukti berpengaruh → semua klub IDN diberi blok (klub tanpa blok perlu record diperbesar 68 byte + flag; belum pernah diuji). Kalau tidak → anggaran lewat reputasi/faktor lain (riset lanjut).
+
 ### Menunggu dari Bacad
+- Uji keuangan (poin 49): Transfer/Wage Budget Persib, Borneo, Persija, Persebaya, Bali, Dewa di db uji; konfirmasi angka minimal ($675rb / $3,4rb per minggu?) dan target klub besar.
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
 - Uji db v6: pita reputasi klub IDN di editor (Persib Continental, PSM Top Division, Persibo Regional, Gresik Top Division), anggaran tiap kasta, Adjust Budgets tidak freeze (termasuk Liga 4); akhir musim 1: juara → ACL Two, runner-up → Challenge League?
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
