@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — club/players/people terkonfirmasi ori
+- Salinan kedua dari APK ori identik dengan `samples/v2710/` (log poin 19).
+
 ## 2026-11-23 — Lokasi file APK 27.1.0
 - `input_manifest.md`: path & ukuran libgame.so, db_archive_2707.fmf, sicomps.fmf, pictures_logos.fmf (26,73 MB) di APK 27.1.0; catatan APK dari situs pihak ketiga.
 

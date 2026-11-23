@@ -18,7 +18,7 @@ Isi untuk setiap file yang sedang terpasang. Hash dipakai aplikasi sebagai gerba
 | pictures_logos.fmf | assets/data/game/ | 26,73 MB |
 Catatan: APK dari situs pihak ketiga (androidoyunclub; ada `lib/arm64-v8a/libandroidoyunclub.so`). `db_archive_2706/2623/2622/2621/2620.fmf` lama juga masih ada di folder yang sama.
 
-### APK 27.1.0 ori (entri db_archive, diunduh per entri 23 Nov 2026; nama arsipnya belum dicatat)
+### APK 27.1.0 ori (entri db_archive; club/players/people/coaches dikonfirmasi ori lewat salinan kedua yang identik, diunduh per entri 23 Nov 2026; nama arsipnya belum dicatat)
 | Entri | Ukuran | SHA-256 |
 |---|---|---|
 | people.dat | 16.733.361 | 841021a151f58607708f7ed259f9dc723082ccb6d1257c3218bfc804d92435bd |

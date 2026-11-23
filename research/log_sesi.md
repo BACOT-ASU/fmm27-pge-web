@@ -138,6 +138,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Pertanyaan: entri people/players/club dkk. yang dikirim sebelumnya diambil dari `db_archive_2707.fmf`? (jumlah orang 163.159 cocok dengan pola 2707).
 - Nama folder data Documents untuk jalur B kemungkinan `db_archive_2707` (belum diuji; aplikasi masih menulis `db_archive_2706`).
 
+### 19. club/players/people terkonfirmasi ori (23 Nov)
+- Bacad kirim ulang `club.dat`, `players.dat`, `people.dat` dari APK ori. Ketiganya **identik byte demi byte** dengan `samples/v2710/` (SHA-256 f88f43ab… / 221a28ef… / 841021a1…). Jadi semua hasil bongkar (poin 5, 9–11, 14) dan uji `build_people_v2710.py` memakai data ori.
+- Masih dianggap dari `db_archive_2707.fmf` (belum disebut eksplisit oleh Bacad; konsisten dengan 163.159 orang).
+
 ### Menunggu dari Bacad
 - File ori 27.1.0 (zip dipecah ≤ 25 MB): `lib/arm64-v8a/libgame.so`, `assets/data/game/db_archive_2707.fmf`, `assets/shared/data/sicomps.fmf`, `assets/data/game/pictures_logos.fmf`. (Path sudah diterima, poin 18.)
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
