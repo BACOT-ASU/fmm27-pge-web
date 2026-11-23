@@ -474,6 +474,9 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - UI: kartu klub → "Lihat pemain, manajer & staf" → daftar; ketuk nama → halaman edit (`src/ui/tabs/PeoplePanel.tsx`). Pindah klub & isi daftar skuad belum bisa dari aplikasi (dikerjakan skrip build).
 - Tes 118 lulus, lint & build lulus. Belum dicoba di HP.
 
+### 65. Klarifikasi Bacad (23 Nov)
+- Yang dimaksud "aplikasi" = aplikasi web kita (PWA editor), bukan editor dalam game (IGE). Fitur poin 64 memang dibuat di aplikasi web kita (tab Klub → kartu klub).
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
