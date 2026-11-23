@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Aplikasi: unduh tahan latar belakang, tab Kode 27.1.0, nama db
+- Tab Wajah & logo: 4a simpan langsung (wake lock) / 4b unduh lewat Chrome. Tab Kode mengenali libgame 27.1.0. Tab Simpan memakai nama arsip db yang dibuka.
+
 ## 2026-11-23 — Urutan jatah AFC dari posisi liga
 - BRI Super League diberi `CcQR` (posisi liga) seperti liga India/Jepang; tabel jatah AFC per koefisien dicatat (log 40). sicomps v3.
 - Analisa jadwal lompat: `_first_year` khusus AFC; dugaan baru = jumlah tim grup harus tepat (vlys).

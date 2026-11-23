@@ -10,8 +10,8 @@ export const DB_FOLDER = 'db_archive_2706';
  * Project claude/cara-pasang-database-editan-fmm27-terbukti.md): from = nama file di sebelah
  * config, to = nama internal game. Hanya file yang ada di folder yang dipetakan.
  */
-export function documentsConfigXml(entryNames: readonly string[]): string {
-  const lines = entryNames.map((n) => `    <record from="${n}" to="${DB_FOLDER}/${n}"/>`);
+export function documentsConfigXml(entryNames: readonly string[], folder: string = DB_FOLDER): string {
+  const lines = entryNames.map((n) => `    <record from="${n}" to="${folder}/${n}"/>`);
   return `<?xml version='1.0' encoding='utf-8'?>\n<record>\n  <boolean id="preload" value="false"/>\n  <!--logo mappings-->\n  <list id="maps">\n${lines.join('\n')}\n  </list>\n</record>\n`;
 }
 
@@ -86,10 +86,14 @@ export function buildPatchedDbArchive(arc: FmfArchive, clubDat: Uint8Array): Fmf
  * Zip Documents untuk banyak file db sekaligus. from = nama file tanpa ekstensi (pola club → club.dat,
  * TERBUKTI untuk club). Untuk file lain pola yang sama dipakai (LIKELY); .lng belum pernah diuji lewat Documents.
  */
-export function buildDbDocumentsZip(entries: readonly { name: string; ext: string; data: Uint8Array }[], report: string): Uint8Array {
+export function buildDbDocumentsZip(
+  entries: readonly { name: string; ext: string; data: Uint8Array }[],
+  report: string,
+  folder: string = DB_FOLDER,
+): Uint8Array {
   return makeZip([
-    ...entries.map((e) => ({ name: `${DB_FOLDER}/${e.name}${e.ext}`, data: e.data })),
-    { name: `${DB_FOLDER}/config.xml`, data: te.encode(documentsConfigXml(entries.map((e) => e.name))) },
+    ...entries.map((e) => ({ name: `${folder}/${e.name}${e.ext}`, data: e.data })),
+    { name: `${folder}/config.xml`, data: te.encode(documentsConfigXml(entries.map((e) => e.name), folder)) },
     { name: 'LAPORAN_PERUBAHAN.txt', data: te.encode(report) },
   ]);
 }

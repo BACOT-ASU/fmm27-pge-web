@@ -24,13 +24,13 @@ export function CodeTab({ ws, file }: { ws: Workspace; file: PickedFile | null }
       {t && (
         <>
           {t.notes.map((n, i) => (<p key={i} className="text-xs text-amber-300">{n}</p>))}
-          <p className="text-sm">Build B2c dikenali: <b>{t.knownBuild ? 'ya' : 'tidak'}</b> · penanda teks: <b>{t.markerFound ? 'ada' : 'tidak ada'}</b></p>
-          <h3 className="mt-3 text-sm font-semibold">Negara playable (28 slot, 0x643920)</h3>
+          <p className="text-sm">Build: <b>{t.knownBuild ? t.build.label : 'tidak dikenal'}</b>{t.build.marker && <> · penanda teks: <b>{t.markerFound ? 'ada' : 'tidak ada'}</b></>}</p>
+          <h3 className="mt-3 text-sm font-semibold">Negara playable (28 slot, 0x{t.build.nationsOffset.toString(16)})</h3>
           <p className="text-xs text-slate-500">Indonesia (58): {t.playableNations.includes(58) ? '✓ terdaftar' : '✗ tidak ada'}</p>
           <ul className="mt-1 grid grid-cols-2 gap-x-3 text-xs">
             {t.playableNations.map((n, i) => (<li key={i}>{i}. {nationName.get(n) ?? `#${n}`}</li>))}
           </ul>
-          <h3 className="mt-3 text-sm font-semibold">Liga terdalam yang bisa dimainkan (0x7cb440)</h3>
+          <h3 className="mt-3 text-sm font-semibold">Liga terdalam yang bisa dimainkan (0x{t.build.leaguesOffset.toString(16)})</h3>
           <p className="text-xs text-slate-500">Liga Nusantara (41042746): {t.deepestLeagues.includes(41042746) ? '✓ terdaftar' : '✗ tidak ada'}. Kalau liga tidak muncul di layar awal karier padahal datanya lengkap, cek tabel ini dulu.</p>
           <ul className="mt-1 text-xs">
             {t.deepestLeagues.map((u, i) => (<li key={i}>{u} <span className="text-slate-500">{compName.get(u) ?? ''}</span></li>))}

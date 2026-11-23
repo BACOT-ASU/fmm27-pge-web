@@ -21,6 +21,8 @@ export function SaveTab({ ws, files }: { ws: Workspace; files: Record<'db' | 'sc
   const scDirty = ws.dirty('sc:').length > 0;
   const logoDirty = ws.dirty('logo:').length > 0;
   const lngDirty = ws.dirty('db:').includes('db:lng');
+  // nama arsip db mengikuti file yang dibuka (27.0: db_archive_2706, 27.1.0: db_archive_2707)
+  const dbName = ws.db?.root.name || 'db_archive_2706';
   const report = () => workspaceReportText(changes, { sources: Object.values(files).filter(Boolean).map((f) => `${f!.name} (${f!.size} byte)`), createdAt: new Date() });
 
   async function run(id: string, fn: () => Promise<string>) {
@@ -55,16 +57,16 @@ export function SaveTab({ ws, files }: { ws: Workspace; files: Record<'db' | 'sc
       </Card>
 
       {dbDirty && (
-        <Card title="Database (db_archive_2706.fmf)">
+        <Card title={`Database (${dbName}.fmf)`}>
           <Btn kind="primary" full disabled={!!busy} onClick={() => void run('docs', async () => {
             const tag = stamp(new Date());
-            await webFileIO.saveFile(`fmm27_documents_db_${tag}.zip`, [buildDbDocumentsZip(ws.dbChangedEntries(), report())]);
+            await webFileIO.saveFile(`fmm27_documents_db_${tag}.zip`, [buildDbDocumentsZip(ws.dbChangedEntries(), report(), dbName)]);
             return 'Paket Documents diunduh (cek folder Download).';
           })}>{busy === 'docs' ? 'Menyiapkan…' : 'Unduh paket Documents (uji cepat, tanpa APK)'}</Btn>
-          <p className="mt-1 text-xs text-slate-400">Ekstrak, salin folder <code>db_archive_2706</code> ke <code className="break-all">Android/data/com.netflix.NGP.FootballManagerMobile/files/Documents/</code>, buat karier baru. Terbukti untuk club.dat; file lain memakai pola yang sama (belum diuji).{lngDirty && <span className="text-amber-300"> Ada perubahan .lng: jalur Documents untuk .lng belum pernah diuji — lebih aman pakai db_archive utuh.</span>}</p>
+          <p className="mt-1 text-xs text-slate-400">Ekstrak, salin folder <code>{dbName}</code> ke <code className="break-all">Android/data/com.netflix.NGP.FootballManagerMobile/files/Documents/</code>, buat karier baru. Terbukti untuk club.dat; file lain memakai pola yang sama (belum diuji).{lngDirty && <span className="text-amber-300"> Ada perubahan .lng: jalur Documents untuk .lng belum pernah diuji — lebih aman pakai db_archive utuh.</span>}</p>
           <div className="mt-3" />
-          <Btn full disabled={!!busy} onClick={() => void run('db', () => saveArchive('db_archive_2706.fmf', ws.buildDbFmf(), files.db))}>{busy === 'db' ? 'Menyiapkan…' : 'Unduh db_archive_2706.fmf (untuk APK)'}</Btn>
-          <p className="mt-1 text-xs text-amber-300">Ganti <code>assets/data/game/db_archive_2706.fmf</code> dengan Level <b>Store</b>, lalu sign ulang.</p>
+          <Btn full disabled={!!busy} onClick={() => void run('db', () => saveArchive(`${dbName}.fmf`, ws.buildDbFmf(), files.db))}>{busy === 'db' ? 'Menyiapkan…' : `Unduh ${dbName}.fmf (untuk APK)`}</Btn>
+          <p className="mt-1 text-xs text-amber-300">Ganti <code>assets/data/game/{dbName}.fmf</code> dengan Level <b>Store</b>, lalu sign ulang.</p>
         </Card>
       )}
 

@@ -3,7 +3,8 @@ import { formatBytes } from '../../core/binary/formatBytes';
 import { FACES_FOLDER, mergeFacesIntoFmf, parseFaceMapCsv, type FaceMapRow, type MergeFacesResult } from '../../core/faces/mergeFaces';
 import { findFolder, openFmf, type FmfArchive } from '../../core/fmf';
 import type { PickedFile } from '../../platform/types';
-import { saveSourcedPartsWithProgress, webFileIO } from '../../platform/web/webFileIO';
+import { saveSourcedParts, saveSourcedPartsWithProgress, webFileIO } from '../../platform/web/webFileIO';
+import { keepScreenOn } from '../../platform/web/wakeLock';
 import { Btn, Card, errText, Msg } from '../common';
 
 type Stage = 'idle' | 'processing' | 'processed' | 'writing' | 'done';
@@ -96,16 +97,33 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
     }
   }
 
-  async function download() {
+  /**
+   * mode 'file'   : tulis langsung ke file pilihan (progres %). Berjalan di halaman → JANGAN tinggalkan Chrome.
+   * mode 'chrome' : serahkan ke pengelola unduhan Chrome (Blob). Lebih tahan di latar belakang; progres di notifikasi Chrome.
+   * Laporan Bacad 23 Nov: mode 'file' gagal saat Chrome dipindah ke latar belakang (tab dibekukan Android).
+   */
+  async function download(mode: 'file' | 'chrome') {
     if (!result || busy || !donor) return;
     setStage('writing');
     setMsg(null);
-    setProg({ pct: 0, label: 'Langkah 2/2 · menulis file… 0%' });
+    let leftTab = false;
+    const release = await keepScreenOn(() => {
+      leftTab = true;
+    });
     try {
       if (!target.blob || !donor.file.blob) throw new Error('File sumber tidak tersedia');
+      if (mode === 'chrome') {
+        setProg({ pct: 0, label: 'Menyiapkan unduhan untuk Chrome…' });
+        await saveSourcedParts('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob]);
+        setStage('done');
+        setProg({ pct: 100, label: 'Diserahkan ke pengelola unduhan Chrome.' });
+        setMsg({ t: `Unduhan (${formatBytes(result.size)}) sekarang ditangani Chrome; progres ada di notifikasi unduhan dan boleh ditinggal. Tunggu sampai selesai, lalu masukkan ke APK dengan Level Store.`, k: 'ok' });
+        return;
+      }
+      setProg({ pct: 0, label: 'Langkah 2/2 · menulis file… 0% (jangan tinggalkan Chrome)' });
       const how = await saveSourcedPartsWithProgress('pictures_logos.fmf', result.parts, [target.blob, donor.file.blob], (w, t) => {
         const pct = Math.floor((w / t) * 100);
-        setProg({ pct, label: `Langkah 2/2 · menulis file… ${pct}% (${formatBytes(w)} / ${formatBytes(t)})` });
+        setProg({ pct, label: `Langkah 2/2 · menulis file… ${pct}% (${formatBytes(w)} / ${formatBytes(t)}) · jangan tinggalkan Chrome` });
       });
       setStage('done');
       if (how === 'file') {
@@ -117,8 +135,13 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
       }
     } catch (e) {
       setStage('processed');
-      setProg({ pct: 100, label: 'Proses sudah selesai; unduhan gagal atau dibatalkan. Tekan Unduh untuk mencoba lagi.' });
-      setMsg({ t: errText(e), k: 'err' });
+      setProg({ pct: 100, label: 'Proses sudah selesai; unduhan gagal atau dibatalkan. Coba lagi, atau pakai "Unduh lewat Chrome".' });
+      setMsg({
+        t: (leftTab ? 'Chrome sempat ditinggal ke latar belakang sehingga penulisan terhenti. Pakai "Unduh lewat Chrome" kalau ingin bisa ditinggal. ' : '') + errText(e),
+        k: 'err',
+      });
+    } finally {
+      release();
     }
   }
 
@@ -141,9 +164,13 @@ export function FacesTab({ target, targetArc }: { target: PickedFile; targetArc:
         <Btn kind={canProcess ? 'primary' : 'plain'} full disabled={!canProcess} onClick={() => void process()}>
           {stage === 'processing' ? 'Memproses…' : result ? '3. Proses ✓ (sudah selesai)' : '3. Proses'}
         </Btn>
-        <Btn kind={canDownload ? 'primary' : 'plain'} full disabled={!canDownload} onClick={() => void download()}>
-          {stage === 'writing' ? 'Menulis…' : stage === 'done' ? '4. Unduh lagi' : '4. Unduh pictures_logos.fmf'}
+        <Btn kind={canDownload ? 'primary' : 'plain'} full disabled={!canDownload} onClick={() => void download('file')}>
+          {stage === 'writing' ? 'Menulis…' : '4a. Simpan langsung (ada persen, jangan tinggalkan Chrome)'}
         </Btn>
+        <Btn full disabled={!canDownload} onClick={() => void download('chrome')}>
+          4b. Unduh lewat Chrome (boleh ditinggal, progres di notifikasi)
+        </Btn>
+        <p className="text-xs text-slate-500">Layar dijaga tetap menyala selama 4a berjalan. Kalau HP sering membekukan Chrome, pakai 4b.</p>
       </div>
       {prog && <Bar pct={prog.pct} label={prog.label} />}
       <Msg text={msg?.t ?? null} kind={msg?.k} />

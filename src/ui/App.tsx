@@ -23,7 +23,7 @@ import { FacesTab } from './tabs/FacesTab';
 
 type Slot = 'db' | 'sc' | 'logos' | 'lib';
 const SLOTS: { id: Slot; label: string; hint: string; accept: string[] }[] = [
-  { id: 'db', label: 'Database', hint: 'db_archive_2706.fmf (assets/data/game)', accept: ['.fmf'] },
+  { id: 'db', label: 'Database', hint: 'db_archive_2707.fmf / 2706 (assets/data/game)', accept: ['.fmf'] },
   { id: 'sc', label: 'Aturan & daftar muat', hint: 'sicomps.fmf (assets/shared/data)', accept: ['.fmf'] },
   { id: 'logos', label: 'Logo', hint: 'pictures_logos.fmf (assets/data/game)', accept: ['.fmf'] },
   { id: 'lib', label: 'Kode game (hanya dibaca)', hint: 'libgame.so (lib/arm64-v8a)', accept: ['.so'] },

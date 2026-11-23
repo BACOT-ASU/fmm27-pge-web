@@ -330,6 +330,13 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Saran sementara: biarkan Chrome & layar tetap menyala sampai 100 %, ruang kosong ≥ 3 GB.
 - Usulan perbaikan (menunggu "eksekusi"): (a) Wake Lock layar selama menulis + peringatan bila tab disembunyikan; (b) pilihan "Unduh lewat Chrome" (Blob → pengelola unduhan Chrome, lebih tahan di latar belakang).
 
+### 46. "Eksekusi" (23 Nov) — bagian 1: aplikasi
+- Bacad: "eksekusi" (semua yang menunggu, kecuali liga cadangan & U21/U18).
+- Tab Wajah & logo: tombol **4a Simpan langsung** (persen; layar dijaga menyala lewat Screen Wake Lock, `src/platform/web/wakeLock.ts`; pesan khusus bila Chrome sempat ditinggal) dan **4b Unduh lewat Chrome** (Blob ke pengelola unduhan Chrome, boleh ditinggal).
+- Tab Kode: `libgameTables.ts` mengenali build dari ukuran: 27.0 (0x643920 / 0x7cb440) dan **27.1.0 (0x647800 / 0x7cf618..0x7cf688)**; tes `tests/libgame_v2710.test.ts` (ori: Wales ada, Indonesia tidak; hasil tambal: 58 & 41042746 ada).
+- Tab Simpan: nama arsip db mengikuti file yang dibuka (`db_archive_2707` / `2706`), juga folder Documents & config.xml (`buildDbDocumentsZip(..., folder)`).
+- Lint/typecheck/108 tes/build lulus.
+
 ### Menunggu dari Bacad
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
