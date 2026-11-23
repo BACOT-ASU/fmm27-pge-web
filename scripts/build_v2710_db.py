@@ -96,13 +96,13 @@ def apply_reputation_bands(buf, clubs, comp_map, comps_b7b):
     return out
 
 
-# ---------------------------------------------------------------- uji keuangan (log poin 49), hanya bila UJI_KEUANGAN=1
-# Tujuan: membuktikan apakah blok keuangan 68 byte menentukan Transfer/Wage Budget klub Asia, dan field mana.
-# Satu variabel per klub, reputasi & liga sama (SL, Continental 8150):
-#   Persib (punya blok kosong): hanya A (f32, juta) = 50 dan D = 50000.
-#   Borneo (punya blok kosong): hanya E (u32) = 100000.
-#   Persija/Persebaya/Bali/Dewa (tanpa blok) = pembanding.
-FIN_TEST = {116140: {'A': 50.0}, 41021352: {'E': 100000}}
+# ---------------------------------------------------------------- uji keuangan di build utama (log poin 51)
+# Bacad tidak mau instal uji berulang → uji dimasukkan ke build v7 dengan nilai WAJAR (bukan nilai ekstrem):
+# Persib & Borneo satu-satunya klub IDN yang punya blok keuangan (kosong). Arti field UNKNOWN; dua dugaan diuji sekaligus:
+#   Persib: hanya A (f32, juta) = 1,3 dan D = 1300  → dugaan A = dana/anggaran transfer (target $1,3 jt).
+#   Borneo: hanya E (u32, ribu) = 3375              → dugaan E = gaji setahun (target $64,9rb/minggu × 52).
+#   Pembanding (reputasi 8150 & liga sama, tanpa blok): Persija, Persebaya, Bali, Dewa.
+FIN_TEST = {116140: {'A': 1.3}, 41021352: {'E': 3375}}
 
 
 def finance_block_experiment(buf, clubs):
@@ -297,8 +297,7 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
         if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
-    if os.environ.get('UJI_KEUANGAN') == '1':
-        report['uji_keuangan'] = finance_block_experiment(cb3, C3)
+    report['uji_keuangan'] = finance_block_experiment(cb3, C3)
     club_new = bytes(cb3)
     C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
     assert e == L and len(C2) == n_old + len(tail_add)

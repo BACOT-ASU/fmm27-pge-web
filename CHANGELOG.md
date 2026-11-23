@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — db v7 + daftar cek uji sekali instal
+- Uji blok keuangan (Persib A, Borneo E, nilai wajar) masuk build utama. `docs/CEKLIST_UJI_27.1.0.md`.
+
 ## 2026-11-23 — Target anggaran klub Indonesia
 - `scripts/budget_targets_v2710.py` + `data/target_anggaran_idn.csv` dari estimasi Bacad (SL) dan minimal Bacad (kasta lain).
 

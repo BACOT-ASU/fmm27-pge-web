@@ -377,8 +377,14 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Catatan: dengan kurs ini gaji Persija (£97rb) masih di bawah JDT di game modder (£123rb) — angka game modder tidak dipakai (keputusan poin 49).
 - Belum bisa ditulis ke db: menunggu hasil uji keuangan (poin 49) untuk tahu field mana yang mengatur anggaran.
 
+### 51. Keputusan Bacad: semua di satu build, tanpa instal uji berulang (23 Nov)
+- Bacad: semua masuk build terbaru; tidak mau trial install berulang; bug/laporan/screenshot dikumpulkan sekali.
+- db **v7** = v6 + uji keuangan dengan nilai **wajar** di build utama (db uji terpisah poin 49 dibatalkan): Persib A = 1,3 (D = 1300) — dugaan dana transfer $1,3 jt; Borneo E = 3375 — dugaan gaji setahun (ribu) $64,9rb × 52. Pembanding Persija/Persebaya/Bali/Dewa. SHA-256 4f9b0d1f…a11d, 184.697.096 byte.
+- Anggaran semua klub belum bisa diisi tepat (arti field UNKNOWN, 75 dari 77 klub IDN tidak punya blok; menambah blok = record membesar, belum pernah diuji → tidak diambil risikonya). Cadangan: atur anggaran klub sendiri lewat Club Details di game.
+- `docs/CEKLIST_UJI_27.1.0.md`: satu daftar cek untuk satu kali main (A awal, B isi db, C reputasi & anggaran, D musim 1, E akhir musim 1/musim 2, F bug).
+
 ### Menunggu dari Bacad
-- Uji keuangan (poin 49): Transfer/Wage Budget Persib, Borneo, Persija, Persebaya, Bali, Dewa di db uji; (angka minimal & target SL sudah diterima, poin 50).
+- Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
 - Uji db v6: pita reputasi klub IDN di editor (Persib Continental, PSM Top Division, Persibo Regional, Gresik Top Division), anggaran tiap kasta, Adjust Budgets tidak freeze (termasuk Liga 4); akhir musim 1: juara → ACL Two, runner-up → Challenge League?
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.

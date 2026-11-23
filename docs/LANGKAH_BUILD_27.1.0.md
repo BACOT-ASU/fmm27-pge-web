@@ -1,19 +1,19 @@
-# Langkah menjalankan build 27.1.0 mod (per 23 Nov 2026, db v6 / sicomps v4)
+# Langkah menjalankan build 27.1.0 mod (per 23 Nov 2026, db v7 / sicomps v4)
 
 ## File yang dipakai (versi terbaru)
 | File | Kiriman | SHA-256 (awal) | Tempat di APK |
 |---|---|---|---|
-| db_archive_2707.fmf | `db_archive_2707_27.1.0_mod_v6` (.z01, .z02, .zip) | ba073a99… | assets/data/game/ |
+| db_archive_2707.fmf | `db_archive_2707_27.1.0_mod_v7` (.z01, .z02, .zip) | 4f9b0d1f… | assets/data/game/ |
 | sicomps.fmf | `sicomps_27.1.0_mod_v4.zip` | 1a05f9d8… | assets/shared/data/ |
 | pictures_logos.fmf | `pictures_logos_27.1.0_mod` (.z01, .zip) — lalu digabung wajah & logo (langkah 3) | e04a0cb4… (sebelum gabung) | assets/data/game/ |
 | libgame.so | `libgame_27.1.0_mod.zip` | 53dde79e… | lib/arm64-v8a/ |
 | peta_aset_27.1.0.csv | dipakai di aplikasi (langkah 3) | – | – |
-Versi lama (db v1–v5, sicomps v1–v3, peta_wajah*.csv) tidak dipakai lagi.
+Versi lama (db v1–v6, db uji keuangan, sicomps v1–v3, peta_wajah*.csv) tidak dipakai lagi.
 
 ## 1. Ekstrak
 1. Taruh semua bagian satu zip dalam satu folder (mis. `.z01`, `.z02`, `.zip` milik db).
 2. Buka file `.zip` dengan MT Manager → ekstrak. Lakukan untuk db, sicomps, pictures_logos, libgame.
-3. (Opsional) cek SHA-256 dengan `SHA256_v8.txt`.
+3. (Opsional) cek SHA-256 dengan `SHA256_v9.txt`.
 
 ## 2. Perbarui aplikasi web
 Buka aplikasi di Chrome, tutup–buka sampai versi di footer berganti.
@@ -35,6 +35,7 @@ Buka aplikasi di Chrome, tutup–buka sampai versi di footer berganti.
 3. Install. Kalau ada versi lain terpasang dengan tanda tangan berbeda, hapus dulu.
 
 ## 5. Cek di game (karier baru)
+Daftar lengkap untuk sekali main: `docs/CEKLIST_UJI_27.1.0.md`.
 - Indonesia & Liga Nusantara ada di layar awal karier.
 - Klub per liga: SL 18, Championship 10+10, Liga Nusantara 7+8+8, Liga 4 3.
 - Pemain & staf baru muncul (pemain baru tercatat pemain, bukan manajer); nama klub asli (mis. AC Milan).
