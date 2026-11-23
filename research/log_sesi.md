@@ -64,7 +64,16 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Hasil CSV di `samples/v2710/cocok_pemain.csv`, `cocok_staf.csv` (tidak di-commit; berisi data dari file game).
 - Rencana Player/Staff: lihat jawaban chat; ringkasan di panduan induk 10.14.
 
+### 10. Cari referensi di repo/situs lain (23 Nov) — diminta Bacad
+- Pencarian web + GitHub. Temuan utama: **nyongrand/fmm-editor** (editor FMM26, .NET, MIT; juga di fmmvibe.com file 1472). FMM Vibe juga punya "FMM 2027 Editor" (file 1538) tapi tanpa kode sumber.
+- `Player.cs` di repo itu = **82 byte, sama persis** dengan players.dat 27.1.0 → urutan 34 atribut, 15 posisi, kaki, CA/PA, reputasi, nomor punggung, tinggi/berat diambil sebagai LIKELY (nilai cocok: Messi AMR 20, Haaland ST 20 / Finishing tinggi).
+- `People.cs`: urutan 8 kepribadian (Adaptability … Temperament), Ethnicity, caps U21 → LIKELY.
+- Temuan baru (VERIFIED dari statistik): 18 atribut selalu 1–20, **16 atribut disimpan bertanda −100..100** (teknik utama + 6 atribut kiper). Rumus ke angka 1–20 di layar belum diketahui (HYPOTHESIS: relatif terhadap CA). Editor FMM26 tidak mengonversinya.
+- README editor itu: **pemain/klub baru bisa tidak muncul di game** (masalah terbuka mereka). Dugaan kita: perlu daftar muat (`fmm_people`, `people_to_always_load_*`).
+- Diperbarui: `scripts/people.py` (`player_fields` dengan nama atribut), `people_players.md`.
+- Masih butuh dari Bacad: screenshot atribut untuk kalibrasi rumus (lihat daftar di bawah).
+
 ### Menunggu dari Bacad
 - Cek unduhan per entri setelah aplikasi diperbarui: nama file harus tanpa `.txt`.
-- Screenshot profil 3–5 pemain 27.1.0 (atribut + posisi), mis. Marc Klok, Witan, Jay Idzes, 1 kiper, 1 bintang.
+- Screenshot halaman atribut 8–10 pemain 27.1.0 dengan CA beragam (bintang, pemain Super League, pemain Liga Nusantara, 2 kiper) + 1–2 pelatih + daftar entri db_archive 27.1.0.
 - Nama file db_archive 27.1.0 + lokasi di `assets/`; screenshot info arsip (ukuran, SHA-256, flag, jumlah entri) untuk ketiga arsip 27.1.0.

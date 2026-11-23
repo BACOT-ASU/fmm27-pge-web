@@ -37,19 +37,19 @@ sesudahnya, jadi record pertama mulai di offset 13. File lain mulai di offset 12
 | 5 | dob_day, dob_year | u16, u16 | tanggal lahir (hari ke-n mulai 0, tahun) | VERIFIED |
 | 6 | nation | u16 | index negara (58 = Indonesia) | VERIFIED |
 | 7 | other_nations | u16 n + n × u16 | negara lain (Hilgers: 158 Belanda) | LIKELY |
-| 8 | intl_a | u8 | 0–10 | UNKNOWN |
-| 9 | intl_b | i32 | −1 atau angka (Reiziger 568) | UNKNOWN |
-| 10 | intl_c | u8 | umumnya 1 atau 0 | UNKNOWN |
+| 8 | intl_a | u8 | 0–10. Editor FMM26: **Ethnicity** | LIKELY |
+| 9 | intl_b | i32 | −1 atau angka (Reiziger 568). Editor FMM26: "mungkin City ID" | UNKNOWN |
+| 10 | intl_c | u8 | umumnya 1 atau 0. Editor FMM26: "Type" | UNKNOWN |
 | 11 | intl_date | u16 hari, u16 tahun | 1/1900 = kosong | UNKNOWN (tanggal timnas?) |
 | 12 | caps, intl_goals | u16, u16 | penampilan + gol timnas (Reiziger 72/1, sesuai data nyata) | LIKELY |
-| 13 | intl_x | 2 byte | | UNKNOWN |
+| 13 | intl_x | u8, u8 | caps / gol timnas U21 (editor FMM26) | LIKELY |
 | 14 | club_index | i32 | index `club.dat`, −1 = tanpa klub | VERIFIED |
 | 15 | joined | u16 hari, u16 tahun | tanggal masuk klub | LIKELY |
 | 16 | pad0 | 2 byte | selalu 00 00 | VERIFIED (nilai) |
-| 17 | personality | 8 × u8 | 1–20 (wasit: ada nilai 0). Urutan arti belum dipetakan | LIKELY |
+| 17 | personality | 8 × u8 | Adaptability, Ambition, Controversy, Loyalty, Pressure, Professionalism, Sportsmanship, Temperament (urutan dari editor FMM26; wasit bernilai 0 di byte ke-3 = Controversy, cocok) | LIKELY |
 | 18 | player_index | i32 | index `players.dat`, −1 = bukan pemain | VERIFIED |
 | 19 | non_player_index | i32 | index `non_players.dat` | VERIFIED |
-| 20 | idx2, idx3, idx4 | 3 × i32 | index ke file lain (9.864 / 1.767 / 3.539 orang). Diduga `coaches.dat` dkk. | UNKNOWN (file tujuan) |
+| 20 | idx2, idx3, idx4 | 3 × i32 | index ke file lain (9.864 / 1.767 / 3.539 orang). Editor FMM26 menebak: manajer/pelatih/scout/physio; ada `coaches.dat` (coach/scout/physio) dan `officials.dat` di editor itu | UNKNOWN (file tujuan) |
 | 21 | staff_extra | 2 byte | **hanya ada** kalau salah satu field 19–20 ≥ 0 | VERIFIED (syarat), UNKNOWN (arti) |
 | 22 | official_index | i32 | 2.469 orang, index 0..2.468 (wasit) | LIKELY |
 | 23 | flags3 | 3 byte | byte ke-3 = 1 → field 24 ada | VERIFIED (syarat) |
@@ -61,22 +61,30 @@ Statistik 27.1.0: 136.895 pemain, 19.078 staf (non-player), 2.469 wasit. Kebangs
 ditambah 67 orang dengan Indonesia sebagai negara lain.
 
 ## players.dat — 82 byte per record
+Sumber nama field: [nyongrand/fmm-editor](https://github.com/nyongrand/fmm-editor) `FMMLibrary/Player.cs` (editor FMM26, lisensi MIT),
+dicocokkan dengan data 27.1.0: panjang 82 byte sama persis, dan nilainya masuk akal untuk pemain nyata. Kode tidak disalin.
+
 | Offset | Tipe | Arti | Keyakinan |
 |---|---|---|---|
 | 0 | u32 | nomor urut record (= player_index) | VERIFIED |
-| 4 | u32 | (Messi 21.433, Haaland 284.021) | UNKNOWN |
-| 8–41 | 34 × u8 | atribut. Sebagian selalu 1–20 (13, 14, 17–29, 33, 34, 37), sebagian 0–255 (diduga bertanda / relatif; 0x9C sering muncul di 35, 36, 38–41) | UNKNOWN (perlu kalibrasi screenshot) |
-| 42–56 | 15 × u8 | rating posisi 1–20 (Haaland: 20 di offset 54 = striker). Byte 43 selalu 1 | LIKELY (ada posisi), HYPOTHESIS (urutan) |
-| 57 / 58 | u8 / u8 | kaki kiri / kanan 1–20 (Messi 20/12, Haaland 20/11, Hilgers 8/20) | LIKELY |
-| 59 | u16 | CA (Messi 172, Haaland 187, Mbappé 192, Klok 105) | LIKELY |
-| 61 | u16 | PA (Messi 200, Haaland 195, Mbappé 197, Klok 115) | LIKELY |
-| 63 / 65 / 67 | u16 × 3 | reputasi saat ini / di negara asal / dunia (Messi 10.000/8.750/8.750) | LIKELY |
-| 69 | u8 | 0/1 | UNKNOWN |
-| 72 | u8 | nomor punggung klub (Messi 10, Mbappé 10, Haaland 9, Klok 23) | LIKELY |
-| 73 | u8 | nomor punggung timnas (Messi 10, Mbappé 10) | LIKELY |
-| 74 | u8 | tinggi cm (Haaland 195, Mbappé 178) | LIKELY |
-| 76 | u8 | berat kg (Haaland 89) | LIKELY |
-| 70–71, 75, 77–81 | | selalu 0 | VERIFIED (nilai) |
+| 4 | u32 | editor FMM26 menyebut "Uid", tapi di 27.1.0 **bukan** UID orang (Messi 21.433, UID 7.458.500) | UNKNOWN |
+| 8–34 | 27 × u8 | Crossing, Dribbling, Tackling, Finishing, Long Shots, Heading, Jumping, Passing, Decisions, Unselfishness, Pace, Strength, Stamina, Technique, Consistency, Aggression, Big Matches, Injury Proneness, Leadership, Versatility, Set Pieces, Penalties, Creativity, Movement, Positioning, Work Rate, Flair | LIKELY (urutan) |
+| 35–41 | 7 × u8 | Handling, Kicking, Agility, Aerial Ability, Reflexes, Communication, Throwing (kiper) | LIKELY (urutan) |
+| 42–56 | 15 × u8 | rating posisi: GK, LIB, DL, DC, DR, DM, ML, MC, MR, AML, AMC, AMR, ST, WBL, WBR (1–20). LIB selalu 1. Messi AMR 20 / AMC 19 / ST 19, Haaland ST 20, Hilgers DC 20 / DR 14 | LIKELY |
+| 57 / 58 | u8 / u8 | kaki kiri / kanan 1–20 | LIKELY |
+| 59 / 61 | i16 / i16 | CA / PA | LIKELY |
+| 63 / 65 / 67 | i16 × 3 | reputasi. Editor FMM26: home / current / world. Messi 10.000 / 8.750 / 8.750 → urutan home/current belum pasti | LIKELY (reputasi), UNKNOWN (urutan 63/65) |
+| 69 | u8 | pensiun dari timnas (0/1) | LIKELY |
+| 70–71 | | selalu 0 | VERIFIED (nilai) |
+| 72 / 73 | u8 / u8 | nomor punggung / nomor favorit (Messi 10/10, Klok 23) | LIKELY |
+| 74 / 76 | i16 / i16 | tinggi cm / berat kg | LIKELY |
+| 78–81 | | selalu 0 | VERIFIED (nilai) |
+
+**Dua jenis penyimpanan atribut (VERIFIED dari statistik 136.910 pemain):**
+- 18 atribut **selalu 1–20**: Heading, Jumping, Unselfishness, Pace, Strength, Stamina, Technique, Consistency, Aggression, Big Matches, Injury Proneness, Leadership, Versatility, Set Pieces, Penalties, Work Rate, Flair, Agility.
+- 16 atribut **bertanda −100..100**: Crossing, Dribbling, Tackling, Finishing, Long Shots, Passing, Decisions, Creativity, Movement, Positioning, dan 6 atribut kiper (Handling, Kicking, Aerial, Reflexes, Communication, Throwing; untuk pemain non-kiper umumnya sangat negatif, −100). Contoh: Haaland Finishing +71, Tackling −83; Messi Dribbling +54, Tackling −76.
+- Dugaan (HYPOTHESIS): nilai bertanda adalah kekuatan relatif, dan angka 1–20 di layar dihitung game dari nilai ini + CA. **Rumus belum diketahui**, perlu kalibrasi dengan screenshot (CA tiap pemain sudah diketahui dari file).
+- Editor FMM26 menyimpan atribut sebagai byte mentah tanpa konversi, jadi tidak membantu soal rumus.
 
 ## non_players.dat — 39 byte per record
 u32 nomor urut (= non_player_index, VERIFIED); lalu u16 ×2 (contoh 105/120, diduga CA/PA staf), u16 ×3
@@ -108,7 +116,11 @@ u32 nomor urut (= non_player_index, VERIFIED); lalu u16 ×2 (contoh 105/120, did
 ## Status
 Baca VERIFIED · Tulis ulang identik VERIFIED · Arti field sebagian LIKELY · Uji game: belum.
 
+## Catatan dari editor lain
+- nyongrand/fmm-editor README, "Known issues": **pemain/klub baru bisa tidak muncul di game** walau edit pemain lama berhasil. Dugaan kita (dari B7b): orang/klub baru juga harus didaftarkan di daftar muat (`sicomps/.../fmm_people.dat` per negara; editor itu juga memakai `people_to_always_load_*.dat` dan `clubs_to_always_load_*.dat`). HYPOTHESIS sampai diuji.
+- Parser `People.cs` editor itu memakai tebakan (peek) untuk bagian tengah record; parser kita (`scripts/people.py`) memakai aturan pasti dan terbukti round-trip identik di 163.159 record.
+
 ## Unknown / langkah berikutnya
-1. Urutan 34 atribut + cara baca nilai di atas 20: butuh screenshot profil 3–5 pemain dari game (atribut + posisi), cocokkan byte per byte.
+1. Rumus konversi 16 atribut bertanda (−100..100) ke angka 1–20 di layar: butuh screenshot atribut 8–10 pemain dengan CA berbeda-beda; urutan atribut sudah LIKELY dari editor FMM26.
 2. File tujuan idx2/idx3/idx4: cek `coaches.dat` dan file lain di db_archive.
 3. Uji game: ubah CA/PA 1 pemain Indonesia, lalu tambah 1 pemain baru.

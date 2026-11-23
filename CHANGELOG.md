@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — Nama atribut pemain dari editor FMM26 (nyongrand/fmm-editor)
+- Urutan 34 atribut, 15 posisi, kepribadian, Ethnicity, caps U21 diambil dari `nyongrand/fmm-editor` (MIT) sebagai LIKELY; panjang record 82 byte sama persis.
+- Temuan: 16 atribut disimpan bertanda −100..100 (bukan 1–20); rumus ke angka di layar belum diketahui.
+- `scripts/people.py`: `player_fields` mengeluarkan atribut bernama; `people_players.md` diperbarui.
+
 ## 2026-11-23 — Pencocokan dataset pemain/staf dengan people.dat 27.1.0
 - `scripts/match_dataset_people.py`: cocokkan `data/pemain_indonesia_v2.csv` dan `data/staf_indonesia_v2.csv` dengan people.dat (nama persis + tgl lahir). Hasil: pemain 213/1.823 ketemu (13 dengan tgl lahir sama), staf 18/364.
 - `people_players.md`: `first` = 0xFFFFFFFF = tanpa nama depan.

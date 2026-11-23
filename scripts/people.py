@@ -122,21 +122,40 @@ def join_fixed(header, recs):
     return bytes(h) + b''.join(recs)
 
 
+# Urutan atribut & posisi: dari nyongrand/fmm-editor (FMMLibrary/Player.cs, FMM26, MIT), dicocokkan dengan
+# data 27.1.0 (panjang 82 byte sama, nilai CA/PA/posisi/kaki/tinggi masuk akal). Keyakinan: LIKELY.
+PLAYER_ATTRS = ('crossing dribbling tackling finishing long_shots heading jumping passing decisions '
+                'unselfishness pace strength stamina technique consistency aggression big_matches '
+                'injury_proneness leadership versatility set_pieces penalties creativity movement '
+                'positioning work_rate flair handling kicking agility aerial_ability reflexes '
+                'communication throwing').split()
+# Atribut yang disimpan bertanda -100..100 (bukan 1-20); cara konversi ke angka 1-20 di game: UNKNOWN.
+PLAYER_SIGNED_ATTRS = {'crossing', 'dribbling', 'tackling', 'finishing', 'long_shots', 'passing',
+                       'decisions', 'creativity', 'movement', 'positioning', 'handling', 'kicking',
+                       'aerial_ability', 'reflexes', 'communication', 'throwing'}
+PLAYER_POSITIONS = 'gk lib dl dc dr dm ml mc mr aml amc amr st wbl wbr'.split()
+
+
 def player_fields(x):
-    """Field players.dat (82 byte) yang sudah dikenali. Offset di research/format_specs/people_players.md."""
-    return {
-        'index': struct.unpack_from('<I', x, 0)[0],
-        'u4': struct.unpack_from('<I', x, 4)[0],          # UNKNOWN
-        'attrs': x[8:42],                                 # 34 byte atribut (sebagian 1-20, sebagian bertanda) UNKNOWN
-        'positions': x[42:57],                            # 15 nilai 1-20 (urutan posisi HYPOTHESIS)
+    """Field players.dat (82 byte). Offset + keyakinan di research/format_specs/people_players.md."""
+    f = {'index': struct.unpack_from('<I', x, 0)[0],
+         'u4': struct.unpack_from('<I', x, 4)[0]}          # FMM26 editor: "Uid"; di 27.1.0 bukan UID orang. UNKNOWN
+    for k, name in enumerate(PLAYER_ATTRS):
+        b = x[8 + k]
+        f[name] = b - 256 if (name in PLAYER_SIGNED_ATTRS and b > 127) else b
+    for k, name in enumerate(PLAYER_POSITIONS):
+        f['pos_' + name] = x[42 + k]
+    f.update({
         'left_foot': x[57], 'right_foot': x[58],
-        'ca': struct.unpack_from('<H', x, 59)[0], 'pa': struct.unpack_from('<H', x, 61)[0],
-        'rep_current': struct.unpack_from('<H', x, 63)[0],
-        'rep_home': struct.unpack_from('<H', x, 65)[0],
-        'rep_world': struct.unpack_from('<H', x, 67)[0],
-        'club_number': x[72], 'nation_number': x[73],
-        'height': x[74], 'weight': x[76],
-    }
+        'ca': struct.unpack_from('<h', x, 59)[0], 'pa': struct.unpack_from('<h', x, 61)[0],
+        'rep_63': struct.unpack_from('<h', x, 63)[0],   # FMM26 editor: home; dugaan awal kita: current
+        'rep_65': struct.unpack_from('<h', x, 65)[0],   # FMM26 editor: current
+        'rep_67': struct.unpack_from('<h', x, 67)[0],   # world
+        'intl_retired': x[69],
+        'squad_number': x[72], 'preferred_number': x[73],
+        'height': struct.unpack_from('<h', x, 74)[0], 'weight': struct.unpack_from('<h', x, 76)[0],
+    })
+    return f
 
 
 def contract_fields(x):
