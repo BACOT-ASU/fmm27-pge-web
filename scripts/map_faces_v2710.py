@@ -6,7 +6,12 @@ salah-peta di data modder dan UID pemain baru kita (2.100.000.001+) tertangani.
   2. Cari orang dengan nama + tgl lahir sama di people.dat kita. Kalau ada tepat satu -> pakai UID kita.
   3. Kalau tidak ketemu: nama sama + negara sama, dan kandidatnya TEPAT SATU di kedua sisi
      (tanggal lahir di dataset Indonesia banyak yang perkiraan) -> status 'cocok_nama_negara'.
-  4. Tidak ketemu / ganda -> tidak dipetakan (dicatat).
+  4. (23 Nov, saran Bacad "bandingkan UID dan nama") UID modder ada di build kita + tanggal lahir sama, walau nama beda
+     (mis. modder "Thom Jan Marinus Haye", kita "Thom Haye") -> 'uid_sama_tgl_lahir'.
+  5. Nama kita (>= 2 kata) semua ada di nama lengkap/umum modder (mis. "Uilliam Barros" ⊂ "Uilliam Barros Pereira"),
+     negara sama, kandidat TEPAT SATU di kedua sisi, UID kita belum punya wajah -> 'cocok_kata_nama'. Tanggal lahir diabaikan karena
+     tanggal lahir dataset sering perkiraan/salah (mis. Barros 2006 vs modder 1994).
+  6. Tidak ketemu / ganda -> tidak dipetakan (dicatat).
 
 Keluaran: CSV `from,to_uid,modder_uid,nama,status` (from = nama file PNG di arsip modder, mis. custom/3).
 
@@ -62,7 +67,9 @@ def build_map(config_xml, mod_folder, our_folder):
     for u, (full, common, dob, nat) in mod.items():
         for k in {norm(full), norm(common)} - {''}:
             mod_nat.setdefault((k, nat), set()).add(u)
+    our_by = {u: (full, common, dob, nat) for u, full, common, dob, nat in ours}
     rows = []; stat = {}
+    pending = []
     for frm, mu in faces:
         mu = int(mu)
         p = mod.get(mu)
@@ -85,10 +92,41 @@ def build_map(config_xml, mod_folder, our_folder):
                 m2 = set().union(*(mod_nat.get((k, nat), set()) for k in keys)) if keys else set()
                 if len(c2) == 1 and len(m2) == 1:
                     tu = c2.pop(); st = 'cocok_nama_negara'
+                elif mu in our_by and our_by[mu][2] == dob:
+                    tu = mu; st = 'uid_sama_tgl_lahir'
                 else:
                     st, tu = 'tidak_ada_di_build', ''
-        stat[st] = stat.get(st, 0) + 1
         rows.append({'from': frm, 'to_uid': tu, 'modder_uid': mu, 'nama': name, 'status': st})
+
+    # langkah 5: kata nama
+    def toks(x):
+        return set(norm(x).split())
+    used = {str(r['to_uid']) for r in rows if r['to_uid'] != ''}
+    pool = [(u, toks(full), nat) for u, (full, common, dob, nat) in our_by.items()
+            if str(u) not in used and len(toks(full)) >= 2]
+    by_tok = {}
+    for u, t, n in pool:
+        for w in t:
+            by_tok.setdefault(w, []).append((u, t, n))
+    hits = {}
+    for i, r in enumerate(rows):
+        if r['status'] != 'tidak_ada_di_build':
+            continue
+        full, common, dob, nat = mod[r['modder_uid']]
+        mt = toks(full) | toks(common)
+        seen = {}
+        for w in mt:
+            for u, t, n in by_tok.get(w, ()):
+                if n == nat and t <= mt:
+                    seen[u] = t
+        if len(seen) == 1:
+            hits.setdefault(next(iter(seen)), []).append(i)
+    for u, idxs in hits.items():
+        if len(idxs) == 1:
+            rows[idxs[0]]['to_uid'] = u
+            rows[idxs[0]]['status'] = 'cocok_kata_nama'
+    for r in rows:
+        stat[r['status']] = stat.get(r['status'], 0) + 1
     return rows, stat, our_uids
 
 
