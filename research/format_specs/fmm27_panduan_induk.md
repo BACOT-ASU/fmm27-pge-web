@@ -156,8 +156,8 @@ Klub tanpa stadion membuat kapasitas 0, sehingga penonton terpotong jadi 0. Stad
 - Kandidat youth rating: Inggris 19, Spanyol/Jerman/Italia 18, Jepang 13, Korea 12, China 10, Wales 6. Negara yang ligannya tidak aktif di FMM (Indonesia, Thailand, Malaysia, Brasil) bernilai 1.
 - B7a mengubah Indonesia dari 1 menjadi 10. **Belum terbukti** sampai youth intake diuji.
 
-### 4.8 Belum dibongkar penuh
-`players.dat`, `non_players.dat`, kontrak (`starting_contracts.dat`). Diperlukan untuk B3.
+### 4.8 people/players/non_players/kontrak — DIBONGKAR (23 Nov, 27.1.0 ori)
+Struktur keempat file VERIFIED (round-trip identik, `scripts/people.py`); `people.club_index` = index `club.dat` (141.633/141.633 kontrak cocok). CA/PA, reputasi, tinggi/berat, kaki, nomor punggung, gaji: LIKELY. Urutan 34 atribut: UNKNOWN (butuh screenshot). Rincian: `people_players.md`.
 
 ### 4.9 Nama & `people.dat` (temuan awal 18 Nov 2026)
 - **File nama** (`first_names.dat`, `second_names.dat`, `common_names.dat`; skrip `names.py`): header 8 + u32 jumlah (64.318 / 106.833 / 9.673). Record: u32 0, u32 index (urut), u8, u32 UID negara, u16, u8 flag, u32 panjang + teks. Dibaca sampai byte terakhir.

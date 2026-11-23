@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-23 — B3: people.dat, players.dat, non_players.dat, starting_contracts.dat dibongkar (27.1.0 ori)
+- `scripts/people.py`: baca + tulis ulang keempat file; round-trip identik byte demi byte (163.159 orang; 136.910 × 82, 19.078 × 39, 141.633 × 54 byte).
+- Terbukti: `people.club_index` = index `club.dat` (semua 141.633 kontrak cocok), `player_index`/`non_player_index` → urutan `players.dat`/`non_players.dat`.
+- LIKELY: CA/PA, reputasi, tinggi/berat, kaki, nomor punggung, posisi, gaji. UNKNOWN: urutan atribut, idx2–4, sebagian field timnas.
+- `club.dat` 27.1.0: 53.182 klub (27.0: 38.747), terbaca habis oleh `club.py`.
+- Spesifikasi baru `research/format_specs/people_players.md`; hash entri 27.1.0 di `input_manifest.md`.
+
 ## 2026-11-22 — Hasil uji youth intake
 - Laporan Bacad: db B7b (youth rating IDN 19) → youth intake musim pertama tetap 1 (klub Gresik, semi-pro). Aplikasi modder lain dengan status klub profesional → 5 pemain.
 - Uji lanjutan: Persib (pro) juga hanya 1 pemain → status pro tidak terbukti, jadi UNKNOWN. Youth intake ditunda; prioritas APK 27.1.0 (panduan induk 10.13).

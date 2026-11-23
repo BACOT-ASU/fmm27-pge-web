@@ -65,7 +65,8 @@ Analoginya begini: v5 itu rencana membangun rumah sambil menunggu hasil survei t
 - Anggaran awal klub dihitung game dari reputasi + status + penonton (LIKELY, dari uji 1d).
 
 **UNKNOWN / belum dibongkar**
-- `people.dat` (baru pola awal), `players.dat`, `non_players.dat`, `starting_contracts.dat`, blok akhir `club.dat` 77 byte dan daftar 21 byte.
+- (23 Nov) `people.dat`/`players.dat`/`non_players.dat`/`starting_contracts.dat`: struktur VERIFIED dari 27.1.0 (`people_players.md`); arti atribut pemain dan uji game belum.
+- Blok akhir `club.dat` 77 byte dan daftar 21 byte.
 - Apakah `sicomps.fmf` flag 0 atau 3 (`fmmcore.js` sekarang hanya mendukung flag 0) → **cek di Sesi 03**.
 - Apakah game menerima `db_archive` yang TOC-nya raw-frame (sudah terbukti untuk logo, belum untuk db) → **uji di Fase 5**.
 

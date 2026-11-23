@@ -21,8 +21,8 @@ Record diawali u32 UID, u16 index, nama (+ff), kebangsaan (+ff), kode 3 huruf; p
 ## File nama — VERIFIED (`scripts/names.py`)
 `first_names.dat`, `second_names.dat`, `common_names.dat`: 8 byte header + u32 jumlah. Record: u32 0, u32 index, u8, u32 UID negara, u16, u8 flag, u32 panjang + teks.
 
-## `people.dat` — UNKNOWN (pola awal LIKELY)
-150.430 orang, panjang record bervariasi. Pola dalam record: `i32 −1, u32 UID, u32 idx nama depan, u32 idx nama belakang, i32 idx nama umum (−1), u16 hari dalam tahun, u16 tahun lahir, u16 index negara`. `scripts/people_scan.py`.
+## `people.dat`, `players.dat`, `non_players.dat`, `starting_contracts.dat` — struktur VERIFIED (23 Nov)
+Dibongkar dari APK 27.1.0 ori: lihat `people_players.md` dan `scripts/people.py` (round-trip identik). 27.0 (2706): 150.430 orang, pola awal sama.
 
 ## Belum dibongkar — UNKNOWN
-`players.dat`, `non_players.dat`, `starting_contracts.dat`, `coaches.dat`. Dibutuhkan untuk B3 (Player/Staff Editor).
+`coaches.dat` dan file tujuan idx2/idx3/idx4 di `people.dat`.
