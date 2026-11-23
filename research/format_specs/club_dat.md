@@ -21,8 +21,8 @@ Sumber: panduan induk §4.2, §4.2a, §4.2b, §5; skrip `scripts/club.py`; `lega
 | 10 | blok 12 byte | u32 (8) + 8 byte | panjang variabel `k` di fmmcore | LIKELY |
 | 11 | blok 23 byte | u8 (peringkat musim lalu?), **u16 reputasi (0–10.000)**, i32, i32, 3 × i32 | | reputasi VERIFIED, sisanya UNKNOWN |
 | 12 | daftar | u16 N + N × 21 byte | | UNKNOWN (opaque) |
-| 13 | pemain | u16 jumlah + jumlah × i32 UID | | VERIFIED |
-| 14 | staf | 12 × i32 UID slot staf | slot kosong diisi game saat karier mulai | VERIFIED |
+| 13 | skuad | u16 jumlah + jumlah × i32 **nomor urut people.dat** (bukan UID; koreksi 23 Nov) | pemain yang tidak ada di sini masuk tim cadangan | VERIFIED |
+| 14 | staf | 12 × i32 nomor urut people.dat: 0–3 pelatih (0 umumnya asisten), 4 kosong, 5–7 scout, 8–10 physio, 11 bukan staf | staf yang tidak ada di slot tidak tampil di halaman Staff klub | VERIFIED (23 Nov) |
 | 15 | blok akhir | 77 byte (u32, 27 byte, 44 byte, u16) | | UNKNOWN (opaque) |
 
 Letak reputasi: `o_div + 10 (+68 kalau flag) + 4 + k + 1`.
@@ -40,7 +40,7 @@ Letak reputasi: `o_div + 10 (+68 kalau flag) + 4 + k + 1`.
 Klub Asia: blok kosong / tidak ada; game mengarang keuangan sendiri (LIKELY dari reputasi + status + penonton).
 
 ## Relasi
-- divisi → index `competition.dat`; index stadion → index `stadium.dat`; `rivalries.dat` → **urutan** klub di `club.dat`; pemain/staf → UID `people.dat`.
+- divisi → index `competition.dat`; index stadion → index `stadium.dat`; `rivalries.dat` → **urutan** klub di `club.dat`; pemain/staf → nomor urut `people.dat` (skuad & slot staf), dan people.club_index → urutan klub.
 - Jumlah record tiap `.lng` = jumlah klub.
 
 ## Aturan tulis

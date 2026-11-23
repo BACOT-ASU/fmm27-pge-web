@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — db v8: skuad & slot staf club.dat, jatah staf, u4, nama Milan/Inter
+- `scripts/rosters_v2710.py`, `scripts/fetch_logo_timnas.py`; libgame nama Milan/Inter.
+
 ## 2026-11-23 — Tab Simpan: pictures_logos lewat "Siapkan" lalu "Unduh sekarang"
 - Sama dengan tab Wajah 4b (unduhan Blob besar tidak muncul di Chrome Android).
 

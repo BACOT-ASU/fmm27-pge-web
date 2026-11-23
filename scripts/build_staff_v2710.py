@@ -219,18 +219,19 @@ def build(src, dst, club_map, verbose=True):
     # Jatah staf per klub (uji v7, log 59–62): melebihi jatah → SEMUA staf klub hilang dari halaman Staff.
     # Jatah dari fasilitas latihan (byte 1 blok misc club.dat): Kashima 15 → pelatih 4 / scout 3 / physio 3;
     # Persib 13 → 3/3/3; Persibo 5 → 2/1/1. Rentang lain belum terbukti → batas aman. Asisten tidak dihitung
-    # sebagai pelatih (Kashima "3/4"), dibatasi 1. Kelebihan dilepas jadi staf bebas (tanpa klub & kontrak).
+    # sebagai pelatih — KOREKSI log 63: slot 0–3 club.dat berisi asisten + pelatih, jadi asisten ikut dihitung. Kelebihan dilepas jadi staf bebas (tanpa klub & kontrak).
     cdat = open(src + 'club.dat', 'rb').read()
 
     def slots(ci):
+        # pelatih = slot 0–3 club.dat, asisten ikut dihitung (asisten biasanya di slot 0; rosters_v2710.py)
         tr = cdat[clubs[ci]['o_misc'] + 1]
         if tr >= 14:
-            return {JOB_COACH: 4, JOB_SCOUT: 3, JOB_PHYSIO: 3, JOB_ASSISTANT: 1}
+            return {JOB_COACH: 4, JOB_SCOUT: 3, JOB_PHYSIO: 3}
         if tr >= 13:
-            return {JOB_COACH: 3, JOB_SCOUT: 3, JOB_PHYSIO: 3, JOB_ASSISTANT: 1}
+            return {JOB_COACH: 3, JOB_SCOUT: 3, JOB_PHYSIO: 3}
         if tr >= 10:
-            return {JOB_COACH: 2, JOB_SCOUT: 2, JOB_PHYSIO: 2, JOB_ASSISTANT: 1}
-        return {JOB_COACH: 2, JOB_SCOUT: 1, JOB_PHYSIO: 1, JOB_ASSISTANT: 1}
+            return {JOB_COACH: 2, JOB_SCOUT: 2, JOB_PHYSIO: 2}
+        return {JOB_COACH: 2, JOB_SCOUT: 1, JOB_PHYSIO: 1}
     idn_ci = {i for i, _ in club_map.values()}
     seen, over = {}, set()
     for j, x in enumerate(scs):
@@ -244,9 +245,10 @@ def build(src, dst, club_map, verbose=True):
         ci = recs[k]['club_index']
         if ci not in idn_ci:
             continue
-        n = seen.setdefault((ci, job), 0) + 1
-        seen[(ci, job)] = n
-        if n > slots(ci)[job]:
+        kind = JOB_COACH if job == JOB_ASSISTANT else job
+        n = seen.setdefault((ci, kind), 0) + 1
+        seen[(ci, kind)] = n
+        if n > slots(ci)[kind]:
             over.add(j)
             recs[k]['club_index'] = -1
     scs = [x for j, x in enumerate(scs) if j not in over]

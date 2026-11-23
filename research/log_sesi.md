@@ -454,6 +454,19 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 ### 62. Koreksi Bacad: jatah Persib = 9 (23 Nov)
 - Bacad: jatah Persib 9 (3 pelatih + 3 scout + 3 physio). Data v7 Persib: 5 pelatih (job 2) + 1 asisten + 3 physio + 2 scout = 10 tanpa asisten (11 dengan asisten) → melebihi jatah total 9 dan jatah pelatih 3. Physio (3/3) & scout (2/3) sebenarnya muat, tapi ikut hilang → game tampaknya menolak semua staf klub bila ada yang lewat jatah (per kategori atau total). Perbaikan sama: batasi per kategori sesuai jatah, sehingga total juga ≤ jatah.
 
+### 63. Eksekusi + PENYEBAB SEBENARNYA bug skuad & staf (23 Nov)
+- Bacad: izin domain sudah → eksekusi. Permintaan baru aplikasi: di edit klub tampilkan manajer, staf, pemain tim utama & cadangan; klik orang → halaman edit pemain/staf/manajer (dicatat, dikerjakan sesudah build ini).
+- **Penyebab sebenarnya (VERIFIED dari db ori)**: record club.dat punya daftar SKUAD (`u16 N + N × i32`) dan 12 SLOT STAF (`12 × i32`) berisi NOMOR URUT orang di people.dat (bukan UID; spesifikasi lama "UID" keliru). Bukti: skuad Persib[0] = 31418 = Thom Haye; slot Bali = 322 = pelatih UID 7410; slot PSM = 8303 = pelatih UID 7740426. Pola slot (5.800 klub ori): 0–3 pelatih (slot 0 umumnya asisten), 4 kosong, 5–7 scout, 8–10 physio, 11 bukan daftar staf. Build kita tidak pernah mengisi daftar ini → pemain baru tidak ada di skuad (masuk cadangan, tim utama diisi pemain buatan), staf baru tidak ada di slot (halaman Staff kosong walau muncul di Staff Search). Dugaan "kelebihan jatah" (poin 59–62) dan u4 (poin 58) hanya faktor sampingan.
+- Perbaikan:
+  - `scripts/rosters_v2710.py` (dipanggil build): skuad tiap klub = skuad lama − pemain yang pindah + pemain yang sekarang di klub itu; slot staf klub yang stafnya diubah diisi ulang (0–3 asisten+pelatih, 5–7 scout, 8–10 physio). Hasil: skuad 123 klub, slot staf 61 klub. Contoh Persib: skuad 28 (17 lama + 11 baru), slot pelatih 3, scout 2, physio 3.
+  - Jatah staf per fasilitas latihan (asisten dihitung sebagai pelatih karena ada di slot 0–3): ≥14 4/3/3, 13 3/3/3, 10–12 2/2/2, ≤9 2/1/1; kelebihan jadi staf bebas (70 orang).
+  - `players.dat` u4 pemain baru = 0xFFFFFFFF (tanpa riwayat templat).
+  - `libgame.so`: nama Milan/Inter (6 string) → "AC Milan", "Milan", "AC Milan Youth", "Inter", "Inter", "Inter Youth". SHA-256 0e6ec00a…446f.
+  - `club.py` menyimpan `o_squad`.
+- db **v8**: 184.698.777 byte, SHA-256 0d27a8b4…0a80. sicomps tidak berubah (v4).
+- Logo timnas: `scripts/fetch_logo_timnas.py` (badge infobox Wikipedia → thumbnail 360 px → `samples/logo_timnas/<UID>_<negara>.png`, timnas pria & wanita); `build_v2710_logos.py` menerima folder logo tambahan. Wikipedia membatasi IP sesi (HTTP 429, retry-after ±26 dtk) → unduhan berjalan sangat lambat di latar.
+- Manajer Persib kosong: manajer tidak ada di slot staf (manajer ori Persija tampil tanpa slot); sebab belum diketahui — cek di uji v8.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

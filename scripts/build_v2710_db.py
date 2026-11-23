@@ -33,6 +33,7 @@ import build_staff_v2710        # noqa: E402
 import apply_modder_names_v2710  # noqa: E402
 import apply_modder_club_names_v2710  # noqa: E402
 import add_awards_v2710          # noqa: E402
+import rosters_v2710             # noqa: E402
 
 IDN = 58
 B7B_COMP_RANGE = range(1670, 1683)          # index kompetisi Indonesia di competition.dat B7b
@@ -391,6 +392,9 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     report['pemain_diperbarui'] = sum(x['aksi'] == 'perbarui' for x in prep)
     report['pemain_dilewati'] = skipped
     json.dump(new_uids, open(os.path.join(out_dir, 'uid_pemain_baru.json'), 'w'))
+
+    # ------------------------------------------------------------ skuad & slot staf club.dat (log 63)
+    report['daftar_klub'] = rosters_v2710.apply(dbdir, tmpfile(work, 'people_ori.dat', get(R, 'people.dat')), verbose=verbose)
 
     # ------------------------------------------------------------ award Indonesia (awards.dat)
     aw = add_awards_v2710.add(dbdir, verbose=verbose)

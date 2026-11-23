@@ -35,6 +35,7 @@ def parse(path, extra_len=68, verbose=True):
             x=struct.unpack_from('<H',d,p)[0]; p+=2
             if x>60: raise Bad('xlist %d'%x)
             r['x']=x; p+=21*x
+            r['o_squad']=p
             m=struct.unpack_from('<H',d,p)[0]; p+=2
             if m>400: raise Bad('squad %d'%m)
             r['squad']=struct.unpack_from('<%di'%m,d,p); p+=4*m
