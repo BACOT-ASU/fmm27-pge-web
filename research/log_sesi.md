@@ -383,6 +383,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Anggaran semua klub belum bisa diisi tepat (arti field UNKNOWN, 75 dari 77 klub IDN tidak punya blok; menambah blok = record membesar, belum pernah diuji → tidak diambil risikonya). Cadangan: atur anggaran klub sendiri lewat Club Details di game.
 - `docs/CEKLIST_UJI_27.1.0.md`: satu daftar cek untuk satu kali main (A awal, B isi db, C reputasi & anggaran, D musim 1, E akhir musim 1/musim 2, F bug).
 
+### 52. Kiriman file satu bagian (23 Nov)
+- Bacad: kalau bisa, kirim file tanpa dipecah. Uji: `db_archive_2707_27.1.0_mod_v7.zip` satu file 54.328.812 byte berhasil dikirim (isi SHA-256 4f9b0d1f…a11d, sama dengan versi 3 bagian). Mulai sekarang kiriman dibuat satu file.
+- Langkah pasang step by step ditulis ulang di `docs/LANGKAH_BUILD_27.1.0.md`.
+
 ### Menunggu dari Bacad
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).

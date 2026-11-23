@@ -3,7 +3,7 @@
 ## File yang dipakai (versi terbaru)
 | File | Kiriman | SHA-256 (awal) | Tempat di APK |
 |---|---|---|---|
-| db_archive_2707.fmf | `db_archive_2707_27.1.0_mod_v7` (.z01, .z02, .zip) | 4f9b0d1f… | assets/data/game/ |
+| db_archive_2707.fmf | `db_archive_2707_27.1.0_mod_v7.zip` (satu file; versi 3 bagian isinya sama) | 4f9b0d1f… | assets/data/game/ |
 | sicomps.fmf | `sicomps_27.1.0_mod_v4.zip` | 1a05f9d8… | assets/shared/data/ |
 | pictures_logos.fmf | `pictures_logos_27.1.0_mod` (.z01, .zip) — lalu digabung wajah & logo (langkah 3) | e04a0cb4… (sebelum gabung) | assets/data/game/ |
 | libgame.so | `libgame_27.1.0_mod.zip` | 53dde79e… | lib/arm64-v8a/ |
