@@ -254,6 +254,10 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - UI: tombol **3. Proses** (nonaktif saat berjalan dan sesudah selesai; aktif lagi kalau file modder/CSV diganti) dan **4. Unduh** (aktif hanya sesudah proses), bilah progres + teks langkah 1/2 dan 2/2 dengan persen dan MB.
 - Lint/typecheck/104 tes/build lulus. Belum dicoba di HP.
 
+### 32. Pertanyaan Bacad: logo klub/kompetisi luar negeri, nama klub, bendera, nama pemain luar negeri (23 Nov)
+- pictures_logos build kita: wajah (lewat tab Wajah) + 23 logo klub IDN + logo bawaan ori (± 900 klub, 64 kompetisi). Logo tambahan modder (klub/kompetisi) BELUM disalin; nama klub dari .lng modder BELUM; bendera ada di `assets/data/game/flags.fmf` (belum disentuh). Diminta: config.xml clubs/comps (normal+small) dari pictures_logos modder, eng.lng (atau bahasa lain yang dipakai) dari db modder, flags.fmf modder & ori.
+- **Nama pemain**: people.dat + file nama modder vs ori 27.1.0: semua 163.159 UID ori ada di modder; nama berbeda hanya **226** orang (112 berkebangsaan Indonesia; sisanya kebanyakan pemain asing di liga Indonesia — modder memakai nama lengkap + nama umum, mis. "Zé Valente" → "Jose Pedro Magalhaes Valente"/"Ze Valente"). Modder menambah 1.990 orang (pemain Indonesia). Jadi nama pemain luar negeri di build kita = nama ori, praktis sama dengan modder.
+
 ### Menunggu dari Bacad
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
 - `db_archive_2706.fmf` **B7b** dan `sicomps.fmf` **B7b** (folder "B7b" di HP), zip pecah MT Manager — sumber kompetisi Indonesia, klub klon, stadion baru, rivalitas, aturan Liga Nusantara, daftar muat IDN.
