@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { formatBytes, formatInt } from '../core/binary/formatBytes';
 import { findEntry, listEntries, openFmf, openFmfBytes, readEntry, splitInnerArchive, type FmfArchive } from '../core/fmf';
 import type { PickedFile } from '../platform/types';
+import { webFileIO } from '../platform/web/webFileIO';
 
 interface Inner {
   name: string;
@@ -21,15 +22,7 @@ export function ArchiveInfo({ file }: { file: PickedFile }) {
     setBusy(path);
     try {
       const bytes = await readEntry(arc, entry);
-      const blob = new Blob([new Uint8Array(bytes)]);
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${entry.name}${entry.ext}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      await webFileIO.saveFile(`${entry.name}${entry.ext}`, [bytes]);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 — Perbaikan: unduhan per entri berakhiran .txt
+- Laporan Bacad: entri yang diunduh dari penjelajah arsip tersimpan sebagai `people.dat.txt` dst. Dugaan penyebab: Blob tanpa tipe MIME → Chrome Android menganggapnya teks.
+- `webFileIO.ts`: `mimeForFileName` (biner → `application/octet-stream`, zip/txt/xml/png sesuai jenis) dipakai semua unduhan; `ArchiveInfo` sekarang mengunduh lewat `webFileIO.saveFile`. Tes `tests/mimeForFileName.test.ts`.
+- Perlu dicek di HP Bacad setelah aplikasi diperbarui (versi build di footer).
+
 ## 2026-11-23 — Log sesi
 - `research/log_sesi.md`: catatan kronologis chat (youth intake, keputusan 27.1.0 ori, cara kirim file ≤ 30 MB, unduhan per entri berakhiran `.txt`, hasil bongkar people.dat dkk., daftar yang ditunggu dari Bacad).
 - `CLAUDE.md` aturan 7a: setiap info/keputusan/hasil uji dari chat wajib langsung dicatat dan di-commit.
