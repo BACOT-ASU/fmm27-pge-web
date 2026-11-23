@@ -474,3 +474,6 @@ Dasar: struktur people/players/non_players/kontrak VERIFIED (4.8). Dataset vs pe
 7. Impor massal dari CSV dataset (pemain lalu staf), atribut diperkirakan dari CA/posisi/strata.
 Staf: perlu juga file tujuan idx2–4 (diduga coaches.dat dkk.) → minta entri itu dari db_archive 27.1.0.
 
+### 10.15 Rencana: liga cadangan mengikuti kasta tim utama (23 Nov, untuk tahap berikutnya)
+Kompetisi tim cadangan Indonesia mengikuti kasta tim utamanya; promosi/degradasi cadangan mengikuti tim utama. Belum dikerjakan; butuh riset (pola liga cadangan negara lain).
+

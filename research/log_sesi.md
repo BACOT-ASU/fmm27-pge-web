@@ -316,6 +316,9 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - Build sekarang: tidak. nation_idn_reserve_comps (rsvl) hanya berisi jadwal cadangan otomatis per tingkat (type 1: level 0 SL, 1 Championship, 2 Grup Barat; ntms 18) + rujukan liga U21/U18 (41053475/76, 41058630/31) yang tidak ada di competition.dat. Tidak ada liga cadangan bertabel dengan promosi/degradasi.
 - Bisa dibuat (pola negara lain, mis. liga cadangan Inggris, tim B Spanyol di piramida), tapi perlu riset + kompetisi baru. Tidak dieksekusi.
 
+### 43. Rencana berikutnya (catatan Bacad, 23 Nov): liga cadangan
+- Untuk tahap berikutnya (belum dikerjakan): kompetisi tim cadangan mengikuti kasta tim utamanya (cadangan klub Super League di liga cadangan tingkat 1, Championship di tingkat 2, dst.), dengan promosi/degradasi mengikuti tim utama.
+
 ### Menunggu dari Bacad
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
 - Hasil uji APK 27.1.0 mod (layar awal: Indonesia & Liga Nusantara muncul? klub/pemain/staf/logo/wajah).
