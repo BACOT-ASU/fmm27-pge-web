@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-23 — Target anggaran klub Indonesia
+- `scripts/budget_targets_v2710.py` + `data/target_anggaran_idn.csv` dari estimasi Bacad (SL) dan minimal Bacad (kasta lain).
+
 ## 2026-11-23 — Uji keuangan (opsional)
 - `UJI_KEUANGAN=1` di build_v2710_db.py: isi blok keuangan Persib (A) dan Borneo (E) untuk memetakan field ke anggaran di game.
 

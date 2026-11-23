@@ -370,8 +370,15 @@ lalu dipindahkan ke dokumen yang tepat (panduan induk, spesifikasi, `CHANGELOG.m
 - **Uji keuangan (satu variabel, sekali instal)**: `UJI_KEUANGAN=1 build_v2710_db.py` (`finance_block_experiment`) = db v6 + Persib hanya A = 50 (D = 50000), Borneo hanya E = 100000. Pembanding (reputasi 8150 & liga sama, tanpa blok): Persija, Persebaya, Bali, Dewa. SHA-256 d6ba82e6…285e. Hanya untuk membaca Transfer/Wage Budget di Club Details karier baru.
 - Kalau blok terbukti berpengaruh → semua klub IDN diberi blok (klub tanpa blok perlu record diperbesar 68 byte + flag; belum pernah diuji). Kalau tidak → anggaran lewat reputasi/faktor lain (riset lanjut).
 
+### 50. Konfirmasi Bacad: angka anggaran (23 Nov)
+- Minimal tim kecil **dikonfirmasi**: Transfer $675.000, Gaji $3.400/minggu (uji Persikad 22 Nov).
+- Target BRI Super League dari file Bacad `data/estimasi_anggaran_super_league_2026_27.md` (estimasi kasar dari nilai pasar Transfermarkt + payroll Persib ± Rp10 M/bulan; bukan data resmi): gaji/minggu Rp424 jt (Persijap) – Rp2.144 jt (Persija); transfer Rp3–31 M/musim.
+- `scripts/budget_targets_v2710.py` → `data/target_anggaran_idn.csv`: Rupiah → USD/GBP dengan kurs **ASUMSI** Rp16.500/USD, Rp22.000/GBP. Contoh: Persija transfer $1,39 jt, gaji $130rb/minggu (£97rb); Persijap transfer $675rb (dinaikkan ke minimal), gaji $25,7rb. Kasta lain = minimal Bacad.
+- Catatan: dengan kurs ini gaji Persija (£97rb) masih di bawah JDT di game modder (£123rb) — angka game modder tidak dipakai (keputusan poin 49).
+- Belum bisa ditulis ke db: menunggu hasil uji keuangan (poin 49) untuk tahu field mana yang mengatur anggaran.
+
 ### Menunggu dari Bacad
-- Uji keuangan (poin 49): Transfer/Wage Budget Persib, Borneo, Persija, Persebaya, Bali, Dewa di db uji; konfirmasi angka minimal ($675rb / $3,4rb per minggu?) dan target klub besar.
+- Uji keuangan (poin 49): Transfer/Wage Budget Persib, Borneo, Persija, Persebaya, Bali, Dewa di db uji; (angka minimal & target SL sudah diterima, poin 50).
 - ~~Keputusan koefisien~~ dan ~~screenshot reputasi~~: diterima (poin 48).
 - Uji db v6: pita reputasi klub IDN di editor (Persib Continental, PSM Top Division, Persibo Regional, Gresik Top Division), anggaran tiap kasta, Adjust Budgets tidak freeze (termasuk Liga 4); akhir musim 1: juara → ACL Two, runner-up → Challenge League?
 - Untuk jadwal lompat: screenshot klasemen/daftar tim grup Championship & Liga Nusantara di musim ke-2 (sesudah promosi/degradasi pertama), atau info berapa tim di tiap grup saat liga tidak mulai.
