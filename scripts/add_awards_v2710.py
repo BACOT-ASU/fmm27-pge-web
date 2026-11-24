@@ -22,15 +22,22 @@ IDN = 58
 FIRST_AWARD_ID = 2100600001
 PREFIXES = ('Premier League ', 'Hana Bank K League 1 ', 'K League 1 ', 'J2 ', 'J3 ', 'CSL ', 'Korea Cup ', 'League Cup ')
 # kompetisi Indonesia (UID) -> daftar (UID kompetisi templat, filter nama generik atau None = semua)
-# Koreksi Bacad 24 Nov (log 74): award liga per KASTA (kompetisi induk), bukan per grup; Manager of the Month belum muncul →
-# templat bulanan manajer dari Premier League (pola ori: kompetisi induk berkelompok seperti Swedish Second Division juga
-# punya award sendiri termasuk Manager of the Month).
+# Koreksi Bacad 24 Nov (log 74 → 78): award liga per kasta. Uji v9–v12: award MINGGUAN/BULANAN di kompetisi induk
+# (Championship, Liga Nusantara) tidak muncul, tabel award tiap grup kosong — laga dimainkan di kompetisi grup, jadi
+# award berkala (frekuensi 1 mingguan, 2 bulanan; termasuk Manager of the Month) dipasang di tiap GRUP, sedangkan award
+# TAHUNAN (frekuensi 3, mis. Best Eleven, MVP, Top Goalscorer) di kompetisi induk = per kasta.
+PERIODIC, YEARLY = {1, 2}, {3}
 PLAN = [
-    (41004312, [('kor1', None), ('epl', 'Manager of the Month')]),            # BRI Super League
-    (41042740, [('j2', None), ('epl', 'Manager of the Month')]),              # Pegadaian Championship (induk Barat+Timur)
-    (41042746, [('j3', None), ('epl', 'Manager of the Month')]),              # Liga Nusantara (induk Grup A/B/C)
-    (7746536, [('kcup', None)]),                                                # Piala Indonesia
-    (2000560926, [('jlc', None)]),                                              # Piala Liga Indonesia
+    (41004312, [('kor1', None, None), ('epl', 'Manager of the Month', None)]),          # BRI Super League
+    (41042740, [('j2', None, YEARLY)]),                                                  # Championship (induk)
+    (41042741, [('j2', None, PERIODIC), ('epl', 'Manager of the Month', None)]),        # Championship Grup Barat
+    (41042742, [('j2', None, PERIODIC), ('epl', 'Manager of the Month', None)]),        # Championship Grup Timur
+    (41042746, [('j3', None, YEARLY)]),                                                  # Liga Nusantara (induk)
+    (2000700101, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Liga Nusantara Grup A
+    (2000700102, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Grup B
+    (2000700103, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Grup C
+    (7746536, [('kcup', None, None)]),                                                   # Piala Indonesia
+    (2000560926, [('jlc', None, None)]),                                                 # Piala Liga Indonesia
 ]
 # kompetisi templat lewat UID (nama bisa berubah oleh nama versi modder): K League 1, Chinese Super League, J2, J3,
 # Korea Cup, Japanese League Cup
@@ -75,9 +82,11 @@ def add(dbdir, verbose=True):
     for cuid, sources in PLAN:
         ci = by_uid[cuid]; cname = comps[ci]['long']
         assert comps[ci]['nat'] == IDN, cname
-        for tkey, only in sources:
+        for tkey, only, freqs in sources:
             for a in A:
                 if a['comp'] != tidx[tkey] or (only and a['n1'] != only):
+                    continue
+                if freqs and d[a['end'] - 102 + 15] not in freqs:
                     continue
                 while next_aid in used:
                     next_aid += 1

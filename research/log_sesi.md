@@ -553,6 +553,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - **Config R7 (zip Bacad, 3 file XML, 2023, pola FM PC "fmXML")**: hanya peta, tanpa gambar. clubs 21.351 baris `club/<UID>/logo`, comps 1.375 `comp/<UID>/logo`, nations 240 `team/<UID>/logo` (mis. Indonesia 113, England 765). Temuan penting: logo TIMNAS dipetakan ke `graphics/pictures/team/<UID>/…`, bukan `club/`. pictures_logos ori 27.1.0 tidak punya folder nations. Build v12: logo timnas kita dipetakan dua-duanya (`club/<UID>` dan `team/<UID>`) ke PNG yang sama. HYPOTHESIS — cek mana yang tampil.
 - `build_27.1.0_mod_v12.zip`: db v12 1fa469d9…c0ef, sicomps v6 (tetap), pictures_logos 76eb0aa4…03be5, libgame v2, peta_aset v3.
 
+### 78. Award mingguan/bulanan tidak muncul (24 Nov)
+- Bacad (uji v9–v12): award mingguan & bulanan pemain dan Manager of the Month tidak muncul; tabel award tiap grup kosong.
+- Analisa: v9 memindah SEMUA award Championship & Liga Nusantara ke kompetisi INDUK, padahal laga liga dimainkan di kompetisi GRUP → award berkala tidak pernah terisi. Struktur ekor award Manager of the Month sama di semua negara (tidak ada pengunci benua).
+- Perbaikan `add_awards_v2710.py`: award berkala (frekuensi 1 mingguan, 2 bulanan: Team of the Week, Monthly MVP, Manager of the Month) di tiap grup (Barat, Timur, Grup A/B/C); award tahunan (Best Eleven, MVP, Top Goalscorer, Manager of the Year) di induk = per kasta. BRI SL tetap (K League 1 + Manager of the Month). Total 37 award.
+- `build_27.1.0_mod_v13.zip`: db v13 d28d27dc…d999, sisanya sama dengan v12.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
