@@ -108,6 +108,27 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
         lg['fields'][xi] = (T('XSvC'), (0x11, bytes([(old + 1) & 255])))
         lg_row[2] = dbc.build(lg); lg_row[5] = None
         report['bri_ccqr'] = {'XSvC': (old, (old + 1) & 255)}
+    # Liga Nusantara: fase 8 besar (stage 0 kompetisi induk, 2 grup × 4, diisi dari Grup A/B/C) — jadwal tampil
+    # "Liga Nusantara Group A/B", diklik → macet (uji Bacad 24 Nov, log 74). Disamakan dengan pola ori grup-di-induk
+    # (swe_u19_1, swe_second_2018 stage 1, rom_third): beri nama stage (stnm = 177 "Second Phase Group Stage") dan buang
+    # field khas stage LIGA yang tidak ada di pola itu (hdst, lgrl, pris, fxor). Rute ke final/playoff (qurl, tppr) tetap.
+    # HYPOTHESIS — penyebab pasti macet belum terbukti; cek di game.
+    ln_row = next(x for x in folderB.files if (x[0] + x[1]).decode() == 'comp_idn_league_three_1439.dbc')
+    ln = dbc.parse(fmfio.get(ln_row))
+    si = next(i for i, (k, _v) in enumerate(ln['fields']) if k == T('stgs'))
+    st0 = ln['fields'][si][1][1][0]
+    keep = [(k, v) for k, v in st0[1] if k not in (T('hdst'), T('lgrl'), T('pris'), T('fxor'))]
+    if not any(k == T('stnm') for k, _v in keep):
+        tem0 = dict(next(v for k, v in keep if k == T('tems'))[1][0][1])
+        nm = tem0[T('nmsn')]
+        stnm = (0x0a, [(k, (0x02, T('stnm')) if k == T('id  ') else v) for k, v in nm[1]])
+        keep.append((T('stnm'), stnm))
+    ln['fields'][si][1][1][0] = (0x0a, keep)
+    xi = next(i for i, (k, _v) in enumerate(ln['fields']) if k == T('XSvC'))
+    old = ln['fields'][xi][1][1][0]
+    ln['fields'][xi] = (T('XSvC'), (0x11, bytes([(old + 1) & 255])))
+    ln_row[2] = dbc.build(ln); ln_row[5] = None
+    report['ln_8besar'] = {'XSvC': (old, (old + 1) & 255), 'field_stage0': [k[::-1].decode('latin1') for k, _v in keep]}
     newdbc, _ = fmfio.write(fB, rB)
     R['sicomps/comps.dbc'][2] = preB + newdbc
     report['dbc_diganti'] = replaced
@@ -122,6 +143,8 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     assert pos == list(range(pos[0], pos[-1] + 1)), 'blok idn_ di comps.txt tidak berurutan'
     lB = lB[:pos[0]] + blockA + lB[pos[-1] + 1:]
     lB = [('idn_cup(1438),%d' % report['piala_indonesia_XSvC'][1]) if l.startswith('idn_cup(1438),') else l for l in lB]
+    if 'ln_8besar' in report:
+        lB = [('idn_league_three(1439),%d' % report['ln_8besar']['XSvC'][1]) if l.startswith('idn_league_three(1439),') else l for l in lB]
     if 'bri_ccqr' in report:
         lB = [('idn_league_one(1439),%d' % report['bri_ccqr']['XSvC'][1]) if l.startswith('idn_league_one(1439),') else l for l in lB]
     R['sicomps/comps.txt'][2] = '\n'.join(lB).encode('utf-8')

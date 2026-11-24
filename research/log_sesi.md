@@ -525,6 +525,16 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Bacad: Mitchell Baker belum masuk. Penyebab: build 27.1.0 belum memakai data/pemain_indonesia_luar_negeri.csv (9 orang di_database = tidak).
 - `build_people_v2710.py`: pemain luar negeri baru ditambah ke klub luar lewat peta UID manual (`ABROAD_CLUB_UID`): Mitchell Baker → Colorado Rapids (1903), Yohanes Kandaimu → Kelantan The Real Warriors (23502547), Abdurrahman Iwan Kuswanto → Al-Wakrah (135411), Zinaedin Ardiansyah → Sydney FC (1300490). Kemampuan = perkiraan setara pemain lokal BRI Super League bernilai median. Dilewati (klub tidak ada/tidak pasti di db): Welber Jardim (São Paulo — hanya ada "SPFC" tanpa liga), Muhammad Misbah & Reycredo Bukit (Águilas FC Spanyol), Sulthan Zaky & Givary Lotra (Moi Kampong Dewa). UID staf ikut bergeser → sicomps dibangun ulang.
 
+### 74. Keputusan Bacad + build v9 (24 Nov)
+- Bacad: Welber Jardim tetap ke "SPFC" (tanpa liga); klub yang tidak ada → klub lain berkompetisi (Misbah & Bukit → U. Murcia, Segunda Federación; Zaky & Lotra → Kagoshima United, J3). 9/9 pemain luar negeri masuk.
+- 8 besar Liga Nusantara tetap 2 grup × 4 + klasemen harus muncul → `build_v2710_sicomps.py`: stage 0 diberi nama (stnm 177) dan field khas stage liga (hdst, lgrl, pris, fxor) dibuang; XSvC 3 → 4. HYPOTHESIS, cek di game.
+- Award liga per kasta (bukan per grup): BRI SL (K League 1 + Manager of the Month), Pegadaian Championship induk (J2 + Manager of the Month), Liga Nusantara induk (J3 + Manager of the Month); Manager of the Month dari templat Premier League (benua diganti Asia). Total 28 award (dulu 44 per grup).
+- Wikipedia dihentikan; kebangsaan & jenis kelamin staf ditebak dari nama → `data/staf_negara_nama.csv` (IDN 136, BRA 25, ESP 11, POR 10, KOR 9, NED 5, CRO 5, SRB 4, BIH 3, ENG 2, ITA/MNE/EGY/MAS 1; perempuan: Hilda Khoirun Nisa, Puspa Adelia, Lintang A.A. Handayani). Johnny Jansen & Jeffrey Talan kini cocok dengan orang ori (bukan orang baru).
+- Staf baru dari kumpulan templat Asia: formasi beragam (8, 6, 2, 0, 7, 15 …), gaya beragam (3, 6, 5, 1, 2, 7), badge 1/2/3.
+- Fasilitas: Persib/Persija/Persebaya/Bali/Dewa 19/19, SL ≥ 14, kasta bawah ≥ 10. Jatah staf: 89 dilepas (asisten kini dihitung di slot pelatih).
+- Peta aset v3 (UID staf bergeser): wajah 85.854.
+- Kiriman `build_27.1.0_mod_v9.zip` (127,8 MB): db v9 9bb56f0d…0ef0, sicomps v5 89b53512…bfaf, pictures_logos fbce60e0…, libgame v2 0e6ec00a…, peta_aset_27.1.0_v3.csv, panduan, ceklist.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

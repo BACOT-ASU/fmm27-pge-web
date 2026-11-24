@@ -20,18 +20,21 @@ import comp as compmod  # noqa: E402
 
 IDN = 58
 FIRST_AWARD_ID = 2100600001
-PREFIXES = ('Hana Bank K League 1 ', 'K League 1 ', 'J2 ', 'J3 ', 'CSL ', 'Korea Cup ', 'League Cup ')
+PREFIXES = ('Premier League ', 'Hana Bank K League 1 ', 'K League 1 ', 'J2 ', 'J3 ', 'CSL ', 'Korea Cup ', 'League Cup ')
 # kompetisi Indonesia (UID) -> daftar (UID kompetisi templat, filter nama generik atau None = semua)
+# Koreksi Bacad 24 Nov (log 74): award liga per KASTA (kompetisi induk), bukan per grup; Manager of the Month belum muncul →
+# templat bulanan manajer dari Premier League (pola ori: kompetisi induk berkelompok seperti Swedish Second Division juga
+# punya award sendiri termasuk Manager of the Month).
 PLAN = [
-    (41004312, [('kor1', None), ('csl', 'CSL Manager of the Month')]),         # BRI Super League
-    (41042741, [('j2', None)]), (41042742, [('j2', None)]),                     # Championship Grup Barat/Timur
-    (2000700101, [('j3', None)]), (2000700102, [('j3', None)]), (2000700103, [('j3', None)]),  # Liga Nusantara Grup A/B/C
+    (41004312, [('kor1', None), ('epl', 'Manager of the Month')]),            # BRI Super League
+    (41042740, [('j2', None), ('epl', 'Manager of the Month')]),              # Pegadaian Championship (induk Barat+Timur)
+    (41042746, [('j3', None), ('epl', 'Manager of the Month')]),              # Liga Nusantara (induk Grup A/B/C)
     (7746536, [('kcup', None)]),                                                # Piala Indonesia
     (2000560926, [('jlc', None)]),                                              # Piala Liga Indonesia
 ]
 # kompetisi templat lewat UID (nama bisa berubah oleh nama versi modder): K League 1, Chinese Super League, J2, J3,
 # Korea Cup, Japanese League Cup
-TEMPLATE_COMPS = {'kor1': 136407, 'csl': 130931, 'j2': 115424, 'j3': 791180, 'kcup': 136408, 'jlc': 102430}
+TEMPLATE_COMPS = {'epl': 11, 'kor1': 136407, 'csl': 130931, 'j2': 115424, 'j3': 791180, 'kcup': 136408, 'jlc': 102430}
 
 
 def parse_awards(d):
@@ -65,6 +68,7 @@ def add(dbdir, verbose=True):
     tidx = {k: by_uid[v] for k, v in TEMPLATE_COMPS.items()}
     # pola riwayat kosong: ekor award yang belum punya pemenang (Best 11 of the Round K League 1)
     empty = next(d[a['end'] - 102 + 23:a['end'] - 1] for a in A if a['comp'] == tidx['kor1'] and 'Best 11' in a['n1'])
+    asia_cont = next(d[a['end'] - 102:a['end'] - 100] for a in A if a['comp'] == tidx['kor1'])
     used = {a['aid'] for a in A}
     next_aid = FIRST_AWARD_ID
     recs = []; report = []
@@ -81,7 +85,8 @@ def add(dbdir, verbose=True):
                 generic = strip_prefix(a['n1'])
                 branded = '%s %s' % (cname, generic)
                 tail = bytearray(d[a['end'] - 102:a['end']])
-                struct.pack_into('<hh', tail, 2, IDN, ci)          # negara, index kompetisi (benua Asia = templat)
+                tail[0:2] = asia_cont                              # benua Asia (templat Premier League = Eropa)
+                struct.pack_into('<hh', tail, 2, IDN, ci)          # negara, index kompetisi
                 tail[23:101] = empty                               # riwayat pemenang kosong
                 n1 = generic.encode('utf-8'); n2 = branded.encode('utf-8')
                 rec = (struct.pack('<II', len(A) + len(recs), next_aid) + struct.pack('<I', len(n1)) + n1 + b'\xff'

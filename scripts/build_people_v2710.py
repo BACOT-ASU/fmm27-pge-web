@@ -42,8 +42,12 @@ IDN = 58
 JOB_PLAYER, JOB_COACH, JOB_PHYSIO, JOB_SCOUT, JOB_MANAGER, JOB_ASSISTANT = 1, 2, 12, 14, 16, 20
 
 # Kode negara di dataset -> nama tim nasional di club.dat (index negara diambil dari situ).
-ABROAD_CLUB_UID = {'Colorado Rapids': 1903, 'Kelantan The Real Warriors': 23502547, 'Al Wakrah': 135411, 'Sydney FC': 1300490}
+ABROAD_CLUB_UID = {'Colorado Rapids': 1903, 'Kelantan The Real Warriors': 23502547, 'Al Wakrah': 135411, 'Sydney FC': 1300490,
+                   # keputusan Bacad 24 Nov: São Paulo = "SPFC" (tanpa liga, tetap dipakai); klub yang tidak ada → klub lain berkompetisi
+                   'São Paulo FC': 2000211203, 'Águilas FC': 67152828,            # U. Murcia (Segunda Federación, dekat Águilas)
+                   'Moi Kampong Dewa': 107341}                    # Kagoshima United (J3; liga Malaysia/Brunei tidak dimuat)
 CODE_TO_TEAM = {
+    'EGY': 'Egypt', 'ITA': 'Italy',
     'IDN': 'Indonesia', 'BRA': 'Brazil', 'JPN': 'Japan', 'ESP': 'Spain', 'ARG': 'Argentina',
     'POR': 'Portugal', 'NED': 'Netherlands', 'SRB': 'Serbia', 'MKD': 'North Macedonia',
     'MNE': 'Montenegro', 'MLI': 'Mali', 'CRC': 'Costa Rica', 'CIV': 'Ivory Coast', 'COL': 'Colombia',

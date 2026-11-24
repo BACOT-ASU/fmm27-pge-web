@@ -131,12 +131,15 @@ def build(src, dst, club_map, verbose=True):
     used_uids = {r['uid'] for r in recs} | {c['uid'] for c in clubs}
     next_uid = max([u for u in used_uids if 2100000001 <= u < 2200000000] + [2100000000]) + 1
     rows = list(csv.DictReader(open(os.path.join(REPO, 'data/staf_indonesia_v2.csv'), encoding='utf-8')))
-    # kebangsaan dari Wikipedia untuk staf yang kolom negara kosong (scripts/fetch_staf_negara.py, log 72)
-    wiki_nat = {}
-    wp = os.path.join(REPO, 'data/staf_negara_wikipedia.csv')
+    # kebangsaan & jenis kelamin staf yang kolom negara kosong: data/staf_negara_nama.csv (ditebak dari nama,
+    # keputusan Bacad 24 Nov, log 74 — pencarian Wikipedia dihentikan)
+    wiki_nat, female_names = {}, set(FEMALE_STAFF)
+    wp = os.path.join(REPO, 'data/staf_negara_nama.csv')
     if os.path.exists(wp):
         for w in csv.DictReader(open(wp, encoding='utf-8')):
             wiki_nat[norm(w['nama'])] = w['negara']
+            if w['jenis_kelamin'].strip().upper() == 'P':
+                female_names.add(norm(w['nama']))
     report, skipped = [], []
     assistant_seen = set()
     managers_new = {}
@@ -207,7 +210,7 @@ def build(src, dst, club_map, verbose=True):
         elif r['staff_extra'] is None:
             r['staff_extra'] = b'\x00\x01'
         # jenis kelamin (log 72): flags3 byte 0 = 1 perempuan (pola 374/399 orang klub wanita ori), staff_extra byte 0 = 1
-        female = norm(row['nama']) in FEMALE_STAFF or (row.get('jenis_kelamin') or '').strip().upper() in ('P', 'F', 'W')
+        female = norm(row['nama']) in female_names or (row.get('jenis_kelamin') or '').strip().upper() in ('P', 'F', 'W')
         r['flags3'] = bytes([1 if female else 0]) + bytes(r['flags3'][1:])
         if r['staff_extra'] is not None:
             r['staff_extra'] = bytes([1 if female else 0]) + bytes(r['staff_extra'][1:])
