@@ -559,6 +559,10 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Perbaikan `add_awards_v2710.py`: award berkala (frekuensi 1 mingguan, 2 bulanan: Team of the Week, Monthly MVP, Manager of the Month) di tiap grup (Barat, Timur, Grup A/B/C); award tahunan (Best Eleven, MVP, Top Goalscorer, Manager of the Year) di induk = per kasta. BRI SL tetap (K League 1 + Manager of the Month). Total 37 award.
 - `build_27.1.0_mod_v13.zip`: db v13 d28d27dc…d999, sisanya sama dengan v12.
 
+### 79. Cek award SL & Championship; update dari APK v12 (24 Nov)
+- Dicek di data db v13 (awards.dat): 37 award Indonesia, semua benua Asia (1), negara 58, index kompetisi benar. BRI SL: Player of the Month (bulanan), Best 11 of the Round (mingguan), Manager of the Month (bulanan, subjek manajer), 5 tahunan. Championship: tahunan di induk; Team of the Week, Monthly MVP, Manager of the Month di Grup Barat & Timur. Pola sama dengan award ori K League 1 (benua 1). Tampil atau tidaknya harus dicek di game.
+- Bacad ingin update dari APK v12 tanpa gabung ulang wajah/logo modder → v13 hanya mengubah db: kiriman `patch_v13_db.zip` (db v13 + `docs/UPDATE_DARI_APK_SEBELUMNYA.md`). Mulai sekarang perubahan dikirim sebagai patch berisi file yang berubah saja.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
