@@ -21,6 +21,7 @@ Pakai:
 peta_klub.csv (opsional): klub_data,club_index,club_uid untuk klub klon.
 """
 import csv
+import re
 import datetime
 import hashlib
 import os
@@ -41,6 +42,7 @@ IDN = 58
 JOB_PLAYER, JOB_COACH, JOB_PHYSIO, JOB_SCOUT, JOB_MANAGER, JOB_ASSISTANT = 1, 2, 12, 14, 16, 20
 
 # Kode negara di dataset -> nama tim nasional di club.dat (index negara diambil dari situ).
+ABROAD_CLUB_UID = {'Colorado Rapids': 1903, 'Kelantan The Real Warriors': 23502547, 'Al Wakrah': 135411, 'Sydney FC': 1300490}
 CODE_TO_TEAM = {
     'IDN': 'Indonesia', 'BRA': 'Brazil', 'JPN': 'Japan', 'ESP': 'Spain', 'ARG': 'Argentina',
     'POR': 'Portugal', 'NED': 'Netherlands', 'SRB': 'Serbia', 'MKD': 'North Macedonia',
@@ -217,19 +219,39 @@ def build(src, dst, club_map_extra=None, verbose=True):
         for k in keys:
             name_idx.setdefault(k, []).append(i)
 
+    skipped = []
     rows = list(csv.DictReader(open(os.path.join(REPO, 'data/pemain_indonesia_v2.csv'), encoding='utf-8')))
     vals = {}
     for row in rows:
         vals.setdefault(comp_key(row['kompetisi']), []).append(float(row['nilai_juta_rp'] or 0))
-    report = []; next_uid = FIRST_NEW_UID; skipped = []
+    # Pemain Indonesia di luar negeri yang BELUM ada di database (data/pemain_indonesia_luar_negeri.csv, di_database = tidak;
+    # log 73, mis. Mitchell Baker). Klub luar dipetakan manual lewat UID (nama di CSV ≠ nama di club.dat).
+    # Kemampuan = perkiraan setara pemain lokal BRI Super League bernilai median (Bacad: "pakai perkiraan").
+    foreign_map = {}
+    by_uid_club = {c['uid']: i for i, c in enumerate(clubs)}
+    sl_vals = sorted(vals.get(comp_key('BRI Super League'), [0]))
+    med = sl_vals[len(sl_vals) // 2]
+    for a in csv.DictReader(open(os.path.join(REPO, 'data/pemain_indonesia_luar_negeri.csv'), encoding='utf-8')):
+        if a['di_database'].strip() != 'tidak':
+            continue
+        cu = ABROAD_CLUB_UID.get(a['klub'])
+        if cu is None or cu not in by_uid_club:
+            skipped.append((a['nama'], a['klub'], 'klub luar negeri tidak ada di database'))
+            continue
+        foreign_map[a['klub']] = (by_uid_club[cu], cu)
+        m = re.search(r'tinggi (\d+)', a['catatan'] or '')
+        rows.append({'kompetisi': 'BRI Super League', 'klub': a['klub'], 'no': '', 'nama': a['nama'], 'posisi': a['posisi'],
+                     'posisi_lain': a['posisi_lain'], 'negara': 'IDN', 'tgl_lahir': a['tgl_lahir'], 'tinggi_cm': m.group(1) if m else '',
+                     'kaki': '', 'nilai_juta_rp': str(med), 'kontrak_sampai': '', 'sumber': a['sumber'], 'perkiraan': 'luar negeri'})
+    report = []; next_uid = FIRST_NEW_UID
     used = {r['uid'] for r in recs} | {c['uid'] for c in clubs}
     by_uid_contract = {people.contract_fields(x)['person_uid']: j for j, x in enumerate(scs)}
 
     for row in rows:
-        if row['klub'] not in club_map:
+        if row['klub'] not in club_map and row['klub'] not in foreign_map:
             skipped.append((row['nama'], row['klub'], 'klub belum ada'))
             continue
-        ci, cuid = club_map[row['klub']]
+        ci, cuid = club_map.get(row['klub']) or foreign_map[row['klub']]
         dob = datetime.date.fromisoformat(row['tgl_lahir']) if row['tgl_lahir'] else datetime.date(2000, 1, 1)
         end = datetime.date.fromisoformat(row['kontrak_sampai']) if row['kontrak_sampai'] else datetime.date(2027, 5, 31)
         codes = row['negara'].split('/') if row['negara'] else ['IDN']

@@ -521,6 +521,10 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Perbaikan (build v9, sedang dikerjakan): `build_staff_v2710.py` memakai KUMPULAN templat staf asli negara Asia per jabatan (dipilih hash nama) → atribut/formasi/gaya/badge/aptitude bervariasi; perempuan (Hilda + kolom jenis_kelamin=P) → flags3[0]=1, staff_extra[0]=1; negara kosong → `scripts/fetch_staf_negara.py` (flagicon di halaman Wikipedia klub) → data/staf_negara_wikipedia.csv.
 - **Fasilitas** (permintaan Bacad): `apply_facilities` — Persib, Persija, Persebaya, Bali United, Dewa United = Superb (19; Milan 19/19 tampil Superb), SL lain minimal Good (14, dugaan pita), kasta bawah minimal Average (10, dugaan pita). Jatah staf ikut naik (≥14: pelatih 4, scout 3, physio 3).
 
+### 73. Mitchell Baker & pemain luar negeri baru (24 Nov)
+- Bacad: Mitchell Baker belum masuk. Penyebab: build 27.1.0 belum memakai data/pemain_indonesia_luar_negeri.csv (9 orang di_database = tidak).
+- `build_people_v2710.py`: pemain luar negeri baru ditambah ke klub luar lewat peta UID manual (`ABROAD_CLUB_UID`): Mitchell Baker → Colorado Rapids (1903), Yohanes Kandaimu → Kelantan The Real Warriors (23502547), Abdurrahman Iwan Kuswanto → Al-Wakrah (135411), Zinaedin Ardiansyah → Sydney FC (1300490). Kemampuan = perkiraan setara pemain lokal BRI Super League bernilai median. Dilewati (klub tidak ada/tidak pasti di db): Welber Jardim (São Paulo — hanya ada "SPFC" tanpa liga), Muhammad Misbah & Reycredo Bukit (Águilas FC Spanyol), Sulthan Zaky & Givary Lotra (Moi Kampong Dewa). UID staf ikut bergeser → sicomps dibangun ulang.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
