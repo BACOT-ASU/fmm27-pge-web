@@ -548,6 +548,11 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - sicomps v6: fmm_people + semua orang baru (≥ 2.100.000.001) supaya staf timnas asing ikut dimuat (12.952).
 - `build_27.1.0_mod_v11.zip`: db v11 b24b7f54…bcff, sicomps v6 c82dadda…07f1, pictures_logos 27666428…, libgame v2, peta_aset v3.
 
+### 77. Koreksi staf timnas + analisa config logo modder R7 (24 Nov)
+- Bacad: Simon Grayson & Nova Arianto = asisten manajer; Sofie Imam Faizal = physio. Timnas: slot pelatih 0–1 = Grayson, Nova (asisten), 2 = Kostolansky, 3 = Meylan; physio 3 = Sofie, Valdano, Emilia. (Staf timnas tanpa kontrak seperti ori → jabatan di layar game mungkin ditentukan posisi slot; slot 0 di ori umumnya asisten.)
+- **Config R7 (zip Bacad, 3 file XML, 2023, pola FM PC "fmXML")**: hanya peta, tanpa gambar. clubs 21.351 baris `club/<UID>/logo`, comps 1.375 `comp/<UID>/logo`, nations 240 `team/<UID>/logo` (mis. Indonesia 113, England 765). Temuan penting: logo TIMNAS dipetakan ke `graphics/pictures/team/<UID>/…`, bukan `club/`. pictures_logos ori 27.1.0 tidak punya folder nations. Build v12: logo timnas kita dipetakan dua-duanya (`club/<UID>` dan `team/<UID>`) ke PNG yang sama. HYPOTHESIS — cek mana yang tampil.
+- `build_27.1.0_mod_v12.zip`: db v12 1fa469d9…c0ef, sicomps v6 (tetap), pictures_logos 76eb0aa4…03be5, libgame v2, peta_aset v3.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

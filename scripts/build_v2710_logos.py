@@ -89,6 +89,10 @@ def build(ori_path, dbdir, out_path, extra_dirs=(), verbose=True):
             else:
                 row[2] = png; row[5] = None
             cfg[k] = edit_config(cfg[k], uid, sfx)
+            if src_dir != files[0][0]:
+                # logo timnas: config logo modder lain (R7, pola FM) memetakan timnas ke graphics/pictures/team/<UID>/…
+                # (bukan club/). Dipasang dua-duanya ke file PNG yang sama (log 77).
+                cfg[k] = edit_config(cfg[k], uid, sfx, 'team')
         done.append((fn, uid))
     for k in SIZES:
         r = rows['%s/%s/clubs/config.xml' % (BASE, k)]
