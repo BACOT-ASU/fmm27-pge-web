@@ -30,6 +30,11 @@ from build_people_v2710 import (CODE_TO_TEAM, REPO, IDN, NameFile, day_year, h, 
                                 JOB_COACH, JOB_PHYSIO, JOB_SCOUT, JOB_MANAGER, JOB_ASSISTANT, START_DATE)
 import club as clubmod                           # noqa: E402
 
+# negara Asia untuk kumpulan templat staf (nama tim nasional di club.dat)
+ASIA_TEAMS = ('Indonesia', 'Malaysia', 'Thailand', 'Vietnam', 'Singapore', 'Philippines', 'Japan', 'South Korea', 'China', 'Australia',
+              'India', 'Uzbekistan', 'Iran', 'Saudi Arabia', 'Qatar', 'United Arab Emirates', 'Myanmar', 'Cambodia', 'Hong Kong (China PR)')
+# staf perempuan yang diketahui (Bacad 24 Nov); tambahan bisa lewat kolom jenis_kelamin = P di data/staf_indonesia_v2.csv
+FEMALE_STAFF = {'hilda khoirun nisa'}
 ROLE_FILE = {JOB_MANAGER: None, JOB_ASSISTANT: 'coaches', JOB_COACH: 'coaches', JOB_PHYSIO: 'physios', JOB_SCOUT: 'scouts'}
 ROLE_IDX = {'coaches': 'idx2', 'scouts': 'idx3', 'physios': 'idx4'}
 
@@ -90,8 +95,11 @@ def build(src, dst, club_map, verbose=True):
     for j, x in enumerate(scs):
         contracts_by_uid.setdefault(struct.unpack_from('<I', x, 0)[0], []).append(j)
 
-    # templat per jabatan: utamakan orang Indonesia di klub Indonesia
-    tpl = {}
+    # Templat per jabatan (log 72): dulu SATU templat per jabatan → semua staf baru sama persis (atribut, formasi, gaya,
+    # badge, aptitude). Sekarang KUMPULAN staf asli Asia (negara di ASIA_TEAMS) per jabatan; tiap orang dapat templat
+    # berbeda (dipilih dari hash nama), jadi formasi/gaya/atribut bervariasi seperti data ori.
+    asia = {team_nat[n] for n in ASIA_TEAMS if n in team_nat}
+    pool = {}
     for x in scs:
         u, cu = struct.unpack_from('<II', x, 0)
         job = x[24]
@@ -102,10 +110,10 @@ def build(src, dst, club_map, verbose=True):
         rf = ROLE_FILE[job]
         if need_np != (r['non_player_index'] >= 0) or (rf and r[ROLE_IDX[rf]] < 0) or r['player_index'] >= 0:
             continue
-        score = (cu in idn_club_uids) * 2 + (r['nation'] == IDN)
-        if job not in tpl or score > tpl[job][0]:
-            tpl[job] = (score, r, bytes(x))
-    assert set(tpl) == set(ROLE_FILE), set(ROLE_FILE) - set(tpl)
+        if r['nation'] in asia and (r['flags3'][0] == 0):
+            pool.setdefault(job, []).append((r, bytes(x)))
+    assert set(pool) == set(ROLE_FILE), set(ROLE_FILE) - set(pool)
+    tpl = {j: (0, l[0][0], l[0][1]) for j, l in pool.items()}
 
     def full_name(r):
         f = FN.raw[r['first']][20:].decode('utf-8', 'replace') if r['first'] < len(FN.raw) else ''
@@ -123,6 +131,12 @@ def build(src, dst, club_map, verbose=True):
     used_uids = {r['uid'] for r in recs} | {c['uid'] for c in clubs}
     next_uid = max([u for u in used_uids if 2100000001 <= u < 2200000000] + [2100000000]) + 1
     rows = list(csv.DictReader(open(os.path.join(REPO, 'data/staf_indonesia_v2.csv'), encoding='utf-8')))
+    # kebangsaan dari Wikipedia untuk staf yang kolom negara kosong (scripts/fetch_staf_negara.py, log 72)
+    wiki_nat = {}
+    wp = os.path.join(REPO, 'data/staf_negara_wikipedia.csv')
+    if os.path.exists(wp):
+        for w in csv.DictReader(open(wp, encoding='utf-8')):
+            wiki_nat[norm(w['nama'])] = w['negara']
     report, skipped = [], []
     assistant_seen = set()
     managers_new = {}
@@ -139,7 +153,7 @@ def build(src, dst, club_map, verbose=True):
             assistant_seen.add(row['klub'])
         ci, cuid = club_map[row['klub']]
         end = datetime.date.fromisoformat(row['kontrak_sampai']) if row['kontrak_sampai'] else datetime.date(2027, 5, 31)
-        codes = [c for c in (row['negara'] or 'IDN').split('/') if c]
+        codes = [c for c in (row['negara'] or wiki_nat.get(norm(row['nama'])) or 'IDN').split('/') if c]
         nats = [team_nat.get(CODE_TO_TEAM.get(c, ''), -1) for c in codes]
         if nats[0] < 0:
             skipped.append((row['nama'], row['klub'], row['jabatan'], 'negara %s tidak dikenal' % row['negara'])); continue
@@ -160,7 +174,8 @@ def build(src, dst, club_map, verbose=True):
         while next_uid in used_uids:
             next_uid += 1
         used_uids.add(next_uid)
-        _, tp, tcon = tpl[job]
+        cand_t = pool[job]
+        tp, tcon = cand_t[h(row['nama'] + '|tpl', len(cand_t))]
         r = dict(tp)
         nuid = struct.unpack_from('<I', FN.raw[tp['first']], 9)[0] if tp['first'] < len(FN.raw) else 113
         words = row['nama'].split()
@@ -191,6 +206,11 @@ def build(src, dst, club_map, verbose=True):
             r['staff_extra'] = None
         elif r['staff_extra'] is None:
             r['staff_extra'] = b'\x00\x01'
+        # jenis kelamin (log 72): flags3 byte 0 = 1 perempuan (pola 374/399 orang klub wanita ori), staff_extra byte 0 = 1
+        female = norm(row['nama']) in FEMALE_STAFF or (row.get('jenis_kelamin') or '').strip().upper() in ('P', 'F', 'W')
+        r['flags3'] = bytes([1 if female else 0]) + bytes(r['flags3'][1:])
+        if r['staff_extra'] is not None:
+            r['staff_extra'] = bytes([1 if female else 0]) + bytes(r['staff_extra'][1:])
         recs.append(r)
         c = bytearray(tcon)
         struct.pack_into('<II', c, 0, next_uid, cuid)

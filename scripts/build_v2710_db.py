@@ -124,6 +124,35 @@ def finance_block_experiment(buf, clubs):
     return out
 
 
+# ---------------------------------------------------------------- fasilitas (permintaan Bacad 24 Nov, log 72)
+# Byte 1/2 blok misc = fasilitas latihan/akademi (1–20). Acuan layar: Milan 19/19 = "Superb". "Good" & "Average" = skala
+# FM 10 pita (dugaan: 13–14 Good, 9–10 Average) — cek di game. Super League "Good", klub besar "Superb",
+# kasta di bawah minimal "Average". Jatah staf ikut naik (build_staff_v2710.slots memakai fasilitas latihan).
+FAC_SUPERB, FAC_GOOD, FAC_AVERAGE = 19, 14, 10
+FAC_TOP = {116140, 116144, 116145, 7742801, 2000090667}   # Persib, Persija, Persebaya, Bali United, Dewa United
+
+
+def apply_facilities(buf, clubs, comp_map, comps_b7b):
+    sl = {comp_map[i] for i in B7B_COMP_RANGE if comps_b7b[i]['long'].startswith('BRI Super League')}
+    idn = {comp_map[i] for i in B7B_COMP_RANGE}
+    out = []
+    for c in clubs:
+        if c['nat'] != IDN or c['div'] not in idn:
+            continue
+        o = c['o_misc']
+        old = (buf[o + 1], buf[o + 2])
+        if c['uid'] in FAC_TOP:
+            new = (FAC_SUPERB, FAC_SUPERB)
+        elif c['div'] in sl:
+            new = (max(old[0], FAC_GOOD), max(old[1], FAC_GOOD))
+        else:
+            new = (max(old[0], FAC_AVERAGE), max(old[1], FAC_AVERAGE))
+        buf[o + 1], buf[o + 2] = new
+        if new != old:
+            out.append((c['long'], old, new))
+    return out
+
+
 # ---------------------------------------------------------------- koefisien AFC awal Indonesia (keputusan Bacad 23 Nov)
 # Juara → ACL Two, runner-up → Challenge League sejak musim 1 = peringkat 11–12 wilayah timur (asi.xml).
 # Skor berbobot (8 musim, bobot 0,3..1,0 di kedua arah urutan musim) → faktor 0,84 menaruh Indonesia di peringkat 11
@@ -298,6 +327,7 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
         if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
+    report['fasilitas'] = apply_facilities(cb3, C3, comp_map, cA)
     report['uji_keuangan'] = finance_block_experiment(cb3, C3)
     club_new = bytes(cb3)
     C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
