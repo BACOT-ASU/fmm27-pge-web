@@ -535,6 +535,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Peta aset v3 (UID staf bergeser): wajah 85.854.
 - Kiriman `build_27.1.0_mod_v9.zip` (127,8 MB): db v9 9bb56f0d…0ef0, sicomps v5 89b53512…bfaf, pictures_logos fbce60e0…, libgame v2 0e6ec00a…, peta_aset_27.1.0_v3.csv, panduan, ceklist.
 
+### 75. Logo Gresik & Liga Nusantara, timnas, work permit (24 Nov)
+- Logo dari Bacad: data/logo_klub/2000700017_Gresik_United_FC.png; data/logo_kompetisi/<UID>_Liga_Nusantara.png untuk 41042746 + Grup A/B/C (2000700101–103). `build_v2710_logos.py` kini juga memasang logo kompetisi (folder comps, config comp/<UID>/logo|icon). pictures_logos 434 logo klub/timnas + 4 kompetisi, SHA-256 27666428…bc52.
+- Timnas Indonesia (klub UID 113): reputasi 4150 → 9150 (Worldwide, angka Man City). Fasilitas TIDAK diubah: semua timnas ori (England, Japan, Brazil, France, Indonesia) bernilai 255/255 → field tidak dipakai untuk timnas. Staf timnas "sesuai real": belum — butuh daftar nama & jabatan dari Bacad (tidak dikarang).
+- **Work permit (analisa)**: nation_idn_rules `wkpm` KOSONG (hanya id) — sama dengan Spanyol, Jerman, Italia, Prancis, China, India, Singapura, dll. (39 negara); aturan izin kerja berisi hanya di 12 negara (mis. Inggris: wopm/wtpm/appe). Jadi Indonesia TIDAK punya aturan work permit; aturan transfer `trrl` Indonesia = Malaysia (natr True, cnem 5, trma 30, trpr 50). Sulit beli pemain asing kemungkinan bukan karena work permit → perlu screenshot pesan penolakan (mis. pemain tidak mau, gaji, kuota asing, atau "work permit" dari negara lain).
+- Kiriman `build_27.1.0_mod_v10.zip`: db v10 309a2601…92e7, sicomps v5 (tetap), pictures_logos 27666428…, libgame v2, peta_aset v3.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

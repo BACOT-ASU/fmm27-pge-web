@@ -21,6 +21,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import club as clubmod  # noqa: E402
+import comp as compmod  # noqa: E402
 import fmfio            # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,8 +39,8 @@ def fit_png(img, w, h):
     return buf.getvalue()
 
 
-def edit_config(text, uid, suffix):
-    to = 'graphics/pictures/club/%d/%s' % (uid, suffix)
+def edit_config(text, uid, suffix, kind='club'):
+    to = 'graphics/pictures/%s/%d/%s' % (kind, uid, suffix)
     text = re.sub(r'[ \t]*<record from="[^"]*" to="%s"/>\r?\n' % re.escape(to), '', text)
     nl = '\r\n' if '\r\n' in text else '\n'
     i = text.rindex('</list>'); ls = text.rindex('\n', 0, i) + 1
@@ -92,6 +93,33 @@ def build(ori_path, dbdir, out_path, extra_dirs=(), verbose=True):
     for k in SIZES:
         r = rows['%s/%s/clubs/config.xml' % (BASE, k)]
         r[2] = (b'\xef\xbb\xbf' if has_bom else b'') + cfg[k].encode('utf-8'); r[5] = None
+    # logo kompetisi (data/logo_kompetisi/<UID>_<nama>.png, gambar dari Bacad; log 75): pola sama, folder comps
+    comp_dir = os.path.join(REPO, 'data/logo_kompetisi')
+    comp_uids = {c['uid'] for c in compmod.parse(os.path.join(dbdir, 'competition.dat'))[0]}
+    ccfg = {k: fmfio.get(rows['%s/%s/comps/config.xml' % (BASE, k)]).decode('utf-8-sig') for k in SIZES}
+    cbom = {k: fmfio.get(rows['%s/%s/comps/config.xml' % (BASE, k)]).startswith(b'\xef\xbb\xbf') for k in SIZES}
+    comps_done = []
+    for fn in sorted(os.listdir(comp_dir)) if os.path.isdir(comp_dir) else []:
+        if not fn.lower().endswith('.png'):
+            continue
+        uid = int(fn.split('_')[0])
+        if uid not in comp_uids:
+            missing_club.append(fn); continue
+        img = Image.open(os.path.join(comp_dir, fn))
+        for k, ((w, h), sfx) in SIZES.items():
+            png = fit_png(img, w, h)
+            fo = folder('%s/%s/comps/custom' % (BASE, k))
+            name = str(uid).encode()
+            row = next((x for x in fo.files if x[0] == name and x[1] == b'.png'), None)
+            if row is None:
+                fo.files.append([name, b'.png', png, ref[3], ref[4], None, len(png), None])
+            else:
+                row[2] = png; row[5] = None
+            ccfg[k] = edit_config(ccfg[k], uid, sfx, 'comp')
+        comps_done.append((fn, uid))
+    for k in SIZES:
+        r = rows['%s/%s/comps/config.xml' % (BASE, k)]
+        r[2] = (b'\xef\xbb\xbf' if cbom[k] else b'') + ccfg[k].encode('utf-8'); r[5] = None
     out, _ = fmfio.write(flag, root)
     open(out_path, 'wb').write(out)
     _, r2, _ = fmfio.read(out)
@@ -99,7 +127,7 @@ def build(ori_path, dbdir, out_path, extra_dirs=(), verbose=True):
     for _, uid in done:
         for k in SIZES:
             assert '%s/%s/clubs/custom/%d.png' % (BASE, k, uid) in back
-    rep = {'logo_dimasukkan': done, 'logo_resmi_dipertahankan': kept_official, 'klub_tidak_ada': missing_club, 'ukuran': len(out)}
+    rep = {'logo_kompetisi': comps_done, 'logo_dimasukkan': done, 'logo_resmi_dipertahankan': kept_official, 'klub_tidak_ada': missing_club, 'ukuran': len(out)}
     json.dump(rep, open(os.path.splitext(out_path)[0] + '_laporan.json', 'w'), indent=1, ensure_ascii=False)
     if verbose:
         print('logo %d, resmi dipertahankan %d, klub tidak ada %d, pictures_logos.fmf %d byte' % (

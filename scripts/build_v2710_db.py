@@ -129,6 +129,7 @@ def finance_block_experiment(buf, clubs):
 # FM 10 pita (dugaan: 13–14 Good, 9–10 Average) — cek di game. Super League "Good", klub besar "Superb",
 # kasta di bawah minimal "Average". Jatah staf ikut naik (build_staff_v2710.slots memakai fasilitas latihan).
 FAC_SUPERB, FAC_GOOD, FAC_AVERAGE = 19, 14, 10
+IDN_NATIONAL_TEAM, REP_WORLDWIDE = 113, 9150
 FAC_TOP = {116140, 116144, 116145, 7742801, 2000090667}   # Persib, Persija, Persebaya, Bali United, Dewa United
 
 
@@ -328,6 +329,12 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
     report['fasilitas'] = apply_facilities(cb3, C3, comp_map, cA)
+    # Timnas Indonesia (klub UID 113; permintaan Bacad 24 Nov, log 75): reputasi Worldwide (9150 = Man City, angka
+    # Worldwide yang terbukti). Fasilitas TIDAK diubah: semua timnas ori bernilai 255/255 (tidak dipakai untuk timnas).
+    tn = next(c for c in C3 if c['uid'] == IDN_NATIONAL_TEAM)
+    old_tn = (cb3[tn['o_misc'] + 1], cb3[tn['o_misc'] + 2], struct.unpack_from('<H', cb3, tn['off'] + rep_off(tn))[0])
+    struct.pack_into('<H', cb3, tn['off'] + rep_off(tn), REP_WORLDWIDE)
+    report['timnas_indonesia'] = {'lama': old_tn, 'baru': (old_tn[0], old_tn[1], REP_WORLDWIDE)}
     report['uji_keuangan'] = finance_block_experiment(cb3, C3)
     club_new = bytes(cb3)
     C2, e, L = clubmod.parse(tmpfile(work, 'club_new.dat', club_new), verbose=False)
