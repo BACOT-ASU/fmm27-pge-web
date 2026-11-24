@@ -15,6 +15,7 @@ Aturan:
 
 Pakai (dipanggil build_v2710_db.py):  apply(dbdir, people_ori_path) → laporan
 """
+import json
 import os
 import struct
 import sys
@@ -27,7 +28,7 @@ JOB_COACH, JOB_ASSISTANT, JOB_SCOUT, JOB_PHYSIO = 2, 20, 14, 12
 SLOT_COACH, SLOT_SCOUT, SLOT_PHYSIO = range(0, 4), range(5, 8), range(8, 11)
 
 
-def apply(dbdir, people_ori_path, verbose=True):
+def apply(dbdir, people_ori_path, verbose=True, timnas_json=None):
     dbdir = dbdir.rstrip('/') + '/'
     d = open(dbdir + 'club.dat', 'rb').read()
     clubs, end, total = clubmod.parse(dbdir + 'club.dat', verbose=False)
@@ -58,9 +59,16 @@ def apply(dbdir, people_ori_path, verbose=True):
         elif job.get(r['uid']) in (JOB_COACH, JOB_ASSISTANT, JOB_SCOUT, JOB_PHYSIO):
             staff_at.setdefault(ci, []).append(i)
 
+    # Manajer klub = field a1 record club.dat (nomor urut people.dat; VERIFIED log 76: Indonesia a1 = John Herdman,
+    # Persib a1 = −1 → di game manajer Persib kosong). Klub yang manajernya diubah build: a1 = orang berjabatan 16 di klub.
+    mgr_at = {}
+    for i, r in enumerate(recs):
+        if r['club_index'] >= 0 and r['player_index'] < 0 and job.get(r['uid']) == 16:
+            mgr_at.setdefault(r['club_index'], i)
+    tn = json.load(open(timnas_json)) if timnas_json and os.path.exists(timnas_json) else None
     out = [d[:12]]
     pos = 12
-    n_sq = n_st = 0
+    n_sq = n_st = n_mg = 0
     for ci, c in enumerate(clubs):
         assert c['off'] == pos
         rec = d[c['off']:c['off'] + c['len']]
@@ -80,9 +88,25 @@ def apply(dbdir, people_ori_path, verbose=True):
             for slots, people_ in ((SLOT_COACH, coach), (SLOT_SCOUT, scout), (SLOT_PHYSIO, phys)):
                 for k, s in enumerate(slots):
                     new_staff[s] = people_[k] if k < len(people_) else -1
-        if new_squad != squad or new_staff != staff:
+        if tn and ci == tn['club_index']:
+            for slots, people_ in ((SLOT_COACH, tn['coach']), (SLOT_SCOUT, tn['scout']), (SLOT_PHYSIO, tn['physio'])):
+                for k, sl in enumerate(slots):
+                    new_staff[sl] = people_[k] if k < len(people_) else -1
+        # a1 (manajer): offset tetap = awal blok x-list − 20 (a1, capt, 12 byte, lalu u16 x)
+        a1_off = c['o_squad'] - c['off'] - 2 - 21 * c['x'] - 12 - 8
+        a1 = struct.unpack_from('<i', rec, a1_off)[0]
+        want_a1 = a1
+        if tn and ci == tn['club_index'] and tn['manager'] >= 0:
+            want_a1 = tn['manager']
+        elif ci in mgr_at and (a1 < 0 or a1 >= len(recs) or recs[a1]['club_index'] != ci or job.get(recs[a1]['uid']) != 16):
+            want_a1 = mgr_at[ci]
+        if new_squad != squad or new_staff != staff or want_a1 != a1:
             n_sq += new_squad != squad
             n_st += new_staff != staff
+            n_mg += want_a1 != a1
+            rec = bytearray(rec)
+            struct.pack_into('<i', rec, a1_off, want_a1)
+            rec = bytes(rec)
             rec = (rec[:o] + struct.pack('<H', len(new_squad)) + struct.pack('<%di' % len(new_squad), *new_squad)
                    + struct.pack('<12i', *new_staff) + rec[o + 2 + 4 * m + 48:])
         out.append(rec)
@@ -93,5 +117,5 @@ def apply(dbdir, people_ori_path, verbose=True):
     c2, e2, t2 = clubmod.parse(dbdir + 'club.dat', verbose=False)
     assert e2 == t2 and len(c2) == len(clubs)
     if verbose:
-        print('club.dat: skuad diperbarui %d klub, slot staf diperbarui %d klub' % (n_sq, n_st))
-    return {'skuad_diperbarui': n_sq, 'slot_staf_diperbarui': n_st}
+        print('club.dat: skuad diperbarui %d klub, slot staf diperbarui %d klub, manajer (a1) %d klub' % (n_sq, n_st, n_mg))
+    return {'skuad_diperbarui': n_sq, 'slot_staf_diperbarui': n_st, 'manajer_a1': n_mg}

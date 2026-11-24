@@ -47,7 +47,7 @@ ABROAD_CLUB_UID = {'Colorado Rapids': 1903, 'Kelantan The Real Warriors': 235025
                    'São Paulo FC': 2000211203, 'Águilas FC': 67152828,            # U. Murcia (Segunda Federación, dekat Águilas)
                    'Moi Kampong Dewa': 107341}                    # Kagoshima United (J3; liga Malaysia/Brunei tidak dimuat)
 CODE_TO_TEAM = {
-    'EGY': 'Egypt', 'ITA': 'Italy',
+    'EGY': 'Egypt', 'ITA': 'Italy', 'CAN': 'Canada', 'SUI': 'Switzerland',
     'IDN': 'Indonesia', 'BRA': 'Brazil', 'JPN': 'Japan', 'ESP': 'Spain', 'ARG': 'Argentina',
     'POR': 'Portugal', 'NED': 'Netherlands', 'SRB': 'Serbia', 'MKD': 'North Macedonia',
     'MNE': 'Montenegro', 'MLI': 'Mali', 'CRC': 'Costa Rica', 'CIV': 'Ivory Coast', 'COL': 'Colombia',

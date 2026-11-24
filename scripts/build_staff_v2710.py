@@ -19,6 +19,7 @@ index lama tidak bergeser. Manajer lama di klub yang mendapat Head coach baru: k
 Semua ini HYPOTHESIS sampai diuji di game. Atribut staf = salinan templat (perkiraan).
 """
 import csv
+import json
 import datetime
 import os
 import struct
@@ -34,7 +35,7 @@ import club as clubmod                           # noqa: E402
 ASIA_TEAMS = ('Indonesia', 'Malaysia', 'Thailand', 'Vietnam', 'Singapore', 'Philippines', 'Japan', 'South Korea', 'China', 'Australia',
               'India', 'Uzbekistan', 'Iran', 'Saudi Arabia', 'Qatar', 'United Arab Emirates', 'Myanmar', 'Cambodia', 'Hong Kong (China PR)')
 # staf perempuan yang diketahui (Bacad 24 Nov); tambahan bisa lewat kolom jenis_kelamin = P di data/staf_indonesia_v2.csv
-FEMALE_STAFF = {'hilda khoirun nisa'}
+FEMALE_STAFF = {'hilda khoirun nisa', 'emilia achmadi'}
 ROLE_FILE = {JOB_MANAGER: None, JOB_ASSISTANT: 'coaches', JOB_COACH: 'coaches', JOB_PHYSIO: 'physios', JOB_SCOUT: 'scouts'}
 ROLE_IDX = {'coaches': 'idx2', 'scouts': 'idx3', 'physios': 'idx4'}
 
@@ -131,6 +132,12 @@ def build(src, dst, club_map, verbose=True):
     used_uids = {r['uid'] for r in recs} | {c['uid'] for c in clubs}
     next_uid = max([u for u in used_uids if 2100000001 <= u < 2200000000] + [2100000000]) + 1
     rows = list(csv.DictReader(open(os.path.join(REPO, 'data/staf_indonesia_v2.csv'), encoding='utf-8')))
+    # staf timnas Indonesia (data dari Bacad 24 Nov, log 76): klub = timnas (club.dat UID 113)
+    tn_path = os.path.join(REPO, 'data/staf_timnas_indonesia.csv')
+    if os.path.exists(tn_path):
+        rows += list(csv.DictReader(open(tn_path, encoding='utf-8')))
+        tn_i = next(i for i, c in enumerate(clubs) if c['uid'] == 113)
+        club_map = dict(club_map); club_map['Indonesia'] = (tn_i, 113)
     # kebangsaan & jenis kelamin staf yang kolom negara kosong: data/staf_negara_nama.csv (ditebak dari nama,
     # keputusan Bacad 24 Nov, log 74 — pencarian Wikipedia dihentikan)
     wiki_nat, female_names = {}, set(FEMALE_STAFF)
@@ -255,7 +262,8 @@ def build(src, dst, club_map, verbose=True):
         if tr >= 10:
             return {JOB_COACH: 2, JOB_SCOUT: 2, JOB_PHYSIO: 2}
         return {JOB_COACH: 2, JOB_SCOUT: 1, JOB_PHYSIO: 1}
-    idn_ci = {i for i, _ in club_map.values()}
+    tn_i = club_map['Indonesia'][0] if 'Indonesia' in club_map else None
+    idn_ci = {i for i, _ in club_map.values()} - {tn_i}
     seen, over = {}, set()
     for j, x in enumerate(scs):
         u, cu = struct.unpack_from('<II', x, 0)
@@ -277,6 +285,29 @@ def build(src, dst, club_map, verbose=True):
     scs = [x for j, x in enumerate(scs) if j not in over]
     if verbose:
         print('jatah staf: %d staf dilepas jadi staf bebas' % len(over))
+
+    # Staf timnas (log 76): di ori, staf timnas TIDAK punya klub (club_index −1) dan TIDAK punya kontrak; mereka hanya
+    # dirujuk record timnas di club.dat: manajer = field a1, staf = slot 0–3 pelatih, 5–7 scout, 8–10 physio.
+    # Di sini hanya dicatat (timnas_slot.json); rosters_v2710.py yang menulis ke club.dat.
+    if tn_i is not None:
+        uid2k = {r['uid']: k for k, r in enumerate(recs)}
+        tn = [(x['jabatan'].strip().lower(), x['nama']) for x in rows if x['klub'] == 'Indonesia']
+        idx_by_name = {e['nama']: uid2k[e['uid']] for e in report if e['klub'] == 'Indonesia'}
+        pick = lambda pred: [idx_by_name[n] for j, n in tn if pred(j) and n in idx_by_name]  # noqa: E731
+        mgr = pick(lambda j: j == 'head coach')
+        asst = pick(lambda j: j == 'assistant coach')
+        gk = pick(lambda j: 'goalkeeping' in j)
+        fit = pick(lambda j: 'fitness' in j)
+        coach = (asst[:2] + gk[:1] + fit[:1] + asst[2:] + gk[1:] + fit[1:])[:4]   # 4 slot pelatih
+        scout = pick(lambda j: 'analyst' in j or 'scout' in j)[:3]
+        phys = pick(lambda j: 'physio' in j or 'doctor' in j)[:3]
+        tn_people = set(idx_by_name.values())
+        tn_uids = {recs[k]['uid'] for k in tn_people}
+        for k in tn_people:
+            recs[k]['club_index'] = -1
+        scs = [x for x in scs if struct.unpack_from('<I', x, 0)[0] not in tn_uids]
+        json.dump({'club_index': tn_i, 'manager': mgr[0] if mgr else -1, 'coach': coach, 'scout': scout, 'physio': phys},
+                  open(dst + 'timnas_slot.json', 'w')) if os.makedirs(dst, exist_ok=True) is None else None
 
     os.makedirs(dst, exist_ok=True)
     open(dst + 'people.dat', 'wb').write(people.build_people(ph, recs))

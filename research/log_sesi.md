@@ -541,6 +541,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - **Work permit (analisa)**: nation_idn_rules `wkpm` KOSONG (hanya id) — sama dengan Spanyol, Jerman, Italia, Prancis, China, India, Singapura, dll. (39 negara); aturan izin kerja berisi hanya di 12 negara (mis. Inggris: wopm/wtpm/appe). Jadi Indonesia TIDAK punya aturan work permit; aturan transfer `trrl` Indonesia = Malaysia (natr True, cnem 5, trma 30, trpr 50). Sulit beli pemain asing kemungkinan bukan karena work permit → perlu screenshot pesan penolakan (mis. pemain tidak mau, gaji, kuota asing, atau "work permit" dari negara lain).
 - Kiriman `build_27.1.0_mod_v10.zip`: db v10 309a2601…92e7, sicomps v5 (tetap), pictures_logos 27666428…, libgame v2, peta_aset v3.
 
+### 76. Staf timnas Indonesia + PENYEBAB manajer Persib kosong (24 Nov)
+- Bacad: fasilitas timnas & work permit di-skip. Data staf timnas (era John Herdman) → `data/staf_timnas_indonesia.csv` (12 orang; Sports Science & Sports Dietician dipetakan ke physio; Emilia Achmadi perempuan).
+- **Temuan (VERIFIED)**: record club.dat field `a1` (dulu tak bernama) = **manajer** (nomor urut people.dat); `capt` = kapten. Indonesia a1 = John Herdman; Persib a1 = −1 → itulah sebab manajer Persib kosong di game. Staf timnas di ori TIDAK punya klub (club_index −1) dan TIDAK punya kontrak; hanya dirujuk slot staf + a1 record timnas (England: 4 pelatih, 1 scout, 3 physio di slot).
+- Perbaikan: `rosters_v2710.py` mengisi a1 klub dengan orang berjabatan manajer (16) di klub itu bila a1 kosong/bukan manajer/beda klub (56 klub; Persib = Igor Tolić, PSM = Darije Kalezić, Bali = Johnny Jansen, Persebaya = Bernardo Tavares). Timnas: a1 = Herdman; slot pelatih (4) = Grayson, Nova Arianto, Kostolansky (kiper), Meylan (fisik); scout = Dzikry Lazuardi; physio = Valdano, Emilia. Vitória, Dickman, van Rensburg, Sofie Imam Faizal tidak dapat slot (maks 4 pelatih). Staf timnas: club_index −1, tanpa kontrak (pola ori); dikecualikan dari jatah staf klub.
+- sicomps v6: fmm_people + semua orang baru (≥ 2.100.000.001) supaya staf timnas asing ikut dimuat (12.952).
+- `build_27.1.0_mod_v11.zip`: db v11 b24b7f54…bcff, sicomps v6 c82dadda…07f1, pictures_logos 27666428…, libgame v2, peta_aset v3.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

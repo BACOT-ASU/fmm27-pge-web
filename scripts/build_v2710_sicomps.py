@@ -171,8 +171,9 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
         'fmm_clubs': {C[i]['uid'] for i in idn_clubs},
         'fmm_stadiums': {S[C[i]['rep']]['uid'] for i in idn_clubs if C[i]['rep'] != 0xFFFF},
         'fmm_cities': {city_uids[S[C[i]['rep']]['city']] for i in idn_clubs if C[i]['rep'] != 0xFFFF},
+        # + semua orang baru build kita (≥ 2.100.000.001), termasuk staf timnas asing tanpa klub (log 76)
         'fmm_people': {p['uid'] for p in P if p['club_index'] in idn_club_set or p['nation'] == IDN
-                       or IDN in p['other_nations']},
+                       or IDN in p['other_nations'] or p['uid'] >= 2100000001},
         'fmm_reserve_clubs': set(),
     }
     new_people = set(json.load(open(os.path.join(os.path.dirname(os.path.dirname(dbdir.rstrip('/'))), 'uid_pemain_baru.json'))))

@@ -20,6 +20,7 @@ Sumber: panduan induk §4.2, §4.2a, §4.2b, §5; skrip `scripts/club.py`; `lega
 | 9a | blok keuangan | 68 byte | lihat di bawah | HYPOTHESIS (arti) |
 | 10 | blok 12 byte | u32 (8) + 8 byte | panjang variabel `k` di fmmcore | LIKELY |
 | 11 | blok 23 byte | u8 (peringkat musim lalu?), **u16 reputasi (0–10.000)**, i32, i32, 3 × i32 | | reputasi VERIFIED, sisanya UNKNOWN |
+| 11b | manajer & kapten | i32 a1 = MANAJER, i32 capt = kapten (nomor urut people.dat; −1 = kosong), lalu 12 byte | posisi: sebelum daftar 21 byte | VERIFIED (24 Nov, log 76) |
 | 12 | daftar | u16 N + N × 21 byte | | UNKNOWN (opaque) |
 | 13 | skuad | u16 jumlah + jumlah × i32 **nomor urut people.dat** (bukan UID; koreksi 23 Nov) | pemain yang tidak ada di sini masuk tim cadangan | VERIFIED |
 | 14 | staf | 12 × i32 nomor urut people.dat: 0–3 pelatih (0 umumnya asisten), 4 kosong, 5–7 scout, 8–10 physio, 11 bukan staf | staf yang tidak ada di slot tidak tampil di halaman Staff klub | VERIFIED (23 Nov) |

@@ -431,7 +431,8 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     json.dump(new_uids, open(os.path.join(out_dir, 'uid_pemain_baru.json'), 'w'))
 
     # ------------------------------------------------------------ skuad & slot staf club.dat (log 63)
-    report['daftar_klub'] = rosters_v2710.apply(dbdir, tmpfile(work, 'people_ori.dat', get(R, 'people.dat')), verbose=verbose)
+    report['daftar_klub'] = rosters_v2710.apply(dbdir, tmpfile(work, 'people_ori.dat', get(R, 'people.dat')), verbose=verbose,
+                                                timnas_json=os.path.join(work, 'staff_out', 'timnas_slot.json'))
 
     # ------------------------------------------------------------ award Indonesia (awards.dat)
     aw = add_awards_v2710.add(dbdir, verbose=verbose)
