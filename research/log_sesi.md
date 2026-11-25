@@ -613,6 +613,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Award & board: sudah diubah di data (db v16: klub di kompetisi induk, award di induk) — terbukti hanya kalau v18 jalan.
 - Saran: uji v18 dulu; kalau jalan, v19 mencoba pembagian tetap (c, cadangan b).
 
+### 87. v18: Championship muncul, Liga Nusantara belum → v19 (25 Nov)
+- Bacad (v18): Domestic Competitions berisi **Pegadaian Championship** (juara bertahan Persijap) — pola liga biasa (strq kosong, tems id 1) jalan untuk Championship (20 klub, 2 × 10). **Liga Nusantara tidak muncul**.
+- Analisa (VERIFIED di data ori): semua fase grup ori dengan grup tidak sama besar (bra_nat_third_21 11+10, inter_u20_africa 5+4+4, col_u18, sco_league_cup, irl_u19_elite …) memakai `ngrt` stage = grup TERKECIL + `gpdt` per grup {gpid, ngrt, rank, sche[]}. v18 memberi Liga Nusantara `ngrt 8` tanpa gpdt (8 × 3 = 24 ≠ 23 klub) → dugaan ditolak.
+- Perbaikan: Liga Nusantara `ngrt 7` + gpdt [8, 8, 7]. Championship tidak berubah (selain XSvC). XSvC +4.
+- `patch_v19_sicomps.zip`: hanya sicomps v11 3421b5c5…707b.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

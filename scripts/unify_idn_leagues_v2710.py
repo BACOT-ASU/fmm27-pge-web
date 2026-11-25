@@ -116,6 +116,19 @@ def group_stage(gfile_stage, J, self_uid, ntms, ngps, rank_step):
         hi = min(lo + rank_step - 1, ntms - 1)
         rank.append((0x0a, [(T('team'), u8(k)), (T('crk '), u8(lo)), (T('hgrk'), u8(lo)), (T('lwrk'), u8(hi))]))
     setf(st, 'rank', (0x0b, rank))
+    # v19 (uji v18: Championship 20/2 muncul, Liga Nusantara 23/3 tidak): grup tidak sama besar di ori (bra_nat_third_21
+    # 11+10, inter_u20_africa 5+4+4, col_u18, sco_league_cup) = `ngrt` stage = grup TERKECIL + `gpdt` per grup
+    # {gpid, ngrt, rank, sche[]}. v18 memberi ngrt 8 × 3 = 24 ≠ 23.
+    if ntms % ngps:
+        small = ntms // ngps
+        setf(st, 'ngrt', u8(small))
+        gp = []
+        for gi in range(ngps):
+            size = small + (1 if gi < ntms % ngps else 0)
+            grank = [copy.deepcopy(r) for r in rank[:size]]
+            gp.append((0x0a, [(T('gpid'), u8(gi)), (T('ngrt'), u8(size)), (T('rank'), (0x0b, grank)),
+                              (T('sche'), (0x0b, []))]))
+        setf(st, 'gpdt', (0x0b, gp))
     sche = get(st, 'sche')
     if sche is not None:
         walk_remap_in1(sche, NEW_IN1)
@@ -177,8 +190,8 @@ def merge_top(P, G):
             fx.append(e)
 
 
-# v16 (+1) dan v17 (+2) sudah terpasang di HP Bacad → v18 memakai +3 agar versi selalu berbeda.
-XSVC_STEP = 3
+# v16 (+1), v17 (+2), v18 (+3) sudah terpasang di HP Bacad → v19 memakai +4 agar versi selalu berbeda.
+XSVC_STEP = 4
 
 
 def bump(d):
