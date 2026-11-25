@@ -594,6 +594,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - HYPOTHESIS (cek di game): fase grup tampil & jalan, pembagian grup wajar (wilayah), 8 besar terisi 8 tim, playoff/promosi/degradasi, board & award per liga, musim 2 (klub promosi/degradasi masuk liga baru).
 - `build_27.1.0_mod_v16.zip`: db v16 7e0a640f…36bf, sicomps v8 bbd23b5f…bda (libgame & pictures_logos tidak berubah).
 
+### 84. v16: Championship & Liga Nusantara hilang dari Domestic Competitions → v17 (25 Nov)
+- Bacad (karier baru v16, 7 Agu 2026): Domestic Competitions Indonesia hanya BRI Super League, Piala Indonesia, Piala Liga, Indonesian Reserves Group 1–3. Championship & Liga Nusantara tidak ada.
+- Sebab (VERIFIED di data): header dbc byte 0 = `ftye` di SEMUA 1.278 file ori (1/1, 3/3, 2/2, 10/10, …). `unify_idn_leagues_v2710` mengganti `ftye` 3 → 1 tapi header tetap `03010000` → file tidak cocok → game tidak memuat kedua liga. Selain itu `nation_idn_comps` `dvlv` masih memberi `nccc` (jumlah anak 2/3) padahal kompetisi tunggal di ori (Championship SI, J1/J2/J3) tanpa `nccc`.
+- Perbaikan: header → `01010000`; `nccc` dibuang untuk Championship & Liga Nusantara; XSvC dinaikkan +2 (beda dari v16 yang sudah terpasang). Cek otomatis: tidak ada file dengan header ≠ ftye.
+- `patch_v17_sicomps.zip`: hanya sicomps v9 (fe9fdbfa…). db tetap v16.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

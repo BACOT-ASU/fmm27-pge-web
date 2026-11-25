@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-25 — v17: header dbc Championship & Liga Nusantara (01) + tanpa nccc
+- Kedua liga tidak termuat di v16 karena header dbc masih 03 (induk).
+
 ## 2026-11-25 — v16: Championship & Liga Nusantara satu kompetisi
 - `scripts/unify_idn_leagues_v2710.py` (fase grup di induk, pola J1 2026 / Championship ori SI); klub ke kompetisi induk; award liga di induk.
 

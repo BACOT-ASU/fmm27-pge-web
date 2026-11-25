@@ -153,6 +153,9 @@ def merge_top(P, G):
     """Field tingkat kompetisi: ftye 1, buang chdc, tanggal fase grup (in_1 20/21) + awal/akhir musim dari file grup."""
     fs = P['fields']
     setf(fs, 'ftye', u8(1))
+    # Header dbc byte 0 = ftye (VERIFIED: J1 2026 & Championship ori 01010000, induk 03…, anak 02…). Bug v16: header
+    # masih 03 → game tidak memuat Championship & Liga Nusantara (Domestic Competitions hanya SL + piala, uji Bacad).
+    P['hdr'] = bytes([1]) + P['hdr'][1:]
     drop(fs, 'chdc')
     for k in ('itvm', 'MtTv'):
         if get(fs, k) is None and get(G['fields'], k) is not None:
@@ -172,11 +175,15 @@ def merge_top(P, G):
             fx.append(e)
 
 
+# v16 (header salah) sudah terpasang di HP Bacad dengan versi +1 → v17 memakai +2 agar versi berbeda dari v16.
+XSVC_STEP = 2
+
+
 def bump(d):
     fs = d['fields']
     old = get(fs, 'XSvC')[1][0]
-    setf(fs, 'XSvC', u8((old + 1) & 255))
-    return (old + 1) & 255
+    setf(fs, 'XSvC', u8((old + XSVC_STEP) & 255))
+    return (old + XSVC_STEP) & 255
 
 
 def apply(files, ori_files):
@@ -243,6 +250,10 @@ def apply(files, ori_files):
     N = P(nc)
     retm = get(N['fields'], 'retm')[1]
     retm[:] = [it for it in retm if ref_comp(get(it[1], 'comp')) not in groups]
+    # dvlv: `nccc` = jumlah kompetisi anak (pola induk ftye 3). Kompetisi tunggal di ori (Championship SI, J1/J2/J3) tanpa nccc.
+    for it in get(N['fields'], 'dvlv')[1]:
+        if ref_comp(get(it[1], 'comp')) in (CHAMP, LN):
+            drop(it[1], 'nccc')
     save(nc, N)
     # Piala Indonesia: peserta per kompetisi liga → induk
     cup = 'comp_idn_cup_1438.dbc'
