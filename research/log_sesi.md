@@ -606,6 +606,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Perbaikan `unify_idn_leagues_v2710.group_stage`: `strq` kosong, `tems` [{id 1}], `grrl 0` (pola bra_nat_third; 8192 tanpa crl2 hanya di piala/spesial), `ngrt` 10 (Championship) / 8 (Liga Nusantara). XSvC +3 dari v15.
 - `patch_v18_sicomps.zip`: hanya sicomps v10 9df79339…5943. db tetap v16.
 
+### 86. Pertanyaan Bacad: pembagian grup bisa diatur? musim berikutnya? (25 Nov)
+- Riwayat (panduan induk §9): B4 = liga satu kompetisi dengan grup → grup diundi acak; B4b = `crgt`/`gptm` 2026 → grup benar tapi semua tabel tampil sebagai grup 1; B5 = hanya Super League muncul (sama dengan gejala v16/v17); B5b = induk + anak (dipakai sampai v15).
+- Pilihan pembagian (ori): (a) `gptm` = isi grup musim pertama saja (B4b: bug tabel); (b) `grrl 8192` + `crl2` = grup menurut provinsi, sama tiap musim, klub promosi/degradasi ikut provinsinya (pembagian sekarang tidak bisa persis karena Jateng/Jatim ada di 2 grup; ukuran grup bisa tidak seimbang); (c) pola MLS (`gnty 7`, `grrl 2304`, `gptm` per grup) = konferensi tetap tiap musim — arti bit HYPOTHESIS, belum pernah diuji.
+- v18 (`grrl 0`): dugaan grup diundi ulang tiap musim untuk SEMUA klub.
+- Award & board: sudah diubah di data (db v16: klub di kompetisi induk, award di induk) — terbukti hanya kalau v18 jalan.
+- Saran: uji v18 dulu; kalau jalan, v19 mencoba pembagian tetap (c, cadangan b).
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
