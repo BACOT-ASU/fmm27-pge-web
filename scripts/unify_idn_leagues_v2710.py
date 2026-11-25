@@ -100,14 +100,16 @@ def group_stage(gfile_stage, J, self_uid, ntms, ngps, rank_step):
     setf(st, 'type', u8(2))
     setf(st, 'ntms', u8(ntms))
     setf(st, 'ngps', u8(ngps), after='type')
-    setf(st, 'grrl', get(jst, 'grrl'), after='ngps')
+    # v18 (uji v16/v17: liga tidak termuat, Division macet): pola J1 2026 (strq menunjuk kompetisi sendiri, tems + comp,
+    # grrl 8192) hanya dipakai kompetisi SPESIAL (type 4). Liga senior biasa ori dengan fase grup di stage 0
+    # (bra_nat_third_1439, uru_second_1440, usa_mls_1443, idn_league_two ori): tems = [{id 1}] tanpa comp, strq KOSONG.
+    # grrl 0 seperti bra_nat_third (grrl 8192 tanpa crl2 hanya ada di piala/kompetisi spesial).
+    setf(st, 'grrl', (0x01, b'\x00' * 4), after='ngps')
     setf(st, 'gnty', u8(0), after='grrl')
     setf(st, 'gpdt', (0x0b, []), after='gnty')
-    setf(st, 'tems', (0x0b, [(0x0a, [(T('id  '), u8(1)), (T('comp'), comp_obj(self_uid))])]))
-    jsq = copy.deepcopy(get(jst, 'strq'))
-    for item in jsq[1]:
-        setf(item[1], 'comp', comp_obj(self_uid))
-    setf(st, 'strq', jsq)
+    setf(st, 'tems', (0x0b, [(0x0a, [(T('id  '), u8(1))])]))
+    setf(st, 'strq', (0x0b, []))
+    setf(st, 'ngrt', u8(-(-ntms // ngps)))   # tim per grup (bra_nat_third 14, uru_second 7); 23/3 → 8
     rank = []
     for k in range(ntms // ngps + (1 if ntms % ngps else 0)):
         lo = k * rank_step
@@ -175,8 +177,8 @@ def merge_top(P, G):
             fx.append(e)
 
 
-# v16 (header salah) sudah terpasang di HP Bacad dengan versi +1 → v17 memakai +2 agar versi berbeda dari v16.
-XSVC_STEP = 2
+# v16 (+1) dan v17 (+2) sudah terpasang di HP Bacad → v18 memakai +3 agar versi selalu berbeda.
+XSVC_STEP = 3
 
 
 def bump(d):

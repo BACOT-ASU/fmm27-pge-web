@@ -600,6 +600,12 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Perbaikan: header → `01010000`; `nccc` dibuang untuk Championship & Liga Nusantara; XSvC dinaikkan +2 (beda dari v16 yang sudah terpasang). Cek otomatis: tidak ada file dengan header ≠ ftye.
 - `patch_v17_sicomps.zip`: hanya sicomps v9 (fe9fdbfa…). db tetap v16.
 
+### 85. v17 masih tanpa Championship & Liga Nusantara; fixture kosong, Division macet → v18 (25 Nov)
+- Bacad (v17, karier Gresik): Domestic Competitions sama (tanpa Championship & Liga Nusantara), jadwal klub hanya Friendly, menu Competitions → Division langsung macet. Artinya kedua liga ada di database (klub terdaftar) tapi aturannya tidak pernah jalan.
+- Analisa (VERIFIED di data ori, sebab di game HYPOTHESIS): dari semua file ori dengan fase grup di stage 0 yang memakai tim divisi (`tems id 1`), liga senior biasa (`type 1`: bra_nat_third_1439, bra_nat_third_21_teams, uru_second_1440, usa_mls_1443, Championship ori SI) SELALU `strq` kosong dan `tems` = {id 1} tanpa comp, dengan `ngrt` (tim per grup). Pola J1 2026 yang dipakai v16/v17 (`strq` → kompetisi sendiri `orss True`, `tems` + comp, `grrl 8192`) hanya ada di kompetisi SPESIAL `type 4` (J1/J2-J3 2026). Dugaan: stage 0 menunggu syarat dari dirinya sendiri → liga tidak pernah mulai.
+- Perbaikan `unify_idn_leagues_v2710.group_stage`: `strq` kosong, `tems` [{id 1}], `grrl 0` (pola bra_nat_third; 8192 tanpa crl2 hanya di piala/spesial), `ngrt` 10 (Championship) / 8 (Liga Nusantara). XSvC +3 dari v15.
+- `patch_v18_sicomps.zip`: hanya sicomps v10 9df79339…5943. db tetap v16.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

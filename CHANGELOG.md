@@ -1,5 +1,7 @@
 # Changelog
 
+## 2026-11-25 — v18: fase grup Championship & Liga Nusantara pola liga biasa ori (strq kosong, tems id 1, ngrt)
+
 ## 2026-11-25 — v17: header dbc Championship & Liga Nusantara (01) + tanpa nccc
 - Kedua liga tidak termuat di v16 karena header dbc masih 03 (induk).
 
