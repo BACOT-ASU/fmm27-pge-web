@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-25 — db v14: Bali United tidak lagi terbelah ke tim wanita
+- `build_people_v2710.py`: nama klub ganda di `klub_indonesia.csv` → baris pertama yang dipakai.
+
 ## 2026-11-23 — Edit formasi, gaya, badge, aptitude staf
 - coaches/scouts/physios.dat byte 4–6 dan formasi non_players 31–33 (dicocokkan dengan 12 profil game).
 

@@ -2,7 +2,7 @@
 
 Dipakai kalau pictures_logos.fmf tidak berubah (cek daftar di zip patch). Wajah & logo modder di APK lama tetap dipakai.
 
-1. Ekstrak zip patch (mis. `patch_v13_db.zip`) → `db_archive_2707.fmf`.
+1. Ekstrak zip patch (mis. `patch_v14_db.zip`) → `db_archive_2707.fmf`.
 2. MT Manager → ketuk **APK mod terakhir yang sudah terpasang/ditandatangani** (yang pictures_logos-nya sudah digabung wajah modder) → **Lihat**.
 3. Ganti HANYA file yang ada di zip patch, kompresi **Level Store**:
    - `assets/data/game/db_archive_2707.fmf`

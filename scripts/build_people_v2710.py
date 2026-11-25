@@ -160,6 +160,11 @@ def build(src, dst, club_map_extra=None, verbose=True):
     alias = {'persikad depok': 'persikad kota depok'}
     club_map = {}
     for r in kl:
+        # Bug v13 (Bacad 25 Nov): "Bali United FC" muncul 2x di CSV (BRI SL uid 7742801 dan baris "Dikeluarkan"
+        # uid 2000340112 = Bali United Women). Baris kedua menimpa → pemain & staf masuk tim wanita.
+        # Baris pertama menang; baris "Dikeluarkan" tidak pernah menimpa.
+        if r['klub_data'] in club_map:
+            continue
         u = int(r['uid']) if r['uid'] else None
         if u in by_uid:
             club_map[r['klub_data']] = (by_uid[u], u)
