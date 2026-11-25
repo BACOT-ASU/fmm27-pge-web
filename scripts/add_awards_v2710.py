@@ -27,15 +27,12 @@ PREFIXES = ('Premier League ', 'Hana Bank K League 1 ', 'K League 1 ', 'J2 ', 'J
 # award berkala (frekuensi 1 mingguan, 2 bulanan; termasuk Manager of the Month) dipasang di tiap GRUP, sedangkan award
 # TAHUNAN (frekuensi 3, mis. Best Eleven, MVP, Top Goalscorer) di kompetisi induk = per kasta.
 PERIODIC, YEARLY = {1, 2}, {3}
+# Log 83 (25 Nov): Championship & Liga Nusantara jadi SATU kompetisi (fase grup di dalam induk) → semua award liga
+# (mingguan, bulanan, tahunan, Manager of the Month) di kompetisi induk = per kasta. Kompetisi grup tidak dipakai lagi.
 PLAN = [
     (41004312, [('kor1', None, None), ('epl', 'Manager of the Month', None)]),          # BRI Super League
-    (41042740, [('j2', None, YEARLY)]),                                                  # Championship (induk)
-    (41042741, [('j2', None, PERIODIC), ('epl', 'Manager of the Month', None)]),        # Championship Grup Barat
-    (41042742, [('j2', None, PERIODIC), ('epl', 'Manager of the Month', None)]),        # Championship Grup Timur
-    (41042746, [('j3', None, YEARLY)]),                                                  # Liga Nusantara (induk)
-    (2000700101, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Liga Nusantara Grup A
-    (2000700102, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Grup B
-    (2000700103, [('j3', None, PERIODIC), ('epl', 'Manager of the Month', None)]),      # Grup C
+    (41042740, [('j2', None, None), ('epl', 'Manager of the Month', None)]),            # Pegadaian Championship
+    (41042746, [('j3', None, None), ('epl', 'Manager of the Month', None)]),            # Liga Nusantara
     (7746536, [('kcup', None, None)]),                                                   # Piala Indonesia
     (2000560926, [('jlc', None, None)]),                                                 # Piala Liga Indonesia
 ]

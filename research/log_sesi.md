@@ -580,6 +580,20 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Bukti ori (VERIFIED, `comp_jpn_first_2026_special_0.dbc`): J1 musim spesial 2026 = SATU kompetisi (DBID 102428, klub terdaftar di J1), stage 0 = fase grup `type 2`, `ngps 2` (Grup Timur/Barat), `grrl 8192`, 20 tim, 2 putaran; stage 1 = playoff antar grup per posisi (nama Group A/B DBID 76/77). Pola sama di J2/J3 spesial (`ngps 4`, 40 tim). Arti `grrl 8192` UNKNOWN (dugaan: pembagian menurut wilayah, karena format asli J-League 2026 regional). Kompetisi spesial ini `type 4` (dugaan: satu musim saja) — liga kita tetap `type 1`.
 - Opsi yang ditawarkan: (1) pola J1 2026 (grup di dalam induk); (2) tetap seperti sekarang; (3) satu tabel tanpa grup. Menunggu pilihan Bacad.
 
+### 83. Championship & Liga Nusantara satu kompetisi — build v16 (25 Nov)
+- Bacad memilih opsi 1 (pola J1 2026), langsung untuk Championship DAN Liga Nusantara, dalam satu zip build.
+- Temuan baru: sicomps ORI 27.1.0 sudah punya `comp_idn_league_two_1442` versi SI = Championship SATU kompetisi dengan fase grup di dalamnya (relr/prmr/tppr/btpr/qurl di stage fase grup). B7b menggantinya dengan pola induk + kompetisi grup. Pola Brasil Série C 21 tim: `grrl 8192` + `crl2` region→grup; Asian Cup: `exfp` peringkat-3 terbaik. Detail: `research/format_specs/comps_dbc.md`.
+- Pembagian grup menurut provinsi (crl2) TIDAK bisa meniru Barat/Timur & A/B/C kita (Jawa Tengah ada di 2 grup Championship; Jateng & Jatim di 2 grup LN) → dipakai pembagian otomatis game (`grrl 8192` tanpa `crl2`, seperti J1 2026). Grup tidak lagi bernama Barat/Timur.
+- `scripts/unify_idn_leagues_v2710.py` (dipanggil `build_v2710_sicomps.py`):
+  - Championship: stage 0 fase grup 2 × 10 (2 putaran, 18 laga, 12 Sep–1 Mei); juara grup → Champions Playoff (142) + promosi; peringkat 2 → Promotion Playoff (117); peringkat 9 → Relegation Playoff (111, stage 2); juru kunci tiap grup degradasi (relr 1, total 3); promosi 3.
+  - Liga Nusantara: stage 0 fase grup 3 grup / 23 klub (2 putaran, 7 Nov–13 Feb); 2 teratas tiap grup + 2 peringkat-3 terbaik (`exfp`) → 8 besar 2 × 4 (stage 1, sama dengan v13 yang sudah jalan) → final & perebutan tempat 3 (stage 2); 3 promosi. Sebelumnya: A 2 teratas, B/C 3 teratas.
+  - Field stage liga yang tidak ada di stage fase grup mana pun dibuang (edtv, pspl, shsn); subr 61; poin 3/1/0.
+  - Tanggal fase grup ditambahkan ke fxds induk (in_1 20/21), awal & akhir musim dari file grup. Liga cadangan (tanggal dari Grup Barat) dan Piala Indonesia (peserta per kompetisi grup) dialihkan ke induk; `retm` grup dibuang. 3 file grup dibuang dari comps.dbc & comps.txt.
+- `build_v2710_db.py`: 43 klub Championship & Liga Nusantara: `div` dan divisi musim lalu → kompetisi induk. Kompetisi grup tetap di competition.dat tanpa klub (seperti J3 Eastern/Western Block di ori).
+- `add_awards_v2710.py`: semua award liga di kompetisi induk (Championship 7, Liga Nusantara 7 termasuk Team of the Week, Monthly MVP, Manager of the Month); total 28.
+- HYPOTHESIS (cek di game): fase grup tampil & jalan, pembagian grup wajar (wilayah), 8 besar terisi 8 tim, playoff/promosi/degradasi, board & award per liga, musim 2 (klub promosi/degradasi masuk liga baru).
+- `build_27.1.0_mod_v16.zip`: db v16 7e0a640f…36bf, sicomps v8 bbd23b5f…bda (libgame & pictures_logos tidak berubah).
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

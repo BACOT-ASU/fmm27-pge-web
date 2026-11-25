@@ -53,3 +53,13 @@ Sama dengan XML `qualification` pada piala tipe main_cup: 0 = winner_qualifies_o
 - `CcQR`: daftar urutan tim penerima jatah kontinental negara. Record: type (1 = league_stage, 5 = custom_team, 0 = …), HdRl (hide_rule), stag, RkIn (ranked_team_info: 1 league_position, 2 …, 7, 14 cup_performance), comp (opsional), ind1. LIKELY.
 - `vlys`: aturan pemilihan format entri: {type 1/2} (versi fm/fmm), {mntm, mxtm} (jumlah tim), {} kosong; versi AFC `_first_year` memakai comp_format_to_use "First Year". LIKELY.
 - Jatah AFC per peringkat koefisien: `asi.xml` list teams (lihat log poin 40).
+
+## Liga bergrup sebagai SATU kompetisi (fase grup di dalam induk) — 25 Nov 2026 (log 83)
+Bukti ori 27.1.0 (VERIFIED isi file, arti LIKELY):
+- `comp_jpn_first_2026_special_0`: `ftye 1`, stage 0 `type 2`, `tems` = [{id 1, comp = kompetisi itu sendiri}], `strq` = [{comp diri, orss True, bsyo 0, stag 0}], `ngps 2`, `grrl 8192`, `gnty 0`, `gpdt` kosong, `rank` per posisi grup ({team k, crk, hgrk, lwrk}). Klub J1 terdaftar (club.dat `div`) di J1.
+- `comp_idn_league_two_1442` versi SI (ori): `relr`/`prmr`/`tppr`/`btpr`/`qurl` dipasang di stage fase grup (`type 2`) → berlaku per grup; `tppr`/`btpr`/`qurl` menunjuk nama babak (`nmsn`) di stage playoff (`stag` = index stage tujuan).
+- `comp_bra_nat_third_21_teams_1439`: `grrl 8192` + `crl2` = daftar {gpid, lcrl.lcrg = UID region (regions.dat)} → grup menurut provinsi/negara bagian. Tanpa `crl2` (J1 2026) pembagian ditentukan game.
+- `comp_inter_asia_nations_cup_1440`: `exfp` {nrpl jumlah tambahan, olpl 255, nwpl 0, nptc 1} = peringkat-3 terbaik ikut lolos bersama `qurl`.
+- Objek comp bentuk hash: `{id 'comp', comp (i64) = (uid<<32)|uid, DBID (i32) uid}`.
+- regions.dat: header 10 byte (u16 jumlah di offset 8); record = u16 idx, u32 UID, u32 panjang + nama UTF-8, FF, u16 negara, FF FF. city.dat record 20 byte: u16 idx, u32 UID, u16 negara, f32 lintang, f32 bujur, u8, **u16 index region (offset 17)**, u8.
+Penerapan: `scripts/unify_idn_leagues_v2710.py` (Championship 2 × 10, Liga Nusantara 3 grup 23 klub + `exfp` 2 → 8 besar). File grup `comp_idn_league_two_groups_1442`, `comp_idn_league_three_group_a_1439`, `comp_idn_league_three_groups_bc_1439` dibuang; Piala Indonesia, `nation_idn_comps` (`retm`), `nation_idn_reserve_comps` (tanggal) dialihkan ke induk; club.dat `div`/divisi lalu → induk. HYPOTHESIS sampai diuji di game.

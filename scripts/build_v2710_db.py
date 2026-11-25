@@ -327,6 +327,20 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     for c in C3:
         if c['div'] in ln_idx and cb3[c['o_misc']] != 1:
             status_changed.append((c['long'], cb3[c['o_misc']], 1)); cb3[c['o_misc']] = 1
+    # Championship & Liga Nusantara = satu kompetisi (log 83): klub didaftarkan ke kompetisi INDUK (div & divisi musim lalu),
+    # fase grup dimainkan di dalam induk (sicomps). Kompetisi grup tetap ada di competition.dat (index tidak bergeser) tapi
+    # tanpa klub — seperti J League 3 Eastern/Western Block di ori.
+    new_idx = {comp_map[i] for i in B7B_COMP_RANGE}
+    parent_of = {i: c2[i]['h12'] for i in new_idx if c2[i]['h12'] >= 0 and c2[i]['typ'] == 1}
+    moved = []
+    for c in C3:
+        if c['div'] in parent_of:
+            p = parent_of[c['div']]
+            struct.pack_into('<hh', cb3, c['o_div'], p, c['div2'])
+            if c['lastdiv'] == c['div']:
+                struct.pack_into('<h', cb3, c['o_div'] + 7, p)
+            moved.append((c['long'], c2[c['div']]['long'], c2[p]['long']))
+    report['klub_ke_kompetisi_induk'] = moved
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
     report['fasilitas'] = apply_facilities(cb3, C3, comp_map, cA)
     # Timnas Indonesia (klub UID 113; permintaan Bacad 24 Nov, log 75): reputasi Worldwide (9150 = Man City, angka

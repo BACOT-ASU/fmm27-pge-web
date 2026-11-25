@@ -13,8 +13,13 @@ describe.skipIf(!db)('build 27.1.0 dibuka pembaca aplikasi', () => {
     const idnComps = d.competitions.records.filter((c) => c.nation === 58);
     expect(idnComps.map((c) => c.uid)).toContain(41042746);
     expect(idnComps).toHaveLength(13);
-    const nusantara = d.competitions.records.findIndex((c) => c.uid === 2000700102);
-    expect(d.clubs.records.filter((c) => c.division === nusantara)).toHaveLength(8);
+    // log 83: klub Liga Nusantara & Championship terdaftar di kompetisi induk (fase grup di dalam induk)
+    const nusantara = d.competitions.records.findIndex((c) => c.uid === 41042746);
+    expect(d.clubs.records.filter((c) => c.division === nusantara)).toHaveLength(23);
+    const grupB = d.competitions.records.findIndex((c) => c.uid === 2000700102);
+    expect(d.clubs.records.filter((c) => c.division === grupB)).toHaveLength(0);
+    const champ = d.competitions.records.findIndex((c) => c.uid === 41042740);
+    expect(d.clubs.records.filter((c) => c.division === champ)).toHaveLength(20);
   });
   for (const name of ['sicomps.fmf', 'pictures_logos.fmf']) {
     const p = samplePath(`out_v2710/${name}`);

@@ -25,6 +25,7 @@ import fmfio                # noqa: E402
 import people as peoplemod  # noqa: E402
 import stadium as stadmod   # noqa: E402
 import dbc                  # noqa: E402
+import unify_idn_leagues_v2710  # noqa: E402
 
 IDN = 58
 LISTS = ('fmm_comps', 'fmm_clubs', 'fmm_reserve_clubs', 'fmm_cities', 'fmm_stadiums', 'fmm_people')
@@ -150,6 +151,11 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
         cg_row[2] = dbc.build(cg); cg_row[5] = None
         report['champ_2_putaran'] = {'XSvC': (old, (old + 1) & 255), 'nrds': (old_r, 2),
                                      'nmdt': (old_d[1][0], (ntms - 1) * 2)}
+    # Championship & Liga Nusantara jadi satu kompetisi (fase grup di induk, pola J1 2026) — Bacad 25 Nov, log 83
+    all_rows = {(x[0] + x[1]).decode(): x for x in folderB.files}
+    uni = unify_idn_leagues_v2710.apply(all_rows, all_rows)
+    folderB.files[:] = [x for x in folderB.files if (x[0] + x[1]).decode() not in uni['dihapus']]
+    report['liga_satu_kesatuan'] = uni
     newdbc, _ = fmfio.write(fB, rB)
     R['sicomps/comps.dbc'][2] = preB + newdbc
     report['dbc_diganti'] = replaced
@@ -170,6 +176,19 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
         lB = [('idn_league_two_groups(1442),%d' % report['champ_2_putaran']['XSvC'][1]) if l.startswith('idn_league_two_groups(1442),') else l for l in lB]
     if 'bri_ccqr' in report:
         lB = [('idn_league_one(1439),%d' % report['bri_ccqr']['XSvC'][1]) if l.startswith('idn_league_one(1439),') else l for l in lB]
+    if 'liga_satu_kesatuan' in report:
+        uni = report['liga_satu_kesatuan']
+        def txt_key(fn):   # comp_idn_league_two_1442.dbc → idn_league_two(1442)
+            base = fn[:-len('.dbc')].split('_', 1)[1]
+            nm, num = base.rsplit('_', 1)
+            return '%s(%s)' % (nm, num)
+        gone = {txt_key(g) for g in uni['dihapus']}
+        lB = [l for l in lB if l.split(',')[0] not in gone]
+        for name, xv in uni['xsvc'].items():
+            key = txt_key(name)
+            idx = [i for i, l in enumerate(lB) if l.split(',')[0] == key]
+            assert len(idx) == 1, (key, idx)
+            lB[idx[0]] = '%s,%d' % (key, xv)
     R['sicomps/comps.txt'][2] = '\n'.join(lB).encode('utf-8')
     report['comps_txt_idn'] = blockA
 
@@ -233,7 +252,8 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     R2 = rows_by_path(r2)
     _, _, d2 = nested(R2['sicomps/comps.dbc'])
     names2 = {(x[0] + x[1]).decode() for x in (d2.files or d2.subs[0].files)}
-    assert all(a in names2 for a in added)
+    gone = set(report.get('liga_satu_kesatuan', {}).get('dihapus', []))
+    assert all(a in names2 for a in added if a not in gone) and not (gone & names2)
     for n in LISTS:
         _, _, lt = nested(R2['sicomps/2700/%s.dat' % n])
         got = {x[0]: ids_of(fmfio.get(x)) for x in lt.files if x[0] in IDN_ENTRIES}
