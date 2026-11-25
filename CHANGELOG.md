@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-11-25 — sicomps v7: grup Pegadaian Championship 2 putaran (18 laga)
+- `build_v2710_sicomps.py`: nrds 3 → 2, nmdt 27 → 18, XSvC +1.
+
 ## 2026-11-25 — db v14: Bali United tidak lagi terbelah ke tim wanita
 - `build_people_v2710.py`: nama klub ganda di `klub_indonesia.csv` → baris pertama yang dipakai.
 

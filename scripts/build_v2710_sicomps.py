@@ -129,6 +129,27 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     ln['fields'][xi] = (T('XSvC'), (0x11, bytes([(old + 1) & 255])))
     ln_row[2] = dbc.build(ln); ln_row[5] = None
     report['ln_8besar'] = {'XSvC': (old, (old + 1) & 255), 'field_stage0': [k[::-1].decode('latin1') for k, _v in keep]}
+    # Pegadaian Championship Grup Barat/Timur: 3 putaran (27 laga) → 2 putaran kandang-tandang (18 laga), permintaan
+    # Bacad 25 Nov (log 81). Field stage liga: nrds (jumlah putaran) dan sche[0].nmdt (jumlah hari laga = (n-1)*nrds).
+    cg_row = next(x for x in folderB.files if (x[0] + x[1]).decode() == 'comp_idn_league_two_groups_1442.dbc')
+    cg = dbc.parse(fmfio.get(cg_row))
+    si = next(i for i, (k, _v) in enumerate(cg['fields']) if k == T('stgs'))
+    st = cg['fields'][si][1][1][0][1]
+    ntms = next(v for k, v in st if k == T('ntms'))[1][0]
+    ri = next(i for i, (k, _v) in enumerate(st) if k == T('nrds'))
+    old_r = st[ri][1][1][0]
+    if old_r != 2:
+        st[ri] = (T('nrds'), (0x11, bytes([2])))
+        sch = next(v for k, v in st if k == T('sche'))[1][0][1]
+        di = next(i for i, (k, _v) in enumerate(sch) if k == T('nmdt'))
+        old_d = sch[di][1]
+        sch[di] = (T('nmdt'), (old_d[0], bytes([(ntms - 1) * 2]) + old_d[1][1:]))
+        xi = next(i for i, (k, _v) in enumerate(cg['fields']) if k == T('XSvC'))
+        old = cg['fields'][xi][1][1][0]
+        cg['fields'][xi] = (T('XSvC'), (0x11, bytes([(old + 1) & 255])))
+        cg_row[2] = dbc.build(cg); cg_row[5] = None
+        report['champ_2_putaran'] = {'XSvC': (old, (old + 1) & 255), 'nrds': (old_r, 2),
+                                     'nmdt': (old_d[1][0], (ntms - 1) * 2)}
     newdbc, _ = fmfio.write(fB, rB)
     R['sicomps/comps.dbc'][2] = preB + newdbc
     report['dbc_diganti'] = replaced
@@ -145,6 +166,8 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
     lB = [('idn_cup(1438),%d' % report['piala_indonesia_XSvC'][1]) if l.startswith('idn_cup(1438),') else l for l in lB]
     if 'ln_8besar' in report:
         lB = [('idn_league_three(1439),%d' % report['ln_8besar']['XSvC'][1]) if l.startswith('idn_league_three(1439),') else l for l in lB]
+    if 'champ_2_putaran' in report:
+        lB = [('idn_league_two_groups(1442),%d' % report['champ_2_putaran']['XSvC'][1]) if l.startswith('idn_league_two_groups(1442),') else l for l in lB]
     if 'bri_ccqr' in report:
         lB = [('idn_league_one(1439),%d' % report['bri_ccqr']['XSvC'][1]) if l.startswith('idn_league_one(1439),') else l for l in lB]
     R['sicomps/comps.txt'][2] = '\n'.join(lB).encode('utf-8')
