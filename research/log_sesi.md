@@ -575,6 +575,11 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - sicomps v7 36c85924…41dc (dibangun dari db v14). Kiriman `patch_v15_sicomps.zip` (hanya sicomps).
 - Board: pola ori liga bergrup (VERIFIED di club.dat/competition.dat 27.1.0): (a) klub terdaftar di kompetisi GRUP — Chinese League 2 North/South, NPL Australia per negara bagian, Victorian State League — sama dengan Championship/Liga Nusantara kita, jadi board ori juga menilai grup; (b) klub terdaftar di kompetisi INDUK, fase di dalam induk — J3 (East/West Block), A-League (Regular Season/Finals), J2/J3 musim spesial 2026 (stage 0 = fase grup `type 2`, `ngps 4`, mengambil tim dari J2 & J3). Pola (b) bisa membuat board menilai liga keseluruhan, tapi pembagian grup diatur game (bukan Barat/Timur pilihan kita — HYPOTHESIS, arti `grrl` UNKNOWN) dan award berkala per grup hilang. Belum dikerjakan; menunggu keputusan Bacad.
 
+### 82. Opsi liga bergrup sebagai satu kesatuan (25 Nov)
+- Bacad: Championship & Liga Nusantara harus satu kesatuan (board & award satu kompetisi), struktur grup tetap.
+- Bukti ori (VERIFIED, `comp_jpn_first_2026_special_0.dbc`): J1 musim spesial 2026 = SATU kompetisi (DBID 102428, klub terdaftar di J1), stage 0 = fase grup `type 2`, `ngps 2` (Grup Timur/Barat), `grrl 8192`, 20 tim, 2 putaran; stage 1 = playoff antar grup per posisi (nama Group A/B DBID 76/77). Pola sama di J2/J3 spesial (`ngps 4`, 40 tim). Arti `grrl 8192` UNKNOWN (dugaan: pembagian menurut wilayah, karena format asli J-League 2026 regional). Kompetisi spesial ini `type 4` (dugaan: satu musim saja) — liga kita tetap `type 1`.
+- Opsi yang ditawarkan: (1) pola J1 2026 (grup di dalam induk); (2) tetap seperti sekarang; (3) satu tabel tanpa grup. Menunggu pilihan Bacad.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
