@@ -332,7 +332,7 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
     # tanpa klub — seperti J League 3 Eastern/Western Block di ori.
     new_idx = {comp_map[i] for i in B7B_COMP_RANGE}
     parent_of = {i: c2[i]['h12'] for i in new_idx if c2[i]['h12'] >= 0 and c2[i]['typ'] == 1}
-    moved = []
+    moved, grup_awal = [], {}
     for c in C3:
         if c['div'] in parent_of:
             p = parent_of[c['div']]
@@ -340,7 +340,10 @@ def build(ori_path, b7b_path, out_dir, modder_db=None, verbose=True):
             if c['lastdiv'] == c['div']:
                 struct.pack_into('<h', cb3, c['o_div'] + 7, p)
             moved.append((c['long'], c2[c['div']]['long'], c2[p]['long']))
+            grup_awal.setdefault(str(c2[p]['uid']), {}).setdefault(str(c2[c['div']]['uid']), []).append(c['uid'])
     report['klub_ke_kompetisi_induk'] = moved
+    # isi grup musim pertama (dipakai build_v2710_sicomps → `gptm`, log 89): {induk: {kompetisi grup lama: [UID klub]}}
+    json.dump(grup_awal, open(os.path.join(work, 'grup_awal.json'), 'w'), indent=1)
     report['reputasi_pita'] = apply_reputation_bands(cb3, C3, comp_map, cA)
     report['fasilitas'] = apply_facilities(cb3, C3, comp_map, cA)
     # Timnas Indonesia (klub UID 113; permintaan Bacad 24 Nov, log 75): reputasi Worldwide (9150 = Man City, angka

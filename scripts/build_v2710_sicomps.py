@@ -153,7 +153,10 @@ def build(ori_path, b7b_path, dbdir, out_path, verbose=True):
                                      'nmdt': (old_d[1][0], (ntms - 1) * 2)}
     # Championship & Liga Nusantara jadi satu kompetisi (fase grup di induk, pola J1 2026) — Bacad 25 Nov, log 83
     all_rows = {(x[0] + x[1]).decode(): x for x in folderB.files}
-    uni = unify_idn_leagues_v2710.apply(all_rows, all_rows)
+    ga_path = os.path.join(os.path.dirname(dbdir.rstrip('/')), 'grup_awal.json')   # dari build_v2710_db (log 89)
+    grup_awal = json.load(open(ga_path)) if os.path.exists(ga_path) else None
+    uni = unify_idn_leagues_v2710.apply(all_rows, all_rows, grup_awal)
+    uni['grup_awal'] = {k: {g: len(v) for g, v in d.items()} for k, d in (grup_awal or {}).items()}
     folderB.files[:] = [x for x in folderB.files if (x[0] + x[1]).decode() not in uni['dihapus']]
     report['liga_satu_kesatuan'] = uni
     newdbc, _ = fmfio.write(fB, rB)

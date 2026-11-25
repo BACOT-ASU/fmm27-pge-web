@@ -32,6 +32,14 @@ def u8(n):
     return (0x11, bytes([n]))
 
 
+FIRST_YEAR = 2026
+
+
+def team_obj(uid):
+    return (0x0a, [(T('id  '), (0x02, T('team'))), (T('Ttea'), (0x0f, struct.pack('<II', uid, uid))),
+                   (T('DBID'), (0x01, struct.pack('<i', uid)))])
+
+
 def comp_obj(uid):
     return (0x0a, [(T('id  '), (0x02, T('comp'))), (T('comp'), (0x0f, struct.pack('<II', uid, uid))),
                    (T('DBID'), (0x01, struct.pack('<i', uid)))])
@@ -91,7 +99,7 @@ def ref_comp(v):
     return int.from_bytes(c[1][:4], 'little')
 
 
-def group_stage(gfile_stage, J, self_uid, ntms, ngps, rank_step):
+def group_stage(gfile_stage, J, self_uid, ntms, ngps, rank_step, groups=None):
     """Stage 0 baru = stage liga file grup → fase grup di induk (pola J1 2026)."""
     st = copy.deepcopy(gfile_stage)
     jst = J
@@ -119,16 +127,23 @@ def group_stage(gfile_stage, J, self_uid, ntms, ngps, rank_step):
     # v19 (uji v18: Championship 20/2 muncul, Liga Nusantara 23/3 tidak): grup tidak sama besar di ori (bra_nat_third_21
     # 11+10, inter_u20_africa 5+4+4, col_u18, sco_league_cup) = `ngrt` stage = grup TERKECIL + `gpdt` per grup
     # {gpid, ngrt, rank, sche[]}. v18 memberi ngrt 8 × 3 = 24 ≠ 23.
-    if ntms % ngps:
-        small = ntms // ngps
-        setf(st, 'ngrt', u8(small))
+    # Ukuran grup: dari isi grup musim pertama (groups = [[UID klub], …] urut Barat/Timur, A/B/C) kalau ada.
+    sizes = [len(g) for g in groups] if groups else [ntms // ngps + (1 if gi < ntms % ngps else 0) for gi in range(ngps)]
+    assert len(sizes) == ngps and sum(sizes) == ntms, sizes
+    if len(set(sizes)) > 1:
+        setf(st, 'ngrt', u8(min(sizes)))
         gp = []
-        for gi in range(ngps):
-            size = small + (1 if gi < ntms % ngps else 0)
+        for gi, size in enumerate(sizes):
             grank = [copy.deepcopy(r) for r in rank[:size]]
             gp.append((0x0a, [(T('gpid'), u8(gi)), (T('ngrt'), u8(size)), (T('rank'), (0x0b, grank)),
                               (T('sche'), (0x0b, []))]))
         setf(st, 'gpdt', (0x0b, gp))
+    # v20 (pilihan 2 Bacad, log 89): isi grup musim pertama per klub = `gptm` stage {gpid, year 2026, team, UGGT True}
+    # (pola ori comp_wc_world_cup_2026_1441 / inter_uefa_nations_league_1441). Musim berikutnya diundi game.
+    if groups:
+        setf(st, 'gptm', (0x0b, [(0x0a, [(T('gpid'), u8(gi)), (T('year'), (0x12, struct.pack('<H', FIRST_YEAR))),
+                                          (T('team'), team_obj(u)), (T('UGGT'), (0x03, b'\x01'))])
+                                 for gi, g in enumerate(groups) for u in g]))
     sche = get(st, 'sche')
     if sche is not None:
         walk_remap_in1(sche, NEW_IN1)
@@ -190,8 +205,8 @@ def merge_top(P, G):
             fx.append(e)
 
 
-# v16 (+1), v17 (+2), v18 (+3) sudah terpasang di HP Bacad → v19 memakai +4 agar versi selalu berbeda.
-XSVC_STEP = 4
+# v16 (+1) … v19 (+4) sudah terpasang di HP Bacad → v20 memakai +5 agar versi selalu berbeda.
+XSVC_STEP = 5
 
 
 def bump(d):
@@ -201,7 +216,7 @@ def bump(d):
     return (old + XSVC_STEP) & 255
 
 
-def apply(files, ori_files):
+def apply(files, ori_files, grup_awal=None):
     rep = {'xsvc': {}, 'dihapus': []}
     P = lambda n: dbc.parse(fmfio.get(files[n]))  # noqa: E731
     J1 = dbc.parse(fmfio.get(ori_files['comp_jpn_first_2026_special_0.dbc']))
@@ -220,7 +235,8 @@ def apply(files, ori_files):
     C = P(n2); G = P('comp_idn_league_two_groups_1442.dbc')
     gst = get(G['fields'], 'stgs')[1][0][1]
     gq = get(gst, 'qurl')[1][0][1]
-    s0 = group_stage(gst, jst, CHAMP, 20, 2, 2)
+    ga = grup_awal or {}
+    s0 = group_stage(gst, jst, CHAMP, 20, 2, 2, [ga[str(CHAMP)][str(g)] for g in CHAMP_GROUPS] if str(CHAMP) in ga else None)
     s0 += [(T('qurl'), (0x0b, [route(get(gq, 'nmsn'), 1, 1, 'qurl')])),
            (T('tppr'), route(get(get(gst, 'tppr')[1], 'nmsn'), 1, 1, 'tppr')),
            (T('btpr'), route(get(get(gst, 'btpr')[1], 'nmsn'), 1, 2, 'btpr'))]
@@ -240,7 +256,7 @@ def apply(files, ori_files):
     L = P(n3); GB = P('comp_idn_league_three_groups_bc_1439.dbc')
     gst = get(GB['fields'], 'stgs')[1][0][1]
     gq = get(gst, 'qurl')[1][0][1]
-    s0 = group_stage(gst, jst, LN, 23, 3, 3)
+    s0 = group_stage(gst, jst, LN, 23, 3, 3, [ga[str(LN)][str(g)] for g in LN_GROUPS] if str(LN) in ga else None)
     s0 += [(T('qurl'), (0x0b, [route(get(gq, 'nmsn'), 2, 1, 'qurl')])), (T('exfp'), exfp)]
     old = [it[1] for it in get(L['fields'], 'stgs')[1]]
     s1, s2 = copy.deepcopy(old[0]), copy.deepcopy(old[1])

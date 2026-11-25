@@ -626,6 +626,15 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Peringatan: bug "semua tabel = grup 1" (B4/B4b) bisa juga muncul di v19 → perlu dilihat di uji v19.
 - Menunggu: hasil uji v19 + pilihan Bacad.
 
+### 89. Pilihan 2: isi grup musim pertama ditentukan per klub — v20 (25 Nov)
+- Bacad memilih pilihan 2 untuk Pegadaian Championship DAN Liga Nusantara: musim pertama isi grup sesuai daftar kita, musim berikutnya diundi game.
+- Pola ori (VERIFIED isi file): `gptm` di stage fase grup = [{gpid, year 2026, team {id 'team', Ttea (uid<<32)|uid, DBID}, UGGT True}] — comp_wc_world_cup_2026_1441 (undian Piala Dunia), inter_uefa_nations_league_1441. `crgt` tidak dipakai (tim berasal dari divisi, `tems id 1`).
+- `build_v2710_db.py` menulis `kerja/grup_awal.json` (induk → kompetisi grup lama → UID klub; db tidak berubah, SHA tetap v16). `unify_idn_leagues_v2710.group_stage`: ukuran grup dari daftar ini; `gptm` ditambahkan.
+  - Championship: grup 0 = Barat (PSMS, PSIS, Persiraja, Semen Padang, Persiku, PSPS, PSGC, Adhyaksa, Sumsel Utd, Persikad), grup 1 = Timur (Persipura, Deltras, Barito, Persis, Persiba, Persela, PSBS, Kendal, RANS, De Red).
+  - Liga Nusantara: urutan ukuran 7/8/8 (permintaan Bacad): grup 0 = A (7), grup 1 = B (8, termasuk Gresik), grup 2 = C (8). `ngrt 7`, gpdt [7, 8, 8].
+- Risiko: B4b dulu (crgt+gptm) isi grup benar tapi semua tabel tampil sebagai grup 1. XSvC +5.
+- `patch_v20_sicomps.zip`: hanya sicomps v12 e9ca6da8…2d5. db tetap v16.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).

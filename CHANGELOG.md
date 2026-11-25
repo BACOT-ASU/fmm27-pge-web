@@ -1,5 +1,7 @@
 # Changelog
 
+## 2026-11-25 — v20: isi grup musim pertama (gptm) Championship & Liga Nusantara, urutan 7/8/8
+
 ## 2026-11-25 — v19: Liga Nusantara grup tidak sama besar (ngrt 7 + gpdt 8/8/7)
 
 ## 2026-11-25 — v18: fase grup Championship & Liga Nusantara pola liga biasa ori (strq kosong, tems id 1, ngrt)
