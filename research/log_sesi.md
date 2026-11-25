@@ -619,6 +619,13 @@ Jawaban Bacad: bahasa game English; yang belum berubah hanya AC Milan & Inter; k
 - Perbaikan: Liga Nusantara `ngrt 7` + gpdt [8, 8, 7]. Championship tidak berubah (selain XSvC). XSvC +4.
 - `patch_v19_sicomps.zip`: hanya sicomps v11 3421b5c5…707b.
 
+### 88. Penentuan grup: tanpa provinsi (25 Nov)
+- Bacad: urutan ukuran Liga Nusantara 7/8/8 (A = 7); minta grup ditentukan; benar bahwa MLS tanpa promosi/degradasi (konferensi tetap karena peserta tetap) → pola MLS tidak dipakai.
+- Diperiksa: Série C Brasil 21 tim (`crl2`) = daftar provinsi → grup dengan bobot `in_1` (1000, 900, …; dugaan urutan prioritas saat grup penuh). Bacad MENOLAK pembagian per provinsi (khawatir kacau kalau provinsi sama tapi slot penuh) → tidak dipakai.
+- Sisa pilihan: (1) undian tiap musim (v19 sekarang); (2) `crgt`/`gptm` = isi grup per klub, hanya musim pertama (tahun 2026), musim berikutnya diundi — di B4b grup benar tapi semua tabel tampil sebagai grup 1 (panduan induk §6.3: bug pola satu kompetisi bergrup); (3) kembali ke v15 (grup = kompetisi terpisah, isi tetap tiap musim, board & award per grup).
+- Peringatan: bug "semua tabel = grup 1" (B4/B4b) bisa juga muncul di v19 → perlu dilihat di uji v19.
+- Menunggu: hasil uji v19 + pilihan Bacad.
+
 ### Menunggu dari Bacad
 - Uji pembeda poin 57: karier Persib & Persibo (skuad utama asli?), halaman Staff klub ori, manajer Persib/Persija, bahasa game + nama Inter/Napoli/Atlético, daftar folder logo timnas modder, contoh pemain tanpa wajah.
 - Hasil uji db v7 sesuai `docs/CEKLIST_UJI_27.1.0.md` (termasuk anggaran Persib/Borneo vs pembanding); (angka minimal & target SL sudah diterima, poin 50).
